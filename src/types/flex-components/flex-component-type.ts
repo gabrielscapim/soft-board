@@ -1,4 +1,4 @@
-export type RectangleFlexComponentType = {
+export type RectangleFlexComponent = {
   name: 'Rectangle'
   type: 'rectangle'
   properties: {
@@ -11,4 +11,11 @@ export type RectangleFlexComponentType = {
   }
 }
 
-export type FlexComponentType = RectangleFlexComponentType
+export type FlexComponent = RectangleFlexComponent
+
+export type FlexComponentName = FlexComponent['name']
+
+export type FlexComponentPrompertis = FlexComponent['properties']
+
+export type FlexComponentType = FlexComponent['type']
+

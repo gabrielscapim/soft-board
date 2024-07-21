@@ -1,8 +1,7 @@
 import { FlexComponentProps } from '../flex-components'
-import type { RectangleFlexComponentType } from '../../types'
 
 export function RectangleFlexComponent (props: FlexComponentProps) {
-  const properties = props.component.properties as RectangleFlexComponentType['properties']
+  const properties = props.component.properties
 
   return (
     <g
