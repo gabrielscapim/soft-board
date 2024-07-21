@@ -5,12 +5,12 @@ export type RectangleFlexComponent = {
   name: 'Rectangle'
   type: 'rectangle'
   properties: {
-    x: number
-		y: number
-		width: number
-		height: number
-    rx: number
-    ry: number
+    x?: number
+		y?: number
+		width?: number
+		height?: number
+    rx?: number
+    ry?: number
   }
 }
 

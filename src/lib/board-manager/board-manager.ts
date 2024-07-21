@@ -6,10 +6,18 @@ import { BoardState } from '../board-state'
  * Works between the BoardController and BoardState.
  */
 export class BoardManager {
-  addFlexComponent (boardState: BoardState, flexComponent: FlexComponent) {
-    const prevFlexComponents = boardState.flexComponents
+  private _boardState: BoardState
+
+  constructor (boardState: BoardState) {
+    this._boardState = boardState
+  }
+
+  addFlexComponent (flexComponent: FlexComponent) {
+    const prevFlexComponents = this._boardState.flexComponents
     const newFlexComponents = [...prevFlexComponents, flexComponent]
 
-    boardState.flexComponents = newFlexComponents
+    console.log(newFlexComponents)
+
+    this._boardState.flexComponents = newFlexComponents
   }
 }
