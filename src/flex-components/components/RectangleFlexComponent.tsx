@@ -1,7 +1,7 @@
 import { FlexComponentProps } from '../flex-components'
 
 export function RectangleFlexComponent (props: FlexComponentProps) {
-  const properties = props.component.properties
+  const { component: { properties } } = props
 
   return (
     <g
@@ -15,6 +15,9 @@ export function RectangleFlexComponent (props: FlexComponentProps) {
         height={properties.height}
         rx={properties.rx}
         ry={properties.ry}
+        fill="white"
+        stroke="black"
+        strokeWidth="1.5"
       />
     </g>
   )
