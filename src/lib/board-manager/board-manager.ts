@@ -16,8 +16,6 @@ export class BoardManager {
     const prevFlexComponents = this._boardState.flexComponents
     const newFlexComponents = [...prevFlexComponents, flexComponent]
 
-    console.log(newFlexComponents)
-
-    this._boardState.flexComponents = newFlexComponents
+    this._boardState.setFlexComponents(newFlexComponents)
   }
 }

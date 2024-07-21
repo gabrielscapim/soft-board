@@ -5,8 +5,16 @@ export function useFlexComponents (boardState: BoardState) {
   const [flexComponents, setFlexComponents] = useState(boardState.flexComponents)
 
   useEffect(() => {
-    setFlexComponents(boardState.flexComponents)
-  }, [boardState.flexComponents])
+    const handleChange = () => {
+      setFlexComponents(boardState.flexComponents)
+    }
+
+    boardState.addListener('flexComponentsChanged', handleChange)
+
+    return () => {
+      boardState.removeListener('flexComponentsChanged')
+    }
+  }, [boardState])
 
   return flexComponents
 }
