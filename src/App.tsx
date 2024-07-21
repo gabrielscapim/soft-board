@@ -1,12 +1,17 @@
 import './index.css'
-import { BoardStateProvider } from './providers'
 import { Layout } from './components/Layout'
+import { useState } from 'react'
+import { BoardController, BoardState } from './lib'
 
 function App () {
+  const [boardState] = useState(new BoardState())
+  const boardController = new BoardController(boardState)
+
   return (
-    <BoardStateProvider>
-      <Layout />
-    </BoardStateProvider>
+    <Layout
+      boardState={boardState}
+      boardController={boardController}
+    />
   )
 }
 
