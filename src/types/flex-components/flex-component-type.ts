@@ -1,4 +1,7 @@
+import { UUID } from '../common/uuid'
+
 export type RectangleFlexComponent = {
+  id: UUID
   name: 'Rectangle'
   type: 'rectangle'
   properties: {

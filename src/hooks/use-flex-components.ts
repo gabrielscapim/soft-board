@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { BoardState } from '../lib'
 
-export function useFlexComponents (state: BoardState) {
-  const [flexComponents, setFlexComponents] = useState(state.flexComponents)
+export function useFlexComponents (boardState: BoardState) {
+  const [flexComponents, setFlexComponents] = useState(boardState.flexComponents)
 
   useEffect(() => {
-    setFlexComponents(state.flexComponents)
-  }, [state.flexComponents])
+    setFlexComponents(boardState.flexComponents)
+  }, [boardState.flexComponents])
 
   return flexComponents
 }
