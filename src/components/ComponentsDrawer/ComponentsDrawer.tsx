@@ -2,13 +2,15 @@ import { createElement, PropsWithChildren } from 'react'
 import { FLEX_COMPONENT_ICONS, FLEX_COMPONENT_NAMES } from '../../flex-components'
 import { FlexComponentType } from '../../types'
 import clsx from 'clsx'
+import { BoardController } from '../../lib'
 
 export type ComponentsDrawerProps = PropsWithChildren & {
+  boardController: BoardController
   open?: boolean
 }
 
 export function ComponentsDrawer (props: ComponentsDrawerProps) {
-  const { open } = props
+  const { boardController, open } = props
 
   return (
     <div
@@ -29,7 +31,7 @@ export function ComponentsDrawer (props: ComponentsDrawerProps) {
 
             return (
               <li key={component[0]}>
-                <a>
+                <a onClick={() => boardController.onAddFlexComponent(type)}>
                   {createElement(FLEX_COMPONENT_ICONS[type])}
                   {name}
                 </a>

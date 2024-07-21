@@ -24,7 +24,7 @@ export function Grid (props: GridProps) {
             d={`M ${SMALLER_GRID} 0 L 0 0 0 ${SMALLER_GRID}`}
             fill="none"
             stroke="gray"
-            stroke-width="0.5"
+            strokeWidth="0.5"
           />
         </pattern>
 
@@ -44,7 +44,7 @@ export function Grid (props: GridProps) {
             d={`M ${BIGGER_GRID} 0 L 0 0 0 ${BIGGER_GRID}`}
             fill="none"
             stroke="gray"
-            stroke-width="1"
+            strokeWidth="1"
           />
         </pattern>
       </defs>

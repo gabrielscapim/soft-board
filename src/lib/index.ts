@@ -1,2 +1,2 @@
 export * from './board-controller'
-export * from './board-state.ts'
+export * from './board-state'
