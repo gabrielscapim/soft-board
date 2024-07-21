@@ -23,6 +23,7 @@ module.exports = {
     "@typescript-eslint/no-dynamic-delete": "off",
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
-    'space-before-function-paren': ['error', 'always'], // Esta é a linha que adiciona o espaço antes do ()
+    'space-before-function-paren': ['error', 'always'],
+    'quotes': ['error', 'single']
   }
 };
