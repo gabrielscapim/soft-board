@@ -1,12 +1,10 @@
+import { ComponentsDrawer } from './components'
 import './index.css'
 
 function App () {
   return (
     <>
-      <button
-        className="btn btn-primary">
-        Button
-      </button>
+      <ComponentsDrawer />
     </>
   )
 }
