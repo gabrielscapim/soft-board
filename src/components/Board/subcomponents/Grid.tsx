@@ -1,47 +1,40 @@
-import { PropsWithChildren } from 'react'
-
-export type GridProps = PropsWithChildren
-
-const SMALLER_GRID = 10
-const BIGGER_GRID = 10 * SMALLER_GRID
+const SMALL_GRID = 10
+const LARGE_GRID = 10 * SMALL_GRID
 
 // https://stackoverflow.com/questions/14208673/how-to-draw-grid-using-html5-and-canvas-or-svg
-export function Grid (props: GridProps) {
+export function Grid () {
   return (
-    <svg
-      width="100%"
-      height="100%"
-    >
+    <>
       <defs>
-        {/* Smaller squares */}
+        {/* Small squares */}
         <pattern
           id="smallGrid"
-          width={SMALLER_GRID}
-          height={SMALLER_GRID}
+          width={SMALL_GRID}
+          height={SMALL_GRID}
           patternUnits="userSpaceOnUse"
         >
           <path
-            d={`M ${SMALLER_GRID} 0 L 0 0 0 ${SMALLER_GRID}`}
+            d={`M ${SMALL_GRID} 0 L 0 0 0 ${SMALL_GRID}`}
             fill="none"
             stroke="gray"
             strokeWidth="0.5"
           />
         </pattern>
 
-        {/* Bigger squares */}
+        {/* Big squares */}
         <pattern
-          id="grid"
-          width={BIGGER_GRID}
-          height={BIGGER_GRID}
+          id="largeGrid"
+          width={LARGE_GRID}
+          height={LARGE_GRID}
           patternUnits="userSpaceOnUse"
         >
           <rect
-            width={BIGGER_GRID}
-            height={BIGGER_GRID}
+            width={LARGE_GRID}
+            height={LARGE_GRID}
             fill="url(#smallGrid)"
           />
           <path
-            d={`M ${BIGGER_GRID} 0 L 0 0 0 ${BIGGER_GRID}`}
+            d={`M ${LARGE_GRID} 0 L 0 0 0 ${LARGE_GRID}`}
             fill="none"
             stroke="gray"
             strokeWidth="1"
@@ -51,9 +44,8 @@ export function Grid (props: GridProps) {
       <rect
         width="100%"
         height="100%"
-        fill="url(#grid)"
+        fill="url(#largeGrid)"
       />
-      {props.children}
-    </svg>
+    </>
   )
 }

@@ -7,6 +7,7 @@ export function RectangleFlexComponent (props: FlexComponentProps) {
     <g
       transform="translate(0.5,0.5)"
       style={{ visibility: 'visible', cursor: 'move' }}
+      id="draggable-group"
     >
       <rect
         x={properties.x}
@@ -17,7 +18,7 @@ export function RectangleFlexComponent (props: FlexComponentProps) {
         ry={properties.ry}
         fill="white"
         stroke="black"
-        strokeWidth="1.5"
+        strokeWidth="1"
       />
     </g>
   )
