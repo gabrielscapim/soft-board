@@ -1,5 +1,8 @@
 import { FlexComponent } from '../../types'
 
+/**
+ * The class to save the flex components and board configs.
+ */
 export class BoardState {
   private _flexComponents: FlexComponent[]
 
