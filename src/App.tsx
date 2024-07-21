@@ -3,11 +3,9 @@ import './index.css'
 
 function App () {
   return (
-    <>
-      <ComponentsDrawer>
-        <Board />
-      </ComponentsDrawer>
-    </>
+    <ComponentsDrawer>
+      <Board />
+    </ComponentsDrawer>
   )
 }
 
