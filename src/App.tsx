@@ -1,11 +1,11 @@
-import { ComponentsDrawer } from './components'
+import { Board, ComponentsDrawer } from './components'
 import './index.css'
 
 function App () {
   return (
-    <>
-      <ComponentsDrawer />
-    </>
+    <ComponentsDrawer>
+      <Board />
+    </ComponentsDrawer>
   )
 }
 

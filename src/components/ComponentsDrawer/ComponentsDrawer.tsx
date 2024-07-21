@@ -1,11 +1,14 @@
-import { createElement } from 'react'
+import { createElement, PropsWithChildren } from 'react'
 import { FLEX_COMPONENT_ICONS, FLEX_COMPONENT_NAMES } from '../../flex-components'
 import { FlexComponentType } from '../../types'
 
-export function ComponentsDrawer () {
+export function ComponentsDrawer (props: PropsWithChildren) {
   return (
-    <div className="drawer lg:drawer-open">
+    <div className="drawer lg:drawer-open h-screen">
       <input type="checkbox" className="drawer-toggle" />
+      <div className="drawer-content flex flex-col items-center justify-between">
+        {props.children}
+      </div>
       <div className="drawer-side">
         <ul className="menu bg-base-200 text-base-content min-h-full w-64 p-4">
           <li className="menu-title">Components</li>
