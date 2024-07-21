@@ -10,7 +10,7 @@ export type LayoutProps = {
 }
 
 export function Layout (props: LayoutProps) {
-  const { boardState } = props
+  const { boardState, boardController } = props
 
   const [componentsDrawerOpen, setComponentsDrawerOpen] = useState(true)
 
@@ -20,6 +20,7 @@ export function Layout (props: LayoutProps) {
         onHandleComponentDrawer={() => setComponentsDrawerOpen(!componentsDrawerOpen)}
       />
       <ComponentsDrawer
+        boardController={boardController}
         open={componentsDrawerOpen}
       >
         <Board
