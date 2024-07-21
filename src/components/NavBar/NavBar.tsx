@@ -1,5 +1,6 @@
-import { Bars3BottomLeftIcon } from '@heroicons/react/24/outline'
+import { Bars3BottomLeftIcon, MoonIcon, SunIcon } from '@heroicons/react/24/outline'
 import GitHubIcon from '../../public/github-icon.svg'
+import { useTheme } from '../../hooks'
 
 export type NavBarProps = {
   onHandleComponentDrawer?: () => void
@@ -7,6 +8,8 @@ export type NavBarProps = {
 
 export function NavBar (props: NavBarProps) {
   const { onHandleComponentDrawer } = props
+
+  const theme = useTheme()
 
   return (
     <div className="navbar bg-base-100">
@@ -35,6 +38,15 @@ export function NavBar (props: NavBarProps) {
             alt="Github icon"
           />
         </a>
+        <label className="swap swap-rotate btn btn-ghost btn-circle">
+          <input
+            type="checkbox"
+            className="theme-controller" value="synthwave"
+            onChange={theme.handleChange}
+          />
+          <SunIcon className="swap-off w-6 h-6" />
+          <MoonIcon className="swap-on w-6 h-6" />
+        </label>
       </div>
     </div>
   )
