@@ -1,13 +1,14 @@
 import { FlexComponentProps } from '../flex-components'
 
 export function RectangleFlexComponent (props: FlexComponentProps) {
-  const { component: { properties } } = props
+  const { component: { id, properties } } = props
 
   return (
     <g
+      id={id}
+      className="draggable-group"
       transform="translate(0.5,0.5)"
       style={{ visibility: 'visible', cursor: 'move' }}
-      id="draggable-group"
     >
       <rect
         x={properties.x}

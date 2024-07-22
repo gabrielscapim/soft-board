@@ -13,7 +13,7 @@ export function Board (props: LayoutProps) {
 
   const ref = useRef<SVGSVGElement>(null)
   const flexComponents = useFlexComponents(boardState)
-  useDraggableFlexBoard(ref.current)
+  useDraggableFlexBoard(boardState, ref.current)
 
   return (
     <svg
