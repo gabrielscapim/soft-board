@@ -1,1 +1,3 @@
-export type BoardEvent = 'flexComponentsChanged'
+export type BoardEvent =
+  'flexComponentsChanged' |
+  'selectedFlexComponentChanged'
