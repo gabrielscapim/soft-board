@@ -50,7 +50,13 @@ export class DraggableBoard {
       const roundedDeltaX = Math.round(deltaX / this._grid) * this._grid
       const roundedDeltaY = Math.round(deltaY / this._grid) * this._grid
 
-      this._selectedFlexElement.setAttribute('transform', `translate(${roundedDeltaX}, ${roundedDeltaY})`)
+      this._boardManager.onDraggingFlexComponent({
+        id: this._selectedFlexElement.id as UUID,
+        properties: {
+          roundedDeltaX,
+          roundedDeltaY
+        }
+      })
     }
   }
 
@@ -62,11 +68,8 @@ export class DraggableBoard {
       this._selectedFlexElement = draggableGroupElement
       this._offset = this.getMousePosition(event)
       this._transform = this._selectedFlexElement.transform.baseVal.consolidate()?.matrix
-      const selectedFlexComponentId = this._selectedFlexElement.id
-
-      this._boardManager.onDragFlexComponent(selectedFlexComponentId as UUID)
-
-      this._flexBoardElement.appendChild(this._selectedFlexElement) // Move element to the first position
+      this._boardManager.onStartDragFlexComponent({ id: this._selectedFlexElement.id as UUID })
+      // this._flexBoardElement.appendChild(this._selectedFlexElement) // Move element to the first position
 
       if (this._transform) {
         this._offset.x -= this._transform.e
@@ -75,7 +78,7 @@ export class DraggableBoard {
     }
 
     if (!draggableGroupElement) {
-      this._boardManager.onDragFlexComponent()
+      this._boardManager.onStartDragFlexComponent({})
     }
   }
 }

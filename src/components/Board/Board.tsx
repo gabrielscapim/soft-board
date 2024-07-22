@@ -1,7 +1,7 @@
 import { createElement, useRef } from 'react'
 import { useDraggableFlexBoard, useFlexComponents } from '../../hooks'
 import { BoardState } from '../../lib'
-import { Grid } from './subcomponents'
+import { Grid, ResizeBox } from './subcomponents'
 import { FLEX_COMPONENTS } from '../../flex-components'
 
 export type LayoutProps = {
@@ -31,6 +31,7 @@ export function Board (props: LayoutProps) {
           }
         })
       ))}
+      <ResizeBox boardState={boardState} />
     </svg>
   )
 }
