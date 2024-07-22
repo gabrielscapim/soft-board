@@ -31,6 +31,6 @@ export class BoardController {
       }
     }
 
-    this._boardManager.addFlexComponent(flexComponent)
+    this._boardManager.addFlexComponent({ flexComponent })
   }
 }
