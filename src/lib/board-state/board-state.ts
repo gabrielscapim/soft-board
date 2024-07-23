@@ -6,16 +6,22 @@ import { BoardEvent, FlexComponent } from '../../types'
 export class BoardState {
   private _boardListeners: Partial<Record<BoardEvent, () => void>>
   private _flexComponents: FlexComponent[]
+  private _grid: number
   private _selectedFlexComponent: FlexComponent | null
 
   constructor () {
-    this._flexComponents = []
     this._boardListeners = {}
+    this._flexComponents = []
+    this._grid = 10
     this._selectedFlexComponent = null
   }
 
   get flexComponents () {
     return this._flexComponents
+  }
+
+  get grid () {
+    return this._grid
   }
 
   get selectedFlexComponent () {
