@@ -5,12 +5,13 @@ export type ResizeBoxProps = {
   boardState: BoardState
 }
 
-type ResizerProps = {
+type ResizerConfig = {
   cx: number
   cy: number
   rx: number
   ry: number
   id: string
+  cursor: string
 }
 
 const resizerClass = 'resizer'
@@ -28,21 +29,18 @@ export function ResizeBox (props: ResizeBoxProps) {
 
   const { properties: { x, y , width, height } } = selectedFlexComponent
 
-  const handleResizerClick = () => {
-
-  }
-
   {/* https://en.wikipedia.org/wiki/Wind_rose */}
-  const resizers: ResizerProps[] = [
-    { cx: x + width / 2, cy: y, rx, ry, id: 'resize-n' },
-    { cx: x + width, cy: y, rx, ry, id: 'resize-ne' },
-    { cx: x + width, cy: y + height / 2, rx, ry, id: 'resize-e' },
-    { cx: x + width, cy: y + height, rx, ry, id: 'resize-se' },
-    { cx: x + width / 2, cy: y + height, rx, ry, id: 'resize-s' },
-    { cx: x, cy: y + height, rx, ry, id: 'resize-sw' },
-    { cx: x, cy: y + height / 2, rx, ry, id: 'resize-w'},
-    { cx: x, cy: y, rx, ry, id: 'resize-nw' },
+  const resizers: ResizerConfig[] = [
+    { cx: x + width / 2, cy: y, rx, ry, id: 'n', cursor: 'n-resize' },
+    { cx: x + width, cy: y, rx, ry, id: 'ne', cursor: 'ne-resize' },
+    { cx: x + width, cy: y + height / 2, rx, ry, id: 'e', cursor: 'e-resize' },
+    { cx: x + width, cy: y + height, rx, ry, id: 'se', cursor: 'se-resize' },
+    { cx: x + width / 2, cy: y + height, rx, ry, id: 's', cursor: 's-resize' },
+    { cx: x, cy: y + height, rx, ry, id: 'sw', cursor: 'sw-resize' },
+    { cx: x, cy: y + height / 2, rx, ry, id: 'w', cursor: 'w-resize' },
+    { cx: x, cy: y, rx, ry, id: 'nw', cursor: 'nw-resize' },
   ]
+
 
   return (
     <g className={resizerClass}>
@@ -51,7 +49,6 @@ export function ResizeBox (props: ResizeBoxProps) {
         y={y}
         width={width}
         height={height}
-        className={resizerClass}
         fill="none"
         stroke="#00a8ff"
         strokeDasharray="3 3"
@@ -63,11 +60,11 @@ export function ResizeBox (props: ResizeBoxProps) {
           key={resizer.id}
           id={resizer.id}
           className={resizerClass}
-          onClick={handleResizerClick}
           cx={resizer.cx}
           cy={resizer.cy}
           rx={resizer.rx}
           ry={resizer.ry}
+          cursor={resizer.cursor}
           fill="#0ea5e9"
           stroke="white"
         />
