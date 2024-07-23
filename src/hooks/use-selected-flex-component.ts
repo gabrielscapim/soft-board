@@ -14,7 +14,7 @@ export function useSelectedFlexComponent (boardState: BoardState) {
     return () => {
       boardState.removeListener('selectedFlexComponentChanged')
     }
-  })
+  }, [boardState])
 
   return selectedFlexComponent
 }

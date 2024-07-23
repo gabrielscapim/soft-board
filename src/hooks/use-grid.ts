@@ -14,7 +14,7 @@ export function useGrid (boardState: BoardState) {
     return () => {
       boardState.removeListener('flexComponentsChanged')
     }
-  })
+  }, [boardState])
 
   return grid
 }

@@ -14,7 +14,7 @@ export function useFlexComponents (boardState: BoardState) {
     return () => {
       boardState.removeListener('flexComponentsChanged')
     }
-  })
+  }, [boardState])
 
   return flexComponents
 }
