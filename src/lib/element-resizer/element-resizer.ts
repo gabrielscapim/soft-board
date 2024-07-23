@@ -4,9 +4,9 @@ import { BoardState } from '../board-state'
 
 export class ElementResizer {
   private _boardManager: BoardManager
+  private _boardState: BoardState
   private _resizeDirection: ResizeDirection | undefined
   private _flexBoardElement: SVGSVGElement
-  private _grid: number
   private _offset: Offset | undefined
   private _selectedResizerElement: SVGGElement | undefined
   private _transform: DOMMatrix | undefined
@@ -14,11 +14,10 @@ export class ElementResizer {
   constructor (
     boardState: BoardState,
     flexBoardElement: SVGSVGElement,
-    grid: number = 10
   ) {
     this._boardManager = new BoardManager(boardState)
+    this._boardState = boardState
     this._flexBoardElement = flexBoardElement
-    this._grid = grid
 
     this.startResize = this.startResize.bind(this)
     this.onResizing = this.onResizing.bind(this)
@@ -41,6 +40,7 @@ export class ElementResizer {
     if (this._selectedResizerElement && this._offset) {
       event.preventDefault()
 
+      const grid = this._boardState.grid
       const coord = this.getMousePosition(event)
       const params = {
         dimension: {
@@ -54,8 +54,8 @@ export class ElementResizer {
       }
       const deltaX = coord.x - (this._offset.x ?? 0)
       const deltaY = coord.y - (this._offset.y ?? 0)
-      const roundedDeltaX = Math.round(deltaX / this._grid) * this._grid
-      const roundedDeltaY = Math.round(deltaY / this._grid) * this._grid
+      const roundedDeltaX = Math.round(deltaX / grid) * grid
+      const roundedDeltaY = Math.round(deltaY / grid) * grid
 
       switch (this._resizeDirection) {
         case 'n':
