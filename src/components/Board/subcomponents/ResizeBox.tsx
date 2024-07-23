@@ -1,4 +1,5 @@
 import { useSelectedFlexComponent } from '../../../hooks'
+import { useGrid } from '../../../hooks/use-grid'
 import { BoardState } from '../../../lib'
 
 export type ResizeBoxProps = {
@@ -22,25 +23,29 @@ export function ResizeBox (props: ResizeBoxProps) {
   const { boardState } = props
 
   const selectedFlexComponent = useSelectedFlexComponent(boardState)
+  const minDistance = useGrid(boardState)
 
   if (!selectedFlexComponent) {
-    return
+    return null
   }
 
   const { properties: { x, y , width, height } } = selectedFlexComponent
 
-  {/* https://en.wikipedia.org/wiki/Wind_rose */}
-  const resizers: ResizerConfig[] = [
-    { cx: x + width / 2, cy: y, rx, ry, id: 'n', cursor: 'n-resize' },
-    { cx: x + width, cy: y, rx, ry, id: 'ne', cursor: 'ne-resize' },
-    { cx: x + width, cy: y + height / 2, rx, ry, id: 'e', cursor: 'e-resize' },
-    { cx: x + width, cy: y + height, rx, ry, id: 'se', cursor: 'se-resize' },
-    { cx: x + width / 2, cy: y + height, rx, ry, id: 's', cursor: 's-resize' },
-    { cx: x, cy: y + height, rx, ry, id: 'sw', cursor: 'sw-resize' },
-    { cx: x, cy: y + height / 2, rx, ry, id: 'w', cursor: 'w-resize' },
-    { cx: x, cy: y, rx, ry, id: 'nw', cursor: 'nw-resize' },
-  ]
+  const adjustedX = width < minDistance * 2 ? x - (minDistance - width / 2) : x
+  const adjustedY = height < minDistance * 2 ? y - (minDistance - height / 2) : y
+  const adjustedWidth = Math.max(width, minDistance * 2)
+  const adjustedHeight = Math.max(height, minDistance * 2)
 
+  const resizers: ResizerConfig[] = [
+    { cx: adjustedX + adjustedWidth / 2, cy: adjustedY, rx, ry, id: 'n', cursor: 'n-resize' },
+    { cx: adjustedX + adjustedWidth, cy: adjustedY, rx, ry, id: 'ne', cursor: 'ne-resize' },
+    { cx: adjustedX + adjustedWidth, cy: adjustedY + adjustedHeight / 2, rx, ry, id: 'e', cursor: 'e-resize' },
+    { cx: adjustedX + adjustedWidth, cy: adjustedY + adjustedHeight, rx, ry, id: 'se', cursor: 'se-resize' },
+    { cx: adjustedX + adjustedWidth / 2, cy: adjustedY + adjustedHeight, rx, ry, id: 's', cursor: 's-resize' },
+    { cx: adjustedX, cy: adjustedY + adjustedHeight, rx, ry, id: 'sw', cursor: 'sw-resize' },
+    { cx: adjustedX, cy: adjustedY + adjustedHeight / 2, rx, ry, id: 'w', cursor: 'w-resize' },
+    { cx: adjustedX, cy: adjustedY, rx, ry, id: 'nw', cursor: 'nw-resize' },
+  ]
 
   return (
     <g className={resizerClass}>
