@@ -1,20 +1,29 @@
-const SMALL_GRID = 10
-const LARGE_GRID = 10 * SMALL_GRID
+import { useGrid } from '../../../hooks/use-grid'
+import { BoardState } from '../../../lib'
+
+export type GridProps = {
+  boardState: BoardState
+}
 
 // https://stackoverflow.com/questions/14208673/how-to-draw-grid-using-html5-and-canvas-or-svg
-export function Grid () {
+export function Grid (props: GridProps) {
+  const { boardState } = props
+
+  const smallGrid = useGrid(boardState)
+  const largeGrid = 10 * smallGrid
+
   return (
     <>
       <defs>
         {/* Small squares */}
         <pattern
           id="smallGrid"
-          width={SMALL_GRID}
-          height={SMALL_GRID}
+          width={smallGrid}
+          height={smallGrid}
           patternUnits="userSpaceOnUse"
         >
           <path
-            d={`M ${SMALL_GRID} 0 L 0 0 0 ${SMALL_GRID}`}
+            d={`M ${smallGrid} 0 L 0 0 0 ${smallGrid}`}
             fill="none"
             stroke="gray"
             strokeWidth="0.5"
@@ -24,17 +33,17 @@ export function Grid () {
         {/* Big squares */}
         <pattern
           id="largeGrid"
-          width={LARGE_GRID}
-          height={LARGE_GRID}
+          width={largeGrid}
+          height={largeGrid}
           patternUnits="userSpaceOnUse"
         >
           <rect
-            width={LARGE_GRID}
-            height={LARGE_GRID}
+            width={largeGrid}
+            height={largeGrid}
             fill="url(#smallGrid)"
           />
           <path
-            d={`M ${LARGE_GRID} 0 L 0 0 0 ${LARGE_GRID}`}
+            d={`M ${largeGrid} 0 L 0 0 0 ${largeGrid}`}
             fill="none"
             stroke="gray"
             strokeWidth="1"

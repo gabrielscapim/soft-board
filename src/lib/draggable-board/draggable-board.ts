@@ -8,8 +8,8 @@ import { BoardState } from '../board-state'
  */
 export class DraggableBoard {
   private _boardManager: BoardManager
+  private _boardState: BoardState
   private _flexBoardElement: SVGSVGElement
-  private _grid: number
   private _offset: Offset | undefined
   private _selectedFlexElement: SVGGElement | undefined
   private _transform: DOMMatrix | undefined
@@ -17,11 +17,10 @@ export class DraggableBoard {
   constructor (
     boardState: BoardState,
     flexBoardElement: SVGSVGElement,
-    grid: number = 10
   ) {
     this._boardManager = new BoardManager(boardState)
+    this._boardState = boardState
     this._flexBoardElement = flexBoardElement
-    this._grid = grid
 
     this.startDrag = this.startDrag.bind(this)
     this.onDragging = this.onDragging.bind(this)
@@ -44,11 +43,12 @@ export class DraggableBoard {
     if (this._selectedFlexElement && this._offset) {
       event.preventDefault()
 
+      const grid = this._boardState.grid
       const coord = this.getMousePosition(event)
       const deltaX = coord.x - (this._offset.x ?? 0)
       const deltaY = coord.y - (this._offset.y ?? 0)
-      const roundedDeltaX = Math.round(deltaX / this._grid) * this._grid
-      const roundedDeltaY = Math.round(deltaY / this._grid) * this._grid
+      const roundedDeltaX = Math.round(deltaX / grid) * grid
+      const roundedDeltaY = Math.round(deltaY / grid) * grid
 
       this._boardManager.onDraggingFlexComponent({
         id: this._selectedFlexElement.id as UUID,

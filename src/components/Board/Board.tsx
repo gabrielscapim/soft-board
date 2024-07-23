@@ -27,7 +27,7 @@ export function Board (props: LayoutProps) {
       id="flex-board"
       ref={ref}
     >
-      <Grid />
+      <Grid boardState={boardState} />
       {flexComponents.map(flexComponent => (
         createElement(FLEX_COMPONENTS[flexComponent.type], {
           key: flexComponent.id,

@@ -72,8 +72,8 @@ export class BoardManager implements BoardManagerI {
           ...flexComponent.properties,
           x: this._initialFlexComponentProperties.x + position.roundedDeltaX,
           y: this._initialFlexComponentProperties.y + position.roundedDeltaY,
-          width: this._initialFlexComponentProperties.width + dimension.roundedDeltaX,
-          height: this._initialFlexComponentProperties.height + dimension.roundedDeltaY
+          width: Math.max(10, this._initialFlexComponentProperties.width + dimension.roundedDeltaX),
+          height: Math.max(10, this._initialFlexComponentProperties.height + dimension.roundedDeltaY)
         }
       }
 
