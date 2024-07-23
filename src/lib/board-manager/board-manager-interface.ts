@@ -14,8 +14,14 @@ export type OnDraggingFlexComponentParams = {
 }
 
 export type OnResizingFlexComponentParams = {
-  roundedDeltaX: number
-  roundedDeltaY: number
+  dimension: {
+    roundedDeltaX: number
+    roundedDeltaY: number
+  }
+  position: {
+    roundedDeltaX: number
+    roundedDeltaY: number
+  }
 }
 
 export type OnStartDragFlexComponentParams = {

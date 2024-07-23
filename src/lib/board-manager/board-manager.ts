@@ -13,13 +13,11 @@ import { Dimensions, Offset } from '../../types'
  */
 export class BoardManager implements BoardManagerI {
   private _boardState: BoardState
-  private _initialFlexComponentPosition: Offset | null
-  private _initialFlexComponentDimensions: Dimensions | null
+  private _initialFlexComponentProperties: (Dimensions & Offset) | null
 
   constructor (boardState: BoardState) {
     this._boardState = boardState
-    this._initialFlexComponentPosition = null
-    this._initialFlexComponentDimensions = null
+    this._initialFlexComponentProperties = null
   }
 
   /**
@@ -45,11 +43,11 @@ export class BoardManager implements BoardManagerI {
 
     const currentFlexComponents = this._boardState.flexComponents
     const newFlexComponents = currentFlexComponents.map(flexComponent => {
-      if (flexComponent.id === id && this._initialFlexComponentPosition) {
+      if (flexComponent.id === id && this._initialFlexComponentProperties) {
         flexComponent.properties = {
           ...flexComponent.properties,
-          x: this._initialFlexComponentPosition.x + properties.roundedDeltaX,
-          y: this._initialFlexComponentPosition.y + properties.roundedDeltaY
+          x: this._initialFlexComponentProperties.x + properties.roundedDeltaX,
+          y: this._initialFlexComponentProperties.y + properties.roundedDeltaY
         }
       }
 
@@ -64,16 +62,18 @@ export class BoardManager implements BoardManagerI {
    * @param params The OnResizingFlexComponentParams.
    */
   onResizingFlexComponent (params: OnResizingFlexComponentParams) {
-    const { roundedDeltaX, roundedDeltaY } = params
+    const { dimension, position } = params
 
     const currentFlexComponents = this._boardState.flexComponents
     const selectedFlexComponent = this._boardState.selectedFlexComponent
     const newFlexComponents = currentFlexComponents.map(flexComponent => {
-      if (flexComponent.id === selectedFlexComponent?.id && this._initialFlexComponentDimensions) {
+      if (flexComponent.id === selectedFlexComponent?.id && this._initialFlexComponentProperties) {
         flexComponent.properties = {
           ...flexComponent.properties,
-          x: this._initialFlexComponentDimensions.width + roundedDeltaX,
-          y: this._initialFlexComponentDimensions.height + roundedDeltaY
+          x: this._initialFlexComponentProperties.x + position.roundedDeltaX,
+          y: this._initialFlexComponentProperties.y + position.roundedDeltaY,
+          width: this._initialFlexComponentProperties.width + dimension.roundedDeltaX,
+          height: this._initialFlexComponentProperties.height + dimension.roundedDeltaY
         }
       }
 
@@ -97,9 +97,11 @@ export class BoardManager implements BoardManagerI {
       return
     }
 
-    this._initialFlexComponentPosition = {
-      x: draggedFlexComponent?.properties.x,
-      y: draggedFlexComponent?.properties.y
+    this._initialFlexComponentProperties = {
+      width: draggedFlexComponent.properties.width,
+      height: draggedFlexComponent.properties.height,
+      x: draggedFlexComponent.properties.x,
+      y: draggedFlexComponent.properties.y
     }
     this._boardState.setSelectedFlexComponent(draggedFlexComponent)
   }
@@ -114,9 +116,11 @@ export class BoardManager implements BoardManagerI {
       return
     }
 
-    this._initialFlexComponentPosition = {
-      x: selectedFlexComponent?.properties.width,
-      y: selectedFlexComponent?.properties.height
+    this._initialFlexComponentProperties = {
+      width: selectedFlexComponent.properties.width,
+      height: selectedFlexComponent.properties.height,
+      x: selectedFlexComponent.properties.x,
+      y: selectedFlexComponent.properties.y
     }
   }
 }

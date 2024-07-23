@@ -1,10 +1,10 @@
-import { Offset } from '../../types'
-import { UUID } from '../../types/common/uuid'
+import { Offset, ResizeDirection } from '../../types'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 
 export class ElementResizer {
   private _boardManager: BoardManager
+  private _resizeDirection: ResizeDirection | undefined
   private _flexBoardElement: SVGSVGElement
   private _grid: number
   private _offset: Offset | undefined
@@ -19,6 +19,10 @@ export class ElementResizer {
     this._boardManager = new BoardManager(boardState)
     this._flexBoardElement = flexBoardElement
     this._grid = grid
+
+    this.startResize = this.startResize.bind(this)
+    this.onResizing = this.onResizing.bind(this)
+    this.endResize = this.endResize.bind(this)
   }
 
   private getMousePosition (event: MouseEvent) {
@@ -38,15 +42,59 @@ export class ElementResizer {
       event.preventDefault()
 
       const coord = this.getMousePosition(event)
+      const params = {
+        dimension: {
+          roundedDeltaX: 0,
+          roundedDeltaY: 0
+        },
+        position: {
+          roundedDeltaX: 0,
+          roundedDeltaY: 0
+        }
+      }
       const deltaX = coord.x - (this._offset.x ?? 0)
       const deltaY = coord.y - (this._offset.y ?? 0)
       const roundedDeltaX = Math.round(deltaX / this._grid) * this._grid
       const roundedDeltaY = Math.round(deltaY / this._grid) * this._grid
 
-      this._boardManager.onResizingFlexComponent({
-        roundedDeltaX,
-        roundedDeltaY
-      })
+      switch (this._resizeDirection) {
+        case 'n':
+          params.dimension.roundedDeltaY = -roundedDeltaY
+          params.position.roundedDeltaY = roundedDeltaY
+          break
+        case 'ne':
+          params.dimension.roundedDeltaY = -roundedDeltaY
+          params.dimension.roundedDeltaX = roundedDeltaX
+          params.position.roundedDeltaY = roundedDeltaY
+          break
+        case 'e':
+          params.dimension.roundedDeltaX = roundedDeltaX
+          break
+        case 'se':
+          params.dimension.roundedDeltaX = roundedDeltaX
+          params.dimension.roundedDeltaY = roundedDeltaY
+          break
+        case 's':
+          params.dimension.roundedDeltaY = roundedDeltaY
+          break
+        case 'sw':
+          params.dimension.roundedDeltaY = roundedDeltaY
+          params.dimension.roundedDeltaX = -roundedDeltaX
+          params.position.roundedDeltaX = roundedDeltaX
+          break
+        case 'w':
+          params.dimension.roundedDeltaX = -roundedDeltaX
+          params.position.roundedDeltaX = roundedDeltaX
+          break
+        case 'nw':
+          params.dimension.roundedDeltaY = -roundedDeltaY
+          params.dimension.roundedDeltaX = -roundedDeltaX
+          params.position.roundedDeltaX = roundedDeltaX
+          params.position.roundedDeltaY = roundedDeltaY
+          break
+      }
+
+      this._boardManager.onResizingFlexComponent(params)
     }
   }
 
@@ -58,7 +106,8 @@ export class ElementResizer {
       this._selectedResizerElement = resizerElement
       this._offset = this.getMousePosition(event)
       this._transform = resizerElement.transform.baseVal.consolidate()?.matrix
-      this._boardManager.onStartDragFlexComponent({ id: resizerElement.id as UUID })
+      this._boardManager.onStartResizeFlexComponent()
+      this._resizeDirection = resizerElement.id as ResizeDirection
 
       if (this._transform) {
         this._offset.x -= this._transform.e
