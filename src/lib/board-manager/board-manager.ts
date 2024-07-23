@@ -2,23 +2,28 @@ import {
   AddFlexComponentParams,
   BoardManagerI,
   OnDraggingFlexComponentParams,
+  OnResizingFlexComponentParams,
   OnStartDragFlexComponentParams
 } from './board-manager-interface'
 import { BoardState } from '../board-state'
-import { Offset } from '../../types'
+import { Dimensions, Offset } from '../../types'
 
 /**
  * Class responsible for changing the attributes of the BoardState class.
  */
 export class BoardManager implements BoardManagerI {
   private _boardState: BoardState
-  private _initalFlexComponentPosition: Offset
+  private _initialFlexComponentProperties: (Dimensions & Offset) | null
 
   constructor (boardState: BoardState) {
     this._boardState = boardState
-    this._initalFlexComponentPosition = { x: 0, y: 0 }
+    this._initialFlexComponentProperties = null
   }
 
+  /**
+   * Add a new flex component.
+   * @param params The AddFlexComponentParams.
+   */
   addFlexComponent (params: AddFlexComponentParams) {
     const { flexComponent } = params
 
@@ -29,16 +34,20 @@ export class BoardManager implements BoardManagerI {
     this._boardState.setSelectedFlexComponent(null)
   }
 
+  /**
+   * Change flex component position when it's dragging.
+   * @param params The OnDraggingFlexComponentParams.
+   */
   onDraggingFlexComponent (params: OnDraggingFlexComponentParams) {
     const { id, properties } = params
 
     const currentFlexComponents = this._boardState.flexComponents
     const newFlexComponents = currentFlexComponents.map(flexComponent => {
-      if (flexComponent.id === id) {
+      if (flexComponent.id === id && this._initialFlexComponentProperties) {
         flexComponent.properties = {
           ...flexComponent.properties,
-          x: this._initalFlexComponentPosition.x + properties.roundedDeltaX,
-          y: this._initalFlexComponentPosition.y + properties.roundedDeltaY
+          x: this._initialFlexComponentProperties.x + properties.roundedDeltaX,
+          y: this._initialFlexComponentProperties.y + properties.roundedDeltaY
         }
       }
 
@@ -48,21 +57,70 @@ export class BoardManager implements BoardManagerI {
     this._boardState.setFlexComponents(newFlexComponents)
   }
 
+  /**
+   * Change flex component dimensions when it's resizing.
+   * @param params The OnResizingFlexComponentParams.
+   */
+  onResizingFlexComponent (params: OnResizingFlexComponentParams) {
+    const { dimension, position } = params
+
+    const currentFlexComponents = this._boardState.flexComponents
+    const selectedFlexComponent = this._boardState.selectedFlexComponent
+    const newFlexComponents = currentFlexComponents.map(flexComponent => {
+      if (flexComponent.id === selectedFlexComponent?.id && this._initialFlexComponentProperties) {
+        flexComponent.properties = {
+          ...flexComponent.properties,
+          x: this._initialFlexComponentProperties.x + position.roundedDeltaX,
+          y: this._initialFlexComponentProperties.y + position.roundedDeltaY,
+          width: this._initialFlexComponentProperties.width + dimension.roundedDeltaX,
+          height: this._initialFlexComponentProperties.height + dimension.roundedDeltaY
+        }
+      }
+
+      return flexComponent
+    })
+
+    this._boardState.setFlexComponents(newFlexComponents)
+  }
+
+  /**
+   * Get flex component position and change selected flex component state.
+   * @param params The OnStartDragFlexComponentParams.
+   */
   onStartDragFlexComponent (params: OnStartDragFlexComponentParams) {
     const { id } = params
 
     const draggedFlexComponent = this._boardState.flexComponents.find(flexComponent => flexComponent.id === id)
-    this._initalFlexComponentPosition = {
-      x: draggedFlexComponent?.properties.x ?? 0,
-      y: draggedFlexComponent?.properties.y ?? 0
-    }
 
-    if (draggedFlexComponent) {
-      this._boardState.setSelectedFlexComponent(draggedFlexComponent)
-
+    if (!draggedFlexComponent) {
+      this._boardState.setSelectedFlexComponent(null)
       return
     }
 
-    this._boardState.setSelectedFlexComponent(null)
+    this._initialFlexComponentProperties = {
+      width: draggedFlexComponent.properties.width,
+      height: draggedFlexComponent.properties.height,
+      x: draggedFlexComponent.properties.x,
+      y: draggedFlexComponent.properties.y
+    }
+    this._boardState.setSelectedFlexComponent(draggedFlexComponent)
+  }
+
+  /**
+   * Get flex component dimensions.
+   */
+  onStartResizeFlexComponent () {
+    const selectedFlexComponent = this._boardState.selectedFlexComponent
+
+    if (!selectedFlexComponent) {
+      return
+    }
+
+    this._initialFlexComponentProperties = {
+      width: selectedFlexComponent.properties.width,
+      height: selectedFlexComponent.properties.height,
+      x: selectedFlexComponent.properties.x,
+      y: selectedFlexComponent.properties.y
+    }
   }
 }

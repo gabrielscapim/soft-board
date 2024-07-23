@@ -1,5 +1,9 @@
+import {
+  useDraggableFlexBoard,
+  useElementResizer,
+  useFlexComponents,
+} from '../../hooks'
 import { createElement, useRef } from 'react'
-import { useDraggableFlexBoard, useFlexComponents } from '../../hooks'
 import { BoardState } from '../../lib'
 import { Grid, ResizeBox } from './subcomponents'
 import { FLEX_COMPONENTS } from '../../flex-components'
@@ -13,6 +17,7 @@ export function Board (props: LayoutProps) {
 
   const ref = useRef<SVGSVGElement>(null)
   const flexComponents = useFlexComponents(boardState)
+  useElementResizer(boardState, ref.current)
   useDraggableFlexBoard(boardState, ref.current)
 
   return (

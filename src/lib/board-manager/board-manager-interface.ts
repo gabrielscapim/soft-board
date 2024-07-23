@@ -13,12 +13,25 @@ export type OnDraggingFlexComponentParams = {
   }
 }
 
+export type OnResizingFlexComponentParams = {
+  dimension: {
+    roundedDeltaX: number
+    roundedDeltaY: number
+  }
+  position: {
+    roundedDeltaX: number
+    roundedDeltaY: number
+  }
+}
+
 export type OnStartDragFlexComponentParams = {
-  id?: UUID
+  id: UUID | null
 }
 
 export interface BoardManagerI {
   addFlexComponent(params: AddFlexComponentParams): void
   onDraggingFlexComponent(params: OnDraggingFlexComponentParams): void
+  onResizingFlexComponent(params: OnResizingFlexComponentParams): void
   onStartDragFlexComponent(params: OnStartDragFlexComponentParams): void
+  onStartResizeFlexComponent(): void
 }

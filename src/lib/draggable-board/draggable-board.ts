@@ -63,12 +63,13 @@ export class DraggableBoard {
   public startDrag (event: MouseEvent) {
     const target = event.target as SVGGElement
     const draggableGroupElement = target.closest('.draggable-group') as SVGGElement | null
+    const resizerElement = target.closest('.resizer') as SVGEllipseElement | null
 
     if (draggableGroupElement) {
       this._selectedFlexElement = draggableGroupElement
       this._offset = this.getMousePosition(event)
-      this._transform = this._selectedFlexElement.transform.baseVal.consolidate()?.matrix
-      this._boardManager.onStartDragFlexComponent({ id: this._selectedFlexElement.id as UUID })
+      this._transform = draggableGroupElement.transform.baseVal.consolidate()?.matrix
+      this._boardManager.onStartDragFlexComponent({ id: draggableGroupElement.id as UUID })
       // this._flexBoardElement.appendChild(this._selectedFlexElement) // Move element to the first position
 
       if (this._transform) {
@@ -77,8 +78,8 @@ export class DraggableBoard {
       }
     }
 
-    if (!draggableGroupElement) {
-      this._boardManager.onStartDragFlexComponent({})
+    if (!draggableGroupElement && !resizerElement) {
+      this._boardManager.onStartDragFlexComponent({ id: null })
     }
   }
 }
