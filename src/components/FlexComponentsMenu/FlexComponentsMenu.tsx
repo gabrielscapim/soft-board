@@ -5,11 +5,11 @@ import { BoardController } from '../../lib'
 import { Floating } from '../Floating'
 import { useScreenDimensions } from '../../hooks'
 
-export type ComponentsMenuProps = PropsWithChildren & {
+export type FlexComponentsMenuProps = PropsWithChildren & {
   boardController: BoardController
 }
 
-export function ComponentsMenu (props: ComponentsMenuProps) {
+export function FlexComponentsMenu (props: FlexComponentsMenuProps) {
   const { boardController } = props
 
   const { width, height } = useScreenDimensions()

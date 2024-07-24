@@ -1,5 +1,5 @@
 import { Board } from '../Board'
-import { ComponentsMenu } from '../ComponentsMenu'
+import { FlexComponentsMenu } from '../FlexComponentsMenu'
 import { NavBar } from '../NavBar'
 import { BoardController, BoardState } from '../../lib'
 
@@ -15,7 +15,7 @@ export function Layout (props: LayoutProps) {
     <div className="h-screen flex flex-col">
       <NavBar />
       <div className="flex flex-grow">
-        <ComponentsMenu boardController={boardController} />
+        <FlexComponentsMenu boardController={boardController} />
         <Board boardState={boardState} />
       </div>
     </div>
