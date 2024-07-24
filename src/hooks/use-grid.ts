@@ -12,7 +12,7 @@ export function useGrid (boardState: BoardState) {
     boardState.addListener('flexComponentsChanged', onChange)
 
     return () => {
-      boardState.removeListener('flexComponentsChanged')
+      boardState.removeListener('flexComponentsChanged', onChange)
     }
   }, [boardState])
 

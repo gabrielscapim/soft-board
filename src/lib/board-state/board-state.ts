@@ -1,10 +1,10 @@
-import { BoardEvent, FlexComponent } from '../../types'
+import { BoardEvent, BoardEventListener, FlexComponent } from '../../types'
 
 /**
  * The class which contains the flex components and board configs.
  */
 export class BoardState {
-  private _boardListeners: Partial<Record<BoardEvent, () => void>>
+  private _boardListeners: Record<string, BoardEventListener[]>
   private _flexComponents: FlexComponent[]
   private _grid: number
   private _selectedFlexComponent: FlexComponent | null
@@ -38,20 +38,29 @@ export class BoardState {
     this.runListener('selectedFlexComponentChanged')
   }
 
-  addListener (event: BoardEvent, listener: () => void) {
-    this._boardListeners[event] = listener
+  addListener (event: BoardEvent, listener: BoardEventListener) {
+    if (!this._boardListeners[event]) {
+      this._boardListeners[event] = []
+    }
+
+    if (!this._boardListeners[event].includes(listener)) {
+      this._boardListeners[event].push(listener)
+    }
   }
 
-  removeListener (event: BoardEvent) {
+  removeListener (event: BoardEvent, listener: BoardEventListener) {
     if (this._boardListeners[event]) {
-      delete this._boardListeners[event]
+      this._boardListeners[event] = this._boardListeners[event].filter(boardListener => boardListener !== listener)
     }
   }
 
   private runListener (event: BoardEvent) {
-    const listener = this._boardListeners[event]
-    if (listener) {
-      listener()
+    const listeners = this._boardListeners[event]
+
+    if (listeners) {
+      for (const listener of listeners) {
+        listener()
+      }
     }
   }
 }
