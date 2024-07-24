@@ -16,7 +16,7 @@ export function ComponentsMenu (props: ComponentsMenuProps) {
 
   return (
     <Floating className="top-20 left-4">
-      <ul className="menu bg-base-200 text-base-content min-h-full w-56 rounded-box h-[calc(100vh-6rem)]">
+      <ul className="menu bg-base-200 text-base-content min-h-full w-52 rounded-box h-[calc(100vh-6rem)]">
         <li className="menu-title select-none">Components</li>
         {Object.entries(FLEX_COMPONENT_NAMES).map(component => {
           const type = component[0] as FlexComponentType
