@@ -3,6 +3,7 @@ import { FLEX_COMPONENT_ICONS, FLEX_COMPONENT_NAMES } from '../../flex-component
 import { FlexComponentType } from '../../types'
 import { BoardController } from '../../lib'
 import { Floating } from '../Floating'
+import { useScreenDimensions } from '../../hooks'
 
 export type ComponentsMenuProps = PropsWithChildren & {
   boardController: BoardController
@@ -10,6 +11,8 @@ export type ComponentsMenuProps = PropsWithChildren & {
 
 export function ComponentsMenu (props: ComponentsMenuProps) {
   const { boardController } = props
+
+  const { width, height } = useScreenDimensions()
 
   return (
     <Floating className="top-20 left-4">
@@ -21,7 +24,9 @@ export function ComponentsMenu (props: ComponentsMenuProps) {
 
           return (
             <li key={component[0]}>
-              <a onClick={() => boardController.onAddFlexComponent(type)}>
+              <a
+                onClick={() => boardController.onAddFlexComponent(type, { x: width / 2, y: height / 2 })}
+              >
                 {createElement(FLEX_COMPONENT_ICONS[type])}
                 {name}
               </a>
