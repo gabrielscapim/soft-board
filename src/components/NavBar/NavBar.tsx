@@ -1,29 +1,13 @@
-import { Bars3BottomLeftIcon, MoonIcon, SunIcon } from '@heroicons/react/24/outline'
+import { MoonIcon, SunIcon } from '@heroicons/react/24/outline'
 import GitHubIcon from '../../public/github-icon.svg'
 import { useTheme } from '../../hooks'
 
-export type NavBarProps = {
-  onHandleComponentDrawer?: () => void
-}
-
-export function NavBar (props: NavBarProps) {
-  const { onHandleComponentDrawer } = props
-
+export function NavBar () {
   const theme = useTheme()
 
   return (
     <div className="navbar bg-base-100">
-      <div className="navbar-start">
-        <div className="dropdown">
-          <button
-            role="button"
-            className="btn btn-ghost btn-circle"
-            onClick={onHandleComponentDrawer}
-          >
-            <Bars3BottomLeftIcon className="w-6 h-6"/>
-          </button>
-        </div>
-      </div>
+      <div className="navbar-start" />
       <div className="navbar-center">
         <a className="btn btn-ghost text-xl">Flex Board</a>
       </div>
