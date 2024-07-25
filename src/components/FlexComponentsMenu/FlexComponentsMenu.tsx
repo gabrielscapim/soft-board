@@ -21,11 +21,15 @@ export function FlexComponentsMenu (props: FlexComponentsMenuProps) {
         {Object.entries(FLEX_COMPONENT_NAMES).map(component => {
           const type = component[0] as FlexComponentType
           const name = component[1]
+          const newFlexComponentXPosition =  Math.round((width / 2) / 10) * 10
+          const newFlexComponentYPosition = Math.round((height / 2) / 10) * 10
 
           return (
             <li key={component[0]}>
               <a
-                onClick={() => boardController.onAddFlexComponent(type, { x: width / 2, y: height / 2 })}
+                onClick={() => boardController.onAddFlexComponent(
+                  { type, position: { x: newFlexComponentXPosition, y: newFlexComponentYPosition } }
+                )}
               >
                 {createElement(FLEX_COMPONENT_ICONS[type])}
                 {name}
