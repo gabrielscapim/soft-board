@@ -3,7 +3,8 @@ import {
   BoardManagerI,
   OnDraggingFlexComponentParams,
   OnResizingFlexComponentParams,
-  OnStartDragFlexComponentParams
+  OnStartDragFlexComponentParams,
+  UpdateFlexComponentPropertiesParams
 } from './board-manager-interface'
 import { BoardState } from '../board-state'
 import { Dimensions, Offset } from '../../types'
@@ -44,11 +45,17 @@ export class BoardManager implements BoardManagerI {
     const currentFlexComponents = this._boardState.flexComponents
     const newFlexComponents = currentFlexComponents.map(flexComponent => {
       if (flexComponent.id === id && this._initialFlexComponentProperties) {
-        flexComponent.properties = {
-          ...flexComponent.properties,
-          x: this._initialFlexComponentProperties.x + properties.roundedDeltaX,
-          y: this._initialFlexComponentProperties.y + properties.roundedDeltaY
+        const newSelectedFlexComponent = {
+          ...flexComponent,
+          properties: {
+            ...flexComponent.properties,
+            x: this._initialFlexComponentProperties.x + properties.roundedDeltaX,
+            y: this._initialFlexComponentProperties.y + properties.roundedDeltaY
+          }
         }
+
+        this._boardState.setSelectedFlexComponent(newSelectedFlexComponent)
+        return newSelectedFlexComponent
       }
 
       return flexComponent
@@ -68,13 +75,19 @@ export class BoardManager implements BoardManagerI {
     const selectedFlexComponent = this._boardState.selectedFlexComponent
     const newFlexComponents = currentFlexComponents.map(flexComponent => {
       if (flexComponent.id === selectedFlexComponent?.id && this._initialFlexComponentProperties) {
-        flexComponent.properties = {
-          ...flexComponent.properties,
-          x: this._initialFlexComponentProperties.x + position.roundedDeltaX,
-          y: this._initialFlexComponentProperties.y + position.roundedDeltaY,
-          width: Math.max(10, this._initialFlexComponentProperties.width + dimension.roundedDeltaX),
-          height: Math.max(10, this._initialFlexComponentProperties.height + dimension.roundedDeltaY)
+        const newSelectedFlexComponent = {
+          ...flexComponent,
+          properties: {
+            ...flexComponent.properties,
+            x: this._initialFlexComponentProperties.x + position.roundedDeltaX,
+            y: this._initialFlexComponentProperties.y + position.roundedDeltaY,
+            width: Math.max(10, this._initialFlexComponentProperties.width + dimension.roundedDeltaX),
+            height: Math.max(10, this._initialFlexComponentProperties.height + dimension.roundedDeltaY)
+          }
         }
+
+        this._boardState.setSelectedFlexComponent(newSelectedFlexComponent)
+        return newSelectedFlexComponent
       }
 
       return flexComponent
@@ -122,5 +135,24 @@ export class BoardManager implements BoardManagerI {
       x: selectedFlexComponent.properties.x,
       y: selectedFlexComponent.properties.y
     }
+  }
+
+  updateFlexComponentProperties (params: UpdateFlexComponentPropertiesParams) {
+    const { updatedFlexComponent } = params
+
+    const selectedFlexComponent = this._boardState.selectedFlexComponent
+    const newFlexComponents = this._boardState.flexComponents.map(flexComponent => {
+      if (selectedFlexComponent?.id === flexComponent.id) {
+        this._boardState.setSelectedFlexComponent(updatedFlexComponent)
+      }
+
+      if (flexComponent.id === updatedFlexComponent.id) {
+        return updatedFlexComponent
+      }
+
+      return flexComponent
+    })
+
+    this._boardState.setFlexComponents(newFlexComponents)
   }
 }
