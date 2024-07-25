@@ -18,7 +18,10 @@ export type FlexComponent = RectangleFlexComponent
 
 export type FlexComponentName = FlexComponent['name']
 
-export type FlexComponentPrompertis = FlexComponent['properties']
+export type FlexComponentProperties = FlexComponent['properties']
+
+export type FlexComponentProperty = keyof FlexComponentProperties
+
+export type FlexComponentPropertyValue<K extends keyof FlexComponentProperties> = FlexComponentProperties[K]
 
 export type FlexComponentType = FlexComponent['type']
-
