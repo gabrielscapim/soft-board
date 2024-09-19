@@ -6,7 +6,7 @@ export function NavBar () {
   const theme = useTheme()
 
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100 shadow-md">
       <div className="navbar-start" />
       <div className="navbar-center">
         <a className="btn btn-ghost text-xl">Flex Board</a>

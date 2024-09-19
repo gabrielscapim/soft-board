@@ -3,7 +3,7 @@ import { BoardState, DraggableBoard } from '../lib'
 
 export function useDraggableFlexBoard (
   boardState: BoardState,
-  flexBoardElement: SVGSVGElement | null
+  flexBoardElement: HTMLDivElement | null
 ) {
   useEffect(() => {
     if (flexBoardElement) {

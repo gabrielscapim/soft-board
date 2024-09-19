@@ -29,10 +29,10 @@ export class BoardController implements BoardControllerInterface {
       properties: {
         x: position.x,
         y: position.y,
-        width: 200,
+        width: 150,
         height: 100,
-        rx: 20,
-        ry: 20
+        rx: 10,
+        ry: 10
       }
     }
 
