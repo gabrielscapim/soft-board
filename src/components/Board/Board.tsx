@@ -1,11 +1,7 @@
-import {
-  useDraggableFlexBoard,
-  useElementResizer,
-  useFlexComponents,
-} from '../../hooks'
+import Cursor from '../../public/cursor.png'
+import { useDraggableFlexBoard, useFlexComponents } from '../../hooks'
 import { createElement, useRef } from 'react'
 import { BoardState } from '../../lib'
-import { Grid, ResizeBox } from './subcomponents'
 import { FLEX_COMPONENTS } from '../../flex-components'
 
 export type LayoutProps = {
@@ -15,28 +11,36 @@ export type LayoutProps = {
 export function Board (props: LayoutProps) {
   const { boardState } = props
 
-  const ref = useRef<SVGSVGElement>(null)
+  const ref = useRef<HTMLDivElement>(null)
   const flexComponents = useFlexComponents(boardState)
-  useElementResizer(boardState, ref.current)
   useDraggableFlexBoard(boardState, ref.current)
 
   return (
-    <svg
-      width="100%"
-      height="100%"
-      id="flex-board"
+    <div
+      id="flex-board-container"
       ref={ref}
+      className="relative w-full h-full overflow-hidden"
     >
-      <Grid boardState={boardState} />
-      {flexComponents.map(flexComponent => (
-        createElement(FLEX_COMPONENTS[flexComponent.type], {
-          key: flexComponent.id,
-          component: {
-            ...flexComponent
-          }
-        })
-      ))}
-      <ResizeBox boardState={boardState} />
-    </svg>
+      <div
+        id="grid"
+        className="absolute w-screen h-screen"
+        style={{
+          cursor: `url(${Cursor}) 0 0, auto`
+        }}
+      />
+      <div
+        id="flex-board"
+        className="w-0 h-0 absolute"
+      >
+        {flexComponents.map(flexComponent => (
+          createElement(FLEX_COMPONENTS[flexComponent.type], {
+            key: flexComponent.id,
+            component: {
+              ...flexComponent
+            }
+          })
+        ))}
+      </div>
+    </div>
   )
 }

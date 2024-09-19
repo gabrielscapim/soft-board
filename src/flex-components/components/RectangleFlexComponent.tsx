@@ -1,25 +1,28 @@
+import Cursor from '../../public/cursor.png'
 import { FlexComponentProps } from '../flex-components'
+import clsx from 'clsx'
 
 export function RectangleFlexComponent (props: FlexComponentProps) {
   const { component: { id, properties } } = props
 
   return (
-    <g
+    <div
       id={id}
-      className="draggable-group"
-      style={{ visibility: 'visible', cursor: 'move' }}
+      className={clsx(
+        'draggable-group',
+        'absolute',
+        'bg-white border',
+        'border-black'
+      )}
+      style={{
+        top: `${properties.y}px`,
+        left: `${properties.x}px`,
+        width: `${properties.width}px`,
+        height: `${properties.height}px`,
+        borderRadius: `${properties.rx}px / ${properties.ry}px`,
+        cursor: `url(${Cursor}) 0 0, auto`
+      }}
     >
-      <rect
-        x={properties.x}
-        y={properties.y}
-        width={properties.width}
-        height={properties.height}
-        rx={properties.rx}
-        ry={properties.ry}
-        fill="white"
-        stroke="black"
-        strokeWidth="1"
-      />
-    </g>
+    </div>
   )
 }
