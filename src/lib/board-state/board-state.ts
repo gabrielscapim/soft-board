@@ -7,13 +7,19 @@ export class BoardState {
   private _boardListeners: Record<string, BoardEventListener[]>
   private _flexComponents: FlexComponent[]
   private _grid: number
+  private _isBoardMoving: boolean
+  private _scale: number
   private _selectedFlexComponent: FlexComponent | null
+  private _translate: { x: number, y: number }
 
   constructor () {
     this._boardListeners = {}
     this._flexComponents = []
-    this._grid = 10
+    this._grid = 5
+    this._isBoardMoving = false
+    this._scale = 1
     this._selectedFlexComponent = null
+    this._translate = { x: 0, y: 0 }
   }
 
   get flexComponents () {
@@ -24,8 +30,20 @@ export class BoardState {
     return this._grid
   }
 
+  get isBoardMoving () {
+    return this._isBoardMoving
+  }
+
+  get scale () {
+    return this._scale
+  }
+
   get selectedFlexComponent () {
     return this._selectedFlexComponent
+  }
+
+  get translate () {
+    return this._translate
   }
 
   setFlexComponents (flexComponents: FlexComponent[]) {
@@ -33,9 +51,24 @@ export class BoardState {
     this.runListener('flexComponentsChanged')
   }
 
+  setIsBoardMoving (isBoardMoving: boolean) {
+    this._isBoardMoving = isBoardMoving
+    this.runListener('isBoardMovingChanged')
+  }
+
+  setScale (scale: number) {
+    this._scale = scale
+    this.runListener('scaleChanged')
+  }
+
   setSelectedFlexComponent (selectedFlexComponent: FlexComponent | null) {
     this._selectedFlexComponent = selectedFlexComponent
     this.runListener('selectedFlexComponentChanged')
+  }
+
+  setTranslate (translate: { x: number, y: number }) {
+    this._translate = translate
+    this.runListener('translateChanged')
   }
 
   addListener (event: BoardEvent, listener: BoardEventListener) {
