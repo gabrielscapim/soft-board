@@ -10,6 +10,10 @@ export type OnAddFlexComponentParams = {
   position: Offset
 }
 
+export type OnChangeBoardScaleParams = {
+  scale: number
+}
+
 export type OnUpdateFlexComponentPropertiesParams = {
   flexComponent: FlexComponent
   properties: FlexComponentProperties
@@ -17,5 +21,6 @@ export type OnUpdateFlexComponentPropertiesParams = {
 
 export interface BoardControllerInterface {
   onAddFlexComponent(params: OnAddFlexComponentParams): void
+  onChangeBoardScale(params: OnChangeBoardScaleParams): void
   onUpdateFlexComponentProperties(params: OnUpdateFlexComponentPropertiesParams): void
 }
