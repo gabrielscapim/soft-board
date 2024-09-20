@@ -1,4 +1,7 @@
 export type BoardEvent =
   'flexComponentsChanged' |
   'gridChanged' |
-  'selectedFlexComponentChanged'
+  'isBoardMovingChanged' |
+  'scaleChanged' |
+  'selectedFlexComponentChanged' |
+  'translateChanged'

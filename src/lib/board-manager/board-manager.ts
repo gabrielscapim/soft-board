@@ -1,9 +1,12 @@
 import {
   AddFlexComponentParams,
   BoardManagerI,
+  OnChangeBoardMovingParams,
   OnDraggingFlexComponentParams,
   OnResizingFlexComponentParams,
+  OnScaleChangeParams,
   OnStartDragFlexComponentParams,
+  OnTranslateBoardParams,
   UpdateFlexComponentPropertiesParams
 } from './board-manager-interface'
 import { BoardState } from '../board-state'
@@ -33,6 +36,10 @@ export class BoardManager implements BoardManagerI {
 
     this._boardState.setFlexComponents(newFlexComponents)
     this._boardState.setSelectedFlexComponent(null)
+  }
+
+  onChangeBoardMoving (params: OnChangeBoardMovingParams) {
+    this._boardState.setIsBoardMoving(params.isBoardMoving)
   }
 
   /**
@@ -96,6 +103,10 @@ export class BoardManager implements BoardManagerI {
     this._boardState.setFlexComponents(newFlexComponents)
   }
 
+  onScaleChange (params: OnScaleChangeParams) {
+    this._boardState.setScale(params.scale)
+  }
+
   /**
    * Get flex component position and change selected flex component state.
    * @param params The OnStartDragFlexComponentParams.
@@ -135,6 +146,10 @@ export class BoardManager implements BoardManagerI {
       x: selectedFlexComponent.properties.x,
       y: selectedFlexComponent.properties.y
     }
+  }
+
+  onTranslateBoard (params: OnTranslateBoardParams): void {
+    this._boardState.setTranslate({ x: params.translateX, y: params.translateY })
   }
 
   updateFlexComponentProperties (params: UpdateFlexComponentPropertiesParams) {

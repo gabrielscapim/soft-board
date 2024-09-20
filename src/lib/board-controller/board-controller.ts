@@ -4,7 +4,7 @@ import { FlexComponent } from '../../types/index.ts'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import { v4 as uuid } from 'uuid'
-import { BoardControllerInterface, OnAddFlexComponentParams, OnUpdateFlexComponentPropertiesParams } from './board-controller-interface.ts'
+import { BoardControllerInterface, OnAddFlexComponentParams, OnChangeBoardScaleParams, OnUpdateFlexComponentPropertiesParams } from './board-controller-interface.ts'
 
 /**
  * Class responsible to communicate with the front-end and the BoardManager class.
@@ -12,11 +12,13 @@ import { BoardControllerInterface, OnAddFlexComponentParams, OnUpdateFlexCompone
  */
 export class BoardController implements BoardControllerInterface {
   private _boardManager: BoardManager
+  private _boardState: BoardState
 
   constructor (
     boardState: BoardState,
   ) {
     this._boardManager = new BoardManager(boardState)
+    this._boardState = boardState
   }
 
   onAddFlexComponent (params: OnAddFlexComponentParams) {
@@ -37,6 +39,16 @@ export class BoardController implements BoardControllerInterface {
     }
 
     this._boardManager.addFlexComponent({ flexComponent })
+  }
+
+  onChangeBoardScale (params: OnChangeBoardScaleParams) {
+    const centerX = window.innerWidth / 2
+    const centerY = window.innerHeight / 2
+    const newTranslateX = (this._boardState.translate.x - centerX) * (params.scale / this._boardState.scale) + centerX
+    const newTranslateY = (this._boardState.translate.y - centerY) * (params.scale / this._boardState.scale) + centerY
+
+    this._boardManager.onScaleChange({ scale: params.scale })
+    this._boardManager.onTranslateBoard({ translateX: newTranslateX, translateY: newTranslateY })
   }
 
   onUpdateFlexComponentProperties (params: OnUpdateFlexComponentPropertiesParams): void {
