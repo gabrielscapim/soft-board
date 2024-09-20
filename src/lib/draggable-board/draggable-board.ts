@@ -15,7 +15,7 @@ export class DraggableBoard {
 
   constructor (
     boardState: BoardState,
-    boardElement: HTMLElement, // Adaptado para divs
+    boardElement: HTMLElement
   ) {
     this._boardManager = new BoardManager(boardState)
     this._boardState = boardState
@@ -45,8 +45,8 @@ export class DraggableBoard {
 
       const grid = this._boardState.grid
       const coord = this.getMousePosition(event)
-      const deltaX = coord.x - (this._offset.x ?? 0)
-      const deltaY = coord.y - (this._offset.y ?? 0)
+      const deltaX = (coord.x - (this._offset.x ?? 0)) / this._boardState.scale
+      const deltaY = (coord.y - (this._offset.y ?? 0)) / this._boardState.scale
       const roundedDeltaX = Math.round(deltaX / grid) * grid
       const roundedDeltaY = Math.round(deltaY / grid) * grid
 
