@@ -1,5 +1,5 @@
 import { UUID } from '../../types/common/uuid.ts'
-import { ButtonFlexComponent, FlexComponent, InputFlexComponent, RectangleFlexComponent } from '../../types/index.ts'
+import { ButtonFlexComponent, DividerFlexComponent, FlexComponent, InputFlexComponent, RectangleFlexComponent } from '../../types/index.ts'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import { v4 as uuid } from 'uuid'
@@ -33,12 +33,28 @@ export class BoardController implements BoardControllerInterface {
           y: position.y,
           width: 100,
           height: 48,
-          rx: 40,
-          ry: 40
+          rx: 10,
+          ry: 10
         }
       }
 
       return this._boardManager.addFlexComponent({ flexComponent: button })
+    }
+
+    if (type === 'divider') {
+      const divider: DividerFlexComponent = {
+        id: uuid() as UUID,
+        name: 'Divider',
+        type: 'divider',
+        properties: {
+          x: position.x,
+          y: position.y,
+          width: 300,
+          height: 4
+        }
+      }
+
+      return this._boardManager.addFlexComponent({ flexComponent: divider })
     }
 
     if (type === 'input') {
