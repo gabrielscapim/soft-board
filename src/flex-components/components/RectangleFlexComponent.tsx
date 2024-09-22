@@ -1,13 +1,16 @@
 import Cursor from '../../public/cursor.png'
+import { RectangleFlexComponentProperties } from '../../types'
 import { FlexComponentProps } from '../flex-components'
 import clsx from 'clsx'
 
 export function RectangleFlexComponent (props: FlexComponentProps) {
-  const { component: { id, properties } } = props
+  const { component } = props
+
+  const properties = component.properties as RectangleFlexComponentProperties
 
   return (
     <div
-      id={id}
+      id={component.id}
       className={clsx(
         'draggable-group',
         'absolute',
