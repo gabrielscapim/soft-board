@@ -12,6 +12,12 @@ export type ButtonFlexComponentProperties = BaseProperties & {
   ry?: number
 }
 
+/** Input propertires */
+export type InputFlexComponentProperties = BaseProperties & {
+  rx?: number
+  ry?: number
+}
+
 /** Rectangle properties */
 export type RectangleFlexComponentProperties = BaseProperties & {
   rx?: number

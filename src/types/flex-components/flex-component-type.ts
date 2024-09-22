@@ -1,5 +1,5 @@
 import { UUID } from '../common/uuid'
-import { ButtonFlexComponentProperties, RectangleFlexComponentProperties } from './properties'
+import { ButtonFlexComponentProperties, InputFlexComponentProperties, RectangleFlexComponentProperties } from './properties'
 
 /** Button */
 export type ButtonFlexComponent = {
@@ -7,6 +7,14 @@ export type ButtonFlexComponent = {
   name: 'Button'
   type: 'button'
   properties: ButtonFlexComponentProperties
+}
+
+/** Input */
+export type InputFlexComponent = {
+  id: UUID
+  name: 'Input'
+  type: 'input'
+  properties: InputFlexComponentProperties
 }
 
 /** Rectangle */
@@ -19,6 +27,7 @@ export type RectangleFlexComponent = {
 
 export type FlexComponent =
   ButtonFlexComponent |
+  InputFlexComponent |
   RectangleFlexComponent
 
 export type FlexComponentName = FlexComponent['name']
