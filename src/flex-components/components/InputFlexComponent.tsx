@@ -21,7 +21,9 @@ export function InputFlexComponent (props: FlexComponentProps) {
         'px-4',
         'flex',
         'items-center',
-        'select-none'
+        'select-none',
+        'text-ellipsis',
+        'overflow-hidden'
       )}
       style={{
         top: `${properties.y}px`,
