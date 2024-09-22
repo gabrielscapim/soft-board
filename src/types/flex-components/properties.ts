@@ -26,3 +26,9 @@ export type RectangleFlexComponentProperties = BaseProperties & {
   rx?: number
   ry?: number
 }
+
+/** Select properties */
+export type SelectFlexComponentProperties = BaseProperties & {
+  rx?: number
+  ry?: number
+}
