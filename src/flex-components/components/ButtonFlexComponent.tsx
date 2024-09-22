@@ -1,12 +1,15 @@
 import clsx from 'clsx'
 import { FlexComponentProps } from '../flex-components'
+import { ButtonFlexComponentProperties } from '../../types'
 
 export function ButtonFlexComponent (props: FlexComponentProps) {
-  const { component: { id, properties } } = props
+  const { component } = props
+
+  const properties = component.properties as ButtonFlexComponentProperties
 
   return (
     <div
-      id={id}
+      id={component.id}
       className={clsx(
         'absolute',
         'draggable-group',

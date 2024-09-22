@@ -12,6 +12,9 @@ export type ButtonFlexComponentProperties = BaseProperties & {
   ry?: number
 }
 
+/** Divider properties */
+export type DividerFlexComponentProperties = BaseProperties
+
 /** Input propertires */
 export type InputFlexComponentProperties = BaseProperties & {
   rx?: number
