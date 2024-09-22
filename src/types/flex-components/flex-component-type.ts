@@ -1,5 +1,5 @@
 import { UUID } from '../common/uuid'
-import { ButtonFlexComponentProperties, InputFlexComponentProperties, RectangleFlexComponentProperties } from './properties'
+import { ButtonFlexComponentProperties, DividerFlexComponentProperties, InputFlexComponentProperties, RectangleFlexComponentProperties } from './properties'
 
 /** Button */
 export type ButtonFlexComponent = {
@@ -7,6 +7,14 @@ export type ButtonFlexComponent = {
   name: 'Button'
   type: 'button'
   properties: ButtonFlexComponentProperties
+}
+
+/** Divider */
+export type DividerFlexComponent = {
+  id: UUID
+  name: 'Divider'
+  type: 'divider'
+  properties: DividerFlexComponentProperties
 }
 
 /** Input */
@@ -27,6 +35,7 @@ export type RectangleFlexComponent = {
 
 export type FlexComponent =
   ButtonFlexComponent |
+  DividerFlexComponent |
   InputFlexComponent |
   RectangleFlexComponent
 
