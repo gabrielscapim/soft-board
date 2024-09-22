@@ -1,6 +1,5 @@
-import { FLEX_COMPONENT_NAMES } from '../../flex-components/flex-component-names.ts'
 import { UUID } from '../../types/common/uuid.ts'
-import { FlexComponent } from '../../types/index.ts'
+import { ButtonFlexComponent, FlexComponent, RectangleFlexComponent } from '../../types/index.ts'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import { v4 as uuid } from 'uuid'
@@ -24,10 +23,28 @@ export class BoardController implements BoardControllerInterface {
   onAddFlexComponent (params: OnAddFlexComponentParams) {
     const { type, position } = params
 
-    const flexComponent: FlexComponent = {
+    if (type === 'button') {
+      const button: ButtonFlexComponent = {
+        id: uuid() as UUID,
+        name: 'Button',
+        type: 'button',
+        properties: {
+          x: position.x,
+          y: position.y,
+          width: 100,
+          height: 48,
+          rx: 40,
+          ry: 40
+        }
+      }
+
+      return this._boardManager.addFlexComponent({ flexComponent: button })
+    }
+
+    const rectangle: RectangleFlexComponent = {
       id: uuid() as UUID,
-      name: FLEX_COMPONENT_NAMES[type],
-      type,
+      name: 'Rectangle',
+      type: 'rectangle',
       properties: {
         x: position.x,
         y: position.y,
@@ -38,7 +55,7 @@ export class BoardController implements BoardControllerInterface {
       }
     }
 
-    this._boardManager.addFlexComponent({ flexComponent })
+    this._boardManager.addFlexComponent({ flexComponent: rectangle })
   }
 
   onChangeBoardScale (params: OnChangeBoardScaleParams) {
