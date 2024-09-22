@@ -7,17 +7,13 @@ export type ResizeBoxProps = {
 }
 
 type ResizerConfig = {
-  cx: number
-  cy: number
-  rx: number
-  ry: number
+  left: number
+  top: number
   id: string
   cursor: string
 }
 
-const resizerClass = 'resizer'
-const rx = 5
-const ry = 5
+const resizerSize = 10
 
 export function ResizeBox (props: ResizeBoxProps) {
   const { boardState } = props
@@ -29,7 +25,7 @@ export function ResizeBox (props: ResizeBoxProps) {
     return null
   }
 
-  const { properties: { x, y , width, height } } = selectedFlexComponent
+  const { properties: { x, y, width, height } } = selectedFlexComponent
 
   const adjustedX = width < minDistance * 2 ? x - (minDistance - width / 2) : x
   const adjustedY = height < minDistance * 2 ? y - (minDistance - height / 2) : y
@@ -37,43 +33,41 @@ export function ResizeBox (props: ResizeBoxProps) {
   const adjustedHeight = Math.max(height, minDistance * 2)
 
   const resizers: ResizerConfig[] = [
-    { cx: adjustedX + adjustedWidth / 2, cy: adjustedY, rx, ry, id: 'n', cursor: 'n-resize' },
-    { cx: adjustedX + adjustedWidth, cy: adjustedY, rx, ry, id: 'ne', cursor: 'ne-resize' },
-    { cx: adjustedX + adjustedWidth, cy: adjustedY + adjustedHeight / 2, rx, ry, id: 'e', cursor: 'e-resize' },
-    { cx: adjustedX + adjustedWidth, cy: adjustedY + adjustedHeight, rx, ry, id: 'se', cursor: 'se-resize' },
-    { cx: adjustedX + adjustedWidth / 2, cy: adjustedY + adjustedHeight, rx, ry, id: 's', cursor: 's-resize' },
-    { cx: adjustedX, cy: adjustedY + adjustedHeight, rx, ry, id: 'sw', cursor: 'sw-resize' },
-    { cx: adjustedX, cy: adjustedY + adjustedHeight / 2, rx, ry, id: 'w', cursor: 'w-resize' },
-    { cx: adjustedX, cy: adjustedY, rx, ry, id: 'nw', cursor: 'nw-resize' },
+    { left: adjustedX + adjustedWidth / 2 - resizerSize / 2, top: adjustedY - resizerSize / 2, id: 'n', cursor: 'n-resize' },
+    { left: adjustedX + adjustedWidth - resizerSize / 2, top: adjustedY - resizerSize / 2, id: 'ne', cursor: 'ne-resize' },
+    { left: adjustedX + adjustedWidth - resizerSize / 2, top: adjustedY + adjustedHeight / 2 - resizerSize / 2, id: 'e', cursor: 'e-resize' },
+    { left: adjustedX + adjustedWidth - resizerSize / 2, top: adjustedY + adjustedHeight - resizerSize / 2, id: 'se', cursor: 'se-resize' },
+    { left: adjustedX + adjustedWidth / 2 - resizerSize / 2, top: adjustedY + adjustedHeight - resizerSize / 2, id: 's', cursor: 's-resize' },
+    { left: adjustedX - resizerSize / 2, top: adjustedY + adjustedHeight - resizerSize / 2, id: 'sw', cursor: 'sw-resize' },
+    { left: adjustedX - resizerSize / 2, top: adjustedY + adjustedHeight / 2 - resizerSize / 2, id: 'w', cursor: 'w-resize' },
+    { left: adjustedX - resizerSize / 2, top: adjustedY - resizerSize / 2, id: 'nw', cursor: 'nw-resize' },
   ]
 
   return (
-    <g className={resizerClass}>
-      <rect
-        x={x}
-        y={y}
-        width={width}
-        height={height}
-        fill="none"
-        stroke="#00a8ff"
-        strokeDasharray="3 3"
-        pointerEvents="none"
-        strokeWidth="2"
+    <div>
+      <div
+        className="absolute border-2 border-blue-500 pointer-events-none"
+        style={{
+          left: x,
+          top: y,
+          width: width,
+          height: height,
+        }}
       />
       {resizers.map(resizer => (
-        <ellipse
+        <div
           key={resizer.id}
           id={resizer.id}
-          className={resizerClass}
-          cx={resizer.cx}
-          cy={resizer.cy}
-          rx={resizer.rx}
-          ry={resizer.ry}
-          cursor={resizer.cursor}
-          fill="#0ea5e9"
-          stroke="white"
+          className="absolute bg-sky-500 border-2 border-white rounded-full resizer"
+          style={{
+            cursor: resizer.cursor,
+            left: resizer.left,
+            top: resizer.top,
+            width: resizerSize,
+            height: resizerSize,
+          }}
         />
       ))}
-    </g>
+    </div>
   )
 }
