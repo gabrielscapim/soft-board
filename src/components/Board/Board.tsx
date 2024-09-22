@@ -1,8 +1,9 @@
 import Cursor from '../../public/cursor.png'
-import { useBoardTranslate, useDraggableFlexBoard, useFlexComponents, useScale, useZoomBoard } from '../../hooks'
+import { useBoardTranslate, useDraggableFlexBoard, useElementResizer, useFlexComponents, useScale, useSelectedFlexComponent, useZoomBoard } from '../../hooks'
 import { createElement, useRef } from 'react'
 import { BoardState } from '../../lib'
 import { FLEX_COMPONENTS } from '../../flex-components'
+import { ResizeBox } from './subcomponents'
 
 export type LayoutProps = {
   boardState: BoardState
@@ -16,7 +17,9 @@ export function Board (props: LayoutProps) {
   const flexComponents = useFlexComponents(boardState)
   const scale = useScale(boardState)
   const boardTranslate = useBoardTranslate(boardState)
+  const selectedFlexComponent = useSelectedFlexComponent(boardState)
   useDraggableFlexBoard(boardState, flexBoardContainerRef.current)
+  useElementResizer(boardState, flexBoardContainerRef.current)
   useZoomBoard(boardState, flexBoardContainerRef.current, flexBoardRef.current)
 
   return (
@@ -24,9 +27,6 @@ export function Board (props: LayoutProps) {
       id="flex-board-container"
       ref={flexBoardContainerRef}
       className="relative w-full h-full overflow-hidden"
-      style={{
-        cursor: `url(${Cursor}) 0 0, auto`
-      }}
     >
       <div
         id="grid"
@@ -46,6 +46,8 @@ export function Board (props: LayoutProps) {
             }
           })
         ))}
+
+        {selectedFlexComponent && <ResizeBox boardState={boardState} />}
       </div>
     </div>
   )
