@@ -22,7 +22,9 @@ export function ButtonFlexComponent (props: FlexComponentProps) {
         'items-center',
         'justify-center',
         'p-4',
-        'select-none'
+        'select-none',
+        'text-ellipsis',
+        'overflow-hidden'
       )}
       style={{
         top: `${properties.y}px`,
