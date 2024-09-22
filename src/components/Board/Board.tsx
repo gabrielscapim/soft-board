@@ -27,6 +27,9 @@ export function Board (props: LayoutProps) {
       id="flex-board-container"
       ref={flexBoardContainerRef}
       className="relative w-full h-full overflow-hidden"
+      style={{
+        cursor: `url(${Cursor}) 0 0, auto`
+      }}
     >
       <div
         id="grid"
