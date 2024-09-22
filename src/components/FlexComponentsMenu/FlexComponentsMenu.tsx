@@ -1,5 +1,5 @@
-import { createElement, PropsWithChildren } from 'react'
-import { FLEX_COMPONENT_ICONS, FLEX_COMPONENT_NAMES } from '../../flex-components'
+import { PropsWithChildren } from 'react'
+import { FLEX_COMPONENT_NAMES } from '../../flex-components'
 import { FlexComponentType } from '../../types'
 import { BoardController } from '../../lib'
 import { Floating } from '../Floating'
@@ -31,7 +31,6 @@ export function FlexComponentsMenu (props: FlexComponentsMenuProps) {
                   { type, position: { x: newFlexComponentXPosition, y: newFlexComponentYPosition } }
                 )}
               >
-                {createElement(FLEX_COMPONENT_ICONS[type])}
                 {name}
               </a>
             </li>
