@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { FlexComponentProps } from '../flex-components'
 
-export function ButtonFlexComponent (props: FlexComponentProps) {
+export function InputFlexComponent (props: FlexComponentProps) {
   const { component: { id, properties } } = props
 
   return (
@@ -10,15 +10,14 @@ export function ButtonFlexComponent (props: FlexComponentProps) {
       className={clsx(
         'absolute',
         'draggable-group',
-        'bg-gray-200',
+        'bg-gray-50',
         'border',
         'border-gray-500',
-        'text-gray-800',
-        'font-semibold',
+        'text-gray-400',
+        'font-medium',
+        'px-4',
         'flex',
         'items-center',
-        'justify-center',
-        'p-4',
         'select-none'
       )}
       style={{
@@ -29,7 +28,7 @@ export function ButtonFlexComponent (props: FlexComponentProps) {
         borderRadius: `${properties.rx}px / ${properties.ry}px`,
       }}
     >
-      Button
+      Input
     </div>
   )
 }

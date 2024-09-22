@@ -1,5 +1,5 @@
 import { UUID } from '../../types/common/uuid.ts'
-import { ButtonFlexComponent, FlexComponent, RectangleFlexComponent } from '../../types/index.ts'
+import { ButtonFlexComponent, FlexComponent, InputFlexComponent, RectangleFlexComponent } from '../../types/index.ts'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import { v4 as uuid } from 'uuid'
@@ -39,6 +39,24 @@ export class BoardController implements BoardControllerInterface {
       }
 
       return this._boardManager.addFlexComponent({ flexComponent: button })
+    }
+
+    if (type === 'input') {
+      const input: InputFlexComponent = {
+        id: uuid() as UUID,
+        name: 'Input',
+        type: 'input',
+        properties: {
+          x: position.x,
+          y: position.y,
+          width: 200,
+          height: 48,
+          rx: 10,
+          ry: 10
+        }
+      }
+
+      return this._boardManager.addFlexComponent({ flexComponent: input })
     }
 
     const rectangle: RectangleFlexComponent = {
