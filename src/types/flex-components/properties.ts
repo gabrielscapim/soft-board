@@ -6,6 +6,12 @@ export type BaseProperties = {
 	height: number
 }
 
+/** Button properties */
+export type ButtonFlexComponentProperties = BaseProperties & {
+  rx?: number
+  ry?: number
+}
+
 /** Rectangle properties */
 export type RectangleFlexComponentProperties = BaseProperties & {
   rx?: number
