@@ -15,7 +15,7 @@ export class BoardState {
   constructor () {
     this._boardListeners = {}
     this._flexComponents = []
-    this._grid = 5
+    this._grid = 1
     this._isBoardMoving = false
     this._scale = 1
     this._selectedFlexComponent = null

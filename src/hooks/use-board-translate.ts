@@ -16,7 +16,5 @@ export function useBoardTranslate (boardState: BoardState) {
     }
   }, [boardState])
 
-  console.log(translate)
-
   return translate
 }

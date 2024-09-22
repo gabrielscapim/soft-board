@@ -4,23 +4,23 @@ import { ElementResizer } from '../lib/element-resizer'
 
 export function useElementResizer (
   boardState: BoardState,
-  flexBoardElement: SVGSVGElement | null
+  flexBoardContainerElement: HTMLDivElement | null
 ) {
   useEffect(() => {
-    if (flexBoardElement) {
-      const elementResizer = new ElementResizer(boardState, flexBoardElement)
+    if (flexBoardContainerElement) {
+      const elementResizer = new ElementResizer(boardState, flexBoardContainerElement)
 
-      flexBoardElement.addEventListener('mousedown', elementResizer.startResize)
-      flexBoardElement.addEventListener('mousemove', elementResizer.onResizing)
-      flexBoardElement.addEventListener('mouseup', elementResizer.endResize)
-      flexBoardElement.addEventListener('mouseleave', elementResizer.endResize)
+      flexBoardContainerElement.addEventListener('mousedown', elementResizer.startResize)
+      flexBoardContainerElement.addEventListener('mousemove', elementResizer.onResizing)
+      flexBoardContainerElement.addEventListener('mouseup', elementResizer.endResize)
+      flexBoardContainerElement.addEventListener('mouseleave', elementResizer.endResize)
 
       return () => {
-        flexBoardElement.removeEventListener('mousedown', elementResizer.startResize)
-        flexBoardElement.removeEventListener('mousemove', elementResizer.onResizing)
-        flexBoardElement.removeEventListener('mouseup', elementResizer.endResize)
-        flexBoardElement.removeEventListener('mouseleave', elementResizer.endResize)
+        flexBoardContainerElement.removeEventListener('mousedown', elementResizer.startResize)
+        flexBoardContainerElement.removeEventListener('mousemove', elementResizer.onResizing)
+        flexBoardContainerElement.removeEventListener('mouseup', elementResizer.endResize)
+        flexBoardContainerElement.removeEventListener('mouseleave', elementResizer.endResize)
       }
     }
-  }, [flexBoardElement, boardState])
+  }, [flexBoardContainerElement, boardState])
 }

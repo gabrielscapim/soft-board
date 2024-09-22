@@ -80,16 +80,22 @@ export class BoardManager implements BoardManagerI {
 
     const currentFlexComponents = this._boardState.flexComponents
     const selectedFlexComponent = this._boardState.selectedFlexComponent
+
     const newFlexComponents = currentFlexComponents.map(flexComponent => {
       if (flexComponent.id === selectedFlexComponent?.id && this._initialFlexComponentProperties) {
+        const width = Math.max(10, this._initialFlexComponentProperties.width + dimension.roundedDeltaX)
+        const height = Math.max(10, this._initialFlexComponentProperties.height + dimension.roundedDeltaY)
+        const x = width > 10 ? this._initialFlexComponentProperties.x + position.roundedDeltaX : selectedFlexComponent.properties.x
+        const y = height > 10 ? this._initialFlexComponentProperties.y + position.roundedDeltaY : selectedFlexComponent.properties.y
+
         const newSelectedFlexComponent = {
           ...flexComponent,
           properties: {
             ...flexComponent.properties,
-            x: this._initialFlexComponentProperties.x + position.roundedDeltaX,
-            y: this._initialFlexComponentProperties.y + position.roundedDeltaY,
-            width: Math.max(10, this._initialFlexComponentProperties.width + dimension.roundedDeltaX),
-            height: Math.max(10, this._initialFlexComponentProperties.height + dimension.roundedDeltaY)
+            x,
+            y,
+            width,
+            height
           }
         }
 
