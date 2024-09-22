@@ -25,8 +25,6 @@ export function Board (props: LayoutProps) {
       ref={flexBoardContainerRef}
       className="relative w-full h-full overflow-hidden"
       style={{
-        backgroundImage: 'radial-gradient(circle, #b8b8b8bf 1px, rgba(0, 0, 0, 0) 1px)',
-        backgroundSize: '30px 30px',
         cursor: `url(${Cursor}) 0 0, auto`
       }}
     >

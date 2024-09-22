@@ -1,5 +1,5 @@
 import { FlexComponent, FlexComponentType } from '../types'
-import { RectangleFlexComponent } from './components'
+import { ButtonFlexComponent, RectangleFlexComponent } from './components'
 
 export type FlexComponentProps = {
   component: FlexComponent
@@ -8,5 +8,6 @@ export type FlexComponentProps = {
 export type FlexComponentElement = (props: FlexComponentProps) => JSX.Element
 
 export const FLEX_COMPONENTS: Record<FlexComponentType, FlexComponentElement> = {
+  button: ButtonFlexComponent,
   rectangle: RectangleFlexComponent,
 }
