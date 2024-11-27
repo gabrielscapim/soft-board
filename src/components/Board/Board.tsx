@@ -3,13 +3,13 @@ import { useBoardTranslate, useDraggableFlexBoard, useElementResizer, useFlexCom
 import { createElement, useRef } from 'react'
 import { BoardState } from '../../lib'
 import { FLEX_COMPONENTS } from '../../flex-components'
-import { ResizeBox } from './subcomponents'
+import { AlignmentGuides, ResizeBox } from './subcomponents'
 
-export type LayoutProps = {
+export type BoardProps = {
   boardState: BoardState
 }
 
-export function Board (props: LayoutProps) {
+export function Board (props: BoardProps) {
   const { boardState } = props
 
   const flexBoardContainerRef = useRef<HTMLDivElement>(null)
@@ -51,6 +51,7 @@ export function Board (props: LayoutProps) {
         ))}
 
         {selectedFlexComponent && <ResizeBox boardState={boardState} />}
+        {selectedFlexComponent && <AlignmentGuides boardState={boardState} />}
       </div>
     </div>
   )

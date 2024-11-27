@@ -52,16 +52,23 @@ export class BoardManager implements BoardManagerI {
     const currentFlexComponents = this._boardState.flexComponents
     const newFlexComponents = currentFlexComponents.map(flexComponent => {
       if (flexComponent.id === id && this._initialFlexComponentProperties) {
+        let newX = this._initialFlexComponentProperties.x + properties.roundedDeltaX
+        let newY = this._initialFlexComponentProperties.y + properties.roundedDeltaY
+
+        if (params.snap?.x && Math.abs(newX - params.snap.x) < 20) newX = params.snap.x
+        if (params.snap?.y && Math.abs(newY - params.snap.y) < 20) newY = params.snap.y
+
         const newSelectedFlexComponent = {
           ...flexComponent,
           properties: {
             ...flexComponent.properties,
-            x: this._initialFlexComponentProperties.x + properties.roundedDeltaX,
-            y: this._initialFlexComponentProperties.y + properties.roundedDeltaY
+            x: newX,
+            y: newY
           }
         }
 
         this._boardState.setSelectedFlexComponent(newSelectedFlexComponent)
+
         return newSelectedFlexComponent
       }
 
@@ -69,6 +76,10 @@ export class BoardManager implements BoardManagerI {
     })
 
     this._boardState.setFlexComponents(newFlexComponents)
+  }
+
+  onGuidesChanged (params: { guides: { horizontal: { lineGuide: number; offset: number }[]; vertical: { lineGuide: number; offset: number }[] } }) {
+    this._boardState.setGuides(params.guides)
   }
 
   /**

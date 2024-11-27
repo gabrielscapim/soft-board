@@ -15,6 +15,11 @@ export type OnDraggingFlexComponentParams = {
     roundedDeltaX: number
     roundedDeltaY: number
   }
+  snap?: {
+    type?: string
+    x?: number
+    y?: number
+  }
 }
 
 export type OnResizingFlexComponentParams = {

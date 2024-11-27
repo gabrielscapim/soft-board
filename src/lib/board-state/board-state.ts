@@ -7,6 +7,7 @@ export class BoardState {
   private _boardListeners: Record<string, BoardEventListener[]>
   private _flexComponents: FlexComponent[]
   private _grid: number
+  private _guides: { vertical: { lineGuide: number, offset: number }[], horizontal: { lineGuide: number, offset: number }[] }
   private _isBoardMoving: boolean
   private _scale: number
   private _selectedFlexComponent: FlexComponent | null
@@ -16,6 +17,7 @@ export class BoardState {
     this._boardListeners = {}
     this._flexComponents = []
     this._grid = 1
+    this._guides = { vertical: [], horizontal: [] }
     this._isBoardMoving = false
     this._scale = 1
     this._selectedFlexComponent = null
@@ -28,6 +30,10 @@ export class BoardState {
 
   get grid () {
     return this._grid
+  }
+
+  get guides () {
+    return this._guides
   }
 
   get isBoardMoving () {
@@ -49,6 +55,11 @@ export class BoardState {
   setFlexComponents (flexComponents: FlexComponent[]) {
     this._flexComponents = flexComponents
     this.runListener('flexComponentsChanged')
+  }
+
+  setGuides (guides: { vertical: { lineGuide: number, offset: number }[], horizontal: { lineGuide: number, offset: number }[] }) {
+    this._guides = guides
+    this.runListener('guidesChanged')
   }
 
   setIsBoardMoving (isBoardMoving: boolean) {
