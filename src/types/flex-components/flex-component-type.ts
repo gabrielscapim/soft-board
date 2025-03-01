@@ -4,7 +4,7 @@ import { ButtonFlexComponentProperties, DividerFlexComponentProperties, InputFle
 /** Button */
 export type ButtonFlexComponent = {
   id: UUID
-  name: 'Button'
+  name: string
   type: 'button'
   properties: ButtonFlexComponentProperties
 }
@@ -12,7 +12,7 @@ export type ButtonFlexComponent = {
 /** Divider */
 export type DividerFlexComponent = {
   id: UUID
-  name: 'Divider'
+  name: string
   type: 'divider'
   properties: DividerFlexComponentProperties
 }
@@ -20,7 +20,7 @@ export type DividerFlexComponent = {
 /** Input */
 export type InputFlexComponent = {
   id: UUID
-  name: 'Input'
+  name: string
   type: 'input'
   properties: InputFlexComponentProperties
 }
@@ -28,7 +28,7 @@ export type InputFlexComponent = {
 /** Rectangle */
 export type RectangleFlexComponent = {
   id: UUID
-  name: 'Rectangle'
+  name: string
   type: 'rectangle'
   properties: RectangleFlexComponentProperties
 }
@@ -36,7 +36,7 @@ export type RectangleFlexComponent = {
 /** Select */
 export type SelectFlexComponent = {
   id: UUID
-  name: 'Select'
+  name: string
   type: 'select'
   properties: SelectFlexComponentProperties
 }

@@ -46,7 +46,7 @@ export type OnTranslateBoardParams = {
   translateY: number
 }
 
-export type UpdateFlexComponentPropertiesParams = {
+export type UpdateFlexComponentParams = {
   updatedFlexComponent: FlexComponent
 }
 
@@ -59,5 +59,5 @@ export interface BoardManagerI {
   onStartDragFlexComponent(params: OnStartDragFlexComponentParams): void
   onStartResizeFlexComponent(): void
   onTranslateBoard(params: OnTranslateBoardParams): void
-  updateFlexComponentProperties(params: UpdateFlexComponentPropertiesParams): void
+  updateFlexComponent(params: UpdateFlexComponentParams): void
 }

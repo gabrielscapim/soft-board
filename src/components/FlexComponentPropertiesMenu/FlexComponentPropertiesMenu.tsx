@@ -4,6 +4,7 @@ import { BoardController, BoardState } from '../../lib'
 import { Floating } from '../Floating'
 import { FlexComponentProperties, FlexComponentProperty } from '../../types'
 import { BasePropertyInput } from './subcomponents'
+import { Input } from '../Input'
 
 
 const baseInputs: { name: string, property: FlexComponentProperty }[] = [
@@ -22,6 +23,7 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
   const { boardState, boardController } = props
 
   const selectedFlexComponent = useSelectedFlexComponent(boardState)
+  const [name, setName] = useState<string>(selectedFlexComponent?.name ?? '')
   const [properties, setProperties] = useState<FlexComponentProperties>({
     x: selectedFlexComponent?.properties.x ?? 0,
     y: selectedFlexComponent?.properties.y ?? 0,
@@ -29,21 +31,21 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
     height: selectedFlexComponent?.properties.height ?? 0,
   })
 
-  const onUpdateProperties = (property: FlexComponentProperty, value: number) => {
-    setProperties(prevState => ({ ...prevState, [property]: value }))
-  }
-
   const onBlur = () => {
     if (selectedFlexComponent) {
-      boardController.onUpdateFlexComponentProperties({
-        flexComponent: selectedFlexComponent,
-        properties
+      boardController.onUpdateFlexComponent({
+        flexComponent: {
+          ...selectedFlexComponent,
+          name,
+          properties
+        }
       })
     }
   }
 
   useEffect(() => {
     if (selectedFlexComponent) {
+      setName(selectedFlexComponent.name)
       setProperties(selectedFlexComponent.properties)
     }
   }, [selectedFlexComponent])
@@ -53,8 +55,16 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
       {selectedFlexComponent && (
         <Floating className="top-20 right-4">
           <ul className="menu bg-base-200 text-base-content min-h-full w-52 rounded-box h-[calc(100vh-6rem)]">
-            <li className="menu-title select-none">{selectedFlexComponent.name}</li>
-            <div className="px-2 my-2 flex flex-col gap-2">
+            <Input
+              label="Name"
+              size="xs"
+              onBlur={onBlur}
+              value={name}
+              onChange={event => setName(event.target.value)}
+            />
+            <span className="divider my-1" />
+            <div className="flex flex-col gap-2">
+              <li>Properties</li>
               {baseInputs.map(input => (
                 <BasePropertyInput
                   key={`input-${input.property}`}
@@ -62,7 +72,7 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
                   name={input.name}
                   properties={properties}
                   onBlur={onBlur}
-                  onUpdateProperties={onUpdateProperties}
+                  onUpdateProperties={(property, value) => setProperties(prevState => ({ ...prevState, [property]: value }))}
                 />
               ))}
             </div>

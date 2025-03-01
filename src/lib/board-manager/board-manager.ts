@@ -7,7 +7,7 @@ import {
   OnScaleChangeParams,
   OnStartDragFlexComponentParams,
   OnTranslateBoardParams,
-  UpdateFlexComponentPropertiesParams
+  UpdateFlexComponentParams
 } from './board-manager-interface'
 import { BoardState } from '../board-state'
 import { Dimensions, Offset } from '../../types'
@@ -169,7 +169,7 @@ export class BoardManager implements BoardManagerI {
     this._boardState.setTranslate({ x: params.translateX, y: params.translateY })
   }
 
-  updateFlexComponentProperties (params: UpdateFlexComponentPropertiesParams) {
+  updateFlexComponent (params: UpdateFlexComponentParams) {
     const { updatedFlexComponent } = params
 
     const selectedFlexComponent = this._boardState.selectedFlexComponent
