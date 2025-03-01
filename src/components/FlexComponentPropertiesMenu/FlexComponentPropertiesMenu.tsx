@@ -36,9 +36,9 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
       boardController.onUpdateFlexComponent({
         flexComponent: {
           ...selectedFlexComponent,
-          name
-        },
-        properties
+          name,
+          properties
+        }
       })
     }
   }
