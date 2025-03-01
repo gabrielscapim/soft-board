@@ -1,9 +1,9 @@
 import { UUID } from '../../types/common/uuid.ts'
-import { ButtonFlexComponent, DividerFlexComponent, FlexComponent, InputFlexComponent, RectangleFlexComponent, SelectFlexComponent } from '../../types/index.ts'
+import { ButtonFlexComponent, DividerFlexComponent, InputFlexComponent, RectangleFlexComponent, SelectFlexComponent } from '../../types/index.ts'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import { v4 as uuid } from 'uuid'
-import { BoardControllerInterface, OnAddFlexComponentParams, OnChangeBoardScaleParams, OnUpdateFlexComponentPropertiesParams } from './board-controller-interface.ts'
+import { BoardControllerInterface, OnAddFlexComponentParams, OnChangeBoardScaleParams, OnUpdateFlexComponentParams } from './board-controller-interface.ts'
 
 /**
  * Class responsible to communicate with the front-end and the BoardManager class.
@@ -120,14 +120,7 @@ export class BoardController implements BoardControllerInterface {
     this._boardManager.onTranslateBoard({ translateX: newTranslateX, translateY: newTranslateY })
   }
 
-  onUpdateFlexComponentProperties (params: OnUpdateFlexComponentPropertiesParams): void {
-    const { flexComponent, properties } = params
-
-    const updatedFlexComponent: FlexComponent = {
-      ...flexComponent,
-      properties
-    }
-
-    this._boardManager.updateFlexComponentProperties({ updatedFlexComponent })
+  onUpdateFlexComponent (params: OnUpdateFlexComponentParams): void {
+    this._boardManager.updateFlexComponent({ updatedFlexComponent: params.flexComponent })
   }
 }
