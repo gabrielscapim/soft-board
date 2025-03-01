@@ -15,7 +15,7 @@ export function Layout (props: LayoutProps) {
   return (
     <div className="h-screen flex flex-col">
       <NavBar boardState={boardState} boardController={boardController} />
-      <div className="flex flex-grow">
+      <div className="flex grow">
         <FlexComponentsMenu boardController={boardController} />
         <FlexComponentPropertiesMenu boardState={boardState} boardController={boardController} />
         <Board boardState={boardState} />

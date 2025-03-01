@@ -21,7 +21,7 @@ export function SelectFlexComponent (props: FlexComponentProps) {
         'border',
         'border-gray-500',
         'bg-white',
-        'rounded',
+        'rounded-sm',
         'overflow-hidden',
         'select-none'
       )}
