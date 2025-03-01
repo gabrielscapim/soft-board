@@ -4,6 +4,7 @@ import { BoardController, BoardState } from '../../lib'
 import { Floating } from '../Floating'
 import { FlexComponentProperties, FlexComponentProperty } from '../../types'
 import { BasePropertyInput } from './subcomponents'
+import { Input } from '../Input'
 
 
 const baseInputs: { name: string, property: FlexComponentProperty }[] = [
@@ -53,8 +54,14 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
       {selectedFlexComponent && (
         <Floating className="top-20 right-4">
           <ul className="menu bg-base-200 text-base-content min-h-full w-52 rounded-box h-[calc(100vh-6rem)]">
-            <li className="menu-title select-none">{selectedFlexComponent.name}</li>
-            <div className="px-2 my-2 flex flex-col gap-2">
+            <Input
+              label="Name"
+              size="xs"
+              value={selectedFlexComponent.name}
+            />
+            <span className="divider my-2" />
+            <div className="flex flex-col gap-2">
+              <li className="menu-title select-none p-0 pb-2">Properties</li>
               {baseInputs.map(input => (
                 <BasePropertyInput
                   key={`input-${input.property}`}
