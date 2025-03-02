@@ -34,7 +34,6 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
     }
   }, [selectedFlexComponent])
 
-
   const onBlur = () => {
     if (flexComponent) {
       boardController.onUpdateFlexComponent({ flexComponent })
