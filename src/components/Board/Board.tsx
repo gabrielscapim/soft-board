@@ -3,7 +3,7 @@ import { useBoardTranslate, useDraggableFlexBoard, useElementResizer, useFlexCom
 import { createElement, useRef } from 'react'
 import { BoardState } from '../../lib'
 import { FLEX_COMPONENTS } from '../../flex-components'
-import { AlignmentGuides, ResizeBox } from './subcomponents'
+import { AlignmentGuides, ConnectionLines, ResizeBox } from './subcomponents'
 
 export type BoardProps = {
   boardState: BoardState
@@ -18,6 +18,7 @@ export function Board (props: BoardProps) {
   const scale = useScale(boardState)
   const boardTranslate = useBoardTranslate(boardState)
   const selectedFlexComponent = useSelectedFlexComponent(boardState)
+
   useDraggableFlexBoard(boardState, flexBoardContainerRef.current)
   useElementResizer(boardState, flexBoardContainerRef.current)
   useZoomBoard(boardState, flexBoardContainerRef.current, flexBoardRef.current)
@@ -51,8 +52,21 @@ export function Board (props: BoardProps) {
         ))}
 
         {selectedFlexComponent && <ResizeBox boardState={boardState} />}
-        {selectedFlexComponent && <AlignmentGuides boardState={boardState} />}
       </div>
+
+      {selectedFlexComponent && (
+        <AlignmentGuides
+          boardState={boardState}
+          boardTranslate={boardTranslate}
+          scale={scale}
+        />
+      )}
+
+      <ConnectionLines
+        boardState={boardState}
+        boardTranslate={boardTranslate}
+        scale={scale}
+      />
     </div>
   )
 }

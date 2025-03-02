@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
-import { useSelectedFlexComponent } from '../../hooks'
+import { useEffect, useMemo, useState } from 'react'
+import { useFlexComponents, useSelectedFlexComponent } from '../../hooks'
 import { BoardController, BoardState } from '../../lib'
 import { Floating } from '../Floating'
-import { FlexComponentProperties, FlexComponentProperty } from '../../types'
+import { FlexComponentProperty } from '../../types'
 import { BasePropertyInput } from './subcomponents'
 import { Input } from '../Input'
-
+import { Select } from '../Select'
+import { UUID } from '../../types/common/uuid'
 
 const baseInputs: { name: string, property: FlexComponentProperty }[] = [
   { name: 'X', property: 'x' },
@@ -23,45 +24,46 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
   const { boardState, boardController } = props
 
   const selectedFlexComponent = useSelectedFlexComponent(boardState)
-  const [name, setName] = useState<string>(selectedFlexComponent?.name ?? '')
-  const [properties, setProperties] = useState<FlexComponentProperties>({
-    x: selectedFlexComponent?.properties.x ?? 0,
-    y: selectedFlexComponent?.properties.y ?? 0,
-    width: selectedFlexComponent?.properties.width ?? 0,
-    height: selectedFlexComponent?.properties.height ?? 0,
-  })
+  const flexComponents = useFlexComponents(boardState)
 
-  const onBlur = () => {
-    if (selectedFlexComponent) {
-      boardController.onUpdateFlexComponent({
-        flexComponent: {
-          ...selectedFlexComponent,
-          name,
-          properties
-        }
-      })
-    }
-  }
+  const [flexComponent, setFlexComponent] = useState(selectedFlexComponent)
 
   useEffect(() => {
     if (selectedFlexComponent) {
-      setName(selectedFlexComponent.name)
-      setProperties(selectedFlexComponent.properties)
+      setFlexComponent(selectedFlexComponent)
     }
   }, [selectedFlexComponent])
+
+  const onBlur = () => {
+    if (flexComponent) {
+      boardController.onUpdateFlexComponent({ flexComponent })
+    }
+  }
+
+  const connectionOptions = useMemo(() => {
+    const options = flexComponents
+      .filter(fc => fc.id !== flexComponent?.id)
+      .map(flexComponent => ({ value: flexComponent.id, label: flexComponent.name }))
+
+    return [
+      { value: '', label: 'Select a connection' },
+      ...options
+    ]
+  }, [flexComponents, flexComponent])
 
   return (
     <>
       {selectedFlexComponent && (
         <Floating className="top-20 right-4">
           <ul className="menu bg-base-200 text-base-content min-h-full w-52 rounded-box h-[calc(100vh-6rem)]">
+            <li className="pb-2">Name</li>
             <Input
-              label="Name"
               size="xs"
               onBlur={onBlur}
-              value={name}
-              onChange={event => setName(event.target.value)}
+              value={flexComponent?.name ?? ''}
+              onChange={event => setFlexComponent(prevState => prevState ? { ...prevState, name: event.target.value } : null)}
             />
+
             <span className="divider my-1" />
             <div className="flex flex-col gap-2">
               <li>Properties</li>
@@ -70,12 +72,29 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
                   key={`input-${input.property}`}
                   property={input.property}
                   name={input.name}
-                  properties={properties}
+                  properties={flexComponent?.properties}
                   onBlur={onBlur}
-                  onUpdateProperties={(property, value) => setProperties(prevState => ({ ...prevState, [property]: value }))}
+                  onUpdateProperties={(property, value) => {
+                    setFlexComponent(prevState => prevState ? { ...prevState, properties: { ...prevState.properties, [property]: value } } : null)
+                  }}
                 />
               ))}
             </div>
+
+            <span className="divider my-1" />
+            <li className="pb-2">Connection</li>
+            <Select
+              size="xs"
+              options={connectionOptions}
+              value={flexComponent?.connection ?? ''}
+              onChange={event => {
+                const connection = event.target.value === '' ? null : event.target.value as UUID
+
+                if (flexComponent) {
+                  boardController.onUpdateFlexComponent({ flexComponent: { ...flexComponent, connection } })
+                }
+              }}
+            />
           </ul>
         </Floating>
       )}

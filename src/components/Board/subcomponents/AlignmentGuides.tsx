@@ -1,43 +1,67 @@
 import { useGuides, useSelectedFlexComponent } from '../../../hooks'
 import { BoardState } from '../../../lib'
+import { Offset } from '../../../types'
 
 export type AlignmentGuidesProps = {
   boardState: BoardState
+  boardTranslate: Offset
+  scale: number
 }
 
 export function AlignmentGuides (props: AlignmentGuidesProps) {
-  const { boardState } = props
+  const { boardState, boardTranslate, scale } = props
 
   const selectedFlexComponent = useSelectedFlexComponent(boardState)
   const guides = useGuides(boardState)
 
-  if (!selectedFlexComponent) return
+  if (!selectedFlexComponent) return null
+
+  const transform = (value: number) => value * scale
 
   return (
-    <div id="alignment-guides">
-      {guides.horizontal.map((guide, index) => (
-        <div
-          key={`horizontal-guide-${index}`}
-          className="absolute pointer-events-none border-[0.5px] border-dashed border-blue-500"
-          style={{
-            top: guide.lineGuide,
-            left: -5000,
-            width: 10000,
-          }}
-        />
-      ))}
+    <svg
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none',
+        zIndex: 1000,
+      }}
+    >
+      {guides.horizontal.map((guide, index) => {
+        const yPos = transform(guide.lineGuide) + boardTranslate.y
 
-      {guides.vertical.map((guide, index) => (
-        <div
-          key={`vertical-guide-${index}`}
-          className="absolute pointer-events-none border-[0.5px] border-dashed border-blue-500"
-          style={{
-            top: -5000,
-            left: guide.lineGuide,
-            height: 10000
-          }}
-        />
-      ))}
-    </div>
+        return (
+          <line
+            key={`horizontal-guide-${index}`}
+            x1={-5000}
+            y1={yPos}
+            x2={5000}
+            y2={yPos}
+            stroke="rgba(30, 144, 255, 0.8)"
+            strokeWidth={2}
+            strokeDasharray="3,5"
+          />
+        )
+      })}
+      {guides.vertical.map((guide, index) => {
+        const xPos = transform(guide.lineGuide) + boardTranslate.x
+
+        return (
+          <line
+            key={`vertical-guide-${index}`}
+            x1={xPos}
+            y1={-5000}
+            x2={xPos}
+            y2={5000}
+            stroke="rgba(30, 144, 255, 0.8)"
+            strokeWidth={2}
+            strokeDasharray="3,5"
+          />
+        )
+      })}
+    </svg>
   )
 }

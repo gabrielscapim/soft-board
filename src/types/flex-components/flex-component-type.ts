@@ -1,45 +1,19 @@
 import { UUID } from '../common/uuid'
 import { ButtonFlexComponentProperties, DividerFlexComponentProperties, InputFlexComponentProperties, RectangleFlexComponentProperties, SelectFlexComponentProperties } from './properties'
 
-/** Button */
-export type ButtonFlexComponent = {
+export type BaseFlexComponent<T extends FlexComponentType, P extends FlexComponentProperties> = {
   id: UUID
   name: string
-  type: 'button'
-  properties: ButtonFlexComponentProperties
+  type: T
+  properties: P
+  connection?: UUID | null
 }
 
-/** Divider */
-export type DividerFlexComponent = {
-  id: UUID
-  name: string
-  type: 'divider'
-  properties: DividerFlexComponentProperties
-}
-
-/** Input */
-export type InputFlexComponent = {
-  id: UUID
-  name: string
-  type: 'input'
-  properties: InputFlexComponentProperties
-}
-
-/** Rectangle */
-export type RectangleFlexComponent = {
-  id: UUID
-  name: string
-  type: 'rectangle'
-  properties: RectangleFlexComponentProperties
-}
-
-/** Select */
-export type SelectFlexComponent = {
-  id: UUID
-  name: string
-  type: 'select'
-  properties: SelectFlexComponentProperties
-}
+export type ButtonFlexComponent = BaseFlexComponent<'button', ButtonFlexComponentProperties>
+export type DividerFlexComponent = BaseFlexComponent<'divider', DividerFlexComponentProperties>
+export type InputFlexComponent = BaseFlexComponent<'input', InputFlexComponentProperties>
+export type RectangleFlexComponent = BaseFlexComponent<'rectangle', RectangleFlexComponentProperties>
+export type SelectFlexComponent = BaseFlexComponent<'select', SelectFlexComponentProperties>
 
 export type FlexComponent =
   ButtonFlexComponent |
