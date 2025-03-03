@@ -1,4 +1,4 @@
-import { useGuides, useSelectedFlexComponent } from '../../../hooks'
+import { useGuides, useIsDragging } from '../../../hooks'
 import { BoardState } from '../../../lib'
 import { Offset } from '../../../types'
 
@@ -11,10 +11,10 @@ export type AlignmentGuidesProps = {
 export function AlignmentGuides (props: AlignmentGuidesProps) {
   const { boardState, boardTranslate, scale } = props
 
-  const selectedFlexComponent = useSelectedFlexComponent(boardState)
   const guides = useGuides(boardState)
+  const isDragging = useIsDragging(boardState)
 
-  if (!selectedFlexComponent) return null
+  if (!isDragging) return null
 
   const transform = (value: number) => value * scale
 
