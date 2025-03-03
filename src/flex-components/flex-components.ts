@@ -1,6 +1,12 @@
 import { FlexComponent, FlexComponentType } from '../types'
-import { ButtonFlexComponent, DividerFlexComponent, InputFlexComponent, RectangleFlexComponent } from './components'
-import { SelectFlexComponent } from './components/SelectFlexComponent'
+import {
+  ButtonFlexComponent,
+  DividerFlexComponent,
+  InputFlexComponent,
+  MobileScreenFlexComponent,
+  RectangleFlexComponent,
+  SelectFlexComponent
+} from './components'
 
 export type FlexComponentProps = {
   component: FlexComponent
@@ -12,6 +18,7 @@ export const FLEX_COMPONENTS: Record<FlexComponentType, FlexComponentElement> = 
   button: ButtonFlexComponent,
   divider: DividerFlexComponent,
   input: InputFlexComponent,
+  mobileScreen: MobileScreenFlexComponent,
   rectangle: RectangleFlexComponent,
   select: SelectFlexComponent
 }

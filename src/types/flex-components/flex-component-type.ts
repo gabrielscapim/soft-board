@@ -1,5 +1,12 @@
 import { UUID } from '../common/uuid'
-import { ButtonFlexComponentProperties, DividerFlexComponentProperties, InputFlexComponentProperties, RectangleFlexComponentProperties, SelectFlexComponentProperties } from './properties'
+import {
+  ButtonFlexComponentProperties,
+  DividerFlexComponentProperties,
+  InputFlexComponentProperties,
+  MobileScreenFlexComponentProperties,
+  RectangleFlexComponentProperties,
+  SelectFlexComponentProperties
+} from './properties'
 
 export type BaseFlexComponent<T extends FlexComponentType, P extends FlexComponentProperties> = {
   id: UUID
@@ -12,6 +19,7 @@ export type BaseFlexComponent<T extends FlexComponentType, P extends FlexCompone
 export type ButtonFlexComponent = BaseFlexComponent<'button', ButtonFlexComponentProperties>
 export type DividerFlexComponent = BaseFlexComponent<'divider', DividerFlexComponentProperties>
 export type InputFlexComponent = BaseFlexComponent<'input', InputFlexComponentProperties>
+export type MobileScreenFlexComponent = BaseFlexComponent<'mobileScreen', MobileScreenFlexComponentProperties>
 export type RectangleFlexComponent = BaseFlexComponent<'rectangle', RectangleFlexComponentProperties>
 export type SelectFlexComponent = BaseFlexComponent<'select', SelectFlexComponentProperties>
 
@@ -19,6 +27,7 @@ export type FlexComponent =
   ButtonFlexComponent |
   DividerFlexComponent |
   InputFlexComponent |
+  MobileScreenFlexComponent |
   RectangleFlexComponent |
   SelectFlexComponent
 

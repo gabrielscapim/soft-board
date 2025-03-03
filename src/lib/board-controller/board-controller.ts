@@ -1,5 +1,5 @@
 import { UUID } from '../../types/common/uuid.ts'
-import { ButtonFlexComponent, DividerFlexComponent, InputFlexComponent, RectangleFlexComponent, SelectFlexComponent } from '../../types/index.ts'
+import { ButtonFlexComponent, DividerFlexComponent, InputFlexComponent, MobileScreenFlexComponent, RectangleFlexComponent, SelectFlexComponent } from '../../types/index.ts'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import { v4 as uuid } from 'uuid'
@@ -73,6 +73,22 @@ export class BoardController implements BoardControllerInterface {
       }
 
       return this._boardManager.addFlexComponent({ flexComponent: input })
+    }
+
+    if (type === 'mobileScreen') {
+      const mobileScreen: MobileScreenFlexComponent = {
+        id: uuid() as UUID,
+        name: 'Mobile Screen',
+        type: 'mobileScreen',
+        properties: {
+          x: position.x,
+          y: position.y,
+          width: 375,
+          height: 812
+        }
+      }
+
+      return this._boardManager.addFlexComponent({ flexComponent: mobileScreen })
     }
 
     if (type === 'select') {
