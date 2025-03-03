@@ -20,6 +20,7 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
 
   return (
     <svg
+      id="alignment-guides"
       style={{
         position: 'absolute',
         top: 0,

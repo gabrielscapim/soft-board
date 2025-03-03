@@ -21,6 +21,9 @@ export type InputFlexComponentProperties = BaseProperties & {
   ry?: number
 }
 
+// MobileScreen properties
+export type MobileScreenFlexComponentProperties = BaseProperties
+
 /** Rectangle properties */
 export type RectangleFlexComponentProperties = BaseProperties & {
   rx?: number
