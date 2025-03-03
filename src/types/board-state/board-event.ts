@@ -3,6 +3,7 @@ export type BoardEvent =
   'gridChanged' |
   'guidesChanged' |
   'isBoardMovingChanged' |
+  'isDraggingChanged' |
   'scaleChanged' |
   'selectedFlexComponentChanged' |
   'translateChanged'
