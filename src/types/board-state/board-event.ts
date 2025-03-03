@@ -5,5 +5,5 @@ export type BoardEvent =
   'isBoardMovingChanged' |
   'isDraggingChanged' |
   'scaleChanged' |
-  'selectedFlexComponentChanged' |
+  'selectedFlexComponentsChanged' |
   'translateChanged'
