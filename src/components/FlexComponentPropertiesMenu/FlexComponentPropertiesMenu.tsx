@@ -1,5 +1,5 @@
 import { createElement, useEffect, useMemo, useState } from 'react'
-import { useFlexComponents, useSelectedFlexComponent } from '../../hooks'
+import { useFlexComponents, useSelectedFlexComponents } from '../../hooks'
 import { BoardController, BoardState } from '../../lib'
 import { Floating } from '../Floating'
 import { FlexComponent, FlexComponentProperty, FlexComponentType } from '../../types'
@@ -32,16 +32,25 @@ export type FlexComponentPropertiesMenuProps = {
 export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
   const { boardState, boardController } = props
 
-  const selectedFlexComponent = useSelectedFlexComponent(boardState)
+  const selectedFlexComponents = useSelectedFlexComponents(boardState)
   const flexComponents = useFlexComponents(boardState)
 
-  const [flexComponent, setFlexComponent] = useState<FlexComponent | null>(selectedFlexComponent)
+  const [flexComponent, setFlexComponent] = useState<FlexComponent | null>(() => {
+    if (selectedFlexComponents?.length === 1) {
+      return flexComponents.find(component => component.id === selectedFlexComponents[0]) ?? null
+    }
+
+    return null
+  })
 
   useEffect(() => {
-    if (selectedFlexComponent) {
-      setFlexComponent(selectedFlexComponent)
+    if (selectedFlexComponents?.length === 1) {
+      setFlexComponent(flexComponents.find(component => component.id === selectedFlexComponents[0]) ?? null)
+      return
     }
-  }, [selectedFlexComponent])
+
+    setFlexComponent(null)
+  }, [selectedFlexComponents, flexComponents])
 
   const onBlur = () => {
     if (flexComponent) {
@@ -62,7 +71,7 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
 
   return (
     <>
-      {selectedFlexComponent && (
+      {flexComponent && (
         <Floating className="top-20 right-4">
           <ul className="menu bg-base-200 text-base-content min-h-full w-52 rounded-box h-[calc(100vh-6rem)]">
             <li className="pb-2">Name</li>
