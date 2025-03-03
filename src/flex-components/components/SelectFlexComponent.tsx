@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { SelectFlexComponentProperties } from '../../types'
 import { FlexComponentProps } from '../flex-components'
-import { ChevronDownIcon } from '@heroicons/react/24/outline'
+import { ChevronDownIcon } from 'lucide-react'
 
 const MIN_WIDTH = 32
 
