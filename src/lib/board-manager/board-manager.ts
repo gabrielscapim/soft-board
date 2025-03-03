@@ -119,7 +119,6 @@ export class BoardManager implements BoardManagerI {
   }
 
   onEndDragFlexComponent () {
-    console.log('onEndDragFlexComponent')
     this._boardState.setIsDragging(false)
     this._initialFlexComponentProperties = null
   }
