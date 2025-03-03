@@ -6,5 +6,6 @@ export const FLEX_COMPONENT_NAMES: Record<FlexComponentType, FlexComponentName> 
   input: 'Input',
   mobileScreen: 'Mobile Screen',
   rectangle: 'Rectangle',
-  select: 'Select'
+  select: 'Select',
+  text: 'Text'
 }

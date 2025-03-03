@@ -1,19 +1,28 @@
-import { useEffect, useMemo, useState } from 'react'
+import { createElement, useEffect, useMemo, useState } from 'react'
 import { useFlexComponents, useSelectedFlexComponent } from '../../hooks'
 import { BoardController, BoardState } from '../../lib'
 import { Floating } from '../Floating'
-import { FlexComponentProperty } from '../../types'
-import { BasePropertyInput } from './subcomponents'
+import { FlexComponent, FlexComponentProperty, FlexComponentType } from '../../types'
+import { BasePropertyInput, TextPropertyInputs } from './subcomponents'
 import { Input } from '../Input'
 import { Select } from '../Select'
 import { UUID } from '../../types/common/uuid'
 
-const baseInputs: { name: string, property: FlexComponentProperty }[] = [
+const BASE_INPUTS: { name: string, property: FlexComponentProperty }[] = [
   { name: 'X', property: 'x' },
   { name: 'Y', property: 'y' },
   { name: 'W', property: 'width' },
   { name: 'H', property: 'height' }
 ]
+
+const INPUTS_BY_TYPE: Partial<Record<FlexComponentType, typeof TextPropertyInputs>> = {
+  text: TextPropertyInputs
+}
+
+export type FlexComponentPropertiesInputsProps = {
+  flexComponent: FlexComponent
+  boardController: BoardController
+}
 
 export type FlexComponentPropertiesMenuProps = {
   boardState: BoardState
@@ -26,7 +35,7 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
   const selectedFlexComponent = useSelectedFlexComponent(boardState)
   const flexComponents = useFlexComponents(boardState)
 
-  const [flexComponent, setFlexComponent] = useState(selectedFlexComponent)
+  const [flexComponent, setFlexComponent] = useState<FlexComponent | null>(selectedFlexComponent)
 
   useEffect(() => {
     if (selectedFlexComponent) {
@@ -51,6 +60,8 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
     ]
   }, [flexComponents, flexComponent])
 
+  console.log(flexComponents)
+
   return (
     <>
       {selectedFlexComponent && (
@@ -67,7 +78,7 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
             <span className="divider my-1" />
             <div className="flex flex-col gap-2">
               <li>Properties</li>
-              {baseInputs.map(input => (
+              {BASE_INPUTS.map(input => (
                 <BasePropertyInput
                   key={`input-${input.property}`}
                   property={input.property}
@@ -95,6 +106,19 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
                 }
               }}
             />
+
+            {flexComponent?.type && INPUTS_BY_TYPE[flexComponent.type] && (
+              <>
+                <span className="divider my-1" />
+                {createElement(
+                  INPUTS_BY_TYPE[flexComponent.type]!,
+                  {
+                    flexComponent,
+                    boardController
+                  }
+                )}
+              </>
+            )}
           </ul>
         </Floating>
       )}

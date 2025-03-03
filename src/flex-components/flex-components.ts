@@ -1,3 +1,4 @@
+import { BoardController } from '../lib'
 import { FlexComponent, FlexComponentType } from '../types'
 import {
   ButtonFlexComponent,
@@ -5,11 +6,13 @@ import {
   InputFlexComponent,
   MobileScreenFlexComponent,
   RectangleFlexComponent,
-  SelectFlexComponent
+  SelectFlexComponent,
+  TextFlexComponent
 } from './components'
 
 export type FlexComponentProps = {
   component: FlexComponent
+  boardController: BoardController
 }
 
 export type FlexComponentElement = (props: FlexComponentProps) => JSX.Element
@@ -20,5 +23,6 @@ export const FLEX_COMPONENTS: Record<FlexComponentType, FlexComponentElement> = 
   input: InputFlexComponent,
   mobileScreen: MobileScreenFlexComponent,
   rectangle: RectangleFlexComponent,
-  select: SelectFlexComponent
+  select: SelectFlexComponent,
+  text: TextFlexComponent
 }
