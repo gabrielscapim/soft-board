@@ -1,5 +1,5 @@
 import Cursor from '../../public/cursor.png'
-import { useBoardTranslate, useDraggableFlexBoard, useElementResizer, useFlexComponents, useScale, useSelectedFlexComponent, useZoomBoard } from '../../hooks'
+import { useBoardTranslate, useDraggableFlexBoard, useElementResizer, useFlexComponents, useScale, useSelectedFlexComponents, useZoomBoard } from '../../hooks'
 import { createElement, useRef } from 'react'
 import { BoardController, BoardState } from '../../lib'
 import { FLEX_COMPONENTS } from '../../flex-components'
@@ -18,7 +18,7 @@ export function Board (props: BoardProps) {
   const flexComponents = useFlexComponents(boardState)
   const scale = useScale(boardState)
   const boardTranslate = useBoardTranslate(boardState)
-  const selectedFlexComponent = useSelectedFlexComponent(boardState)
+  const selectedFlexComponents = useSelectedFlexComponents(boardState)
 
   useDraggableFlexBoard(boardState, flexBoardContainerRef.current)
   useElementResizer(boardState, flexBoardContainerRef.current)
@@ -53,10 +53,10 @@ export function Board (props: BoardProps) {
           })
         ))}
 
-        {selectedFlexComponent && <ResizeBox boardState={boardState} />}
+        {selectedFlexComponents && <ResizeBox boardState={boardState} />}
       </div>
 
-      {selectedFlexComponent && (
+      {selectedFlexComponents && (
         <AlignmentGuides
           boardState={boardState}
           boardTranslate={boardTranslate}
