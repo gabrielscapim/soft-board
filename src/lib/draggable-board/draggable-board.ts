@@ -38,6 +38,7 @@ export class DraggableBoard {
 
   public endDrag () {
     this._selectedElement = undefined
+    this._boardManager.onEndDragFlexComponent()
   }
 
   public onDragging (event: MouseEvent) {

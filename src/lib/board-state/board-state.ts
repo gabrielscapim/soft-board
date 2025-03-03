@@ -9,6 +9,7 @@ export class BoardState {
   private _grid: number
   private _guides: { vertical: { lineGuide: number, offset: number }[], horizontal: { lineGuide: number, offset: number }[] }
   private _isBoardMoving: boolean
+  private _isDragging: boolean
   private _scale: number
   private _selectedFlexComponent: FlexComponent | null
   private _translate: { x: number, y: number }
@@ -19,6 +20,7 @@ export class BoardState {
     this._grid = 1
     this._guides = { vertical: [], horizontal: [] }
     this._isBoardMoving = false
+    this._isDragging = false
     this._scale = 1
     this._selectedFlexComponent = null
     this._translate = { x: 0, y: 0 }
@@ -38,6 +40,10 @@ export class BoardState {
 
   get isBoardMoving () {
     return this._isBoardMoving
+  }
+
+  get isDragging () {
+    return this._isDragging
   }
 
   get scale () {
@@ -65,6 +71,11 @@ export class BoardState {
   setIsBoardMoving (isBoardMoving: boolean) {
     this._isBoardMoving = isBoardMoving
     this.runListener('isBoardMovingChanged')
+  }
+
+  setIsDragging (isDragging: boolean) {
+    this._isDragging = isDragging
+    this.runListener('isDraggingChanged')
   }
 
   setScale (scale: number) {
