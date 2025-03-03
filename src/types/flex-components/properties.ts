@@ -35,3 +35,12 @@ export type SelectFlexComponentProperties = BaseProperties & {
   rx?: number
   ry?: number
 }
+
+/** Text properties */
+export type TextFlexComponentProperties = BaseProperties & {
+  text?: string
+  fontSize?: number
+  italic?: boolean
+  bold?: boolean
+  align?: 'left' | 'center' | 'right' | 'justify'
+}

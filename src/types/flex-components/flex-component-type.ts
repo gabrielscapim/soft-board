@@ -5,7 +5,8 @@ import {
   InputFlexComponentProperties,
   MobileScreenFlexComponentProperties,
   RectangleFlexComponentProperties,
-  SelectFlexComponentProperties
+  SelectFlexComponentProperties,
+  TextFlexComponentProperties
 } from './properties'
 
 export type BaseFlexComponent<T extends FlexComponentType, P extends FlexComponentProperties> = {
@@ -22,6 +23,7 @@ export type InputFlexComponent = BaseFlexComponent<'input', InputFlexComponentPr
 export type MobileScreenFlexComponent = BaseFlexComponent<'mobileScreen', MobileScreenFlexComponentProperties>
 export type RectangleFlexComponent = BaseFlexComponent<'rectangle', RectangleFlexComponentProperties>
 export type SelectFlexComponent = BaseFlexComponent<'select', SelectFlexComponentProperties>
+export type TextFlexComponent = BaseFlexComponent<'text', TextFlexComponentProperties>
 
 export type FlexComponent =
   ButtonFlexComponent |
@@ -29,13 +31,21 @@ export type FlexComponent =
   InputFlexComponent |
   MobileScreenFlexComponent |
   RectangleFlexComponent |
-  SelectFlexComponent
+  SelectFlexComponent |
+  TextFlexComponent
+
+export type FlexComponentProperty =
+  | keyof ButtonFlexComponentProperties
+  | keyof DividerFlexComponentProperties
+  | keyof InputFlexComponentProperties
+  | keyof MobileScreenFlexComponentProperties
+  | keyof RectangleFlexComponentProperties
+  | keyof SelectFlexComponentProperties
+  | keyof TextFlexComponentProperties
 
 export type FlexComponentName = FlexComponent['name']
 
 export type FlexComponentProperties = FlexComponent['properties']
-
-export type FlexComponentProperty = keyof FlexComponentProperties
 
 export type FlexComponentPropertyValue<K extends keyof FlexComponentProperties> = FlexComponentProperties[K]
 
