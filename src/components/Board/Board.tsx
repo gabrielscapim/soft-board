@@ -1,12 +1,13 @@
 import Cursor from '../../public/cursor.png'
 import { useBoardTranslate, useDraggableFlexBoard, useElementResizer, useFlexComponents, useScale, useSelectedFlexComponent, useZoomBoard } from '../../hooks'
 import { createElement, useRef } from 'react'
-import { BoardState } from '../../lib'
+import { BoardController, BoardState } from '../../lib'
 import { FLEX_COMPONENTS } from '../../flex-components'
 import { AlignmentGuides, ConnectionLines, ResizeBox } from './subcomponents'
 
 export type BoardProps = {
   boardState: BoardState
+  boardController: BoardController
 }
 
 export function Board (props: BoardProps) {
@@ -47,7 +48,8 @@ export function Board (props: BoardProps) {
             key: flexComponent.id,
             component: {
               ...flexComponent
-            }
+            },
+            boardController: props.boardController
           })
         ))}
 

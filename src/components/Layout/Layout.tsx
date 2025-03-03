@@ -18,7 +18,7 @@ export function Layout (props: LayoutProps) {
       <div className="flex grow">
         <FlexComponentsMenu boardController={boardController} />
         <FlexComponentPropertiesMenu boardState={boardState} boardController={boardController} />
-        <Board boardState={boardState} />
+        <Board boardState={boardState} boardController={boardController} />
       </div>
     </div>
   )
