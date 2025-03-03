@@ -51,8 +51,8 @@ export class DraggableBoard {
 
       this._boardManager.onGuidesChanged({
         guides: {
-          horizontal: guides.horizontal.filter(guide => guide.diff === 0).map(guide => ({ lineGuide: guide.lineGuide, offset: guide.offset })),
-          vertical: guides.vertical.filter(guide => guide.diff === 0).map(guide => ({ lineGuide: guide.lineGuide, offset: guide.offset }))
+          horizontal: guides.horizontal.map(guide => ({ lineGuide: guide.lineGuide, offset: guide.offset })),
+          vertical: guides.vertical.map(guide => ({ lineGuide: guide.lineGuide, offset: guide.offset }))
         }
       })
 
