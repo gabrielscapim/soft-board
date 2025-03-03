@@ -3,6 +3,7 @@ import {
   BoardManagerI,
   OnChangeBoardMovingParams,
   OnDraggingFlexComponentParams,
+  OnGuidesChangedParams,
   OnResizingFlexComponentParams,
   OnScaleChangeParams,
   OnStartDragFlexComponentParams,
@@ -122,7 +123,7 @@ export class BoardManager implements BoardManagerI {
     this._initialFlexComponentProperties = null
   }
 
-  onGuidesChanged (params: { guides: { horizontal: { lineGuide: number; offset: number }[]; vertical: { lineGuide: number; offset: number }[] } }) {
+  onGuidesChanged (params: OnGuidesChangedParams) {
     this._boardState.setGuides(params.guides)
   }
 
