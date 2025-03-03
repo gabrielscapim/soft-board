@@ -1,7 +1,11 @@
-import { FlexComponent } from '../../types'
+import { FlexComponentProperties } from '../../types'
+import { UUID } from '../../types/common/uuid'
 
 type GetObjectSnappingEdgesParams = {
-  selectedFlexComponent: FlexComponent
+  dragging: {
+    id: UUID | null
+    properties: FlexComponentProperties
+  }
 }
 
 type GetObjectSnappingEdgesResult = {
@@ -17,8 +21,10 @@ type GetObjectSnappingEdgesResult = {
   }[]
 }
 
-export function getObjectSnappingEdges (params: GetObjectSnappingEdgesParams): GetObjectSnappingEdgesResult {
-  const { x, y, width, height } = params.selectedFlexComponent.properties
+export function getObjectSnappingEdges (
+  params: GetObjectSnappingEdgesParams
+): GetObjectSnappingEdgesResult {
+  const { x, y, width, height } = params.dragging.properties
 
   return {
     vertical: [
