@@ -11,13 +11,16 @@ import {
 } from './board-manager-interface'
 import { BoardState } from '../board-state'
 import { Dimensions, Offset } from '../../types'
+import { UUID } from '../../types/common/uuid'
+
+const DISTANCE_TO_BREAK_SNAP = 20
 
 /**
  * Class responsible for changing the attributes of the BoardState class.
  */
 export class BoardManager implements BoardManagerI {
   private _boardState: BoardState
-  private _initialFlexComponentProperties: (Dimensions & Offset) | null
+  private _initialFlexComponentProperties: Map<UUID, Dimensions & Offset> | null
 
   constructor (boardState: BoardState) {
     this._boardState = boardState
@@ -31,7 +34,7 @@ export class BoardManager implements BoardManagerI {
     const newFlexComponents = [...prevFlexComponents, flexComponent]
 
     this._boardState.setFlexComponents(newFlexComponents)
-    this._boardState.setSelectedFlexComponent(null)
+    this._boardState.setSelectedFlexComponents(null)
   }
 
   onChangeBoardMoving (params: OnChangeBoardMovingParams) {
@@ -39,36 +42,76 @@ export class BoardManager implements BoardManagerI {
   }
 
   onDraggingFlexComponent (params: OnDraggingFlexComponentParams) {
-    const { id, properties } = params
+    const { properties, snap } = params
+
+    const selected = this._boardState.selectedFlexComponents
+
+    if (!selected || selected.length === 0 || !this._initialFlexComponentProperties) {
+      return
+    }
 
     if (!this._boardState.isDragging) {
       this._boardState.setIsDragging(true)
     }
 
-    const currentFlexComponents = this._boardState.flexComponents
-    const newFlexComponents = currentFlexComponents.map(flexComponent => {
-      if (flexComponent.id === id && this._initialFlexComponentProperties) {
-        let newX = this._initialFlexComponentProperties.x + properties.roundedDeltaX
-        let newY = this._initialFlexComponentProperties.y + properties.roundedDeltaY
+    let groupInitialX = Infinity
+    let groupInitialY = Infinity
 
-        if (params.snap?.x && Math.abs(newX - params.snap.x) < 20) newX = params.snap.x
-        if (params.snap?.y && Math.abs(newY - params.snap.y) < 20) newY = params.snap.y
+    // Get the initial position of the group
+    for (const id of selected) {
+      const initProps = this._initialFlexComponentProperties.get(id)
 
-        const newSelectedFlexComponent = {
-          ...flexComponent,
-          properties: {
-            ...flexComponent.properties,
-            x: newX,
-            y: newY
-          }
-        }
-
-        this._boardState.setSelectedFlexComponent(newSelectedFlexComponent)
-
-        return newSelectedFlexComponent
+      if (initProps && initProps.x < groupInitialX) {
+        groupInitialX = initProps.x
       }
 
-      return flexComponent
+      if (initProps && initProps.y < groupInitialY) {
+        groupInitialY = initProps.y
+      }
+    }
+
+    // Calculate the new position of the group
+    const groupNewX = groupInitialX + properties.roundedDeltaX
+    const groupNewY = groupInitialY + properties.roundedDeltaY
+
+    let useSnapX = false
+    let useSnapY = false
+
+    // Check if the group is close to a snap point
+    if (snap?.x && Math.abs(groupNewX - snap.x) < DISTANCE_TO_BREAK_SNAP) {
+      useSnapX = true
+    }
+
+    if (snap?.y && Math.abs(groupNewY - snap.y) < DISTANCE_TO_BREAK_SNAP) {
+      useSnapY = true
+    }
+
+    // Calculate the delta of the group
+    const groupDeltaX = useSnapX && snap?.x ? (snap.x - groupInitialX) : properties.roundedDeltaX
+    const groupDeltaY = useSnapY && snap?.y ? (snap.y - groupInitialY) : properties.roundedDeltaY
+
+    const newFlexComponents = this._boardState.flexComponents.map(flexComponent => {
+      if (!selected.includes(flexComponent.id)) {
+        return flexComponent
+      }
+
+      const initialProps = this._initialFlexComponentProperties?.get(flexComponent.id)
+
+      if (!initialProps) {
+        return flexComponent
+      }
+
+      const newX = initialProps.x + groupDeltaX
+      const newY = initialProps.y + groupDeltaY
+
+      return {
+        ...flexComponent,
+        properties: {
+          ...flexComponent.properties,
+          x: newX,
+          y: newY
+        }
+      }
     })
 
     this._boardState.setFlexComponents(newFlexComponents)
@@ -76,6 +119,7 @@ export class BoardManager implements BoardManagerI {
 
   onEndDragFlexComponent () {
     this._boardState.setIsDragging(false)
+    this._initialFlexComponentProperties = null
   }
 
   onGuidesChanged (params: { guides: { horizontal: { lineGuide: number; offset: number }[]; vertical: { lineGuide: number; offset: number }[] } }) {
@@ -85,35 +129,42 @@ export class BoardManager implements BoardManagerI {
   onResizingFlexComponent (params: OnResizingFlexComponentParams) {
     const { dimension, position } = params
 
-    const currentFlexComponents = this._boardState.flexComponents
-    const selectedFlexComponent = this._boardState.selectedFlexComponent
+    const selected = this._boardState.selectedFlexComponents
 
-    const newFlexComponents = currentFlexComponents.map(flexComponent => {
-      if (flexComponent.id === selectedFlexComponent?.id && this._initialFlexComponentProperties) {
-        const width = Math.max(10, this._initialFlexComponentProperties.width + dimension.roundedDeltaX)
-        const height = Math.max(10, this._initialFlexComponentProperties.height + dimension.roundedDeltaY)
-        const x = width > 10 ? this._initialFlexComponentProperties.x + position.roundedDeltaX : selectedFlexComponent.properties.x
-        const y = height > 10 ? this._initialFlexComponentProperties.y + position.roundedDeltaY : selectedFlexComponent.properties.y
+    if (!selected || selected.length === 0 || !this._initialFlexComponentProperties) {
+      return
+    }
 
-        const newSelectedFlexComponent = {
+    const newFlexComponents = this._boardState.flexComponents.map(flexComponent => {
+      if (selected.includes(flexComponent.id)) {
+        const initialProps = this._initialFlexComponentProperties?.get(flexComponent.id)
+
+        if (!initialProps) {
+          return flexComponent
+        }
+
+        const newWidth = Math.max(10, initialProps.width + dimension.roundedDeltaX)
+        const newHeight = Math.max(10, initialProps.height + dimension.roundedDeltaY)
+        const newX = newWidth > 10 ? initialProps.x + position.roundedDeltaX : flexComponent.properties.x
+        const newY = newHeight > 10 ? initialProps.y + position.roundedDeltaY : flexComponent.properties.y
+
+        return {
           ...flexComponent,
           properties: {
             ...flexComponent.properties,
-            x,
-            y,
-            width,
-            height
+            x: newX,
+            y: newY,
+            width: newWidth,
+            height: newHeight
           }
         }
-
-        this._boardState.setSelectedFlexComponent(newSelectedFlexComponent)
-        return newSelectedFlexComponent
       }
 
       return flexComponent
     })
 
     this._boardState.setFlexComponents(newFlexComponents)
+    this._boardState.setSelectedFlexComponents(selected)
   }
 
   onScaleChange (params: OnScaleChangeParams) {
@@ -121,37 +172,63 @@ export class BoardManager implements BoardManagerI {
   }
 
   onStartDragFlexComponent (params: OnStartDragFlexComponentParams) {
-    const { id } = params
+    const selected = this._boardState.selectedFlexComponents ?? []
 
-    const draggedFlexComponent = this._boardState.flexComponents.find(flexComponent => flexComponent.id === id)
-
-    if (!draggedFlexComponent) {
-      this._boardState.setSelectedFlexComponent(null)
+    if (!params.id) {
+      this._boardState.setSelectedFlexComponents(null)
       return
     }
 
-    this._initialFlexComponentProperties = {
-      width: draggedFlexComponent.properties.width,
-      height: draggedFlexComponent.properties.height,
-      x: draggedFlexComponent.properties.x,
-      y: draggedFlexComponent.properties.y
+    const isAlreadySelected = selected.includes(params.id)
+
+    const initialProperties = new Map<UUID, Dimensions & Offset>()
+
+    for (const id of [...selected, params.id]) {
+      const draggedFlexComponent = this._boardState.flexComponents.find(flexComponent => flexComponent.id === id)
+
+      if (draggedFlexComponent) {
+        initialProperties.set(
+          id,
+          {
+            width: draggedFlexComponent.properties.width,
+            height: draggedFlexComponent.properties.height,
+            x: draggedFlexComponent.properties.x,
+            y: draggedFlexComponent.properties.y
+          }
+        )
+      }
     }
-    this._boardState.setSelectedFlexComponent(draggedFlexComponent)
+
+    this._initialFlexComponentProperties = initialProperties
+
+    if (!isAlreadySelected) {
+      this._boardState.setSelectedFlexComponents([...selected, params.id])
+    }
   }
 
   onStartResizeFlexComponent () {
-    const selectedFlexComponent = this._boardState.selectedFlexComponent
+    const selected = this._boardState.selectedFlexComponents
 
-    if (!selectedFlexComponent) {
+    if (!selected || selected.length === 0) {
       return
     }
 
-    this._initialFlexComponentProperties = {
-      width: selectedFlexComponent.properties.width,
-      height: selectedFlexComponent.properties.height,
-      x: selectedFlexComponent.properties.x,
-      y: selectedFlexComponent.properties.y
+    const initialProperties = new Map<UUID, Dimensions & Offset>()
+
+    for (const id of selected) {
+      const selectedFlexComponent = this._boardState.flexComponents.find(flexComponent => flexComponent.id === id)
+
+      if (selectedFlexComponent) {
+        initialProperties.set(id, {
+          width: selectedFlexComponent.properties.width,
+          height: selectedFlexComponent.properties.height,
+          x: selectedFlexComponent.properties.x,
+          y: selectedFlexComponent.properties.y
+        })
+      }
     }
+
+    this._initialFlexComponentProperties = initialProperties
   }
 
   onTranslateBoard (params: OnTranslateBoardParams): void {
@@ -161,12 +238,7 @@ export class BoardManager implements BoardManagerI {
   updateFlexComponent (params: UpdateFlexComponentParams) {
     const { updatedFlexComponent } = params
 
-    const selectedFlexComponent = this._boardState.selectedFlexComponent
     const newFlexComponents = this._boardState.flexComponents.map(flexComponent => {
-      if (selectedFlexComponent?.id === flexComponent.id) {
-        this._boardState.setSelectedFlexComponent(updatedFlexComponent)
-      }
-
       if (flexComponent.id === updatedFlexComponent.id) {
         return updatedFlexComponent
       }
