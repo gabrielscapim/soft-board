@@ -50,8 +50,9 @@ export class SelectionBoard {
 
   onMouseDown (event: MouseEvent) {
     const target = event.target as HTMLElement
+    const selected = this.boardState.selectedFlexComponents ?? []
 
-    if (target.closest('.draggable-group') || target.closest('.resizer')) {
+    if (target.closest('.draggable-group') || target.closest('.resizer') || selected.length !== 0) {
       return
     }
 

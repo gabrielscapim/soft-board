@@ -119,6 +119,7 @@ export class BoardManager implements BoardManagerI {
   }
 
   onEndDragFlexComponent () {
+    console.log('onEndDragFlexComponent')
     this._boardState.setIsDragging(false)
     this._initialFlexComponentProperties = null
   }
@@ -180,8 +181,6 @@ export class BoardManager implements BoardManagerI {
       return
     }
 
-    const isAlreadySelected = selected.includes(params.id)
-
     const initialProperties = new Map<UUID, Dimensions & Offset>()
 
     for (const id of [...selected, params.id]) {
@@ -202,7 +201,7 @@ export class BoardManager implements BoardManagerI {
 
     this._initialFlexComponentProperties = initialProperties
 
-    if (!isAlreadySelected) {
+    if (!selected.includes(params.id)) {
       this._boardState.setSelectedFlexComponents([...selected, params.id])
     }
   }

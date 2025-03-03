@@ -1,9 +1,18 @@
 import Cursor from '../../public/cursor.png'
-import { useBoardTranslate, useDraggableFlexBoard, useElementResizer, useFlexComponents, useScale, useSelectedFlexComponents, useSelectionBoard, useZoomBoard } from '../../hooks'
 import { createElement, useRef } from 'react'
 import { BoardController, BoardState } from '../../lib'
 import { FLEX_COMPONENTS } from '../../flex-components'
 import { AlignmentGuides, ConnectionLines, ResizeBox, SelectionBox } from './subcomponents'
+import {
+  useBoardTranslate,
+  useDraggableFlexBoard,
+  useElementResizer,
+  useFlexComponents,
+  useScale,
+  useSelectedFlexComponents,
+  useSelectionBoard,
+  useZoomBoard
+} from '../../hooks'
 
 export type BoardProps = {
   boardState: BoardState
