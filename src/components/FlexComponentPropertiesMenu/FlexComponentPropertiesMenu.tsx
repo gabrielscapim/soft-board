@@ -60,8 +60,6 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
     ]
   }, [flexComponents, flexComponent])
 
-  console.log(flexComponents)
-
   return (
     <>
       {selectedFlexComponent && (
