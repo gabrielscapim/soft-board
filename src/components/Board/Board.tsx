@@ -1,9 +1,18 @@
 import Cursor from '../../public/cursor.png'
-import { useBoardTranslate, useDraggableFlexBoard, useElementResizer, useFlexComponents, useScale, useSelectedFlexComponent, useZoomBoard } from '../../hooks'
 import { createElement, useRef } from 'react'
 import { BoardController, BoardState } from '../../lib'
 import { FLEX_COMPONENTS } from '../../flex-components'
-import { AlignmentGuides, ConnectionLines, ResizeBox } from './subcomponents'
+import { AlignmentGuides, ConnectionLines, ResizeBox, SelectionBox } from './subcomponents'
+import {
+  useBoardTranslate,
+  useDraggableFlexBoard,
+  useElementResizer,
+  useFlexComponents,
+  useScale,
+  useSelectedFlexComponents,
+  useSelectionBoard,
+  useZoomBoard
+} from '../../hooks'
 
 export type BoardProps = {
   boardState: BoardState
@@ -15,14 +24,16 @@ export function Board (props: BoardProps) {
 
   const flexBoardContainerRef = useRef<HTMLDivElement>(null)
   const flexBoardRef = useRef<HTMLDivElement>(null)
+  const selectionBoxRef = useRef<HTMLDivElement>(null)
   const flexComponents = useFlexComponents(boardState)
   const scale = useScale(boardState)
   const boardTranslate = useBoardTranslate(boardState)
-  const selectedFlexComponent = useSelectedFlexComponent(boardState)
+  const selectedFlexComponents = useSelectedFlexComponents(boardState)
 
   useDraggableFlexBoard(boardState, flexBoardContainerRef.current)
   useElementResizer(boardState, flexBoardContainerRef.current)
   useZoomBoard(boardState, flexBoardContainerRef.current, flexBoardRef.current)
+  useSelectionBoard(boardState, flexBoardContainerRef.current, selectionBoxRef.current)
 
   return (
     <div
@@ -53,10 +64,10 @@ export function Board (props: BoardProps) {
           })
         ))}
 
-        {selectedFlexComponent && <ResizeBox boardState={boardState} />}
+        {selectedFlexComponents && <ResizeBox boardState={boardState} />}
       </div>
 
-      {selectedFlexComponent && (
+      {selectedFlexComponents && (
         <AlignmentGuides
           boardState={boardState}
           boardTranslate={boardTranslate}
@@ -69,6 +80,8 @@ export function Board (props: BoardProps) {
         boardTranslate={boardTranslate}
         scale={scale}
       />
+
+      <SelectionBox ref={selectionBoxRef} />
     </div>
   )
 }

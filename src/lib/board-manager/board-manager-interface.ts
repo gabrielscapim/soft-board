@@ -22,6 +22,13 @@ export type OnDraggingFlexComponentParams = {
   }
 }
 
+export type OnGuidesChangedParams = {
+  guides: {
+    horizontal: { lineGuide: number; offset: number }[]
+    vertical: { lineGuide: number; offset: number }[]
+  }
+}
+
 export type OnResizingFlexComponentParams = {
   dimension: {
     roundedDeltaX: number
@@ -51,14 +58,15 @@ export type UpdateFlexComponentParams = {
 }
 
 export interface BoardManagerI {
-  addFlexComponent(params: AddFlexComponentParams): void
-  onChangeBoardMoving(params: OnChangeBoardMovingParams): void
-  onDraggingFlexComponent(params: OnDraggingFlexComponentParams): void
-  onEndDragFlexComponent(): void
-  onResizingFlexComponent(params: OnResizingFlexComponentParams): void
-  onScaleChange(params: OnScaleChangeParams): void
-  onStartDragFlexComponent(params: OnStartDragFlexComponentParams): void
-  onStartResizeFlexComponent(): void
-  onTranslateBoard(params: OnTranslateBoardParams): void
-  updateFlexComponent(params: UpdateFlexComponentParams): void
+  addFlexComponent (params: AddFlexComponentParams): void
+  onChangeBoardMoving (params: OnChangeBoardMovingParams): void
+  onDraggingFlexComponent (params: OnDraggingFlexComponentParams): void
+  onEndDragFlexComponent (): void
+  onGuidesChanged (params: OnGuidesChangedParams): void
+  onResizingFlexComponent (params: OnResizingFlexComponentParams): void
+  onScaleChange (params: OnScaleChangeParams): void
+  onStartDragFlexComponent (params: OnStartDragFlexComponentParams): void
+  onStartResizeFlexComponent (): void
+  onTranslateBoard (params: OnTranslateBoardParams): void
+  updateFlexComponent (params: UpdateFlexComponentParams): void
 }

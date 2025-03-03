@@ -1,4 +1,4 @@
-import { Offset } from '../../types'
+import { FlexComponent, Offset } from '../../types'
 import { UUID } from '../../types/common/uuid'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
@@ -27,27 +27,72 @@ export class DraggableBoard {
     this.endDrag = this.endDrag.bind(this)
   }
 
+  private getGroupDimensions (selectedComponents: FlexComponent[]) {
+    let groupMinX = selectedComponents[0].properties.x
+    let groupMinY = selectedComponents[0].properties.y
+    let groupMaxX = selectedComponents[0].properties.x + selectedComponents[0].properties.width
+    let groupMaxY = selectedComponents[0].properties.y + selectedComponents[0].properties.height
+
+    selectedComponents.forEach(fc => {
+      const { x, y, width, height } = fc.properties
+
+      if (x < groupMinX) groupMinX = x
+      if (y < groupMinY) groupMinY = y
+      if (x + width > groupMaxX) groupMaxX = x + width
+      if (y + height > groupMaxY) groupMaxY = y + height
+    })
+
+    const groupWidth = groupMaxX - groupMinX
+    const groupHeight = groupMaxY - groupMinY
+
+    return {
+      x: groupMinX,
+      y: groupMinY,
+      width: groupWidth,
+      height: groupHeight
+    }
+  }
+
   private getMousePosition (event: MouseEvent) {
     const rect = this._boardElement.getBoundingClientRect()
 
-    const x = event.clientX - rect.left
-    const y = event.clientY - rect.top
-
-    return { x, y }
+    return { x: event.clientX - rect.left, y: event.clientY - rect.top }
   }
 
   public endDrag () {
     this._selectedElement = undefined
+    this._offset = undefined
     this._boardManager.onEndDragFlexComponent()
   }
 
   public onDragging (event: MouseEvent) {
-    if (this._selectedElement && this._offset) {
+    if (this._offset) {
       event.preventDefault()
 
+      const selected = this._boardState.selectedFlexComponents ?? []
+      const selectedComponents = this._boardState.flexComponents.filter(flexComponent => selected.includes(flexComponent.id))
+
+      if (selectedComponents.length === 0) {
+        return
+      }
+
+      const groupDimensions = this.getGroupDimensions(selectedComponents)
+
+      const compositeDragging = {
+        id: selectedComponents.length === 1 ? selectedComponents[0].id : null,
+        properties: {
+          x: groupDimensions.x,
+          y: groupDimensions.y,
+          width: groupDimensions.width,
+          height: groupDimensions.height
+        }
+      }
+
+      // Get the alignment guides
       const guides = getAlignmentBoardGuides({
         flexComponents: this._boardState.flexComponents,
-        selectedFlexComponent: this._boardState.selectedFlexComponent!
+        dragging: compositeDragging,
+        selectedFlexComponents: selected
       })
 
       this._boardManager.onGuidesChanged({
@@ -57,40 +102,35 @@ export class DraggableBoard {
         }
       })
 
+      // Calculate the delta
       const coord = this.getMousePosition(event)
       const deltaX = Math.round((coord.x - (this._offset.x ?? 0)) / this._boardState.scale)
       const deltaY = Math.round((coord.y - (this._offset.y ?? 0)) / this._boardState.scale)
 
-      const minGuideVertical = guides.vertical.sort((a, b) => a.diff - b.diff)[0]
-      const minGuideHorizontal = guides.horizontal.sort((a, b) => a.diff - b.diff)[0]
+      // Calculate the snap
+      const sortedVertical = guides.vertical.slice().sort((a, b) => a.diff - b.diff)
+      const sortedHorizontal = guides.horizontal.slice().sort((a, b) => a.diff - b.diff)
+      const minGuideVertical = sortedVertical[0]
+      const minGuideHorizontal = sortedHorizontal[0]
+
+      let snap: { type?: string; x?: number; y?: number } | undefined = undefined
 
       if (minGuideVertical || minGuideHorizontal) {
-        this._boardManager.onDraggingFlexComponent({
-          id: this._selectedElement.id as UUID,
-          properties: {
-            roundedDeltaX: deltaX,
-            roundedDeltaY: deltaY,
-          },
-          snap: {
-            type: minGuideVertical?.snap || minGuideHorizontal?.snap,
-            x: minGuideVertical ? (minGuideVertical.lineGuide + minGuideVertical.offset) : undefined,
-            y: (minGuideHorizontal?.lineGuide ?? 0) + (minGuideHorizontal?.offset ?? 0)
-          }
-        })
-
-        return
+        snap = {
+          type: minGuideVertical?.snap || minGuideHorizontal?.snap,
+          x: minGuideVertical ? minGuideVertical.lineGuide + minGuideVertical.offset : undefined,
+          y: minGuideHorizontal ? minGuideHorizontal.lineGuide + minGuideHorizontal.offset : undefined
+        }
       }
 
-      if (!minGuideVertical && !minGuideHorizontal) {
-        this._boardManager.onDraggingFlexComponent({
-          id: this._selectedElement.id as UUID,
-          properties: {
-            roundedDeltaX: deltaX,
-            roundedDeltaY: deltaY,
-          }
-        })
-      }
-
+      this._boardManager.onDraggingFlexComponent({
+        id: this._selectedElement?.id as UUID,
+        properties: {
+          roundedDeltaX: deltaX,
+          roundedDeltaY: deltaY,
+        },
+        snap
+      })
     }
   }
 
@@ -98,15 +138,38 @@ export class DraggableBoard {
     const target = event.target as HTMLDivElement
     const draggableGroupElement = target.closest('.draggable-group') as HTMLDivElement | null
     const resizerElement = target.closest('.resizer') as HTMLDivElement | null
+    const selectedFlexComponents = this._boardState.selectedFlexComponents
 
     if (draggableGroupElement) {
       this._selectedElement = draggableGroupElement
       this._offset = this.getMousePosition(event)
       this._boardManager.onStartDragFlexComponent({ id: draggableGroupElement.id as UUID })
+      return
     }
 
     if (!draggableGroupElement && !resizerElement) {
-      this._boardManager.onStartDragFlexComponent({ id: null })
+      if (selectedFlexComponents?.length === 1 || selectedFlexComponents?.length === 0) {
+        this._boardManager.onStartDragFlexComponent({ id: null })
+        return
+      }
+
+      const flexComponents = this._boardState.flexComponents.filter(flexComponent => selectedFlexComponents?.includes(flexComponent.id))
+      const groupDimensions = this.getGroupDimensions(flexComponents)
+      const clickPosition = this.getMousePosition(event)
+      const clickedInsideGroup =
+        clickPosition.x >= groupDimensions.x &&
+        clickPosition.x <= groupDimensions.x + groupDimensions.width &&
+        clickPosition.y >= groupDimensions.y &&
+        clickPosition.y <= groupDimensions.y + groupDimensions.height
+
+      if (clickedInsideGroup) {
+        this._offset = clickPosition
+        this._boardManager.onStartDragFlexComponent({ id: selectedFlexComponents?.[0] ?? null })
+      }
+
+      if (!clickedInsideGroup) {
+        this._boardManager.onStartDragFlexComponent({ id: null })
+      }
     }
   }
 }

@@ -1,10 +1,15 @@
-import { FlexComponent } from '../../types'
+import { FlexComponent, FlexComponentProperties } from '../../types'
+import { UUID } from '../../types/common/uuid'
 import { getLineGuideStops } from './_get-line-guides-stops'
 import { getObjectSnappingEdges } from './_get-object-snapping-edges'
 
 type GetAlignmentBoardGuidesParams = {
   flexComponents: FlexComponent[]
-  selectedFlexComponent: FlexComponent
+  selectedFlexComponents: UUID[]
+  dragging: {
+    id: UUID | null
+    properties: FlexComponentProperties
+  }
 }
 
 type GetAlignmentBoardGuidesResultData = {
@@ -19,11 +24,12 @@ type GetAlignmentBoardGuidesResult = {
   vertical: GetAlignmentBoardGuidesResultData[]
 }
 
-export function getAlignmentBoardGuides (params: GetAlignmentBoardGuidesParams): GetAlignmentBoardGuidesResult {
-  const lineGuideStops = getLineGuideStops({
-    flexComponents: params.flexComponents,
-    selectedFlexComponentId: params.selectedFlexComponent.id,
-  })
+const DISTANCE_TO_SNAP = 10
+
+export function getAlignmentBoardGuides (
+  params: GetAlignmentBoardGuidesParams
+): GetAlignmentBoardGuidesResult {
+  const lineGuideStops = getLineGuideStops(params)
   const itemBounds = getObjectSnappingEdges(params)
 
   const vertical: GetAlignmentBoardGuidesResultData[] = []
@@ -36,7 +42,7 @@ export function getAlignmentBoardGuides (params: GetAlignmentBoardGuidesParams):
         guide => guide.lineGuide === lineGuide && guide.offset === itemBound.offset
       )
 
-      if (diff < 10 && !hasGuide) {
+      if (diff < DISTANCE_TO_SNAP && !hasGuide) {
         vertical.push({ lineGuide, diff, snap: itemBound.snap, offset: itemBound.offset })
       }
     }
@@ -49,7 +55,7 @@ export function getAlignmentBoardGuides (params: GetAlignmentBoardGuidesParams):
         guide => guide.lineGuide === lineGuide && guide.offset === itemBound.offset
       )
 
-      if (diff < 10 && !hasGuide) {
+      if (diff < DISTANCE_TO_SNAP && !hasGuide) {
         horizontal.push({ lineGuide, diff, snap: itemBound.snap, offset: itemBound.offset })
       }
     }
