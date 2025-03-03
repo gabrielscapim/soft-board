@@ -21,7 +21,7 @@ export function BasePropertyInput (props: BasePropertyInputProps<FlexComponentPr
         type="number"
         className="grow"
         ref={ref}
-        value={properties?.[property] ?? ''}
+        value={properties?.[property as keyof typeof properties] ?? ''}
         onChange={event => onUpdateProperties?.(property, Number(event.target.value))}
         onBlur={onBlur}
         onKeyUp={event => {
