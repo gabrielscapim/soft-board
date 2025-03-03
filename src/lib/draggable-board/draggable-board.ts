@@ -29,15 +29,12 @@ export class DraggableBoard {
 
   private getMousePosition (event: MouseEvent) {
     const rect = this._boardElement.getBoundingClientRect()
-
-    const x = event.clientX - rect.left
-    const y = event.clientY - rect.top
-
-    return { x, y }
+    return { x: event.clientX - rect.left, y: event.clientY - rect.top }
   }
 
   public endDrag () {
     this._selectedElement = undefined
+    this._offset = undefined
     this._boardManager.onEndDragFlexComponent()
   }
 
@@ -45,9 +42,47 @@ export class DraggableBoard {
     if (this._selectedElement && this._offset) {
       event.preventDefault()
 
+      const selected = this._boardState.selectedFlexComponents ?? []
+      const selectedComponents = this._boardState.flexComponents.filter(flexComponent => selected.includes(flexComponent.id))
+
+      if (selectedComponents.length === 0) {
+        return
+      }
+
+      // Get the initial position of the group
+      let groupMinX = selectedComponents[0].properties.x
+      let groupMinY = selectedComponents[0].properties.y
+      let groupMaxX = selectedComponents[0].properties.x + selectedComponents[0].properties.width
+      let groupMaxY = selectedComponents[0].properties.y + selectedComponents[0].properties.height
+
+      // Get the group boundaries
+      selectedComponents.forEach(fc => {
+        const { x, y, width, height } = fc.properties
+
+        if (x < groupMinX) groupMinX = x
+        if (y < groupMinY) groupMinY = y
+        if (x + width > groupMaxX) groupMaxX = x + width
+        if (y + height > groupMaxY) groupMaxY = y + height
+      })
+
+      const groupWidth = groupMaxX - groupMinX
+      const groupHeight = groupMaxY - groupMinY
+
+      const compositeDragging = {
+        id: selectedComponents.length === 1 ? selectedComponents[0].id : null,
+        properties: {
+          x: groupMinX,
+          y: groupMinY,
+          width: groupWidth,
+          height: groupHeight
+        }
+      }
+
+      // Get the alignment guides
       const guides = getAlignmentBoardGuides({
         flexComponents: this._boardState.flexComponents,
-        selectedFlexComponent: this._boardState.selectedFlexComponent!
+        dragging: compositeDragging,
+        selectedFlexComponents: selected
       })
 
       this._boardManager.onGuidesChanged({
@@ -57,40 +92,35 @@ export class DraggableBoard {
         }
       })
 
+      // Calculate the delta
       const coord = this.getMousePosition(event)
       const deltaX = Math.round((coord.x - (this._offset.x ?? 0)) / this._boardState.scale)
       const deltaY = Math.round((coord.y - (this._offset.y ?? 0)) / this._boardState.scale)
 
-      const minGuideVertical = guides.vertical.sort((a, b) => a.diff - b.diff)[0]
-      const minGuideHorizontal = guides.horizontal.sort((a, b) => a.diff - b.diff)[0]
+      // Calculate the snap
+      const sortedVertical = guides.vertical.slice().sort((a, b) => a.diff - b.diff)
+      const sortedHorizontal = guides.horizontal.slice().sort((a, b) => a.diff - b.diff)
+      const minGuideVertical = sortedVertical[0]
+      const minGuideHorizontal = sortedHorizontal[0]
+
+      let snap: { type?: string; x?: number; y?: number } | undefined = undefined
 
       if (minGuideVertical || minGuideHorizontal) {
-        this._boardManager.onDraggingFlexComponent({
-          id: this._selectedElement.id as UUID,
-          properties: {
-            roundedDeltaX: deltaX,
-            roundedDeltaY: deltaY,
-          },
-          snap: {
-            type: minGuideVertical?.snap || minGuideHorizontal?.snap,
-            x: minGuideVertical ? (minGuideVertical.lineGuide + minGuideVertical.offset) : undefined,
-            y: (minGuideHorizontal?.lineGuide ?? 0) + (minGuideHorizontal?.offset ?? 0)
-          }
-        })
-
-        return
+        snap = {
+          type: minGuideVertical?.snap || minGuideHorizontal?.snap,
+          x: minGuideVertical ? minGuideVertical.lineGuide + minGuideVertical.offset : undefined,
+          y: minGuideHorizontal ? minGuideHorizontal.lineGuide + minGuideHorizontal.offset : undefined
+        }
       }
 
-      if (!minGuideVertical && !minGuideHorizontal) {
-        this._boardManager.onDraggingFlexComponent({
-          id: this._selectedElement.id as UUID,
-          properties: {
-            roundedDeltaX: deltaX,
-            roundedDeltaY: deltaY,
-          }
-        })
-      }
-
+      this._boardManager.onDraggingFlexComponent({
+        id: this._selectedElement?.id as UUID,
+        properties: {
+          roundedDeltaX: deltaX,
+          roundedDeltaY: deltaY,
+        },
+        snap
+      })
     }
   }
 
