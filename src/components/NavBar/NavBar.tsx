@@ -1,8 +1,8 @@
-import { MinusIcon, MoonIcon, PlusIcon, SunIcon } from '@heroicons/react/24/outline'
 import GitHubIcon from '../../public/github-icon.svg'
 import { useScale, useTheme } from '../../hooks'
 import { BoardController, BoardState } from '../../lib'
 import { MAX_SCALE, MIN_SCALE } from '../../helpers'
+import { MinusIcon, MoonIcon, PlusIcon, SunIcon } from 'lucide-react'
 
 export type NavBarProps = {
   boardController: BoardController
