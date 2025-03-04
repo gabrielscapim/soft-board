@@ -55,6 +55,10 @@ export class BoardManager implements BoardManagerI {
     this._boardState.setSelectedFlexComponents(null)
   }
 
+  onDeselectFlexComponents () {
+    this._boardState.setSelectedFlexComponents(null)
+  }
+
   onDraggingFlexComponent (params: OnDraggingFlexComponentParams) {
     const { properties, snap } = params
 

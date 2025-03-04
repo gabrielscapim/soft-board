@@ -15,16 +15,20 @@ export class KeyboardShortcuts {
   }
 
   private onDeleteKeyPressed () {
-    const selectedComponents = this._boardState.selectedFlexComponents
+    this._boardManager.onDeleteFlexComponents({ flexComponents: this._boardState.selectedFlexComponents ?? [] })
+  }
 
-    if (selectedComponents?.length) {
-      this._boardManager.onDeleteFlexComponents({ flexComponents: selectedComponents })
-    }
+  private onEscapeKeyPressed () {
+    this._boardManager.onDeselectFlexComponents()
   }
 
   onKeyPressed (event: KeyboardEvent) {
     if (event.key === 'Delete' || event.key === 'Backspace') {
       this.onDeleteKeyPressed()
+    }
+
+    if (event.key === 'Escape') {
+      this.onEscapeKeyPressed()
     }
   }
 }
