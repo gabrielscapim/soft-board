@@ -45,7 +45,9 @@ export type OnScaleChangeParams = {
 }
 
 export type OnStartDragFlexComponentParams = {
-  id: UUID | null
+  event: MouseEvent
+  id?: UUID | null
+  clickedInsideGroup?: boolean
 }
 
 export type OnTranslateBoardParams = {
@@ -59,6 +61,7 @@ export type UpdateFlexComponentParams = {
 
 export interface BoardManagerI {
   addFlexComponent (params: AddFlexComponentParams): void
+  onClickOutsideOfFlexComponent (): void
   onChangeBoardMoving (params: OnChangeBoardMovingParams): void
   onDraggingFlexComponent (params: OnDraggingFlexComponentParams): void
   onEndDragFlexComponent (): void
