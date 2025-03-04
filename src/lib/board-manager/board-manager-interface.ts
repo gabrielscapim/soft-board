@@ -5,6 +5,10 @@ export type AddFlexComponentParams = {
   flexComponent: FlexComponent
 }
 
+export type OnDeleteFlexComponentsParams = {
+  flexComponents: UUID[]
+}
+
 export type OnChangeBoardMovingParams = {
   isBoardMoving: boolean
 }
@@ -62,6 +66,7 @@ export type UpdateFlexComponentParams = {
 export interface BoardManagerI {
   addFlexComponent (params: AddFlexComponentParams): void
   onClickOutsideOfFlexComponent (): void
+  onDeleteFlexComponents (params: OnDeleteFlexComponentsParams): void
   onChangeBoardMoving (params: OnChangeBoardMovingParams): void
   onDraggingFlexComponent (params: OnDraggingFlexComponentParams): void
   onEndDragFlexComponent (): void
