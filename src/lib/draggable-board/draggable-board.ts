@@ -140,19 +140,27 @@ export class DraggableBoard {
     const resizerElement = target.closest('.resizer') as HTMLDivElement | null
     const selectedFlexComponents = this._boardState.selectedFlexComponents
 
+    // Clicked in a flex component
     if (draggableGroupElement) {
+      const clickedInsideGroup = Boolean(selectedFlexComponents && selectedFlexComponents?.length > 1)
+
       this._selectedElement = draggableGroupElement
       this._offset = this.getMousePosition(event)
-      this._boardManager.onStartDragFlexComponent({ id: draggableGroupElement.id as UUID })
+      this._boardManager.onStartDragFlexComponent({ id: draggableGroupElement.id as UUID, event, clickedInsideGroup })
+
       return
     }
 
+    // Clicked outside a flex component
     if (!draggableGroupElement && !resizerElement) {
+
+      // If there is only one flex component selected or none, deselect it
       if (selectedFlexComponents?.length === 1 || selectedFlexComponents?.length === 0) {
-        this._boardManager.onStartDragFlexComponent({ id: null })
+        this._boardManager.onClickOutsideOfFlexComponent()
         return
       }
 
+      // Check if the click was inside a group
       const flexComponents = this._boardState.flexComponents.filter(flexComponent => selectedFlexComponents?.includes(flexComponent.id))
       const groupDimensions = this.getGroupDimensions(flexComponents)
       const clickPosition = this.getMousePosition(event)
@@ -164,11 +172,11 @@ export class DraggableBoard {
 
       if (clickedInsideGroup) {
         this._offset = clickPosition
-        this._boardManager.onStartDragFlexComponent({ id: selectedFlexComponents?.[0] ?? null })
+        this._boardManager.onStartDragFlexComponent({ event, clickedInsideGroup: true })
       }
 
       if (!clickedInsideGroup) {
-        this._boardManager.onStartDragFlexComponent({ id: null })
+        this._boardManager.onClickOutsideOfFlexComponent()
       }
     }
   }
