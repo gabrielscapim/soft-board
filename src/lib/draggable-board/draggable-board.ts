@@ -28,6 +28,10 @@ export class DraggableBoard {
   }
 
   private getGroupDimensions (selectedComponents: FlexComponent[]) {
+    if (selectedComponents.length === 0) {
+      return { x: 0, y: 0, width: 0, height: 0 }
+    }
+
     let groupMinX = selectedComponents[0].properties.x
     let groupMinY = selectedComponents[0].properties.y
     let groupMaxX = selectedComponents[0].properties.x + selectedComponents[0].properties.width
