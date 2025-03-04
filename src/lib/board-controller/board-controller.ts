@@ -38,7 +38,7 @@ export class BoardController implements BoardControllerInterface {
         }
       }
 
-      return this._boardManager.addFlexComponent({ flexComponent: button })
+      return this._boardManager.addFlexComponents({ flexComponents: [button] })
     }
 
     if (type === 'divider') {
@@ -54,7 +54,7 @@ export class BoardController implements BoardControllerInterface {
         }
       }
 
-      return this._boardManager.addFlexComponent({ flexComponent: divider })
+      return this._boardManager.addFlexComponents({ flexComponents: [divider] })
     }
 
     if (type === 'input') {
@@ -72,7 +72,7 @@ export class BoardController implements BoardControllerInterface {
         }
       }
 
-      return this._boardManager.addFlexComponent({ flexComponent: input })
+      return this._boardManager.addFlexComponents({ flexComponents: [input] })
     }
 
     if (type === 'mobileScreen') {
@@ -88,7 +88,7 @@ export class BoardController implements BoardControllerInterface {
         }
       }
 
-      return this._boardManager.addFlexComponent({ flexComponent: mobileScreen })
+      return this._boardManager.addFlexComponents({ flexComponents: [mobileScreen] })
     }
 
     if (type === 'select') {
@@ -106,7 +106,7 @@ export class BoardController implements BoardControllerInterface {
         }
       }
 
-      return this._boardManager.addFlexComponent({ flexComponent: select })
+      return this._boardManager.addFlexComponents({ flexComponents: [select] })
     }
 
     if (type === 'text') {
@@ -124,7 +124,7 @@ export class BoardController implements BoardControllerInterface {
         }
       }
 
-      return this._boardManager.addFlexComponent({ flexComponent: text })
+      return this._boardManager.addFlexComponents({ flexComponents: [text] })
     }
 
     const rectangle: RectangleFlexComponent = {
@@ -141,7 +141,7 @@ export class BoardController implements BoardControllerInterface {
       }
     }
 
-    this._boardManager.addFlexComponent({ flexComponent: rectangle })
+    this._boardManager.addFlexComponents({ flexComponents: [rectangle] })
   }
 
   onChangeBoardScale (params: OnChangeBoardScaleParams) {
