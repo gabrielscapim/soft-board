@@ -1,8 +1,8 @@
 import { FlexComponent } from '../../types'
 import { UUID } from '../../types/common/uuid'
 
-export type AddFlexComponentParams = {
-  flexComponent: FlexComponent
+export type AddFlexComponentsParams = {
+  flexComponents: FlexComponent[]
 }
 
 export type OnDeleteFlexComponentsParams = {
@@ -64,7 +64,7 @@ export type UpdateFlexComponentParams = {
 }
 
 export interface BoardManagerI {
-  addFlexComponent (params: AddFlexComponentParams): void
+  addFlexComponents (params: AddFlexComponentsParams): void
   onClickOutsideOfFlexComponent (): void
   onDeleteFlexComponents (params: OnDeleteFlexComponentsParams): void
   onChangeBoardMoving (params: OnChangeBoardMovingParams): void

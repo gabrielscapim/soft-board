@@ -1,5 +1,5 @@
 import {
-  AddFlexComponentParams,
+  AddFlexComponentsParams,
   BoardManagerI,
   OnChangeBoardMovingParams,
   OnDeleteFlexComponentsParams,
@@ -29,14 +29,14 @@ export class BoardManager implements BoardManagerI {
     this._initialFlexComponentProperties = null
   }
 
-  addFlexComponent (params: AddFlexComponentParams) {
-    const { flexComponent } = params
+  addFlexComponents (params: AddFlexComponentsParams) {
+    const { flexComponents } = params
 
     const prevFlexComponents = this._boardState.flexComponents
-    const newFlexComponents = [...prevFlexComponents, flexComponent]
+    const newFlexComponents = [...prevFlexComponents, ...flexComponents]
 
     this._boardState.setFlexComponents(newFlexComponents)
-    this._boardState.setSelectedFlexComponents(null)
+    this._boardState.setSelectedFlexComponents(flexComponents.map(flexComponent => flexComponent.id))
   }
 
   onChangeBoardMoving (params: OnChangeBoardMovingParams) {
