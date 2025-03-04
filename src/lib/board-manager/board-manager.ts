@@ -2,6 +2,7 @@ import {
   AddFlexComponentParams,
   BoardManagerI,
   OnChangeBoardMovingParams,
+  OnDeleteFlexComponentsParams,
   OnDraggingFlexComponentParams,
   OnGuidesChangedParams,
   OnResizingFlexComponentParams,
@@ -43,6 +44,14 @@ export class BoardManager implements BoardManagerI {
   }
 
   onClickOutsideOfFlexComponent () {
+    this._boardState.setSelectedFlexComponents(null)
+  }
+
+  onDeleteFlexComponents (params: OnDeleteFlexComponentsParams) {
+    const newFlexComponents = this._boardState.flexComponents
+      .filter(flexComponent => !params.flexComponents.includes(flexComponent.id))
+
+    this._boardState.setFlexComponents(newFlexComponents)
     this._boardState.setSelectedFlexComponents(null)
   }
 

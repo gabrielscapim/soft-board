@@ -8,6 +8,7 @@ import {
   useDraggableFlexBoard,
   useElementResizer,
   useFlexComponents,
+  useKeyboardShortcuts,
   useScale,
   useSelectedFlexComponents,
   useSelectionBoard,
@@ -34,6 +35,7 @@ export function Board (props: BoardProps) {
   useElementResizer(boardState, flexBoardContainerRef.current)
   useZoomBoard(boardState, flexBoardContainerRef.current, flexBoardRef.current)
   useSelectionBoard(boardState, flexBoardContainerRef.current, selectionBoxRef.current)
+  useKeyboardShortcuts(boardState)
 
   return (
     <div
