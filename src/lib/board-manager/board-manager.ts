@@ -42,6 +42,10 @@ export class BoardManager implements BoardManagerI {
     this._boardState.setIsBoardMoving(params.isBoardMoving)
   }
 
+  onClickOutsideOfFlexComponent () {
+    this._boardState.setSelectedFlexComponents(null)
+  }
+
   onDraggingFlexComponent (params: OnDraggingFlexComponentParams) {
     const { properties, snap } = params
 
@@ -173,36 +177,46 @@ export class BoardManager implements BoardManagerI {
   }
 
   onStartDragFlexComponent (params: OnStartDragFlexComponentParams) {
-    const selected = this._boardState.selectedFlexComponents ?? []
+    const currentSelection = this._boardState.selectedFlexComponents ?? []
+    let newSelection: UUID[] = []
 
-    if (!params.id) {
-      this._boardState.setSelectedFlexComponents(null)
-      return
+    if (params.clickedInsideGroup && params.id) {
+      newSelection = currentSelection
+    }
+
+    if (params.clickedInsideGroup && !params.id) {
+      newSelection = currentSelection
+    }
+
+    if (params.clickedInsideGroup && params.id && params.event.shiftKey) {
+      newSelection = Array.from(new Set([...currentSelection, params.id]))
+    }
+
+    if (!params.clickedInsideGroup && params.id && !params.event.shiftKey) {
+      newSelection = [params.id]
+    }
+
+    if (!params.clickedInsideGroup && params.id && params.event.shiftKey) {
+      newSelection = Array.from(new Set([...currentSelection, params.id]))
     }
 
     const initialProperties = new Map<UUID, Dimensions & Offset>()
 
-    for (const id of [...selected, params.id]) {
-      const draggedFlexComponent = this._boardState.flexComponents.find(flexComponent => flexComponent.id === id)
+    for (const selectedId of newSelection) {
+      const component = this._boardState.flexComponents.find(flexComponent => flexComponent.id === selectedId)
 
-      if (draggedFlexComponent) {
-        initialProperties.set(
-          id,
-          {
-            width: draggedFlexComponent.properties.width,
-            height: draggedFlexComponent.properties.height,
-            x: draggedFlexComponent.properties.x,
-            y: draggedFlexComponent.properties.y
-          }
-        )
+      if (component) {
+        initialProperties.set(selectedId, {
+          x: component.properties.x,
+          y: component.properties.y,
+          width: component.properties.width,
+          height: component.properties.height
+        })
       }
     }
 
     this._initialFlexComponentProperties = initialProperties
-
-    if (!selected.includes(params.id)) {
-      this._boardState.setSelectedFlexComponents([...selected, params.id])
-    }
+    this._boardState.setSelectedFlexComponents(newSelection)
   }
 
   onStartResizeFlexComponent () {
