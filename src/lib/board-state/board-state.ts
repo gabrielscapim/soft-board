@@ -1,4 +1,5 @@
 import { BoardEvent, BoardEventListener, FlexComponent } from '../../types'
+import { Guide } from '../../types/board-positions/guide'
 import { UUID } from '../../types/common/uuid'
 
 /**
@@ -8,7 +9,7 @@ export class BoardState {
   private _boardListeners: Record<string, BoardEventListener[]>
   private _flexComponents: FlexComponent[]
   private _grid: number
-  private _guides: { vertical: { lineGuide: number, offset: number }[], horizontal: { lineGuide: number, offset: number }[] }
+  private _guides: { vertical: Guide[], horizontal: Guide[] }
   private _isBoardMoving: boolean
   private _isDragging: boolean
   private _scale: number
@@ -64,7 +65,7 @@ export class BoardState {
     this.runListener('flexComponentsChanged')
   }
 
-  setGuides (guides: { vertical: { lineGuide: number, offset: number }[], horizontal: { lineGuide: number, offset: number }[] }) {
+  setGuides (guides: { vertical: Guide[], horizontal: Guide[] }) {
     this._guides = guides
     this.runListener('guidesChanged')
   }

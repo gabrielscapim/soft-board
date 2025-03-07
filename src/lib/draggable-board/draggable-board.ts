@@ -101,8 +101,8 @@ export class DraggableBoard {
 
       this._boardManager.onGuidesChanged({
         guides: {
-          horizontal: guides.horizontal.map(guide => ({ lineGuide: guide.lineGuide, offset: guide.offset })),
-          vertical: guides.vertical.map(guide => ({ lineGuide: guide.lineGuide, offset: guide.offset }))
+          horizontal: guides.horizontal.filter(guide => guide.diff <= 1),
+          vertical: guides.vertical.filter(guide => guide.diff <= 1)
         }
       })
 
@@ -117,13 +117,14 @@ export class DraggableBoard {
       const minGuideVertical = sortedVertical[0]
       const minGuideHorizontal = sortedHorizontal[0]
 
-      let snap: { type?: string; x?: number; y?: number } | undefined = undefined
+      let snap: { type?: string; x?: number; y?: number, distance?: 'primary' | 'secondary' } | undefined = undefined
 
       if (minGuideVertical || minGuideHorizontal) {
         snap = {
           type: minGuideVertical?.snap || minGuideHorizontal?.snap,
           x: minGuideVertical ? minGuideVertical.lineGuide + minGuideVertical.offset : undefined,
-          y: minGuideHorizontal ? minGuideHorizontal.lineGuide + minGuideHorizontal.offset : undefined
+          y: minGuideHorizontal ? minGuideHorizontal.lineGuide + minGuideHorizontal.offset : undefined,
+          distance: minGuideVertical?.distance || minGuideHorizontal?.distance
         }
       }
 
@@ -165,6 +166,7 @@ export class DraggableBoard {
       }
 
       // Check if the click was inside a group
+      // ADICIONAR TRANSFORMAÇÃO DE ESCALA
       const flexComponents = this._boardState.flexComponents.filter(flexComponent => selectedFlexComponents?.includes(flexComponent.id))
       const groupDimensions = this.getGroupDimensions(flexComponents)
       const clickPosition = this.getMousePosition(event)
