@@ -52,7 +52,12 @@ export class SelectionBoard {
     const target = event.target as HTMLElement
     const selected = this.boardState.selectedFlexComponents ?? []
 
-    if (target.closest('.draggable-group') || target.closest('.resizer') || selected.length !== 0) {
+    if (
+      target.closest('.draggable-group') ||
+      target.closest('.resizer') ||
+      selected.length !== 0 ||
+      event.button === 1
+    ) {
       return
     }
 
