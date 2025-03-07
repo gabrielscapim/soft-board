@@ -12,12 +12,12 @@ type GetObjectSnappingEdgesResult = {
   vertical: {
     guide: number
     offset: number
-    snap: string
+    snap: 'start' | 'center' | 'end'
   }[]
   horizontal: {
     guide: number
     offset: number
-    snap: string
+    snap: 'start' | 'center' | 'end'
   }[]
 }
 
