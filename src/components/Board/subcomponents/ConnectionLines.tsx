@@ -123,7 +123,7 @@ function calculatePathCurve (
   const perpX = lineLength ? -dy / lineLength : 0
   const perpY = lineLength ? dx / lineLength : 0
 
-  const curvatureFactor = 40
+  const curvatureFactor = 10
   const controlX = midX + perpX * curvatureFactor
   const controlY = midY + perpY * curvatureFactor
 
