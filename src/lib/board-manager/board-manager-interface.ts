@@ -1,4 +1,5 @@
 import { FlexComponent } from '../../types'
+import { Guide } from '../../types/board-positions/guide'
 import { UUID } from '../../types/common/uuid'
 
 export type AddFlexComponentsParams = {
@@ -21,6 +22,7 @@ export type OnDraggingFlexComponentParams = {
   }
   snap?: {
     type?: string
+    distance?: 'primary' | 'secondary'
     x?: number
     y?: number
   }
@@ -28,8 +30,8 @@ export type OnDraggingFlexComponentParams = {
 
 export type OnGuidesChangedParams = {
   guides: {
-    horizontal: { lineGuide: number; offset: number }[]
-    vertical: { lineGuide: number; offset: number }[]
+    horizontal: Guide[]
+    vertical: Guide[]
   }
 }
 
