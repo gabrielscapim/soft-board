@@ -140,44 +140,181 @@ export class BoardManager implements BoardManagerI {
     this._initialFlexComponentProperties = null
   }
 
+  onEndResizeFlexComponent () {
+    this._boardState.setIsResizing(false)
+    this._initialFlexComponentProperties = null
+  }
+
   onGuidesChanged (params: OnGuidesChangedParams) {
     this._boardState.setGuides(params.guides)
   }
 
   onResizingFlexComponent (params: OnResizingFlexComponentParams) {
-    const { dimension, position } = params
-
+    const { dimension, position, snap, resizeDirection } = params
     const selected = this._boardState.selectedFlexComponents
 
     if (!selected || selected.length === 0 || !this._initialFlexComponentProperties) {
       return
     }
 
+    if (!this._boardState.isResizing) {
+      this._boardState.setIsResizing(true)
+    }
+
     const newFlexComponents = this._boardState.flexComponents.map(flexComponent => {
       if (selected.includes(flexComponent.id)) {
         const initialProps = this._initialFlexComponentProperties?.get(flexComponent.id)
 
-        if (!initialProps) {
-          return flexComponent
-        }
+        if (!initialProps) return flexComponent
 
-        const newWidth = Math.max(10, initialProps.width + dimension.roundedDeltaX)
-        const newHeight = Math.max(10, initialProps.height + dimension.roundedDeltaY)
-        const newX = newWidth > 10 ? initialProps.x + position.roundedDeltaX : flexComponent.properties.x
-        const newY = newHeight > 10 ? initialProps.y + position.roundedDeltaY : flexComponent.properties.y
+        let finalX = initialProps.x + position.roundedDeltaX
+        let finalY = initialProps.y + position.roundedDeltaY
+        let finalWidth = initialProps.width + dimension.roundedDeltaX
+        let finalHeight = initialProps.height + dimension.roundedDeltaY
+
+        switch (resizeDirection) {
+          case 'n': {
+            if (snap?.position?.y !== undefined) {
+              const snapDeltaY = snap.position.y - initialProps.y
+
+              if (Math.abs(finalY - snap.position.y) < DISTANCE_TO_BREAK_SNAP) {
+                finalY = snap.position.y
+                finalHeight = initialProps.height - snapDeltaY
+              }
+            }
+
+            break
+          }
+          case 'ne': {
+            if (snap?.position?.y !== undefined) {
+              const snapDeltaY = snap.position.y - initialProps.y
+
+              if (Math.abs(finalY - snap.position.y) < DISTANCE_TO_BREAK_SNAP) {
+                finalY = snap.position.y
+                finalHeight = initialProps.height - snapDeltaY
+              }
+            }
+
+            if (snap?.dimension?.x !== undefined) {
+              const snapWidth = snap.dimension.x - initialProps.x
+
+              if (Math.abs(finalWidth - snapWidth) < DISTANCE_TO_BREAK_SNAP) {
+                finalWidth = snapWidth
+              }
+            }
+
+            break
+          }
+          case 'e': {
+            if (snap?.dimension?.x !== undefined) {
+              const snapWidth = snap.dimension.x - initialProps.x
+
+              console.log('finalWidth', finalWidth)
+              console.log('snapWidth', snapWidth)
+
+              if (Math.abs(finalWidth - snapWidth) < DISTANCE_TO_BREAK_SNAP) {
+                finalWidth = snapWidth
+              }
+            }
+
+            break
+          }
+          case 'se': {
+            if (snap?.dimension?.x !== undefined) {
+              const snapWidth = snap.dimension.x - initialProps.x
+
+              if (Math.abs(finalWidth - snapWidth) < DISTANCE_TO_BREAK_SNAP) {
+                finalWidth = snapWidth
+              }
+            }
+
+            if (snap?.dimension?.y !== undefined) {
+              const snapHeight = snap.dimension.y - initialProps.y
+
+              if (Math.abs(finalHeight - snapHeight) < DISTANCE_TO_BREAK_SNAP) {
+                finalHeight = snapHeight
+              }
+            }
+
+            break
+          }
+          case 's': {
+            if (snap?.dimension?.y !== undefined) {
+              const snapHeight = snap.dimension.y - initialProps.y
+
+              if (Math.abs(finalHeight - snapHeight) < DISTANCE_TO_BREAK_SNAP) {
+                finalHeight = snapHeight
+              }
+            }
+
+            break
+          }
+          case 'sw': {
+            if (snap?.position?.x !== undefined) {
+              const snapDeltaX = snap.position.x - initialProps.x
+
+              if (Math.abs(finalX - snap.position.x) < DISTANCE_TO_BREAK_SNAP) {
+                finalX = snap.position.x
+                finalWidth = initialProps.width - snapDeltaX
+              }
+            }
+
+            if (snap?.dimension?.y !== undefined) {
+              const snapHeight = snap.dimension.y - initialProps.y
+
+              if (Math.abs(finalHeight - snapHeight) < DISTANCE_TO_BREAK_SNAP) {
+                finalHeight = snapHeight
+              }
+            }
+
+            break
+          }
+          case 'w': {
+            if (snap?.position?.x !== undefined) {
+              const snapDeltaX = snap.position.x - initialProps.x
+
+              if (Math.abs(finalX - snap.position.x) < DISTANCE_TO_BREAK_SNAP) {
+                finalX = snap.position.x
+                finalWidth = initialProps.width - snapDeltaX
+              }
+            }
+
+            break
+          }
+          case 'nw': {
+            if (snap?.position?.x !== undefined) {
+              const snapDeltaX = snap.position.x - initialProps.x
+
+              if (Math.abs(finalX - snap.position.x) < DISTANCE_TO_BREAK_SNAP) {
+                finalX = snap.position.x
+                finalWidth = initialProps.width - snapDeltaX
+              }
+            }
+
+            if (snap?.position?.y !== undefined) {
+              const snapDeltaY = snap.position.y - initialProps.y
+
+              if (Math.abs(finalY - snap.position.y) < DISTANCE_TO_BREAK_SNAP) {
+                finalY = snap.position.y
+                finalHeight = initialProps.height - snapDeltaY
+              }
+            }
+
+            break
+          }
+        }
 
         return {
           ...flexComponent,
           properties: {
             ...flexComponent.properties,
-            x: newX,
-            y: newY,
-            width: newWidth,
-            height: newHeight
+            x: finalX,
+            y: finalY,
+            width: finalWidth,
+            height: finalHeight
           }
         }
       }
-
       return flexComponent
     })
 

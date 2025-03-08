@@ -12,6 +12,7 @@ export class BoardState {
   private _guides: { vertical: Guide[], horizontal: Guide[] }
   private _isBoardMoving: boolean
   private _isDragging: boolean
+  private _isResizing: boolean
   private _scale: number
   private _selectedFlexComponents: UUID[] | null
   private _translate: { x: number, y: number }
@@ -23,6 +24,7 @@ export class BoardState {
     this._guides = { vertical: [], horizontal: [] }
     this._isBoardMoving = false
     this._isDragging = false
+    this._isResizing = false
     this._scale = 1
     this._selectedFlexComponents = null
     this._translate = { x: 0, y: 0 }
@@ -46,6 +48,10 @@ export class BoardState {
 
   get isDragging () {
     return this._isDragging
+  }
+
+  get isResizing () {
+    return this._isResizing
   }
 
   get scale () {
@@ -78,6 +84,11 @@ export class BoardState {
   setIsDragging (isDragging: boolean) {
     this._isDragging = isDragging
     this.runListener('isDraggingChanged')
+  }
+
+  setIsResizing (isResizing: boolean) {
+    this._isResizing = isResizing
+    this.runListener('isResizingChanged')
   }
 
   setScale (scale: number) {

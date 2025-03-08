@@ -4,6 +4,7 @@ export type BoardEvent =
   'guidesChanged' |
   'isBoardMovingChanged' |
   'isDraggingChanged' |
+  'isResizingChanged' |
   'scaleChanged' |
   'selectedFlexComponentsChanged' |
   'translateChanged'

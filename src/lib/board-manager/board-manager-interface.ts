@@ -36,6 +36,7 @@ export type OnGuidesChangedParams = {
 }
 
 export type OnResizingFlexComponentParams = {
+  resizeDirection: string
   dimension: {
     roundedDeltaX: number
     roundedDeltaY: number
@@ -43,6 +44,18 @@ export type OnResizingFlexComponentParams = {
   position: {
     roundedDeltaX: number
     roundedDeltaY: number
+  }
+  snap?: {
+    type?: string
+    distance?: 'primary' | 'secondary'
+    position?: {
+      x?: number
+      y?: number
+    }
+    dimension?: {
+      x?: number
+      y?: number
+    }
   }
 }
 
@@ -72,6 +85,7 @@ export interface BoardManagerI {
   onChangeBoardMoving (params: OnChangeBoardMovingParams): void
   onDraggingFlexComponent (params: OnDraggingFlexComponentParams): void
   onEndDragFlexComponent (): void
+  onEndResizeFlexComponent (): void
   onGuidesChanged (params: OnGuidesChangedParams): void
   onResizingFlexComponent (params: OnResizingFlexComponentParams): void
   onScaleChange (params: OnScaleChangeParams): void
