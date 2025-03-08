@@ -85,6 +85,7 @@ export interface BoardManagerI {
   onChangeBoardMoving (params: OnChangeBoardMovingParams): void
   onDraggingFlexComponent (params: OnDraggingFlexComponentParams): void
   onEndDragFlexComponent (): void
+  onEndResizeFlexComponent (): void
   onGuidesChanged (params: OnGuidesChangedParams): void
   onResizingFlexComponent (params: OnResizingFlexComponentParams): void
   onScaleChange (params: OnScaleChangeParams): void

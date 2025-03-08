@@ -220,6 +220,10 @@ export class ElementResizer {
 
   public endResize () {
     this._selectedResizerElement = undefined
+    this._offset = undefined
+    this._resizeDirection = undefined
+    this._transform = undefined
+    this._boardManager.onEndResizeFlexComponent()
   }
 
   public onResizing (event: MouseEvent) {

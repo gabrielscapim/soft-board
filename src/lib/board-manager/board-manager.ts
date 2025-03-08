@@ -140,6 +140,11 @@ export class BoardManager implements BoardManagerI {
     this._initialFlexComponentProperties = null
   }
 
+  onEndResizeFlexComponent () {
+    this._boardState.setIsResizing(false)
+    this._initialFlexComponentProperties = null
+  }
+
   onGuidesChanged (params: OnGuidesChangedParams) {
     this._boardState.setGuides(params.guides)
   }
@@ -150,6 +155,10 @@ export class BoardManager implements BoardManagerI {
 
     if (!selected || selected.length === 0 || !this._initialFlexComponentProperties) {
       return
+    }
+
+    if (!this._boardState.isResizing) {
+      this._boardState.setIsResizing(true)
     }
 
     const newFlexComponents = this._boardState.flexComponents.map(flexComponent => {
@@ -311,7 +320,6 @@ export class BoardManager implements BoardManagerI {
 
     this._boardState.setFlexComponents(newFlexComponents)
     this._boardState.setSelectedFlexComponents(selected)
-
   }
 
   onScaleChange (params: OnScaleChangeParams) {
