@@ -18,8 +18,7 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
   const flexComponents = useFlexComponents(boardState)
 
   if (
-    !isDragging ||
-    !isResizing ||
+    (!isDragging && !isResizing) ||
     !selectedComponents ||
     !flexComponents ||
     selectedComponents.length === 0 ||
