@@ -144,6 +144,143 @@ export class BoardController implements BoardControllerInterface {
     this._boardManager.addFlexComponents({ flexComponents: [rectangle] })
   }
 
+  onAlignComponents (option: string) {
+    const selected = this._boardState.selectedFlexComponents ?? []
+    const flexComponents = this._boardState.flexComponents.filter(flexComponent => selected.includes(flexComponent.id))
+
+    if (option === 'left') {
+      const minX = Math.min(...flexComponents.map(flexComponent => flexComponent.properties.x))
+
+      flexComponents.forEach(flexComponent => {
+        this._boardManager.updateFlexComponent({
+          updatedFlexComponent: {
+            ...flexComponent,
+            properties: {
+              ...flexComponent.properties,
+              x: minX
+            }
+          }
+        })
+      })
+    }
+
+    if (option === 'center') {
+      const centerX = Math.min(...flexComponents.map(flexComponent => flexComponent.properties.x + flexComponent.properties.width / 2))
+
+      flexComponents.forEach(flexComponent => {
+        this._boardManager.updateFlexComponent({
+          updatedFlexComponent: {
+            ...flexComponent,
+            properties: {
+              ...flexComponent.properties,
+              x: centerX - flexComponent.properties.width / 2
+            }
+          }
+        })
+      })
+    }
+
+    if (option === 'right') {
+      const maxX = Math.max(...flexComponents.map(flexComponent => flexComponent.properties.x + flexComponent.properties.width))
+
+      flexComponents.forEach(flexComponent => {
+        this._boardManager.updateFlexComponent({
+          updatedFlexComponent: {
+            ...flexComponent,
+            properties: {
+              ...flexComponent.properties,
+              x: maxX - flexComponent.properties.width
+            }
+          }
+        })
+      })
+    }
+
+    if (option === 'top') {
+      const minY = Math.min(...flexComponents.map(flexComponent => flexComponent.properties.y))
+
+      flexComponents.forEach(flexComponent => {
+        this._boardManager.updateFlexComponent({
+          updatedFlexComponent: {
+            ...flexComponent,
+            properties: {
+              ...flexComponent.properties,
+              y: minY
+            }
+          }
+        })
+      })
+    }
+
+    if (option === 'middle') {
+      const centerY = Math.min(...flexComponents.map(flexComponent => flexComponent.properties.y + flexComponent.properties.height / 2))
+
+      flexComponents.forEach(flexComponent => {
+        this._boardManager.updateFlexComponent({
+          updatedFlexComponent: {
+            ...flexComponent,
+            properties: {
+              ...flexComponent.properties,
+              y: centerY - flexComponent.properties.height / 2
+            }
+          }
+        })
+      })
+    }
+
+    if (option === 'bottom') {
+      const maxY = Math.max(...flexComponents.map(flexComponent => flexComponent.properties.y + flexComponent.properties.height))
+
+      flexComponents.forEach(flexComponent => {
+        this._boardManager.updateFlexComponent({
+          updatedFlexComponent: {
+            ...flexComponent,
+            properties: {
+              ...flexComponent.properties,
+              y: maxY - flexComponent.properties.height
+            }
+          }
+        })
+      })
+    }
+
+    if (option === 'full-width') {
+      const minX = Math.min(...flexComponents.map(flexComponent => flexComponent.properties.x))
+      const maxX = Math.max(...flexComponents.map(flexComponent => flexComponent.properties.x + flexComponent.properties.width))
+
+      flexComponents.forEach(flexComponent => {
+        this._boardManager.updateFlexComponent({
+          updatedFlexComponent: {
+            ...flexComponent,
+            properties: {
+              ...flexComponent.properties,
+              x: minX,
+              width: maxX - minX
+            }
+          }
+        })
+      })
+    }
+
+    if (option === 'full-height') {
+      const minY = Math.min(...flexComponents.map(flexComponent => flexComponent.properties.y))
+      const maxY = Math.max(...flexComponents.map(flexComponent => flexComponent.properties.y + flexComponent.properties.height))
+
+      flexComponents.forEach(flexComponent => {
+        this._boardManager.updateFlexComponent({
+          updatedFlexComponent: {
+            ...flexComponent,
+            properties: {
+              ...flexComponent.properties,
+              y: minY,
+              height: maxY - minY
+            }
+          }
+        })
+      })
+    }
+  }
+
   onChangeBoardScale (params: OnChangeBoardScaleParams) {
     const centerX = window.innerWidth / 2
     const centerY = window.innerHeight / 2

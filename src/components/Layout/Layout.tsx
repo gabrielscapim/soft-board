@@ -3,6 +3,7 @@ import { FlexComponentsMenu } from '../FlexComponentsMenu'
 import { NavBar } from '../NavBar'
 import { BoardController, BoardState } from '../../lib'
 import { FlexComponentPropertiesMenu } from '../FlexComponentPropertiesMenu'
+import { GroupComponentsPropertiesMenu } from '../GroupComponentsPropertiesMenu'
 
 export type LayoutProps = {
   boardState: BoardState
@@ -18,6 +19,7 @@ export function Layout (props: LayoutProps) {
       <div className="flex grow">
         <FlexComponentsMenu boardController={boardController} />
         <FlexComponentPropertiesMenu boardState={boardState} boardController={boardController} />
+        <GroupComponentsPropertiesMenu  boardState={boardState} boardController={boardController} />
         <Board boardState={boardState} boardController={boardController} />
       </div>
     </div>
