@@ -52,20 +52,32 @@ export function ConnectionLines (props: ConnectionLinesProps) {
         >
           <polygon points="0 0, 6 2, 0 4" fill="rgba(30, 144, 255, 0.35)" />
         </marker>
+
+        <marker
+          id="startcircle"
+          markerWidth="6"
+          markerHeight="6"
+          refX="3"
+          refY="3"
+          orient="auto"
+          markerUnits="strokeWidth"
+        >
+          <circle cx="3" cy="3" r="3" fill="rgba(30, 144, 255, 0.35)" />
+        </marker>
       </defs>
 
       {componentsWithConnection.map(component => (
-          <path
-            key={`${component.id}-${component.connection.id}`}
-            d={calculatePathCurve(component, boardTranslate, scale)}
-            stroke="rgba(30, 144, 255, 0.35)"
-            strokeWidth={2}
-            strokeDasharray="5"
-            fill="none"
-            markerEnd="url(#arrowhead)"
-          />
-        )
-      )}
+        <path
+          key={`${component.id}-${component.connection.id}`}
+          d={calculatePathCurve(component, boardTranslate, scale)}
+          stroke="rgba(30, 144, 255, 0.35)"
+          strokeWidth={2}
+          strokeDasharray="5"
+          fill="none"
+          markerStart="url(#startcircle)"
+          markerEnd="url(#arrowhead)"
+        />
+      ))}
     </svg>
   )
 }
@@ -123,7 +135,7 @@ function calculatePathCurve (
   const perpX = lineLength ? -dy / lineLength : 0
   const perpY = lineLength ? dx / lineLength : 0
 
-  const curvatureFactor = 10
+  const curvatureFactor = 35
   const controlX = midX + perpX * curvatureFactor
   const controlY = midY + perpY * curvatureFactor
 
