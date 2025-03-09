@@ -140,6 +140,10 @@ export class DraggableBoard {
   }
 
   public startDrag (event: MouseEvent) {
+    if (event.button === 1) {
+      return
+    }
+
     const target = event.target as HTMLDivElement
     const draggableGroupElement = target.closest('.draggable-group') as HTMLDivElement | null
     const resizerElement = target.closest('.resizer') as HTMLDivElement | null
