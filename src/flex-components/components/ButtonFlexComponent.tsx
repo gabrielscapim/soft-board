@@ -32,6 +32,7 @@ export function ButtonFlexComponent (props: FlexComponentProps) {
         width: `${properties.width}px`,
         height: `${properties.height}px`,
         borderRadius: `${properties.rx}px / ${properties.ry}px`,
+        zIndex: properties.zIndex
       }}
     >
       Button

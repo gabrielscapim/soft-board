@@ -15,6 +15,7 @@ export function MobileScreenFlexComponent (props: FlexComponentProps) {
         left: `${properties.x}px`,
         width: `${properties.width}px`,
         height: `${properties.height}px`,
+        zIndex: properties.zIndex
       }}
     >
       <div className="flex-1 w-full bg-white rounded-2xl" />

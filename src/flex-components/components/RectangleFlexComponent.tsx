@@ -23,7 +23,8 @@ export function RectangleFlexComponent (props: FlexComponentProps) {
         width: `${properties.width}px`,
         height: `${properties.height}px`,
         borderRadius: `${properties.rx}px / ${properties.ry}px`,
-        cursor: `url(${Cursor}) 0 0, auto`
+        cursor: `url(${Cursor}) 0 0, auto`,
+        zIndex: properties.zIndex
       }}
     >
     </div>

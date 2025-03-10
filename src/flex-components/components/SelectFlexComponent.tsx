@@ -30,7 +30,8 @@ export function SelectFlexComponent (props: FlexComponentProps) {
         left: `${properties.x}px`,
         width: `${properties.width > MIN_WIDTH ? properties.width : MIN_WIDTH}px`,
         height: `${properties.height}px`,
-        borderRadius: `${properties.rx}px / ${properties.ry}px`
+        borderRadius: `${properties.rx}px / ${properties.ry}px`,
+        zIndex: properties.zIndex
       }}
     >
       <div className="text-ellipsis overflow-hidden w-full pl-4">
