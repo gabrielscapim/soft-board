@@ -308,6 +308,7 @@ export class BoardController implements BoardControllerInterface {
 
     if (option === 'front') {
       const max = Math.max(...this._boardState.flexComponents.map(flexComponent => flexComponent.properties.zIndex ?? 0))
+      let currentNewMax = max + 1
 
       selectedFlexComponents.forEach(flexComponent => {
         this._boardManager.updateFlexComponent({
@@ -315,10 +316,12 @@ export class BoardController implements BoardControllerInterface {
             ...flexComponent,
             properties: {
               ...flexComponent.properties,
-              zIndex: flexComponent.properties.zIndex === max ? max : max + 1
+              zIndex: flexComponent.properties.zIndex === max ? max : currentNewMax
             }
           }
         })
+
+        currentNewMax += 1
       })
     }
 
@@ -359,6 +362,7 @@ export class BoardController implements BoardControllerInterface {
 
     if (option === 'back') {
       const min = Math.min(...this._boardState.flexComponents.map(flexComponent => flexComponent.properties.zIndex ?? 0))
+      let currentNewMin = min - 1
 
       selectedFlexComponents.forEach(flexComponent => {
         this._boardManager.updateFlexComponent({
@@ -366,10 +370,12 @@ export class BoardController implements BoardControllerInterface {
             ...flexComponent,
             properties: {
               ...flexComponent.properties,
-              zIndex: flexComponent.properties.zIndex === min ? min : min - 1
+              zIndex: flexComponent.properties.zIndex === min ? min : currentNewMin
             }
           }
         })
+
+        currentNewMin -= 1
       })
     }
 
