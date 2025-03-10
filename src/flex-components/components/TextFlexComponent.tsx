@@ -18,6 +18,7 @@ export function TextFlexComponent (props: FlexComponentProps) {
         'outline-none'
       )}
       style={{
+        zIndex: properties.zIndex,
         top: `${properties.y}px`,
         left: `${properties.x}px`,
         width: `${properties.width}px`,

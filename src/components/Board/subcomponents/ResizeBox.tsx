@@ -76,6 +76,7 @@ export function ResizeBox (props: ResizeBoxProps) {
           top: boxY,
           width: boxWidth,
           height: boxHeight,
+          zIndex: 1000
         }}
       />
       {resizers.map(resizer => (
@@ -89,6 +90,7 @@ export function ResizeBox (props: ResizeBoxProps) {
             top: resizer.top,
             width: RESIZER_SIZE,
             height: RESIZER_SIZE,
+            zIndex: 1001
           }}
         />
       ))}

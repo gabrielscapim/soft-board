@@ -19,6 +19,7 @@ export function DividerFlexComponent (props: FlexComponentProps) {
         left: `${properties.x}px`,
         width: `${properties.width}px`,
         height: `${properties.height}px`,
+        zIndex: properties.zIndex
       }}
     />
   )

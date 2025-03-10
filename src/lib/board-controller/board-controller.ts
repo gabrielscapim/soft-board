@@ -23,6 +23,10 @@ export class BoardController implements BoardControllerInterface {
   onAddFlexComponent (params: OnAddFlexComponentParams) {
     const { type, position } = params
 
+    const zIndex = this._boardState.flexComponents.length > 0
+      ? Math.max(...this._boardState.flexComponents.map(flexComponent => flexComponent.properties.zIndex ?? 0)) + 1
+      : 1
+
     if (type === 'button') {
       const button: ButtonFlexComponent = {
         id: uuid() as UUID,
@@ -34,7 +38,8 @@ export class BoardController implements BoardControllerInterface {
           width: 100,
           height: 48,
           rx: 10,
-          ry: 10
+          ry: 10,
+          zIndex
         }
       }
 
@@ -50,7 +55,8 @@ export class BoardController implements BoardControllerInterface {
           x: position.x,
           y: position.y,
           width: 300,
-          height: 4
+          height: 4,
+          zIndex
         }
       }
 
@@ -68,7 +74,8 @@ export class BoardController implements BoardControllerInterface {
           width: 200,
           height: 48,
           rx: 10,
-          ry: 10
+          ry: 10,
+          zIndex
         }
       }
 
@@ -84,7 +91,8 @@ export class BoardController implements BoardControllerInterface {
           x: position.x,
           y: position.y,
           width: 375,
-          height: 812
+          height: 812,
+          zIndex
         }
       }
 
@@ -102,7 +110,8 @@ export class BoardController implements BoardControllerInterface {
           width: 200,
           height: 48,
           rx: 10,
-          ry: 10
+          ry: 10,
+          zIndex
         }
       }
 
@@ -120,7 +129,8 @@ export class BoardController implements BoardControllerInterface {
           width: 200,
           height: 24,
           text: 'Text',
-          fontSize: 16
+          fontSize: 16,
+          zIndex
         }
       }
 
@@ -137,7 +147,8 @@ export class BoardController implements BoardControllerInterface {
         width: 150,
         height: 100,
         rx: 10,
-        ry: 10
+        ry: 10,
+        zIndex
       }
     }
 
@@ -289,6 +300,113 @@ export class BoardController implements BoardControllerInterface {
 
     this._boardManager.onScaleChange({ scale: params.scale })
     this._boardManager.onTranslateBoard({ translateX: newTranslateX, translateY: newTranslateY })
+  }
+
+  onOrderFlexComponents (option: string) {
+    const selected = this._boardState.selectedFlexComponents ?? []
+    const selectedFlexComponents = this._boardState.flexComponents.filter(flexComponent => selected.includes(flexComponent.id))
+
+    if (option === 'front') {
+      const max = Math.max(...this._boardState.flexComponents.map(flexComponent => flexComponent.properties.zIndex ?? 0))
+
+      selectedFlexComponents.forEach(flexComponent => {
+        this._boardManager.updateFlexComponent({
+          updatedFlexComponent: {
+            ...flexComponent,
+            properties: {
+              ...flexComponent.properties,
+              zIndex: flexComponent.properties.zIndex === max ? max : max + 1
+            }
+          }
+        })
+      })
+    }
+
+    if (option === 'forward') {
+      const nonSelectedFlexComponents = this._boardState.flexComponents.filter(flexComponent => !selected.includes(flexComponent.id))
+
+      selectedFlexComponents.forEach(flexComponent => {
+        const currentZ = flexComponent.properties.zIndex ?? 0
+        const candidates = nonSelectedFlexComponents.filter(nonSelectedFlexComponent => (nonSelectedFlexComponent.properties.zIndex ?? 0) > currentZ)
+
+        if (candidates.length > 0) {
+          candidates.sort((a, b) => (a.properties.zIndex ?? 0) - (b.properties.zIndex ?? 0))
+
+          const adjacentFlexComponent = candidates[0]
+
+          this._boardManager.updateFlexComponent({
+            updatedFlexComponent: {
+              ...flexComponent,
+              properties: {
+                ...flexComponent.properties,
+                zIndex: adjacentFlexComponent.properties.zIndex
+              }
+            }
+          })
+
+          this._boardManager.updateFlexComponent({
+            updatedFlexComponent: {
+              ...adjacentFlexComponent,
+              properties: {
+                ...adjacentFlexComponent.properties,
+                zIndex: currentZ
+              }
+            }
+          })
+        }
+      })
+    }
+
+    if (option === 'back') {
+      const min = Math.min(...this._boardState.flexComponents.map(flexComponent => flexComponent.properties.zIndex ?? 0))
+
+      selectedFlexComponents.forEach(flexComponent => {
+        this._boardManager.updateFlexComponent({
+          updatedFlexComponent: {
+            ...flexComponent,
+            properties: {
+              ...flexComponent.properties,
+              zIndex: flexComponent.properties.zIndex === min ? min : min - 1
+            }
+          }
+        })
+      })
+    }
+
+    if (option === 'backward') {
+      const nonSelectedFlexComponents = this._boardState.flexComponents.filter(flexComponent => !selected.includes(flexComponent.id))
+
+      selectedFlexComponents.forEach(flexComponent => {
+        const currentZ = flexComponent.properties.zIndex ?? 0
+        const candidates = nonSelectedFlexComponents.filter(nonSelectedFlexComponent => (nonSelectedFlexComponent.properties.zIndex ?? 0) < currentZ)
+
+        if (candidates.length > 0) {
+          candidates.sort((a, b) => (b.properties.zIndex ?? 0) - (a.properties.zIndex ?? 0))
+
+          const adjacentFlexComponent = candidates[0]
+
+          this._boardManager.updateFlexComponent({
+            updatedFlexComponent: {
+              ...flexComponent,
+              properties: {
+                ...flexComponent.properties,
+                zIndex: adjacentFlexComponent.properties.zIndex
+              }
+            }
+          })
+
+          this._boardManager.updateFlexComponent({
+            updatedFlexComponent: {
+              ...adjacentFlexComponent,
+              properties: {
+                ...adjacentFlexComponent.properties,
+                zIndex: currentZ
+              }
+            }
+          })
+        }
+      })
+    }
   }
 
   onUpdateFlexComponent (params: OnUpdateFlexComponentParams): void {
