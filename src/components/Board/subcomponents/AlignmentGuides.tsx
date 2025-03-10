@@ -101,6 +101,7 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
 
         const groupStart = groupDimensions.y
         const groupEnd = groupDimensions.y + groupDimensions.height
+        const groupCenter = groupDimensions.y + groupDimensions.height / 2
         const alignedComponentStart = transform(alignedComponent.properties.y) + boardTranslate.y
         const alignedComponentEnd = transform(alignedComponent.properties.y + alignedComponent.properties.height) + boardTranslate.y
 
@@ -119,6 +120,12 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
             rectY = yPos - transform(SECONDARY_GUIDE_DISTANCE_TO_SNAP)
           } else if (Math.abs(groupStart - transform(SECONDARY_GUIDE_DISTANCE_TO_SNAP) - alignedComponentStart) <= 5) {
             rectY = yPos - transform(SECONDARY_GUIDE_DISTANCE_TO_SNAP)
+          }
+        } else {
+          if (groupCenter > alignedComponentStart && groupCenter + transform(SECONDARY_GUIDE_DISTANCE_TO_SNAP) !== alignedComponentEnd) {
+            rectY = yPos - transform(SECONDARY_GUIDE_DISTANCE_TO_SNAP)
+          } else if (groupCenter > alignedComponentStart && groupCenter + transform(SECONDARY_GUIDE_DISTANCE_TO_SNAP) === alignedComponentEnd) {
+            rectY = yPos
           }
         }
 
@@ -146,6 +153,7 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
 
         const groupStart = groupDimensions.x
         const groupEnd = groupDimensions.x + groupDimensions.width
+        const groupCenter = groupDimensions.x + groupDimensions.width / 2
         const alignedComponentStart = transform(alignedComponent.properties.x) + boardTranslate.x
         const alignedComponentEnd = transform(alignedComponent.properties.x + alignedComponent.properties.width) + boardTranslate.x
 
@@ -164,6 +172,12 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
             rectX = xPos - transform(SECONDARY_GUIDE_DISTANCE_TO_SNAP)
           } else if (Math.abs(groupStart - transform(SECONDARY_GUIDE_DISTANCE_TO_SNAP) - alignedComponentStart) <= 5) {
             rectX = xPos - transform(SECONDARY_GUIDE_DISTANCE_TO_SNAP)
+          }
+        } else {
+          if (groupCenter > alignedComponentStart && groupCenter + transform(SECONDARY_GUIDE_DISTANCE_TO_SNAP) !== alignedComponentEnd) {
+            rectX = xPos - transform(SECONDARY_GUIDE_DISTANCE_TO_SNAP)
+          } else if (groupCenter > alignedComponentStart && groupCenter + transform(SECONDARY_GUIDE_DISTANCE_TO_SNAP) === alignedComponentEnd) {
+            rectX = xPos
           }
         }
 
