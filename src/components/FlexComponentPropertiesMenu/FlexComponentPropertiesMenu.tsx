@@ -7,6 +7,7 @@ import { BasePropertyInput, TextPropertyInputs } from './subcomponents'
 import { Input } from '../Input'
 import { Select } from '../Select'
 import { UUID } from '../../types/common/uuid'
+import { OrderComponents } from '../Board/subcomponents'
 
 const BASE_INPUTS: { name: string, property: FlexComponentProperty }[] = [
   { name: 'X', property: 'x' },
@@ -113,6 +114,9 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
                 }
               }}
             />
+
+            <span className="divider my-1" />
+            <OrderComponents boardController={boardController} />
 
             {flexComponent?.type && INPUTS_BY_TYPE[flexComponent.type] && (
               <>

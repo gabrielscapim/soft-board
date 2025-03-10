@@ -3,6 +3,7 @@ import { useSelectedFlexComponents } from '../../hooks'
 import { BoardController, BoardState } from '../../lib'
 import { Button } from '../Button'
 import { Floating } from '../Floating'
+import { OrderComponents } from '../Board/subcomponents'
 
 export type GroupComponentsPropertiesMenuProps = {
   boardState: BoardState
@@ -86,7 +87,7 @@ export function GroupComponentsPropertiesMenu (props: GroupComponentsPropertiesM
   return (
     <Floating className="top-20 right-4">
       <ul className="menu bg-base-200 text-base-content min-h-full w-52 rounded-box h-[calc(100vh-6rem)]">
-        <li className="pb-2">Design</li>
+        <li className="menu-title">Alignment</li>
         <div className="grid grid-cols-4 gap-2 p-2">
           {ALIGNMENT_OPTIONS.map(option => (
             <div
@@ -106,6 +107,10 @@ export function GroupComponentsPropertiesMenu (props: GroupComponentsPropertiesM
             </div>
           ))}
         </div>
+
+        <span className="divider my-1" />
+        <li className="menu-title pb-4">Order</li>
+        <OrderComponents  boardController={boardController} />
       </ul>
     </Floating>
   )
