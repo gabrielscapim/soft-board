@@ -4,6 +4,7 @@ export type BaseProperties = {
 	y: number
 	width: number
 	height: number
+  zIndex?: number
 }
 
 /** Button properties */
