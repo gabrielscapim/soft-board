@@ -16,7 +16,8 @@ export function TextFlexComponent (props: FlexComponentProps) {
       className={clsx(
         'absolute',
         'draggable-group',
-        'outline-none'
+        'outline-none',
+        'text-black'
       )}
       style={{
         zIndex: properties.zIndex,
