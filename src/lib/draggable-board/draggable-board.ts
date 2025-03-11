@@ -27,6 +27,19 @@ export class DraggableBoard {
     this.endDrag = this.endDrag.bind(this)
   }
 
+  private clickedInsideGroup (selectedComponents: FlexComponent[], clickPosition: Offset) {
+    const groupDimensions = this.getGroupDimensions(selectedComponents)
+    const scale = this._boardState.scale
+    const translate = this._boardState.translate
+
+    return (
+      clickPosition.x >= groupDimensions.x * scale + translate.x &&
+      clickPosition.x <= (groupDimensions.x + groupDimensions.width) * scale + translate.x &&
+      clickPosition.y >= groupDimensions.y * scale + translate.y &&
+      clickPosition.y <= (groupDimensions.y + groupDimensions.height) * scale + translate.y
+    )
+  }
+
   private getGroupDimensions (selectedComponents: FlexComponent[]) {
     if (selectedComponents.length === 0) {
       return { x: 0, y: 0, width: 0, height: 0 }
@@ -170,15 +183,9 @@ export class DraggableBoard {
       }
 
       // Check if the click was inside a group
-      // ADICIONAR TRANSFORMAÇÃO DE ESCALA
       const flexComponents = this._boardState.flexComponents.filter(flexComponent => selectedFlexComponents?.includes(flexComponent.id))
-      const groupDimensions = this.getGroupDimensions(flexComponents)
       const clickPosition = this.getMousePosition(event)
-      const clickedInsideGroup =
-        clickPosition.x >= groupDimensions.x &&
-        clickPosition.x <= groupDimensions.x + groupDimensions.width &&
-        clickPosition.y >= groupDimensions.y &&
-        clickPosition.y <= groupDimensions.y + groupDimensions.height
+      const clickedInsideGroup = this.clickedInsideGroup(flexComponents, clickPosition)
 
       if (clickedInsideGroup) {
         this._offset = clickPosition
