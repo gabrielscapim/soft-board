@@ -1,19 +1,20 @@
-import { BoardController } from '../../lib'
-import { BoardLayout } from './components'
+import {
+  FlexComponentsMenu,
+  FlexComponentPropertiesMenu,
+  GroupComponentsPropertiesMenu,
+  Board
+} from '../../components'
 import { useBoard } from '../../hooks'
 
 export function BoardRoute () {
-  const boardState = useBoard()
-  const boardController = new BoardController(boardState ?? undefined)
+  const { boardState,  boardController } = useBoard()
 
   return (
     <>
-      {boardState && (
-        <BoardLayout
-          boardState={boardState}
-          boardController={boardController}
-        />
-      )}
+      <FlexComponentsMenu boardController={boardController} />
+      <FlexComponentPropertiesMenu boardState={boardState} boardController={boardController} />
+      <GroupComponentsPropertiesMenu  boardState={boardState} boardController={boardController} />
+      <Board boardState={boardState} boardController={boardController} />
     </>
   )
 }
