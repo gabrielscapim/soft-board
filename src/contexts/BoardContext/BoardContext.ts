@@ -1,4 +1,9 @@
 import { createContext } from 'react'
-import { BoardState } from '../../lib'
+import { BoardController, BoardState } from '../../lib'
 
-export const BoardContext = createContext<BoardState | null>(null)
+type BoardContextValue = {
+  boardState: BoardState
+  boardController: BoardController
+}
+
+export const BoardContext = createContext<BoardContextValue | null>(null)

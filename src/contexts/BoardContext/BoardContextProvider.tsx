@@ -1,14 +1,15 @@
 import { PropsWithChildren } from 'react'
-import { BoardState } from '../../lib'
+import { BoardController, BoardState } from '../../lib'
 import { BoardContext } from './BoardContext'
 
 export type BoardContextProvider = PropsWithChildren<{
   boardState: BoardState
+  boardController: BoardController
 }>
 
-export function BoardContextProvider ({ boardState, children }: BoardContextProvider) {
+export function BoardContextProvider ({ boardState, boardController, children }: BoardContextProvider) {
   return (
-    <BoardContext.Provider value={boardState}>
+    <BoardContext.Provider value={{ boardState, boardController }}>
       {children}
     </BoardContext.Provider>
   )
