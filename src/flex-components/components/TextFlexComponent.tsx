@@ -12,6 +12,7 @@ export function TextFlexComponent (props: FlexComponentProps) {
       id={component.id}
       contentEditable
       suppressContentEditableWarning
+      spellCheck={false}
       className={clsx(
         'absolute',
         'draggable-group',
