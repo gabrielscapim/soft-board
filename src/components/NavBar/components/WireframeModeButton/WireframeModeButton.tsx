@@ -8,21 +8,25 @@ export function WireframeModeButton () {
   return (
     <>
       {location.pathname === '/' && (
-        <button
-          className="btn btn-ghost btn-circle btn-sm"
-          onClick={() => navigate('/wireframe-mode')}
-        >
-          <PlayIcon size={20} />
-        </button>
+        <div className="tooltip tooltip-bottom" data-tip="Wireframe mode">
+          <button
+            className="btn btn-ghost btn-circle btn-sm"
+            onClick={() => navigate('/wireframe-mode')}
+          >
+            <PlayIcon size={20} />
+          </button>
+        </div>
       )}
 
       {location.pathname === '/wireframe-mode' && (
-        <button
-          className="btn btn-ghost btn-circle btn-sm"
-          onClick={() => navigate('/')}
-        >
-          <SquarePen size={20} />
-        </button>
+        <div className="tooltip tooltip-bottom" data-tip="Board mode">
+          <button
+            className="btn btn-ghost btn-circle btn-sm"
+            onClick={() => navigate('/')}
+          >
+            <SquarePen size={20} />
+          </button>
+        </div>
       )}
     </>
   )
