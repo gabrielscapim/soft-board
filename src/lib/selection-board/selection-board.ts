@@ -32,15 +32,18 @@ export class SelectionBoard {
   }
 
   private updateSelection (selectionRect: { x: number; y: number; width: number; height: number }) {
+    const translate = this.boardState.translate
+    const scale = this.boardState.scale
+
     const selected = this.boardState.flexComponents
       .filter(flexComponent => {
         const { x, y, width, height } = flexComponent.properties
 
         return (
-          x < selectionRect.x + selectionRect.width &&
-          x + width > selectionRect.x &&
-          y < selectionRect.y + selectionRect.height &&
-          y + height > selectionRect.y
+          x * scale + translate.x < selectionRect.x + selectionRect.width &&
+          (x + width) * scale + translate.x > selectionRect.x &&
+          y * scale + translate.y < selectionRect.y + selectionRect.height &&
+          (y + height) * scale + translate.y > selectionRect.y
         )
       })
       .map(flexComponent => flexComponent.id)
