@@ -1,12 +1,13 @@
-import { useBoard } from '../../hooks'
+import { useBoard, useFlexComponents } from '../../hooks'
 
 export function WireframeModeRoute () {
-  const board = useBoard()
+  const { boardState } = useBoard()
+  const flexComponents = useFlexComponents(boardState)
 
   return (
     <>
       Hello from WireframeModeRoute
-      <pre>{JSON.stringify(board?.flexComponents, null, 2)}</pre>
+      <pre>{JSON.stringify(flexComponents, null, 2)}</pre>
     </>
   )
 }
