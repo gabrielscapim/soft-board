@@ -67,6 +67,8 @@ export function ResizeBox (props: ResizeBoxProps) {
     { left: adjustedX - RESIZER_SIZE / 2, top: adjustedY - RESIZER_SIZE / 2, id: 'nw', cursor: 'nw-resize' },
   ]
 
+  const isMobileScreenFlexComponent = selectedFlexComponents.some(flexComponent => flexComponent.type === 'mobileScreen')
+
   return (
     <div>
       <div
@@ -79,7 +81,7 @@ export function ResizeBox (props: ResizeBoxProps) {
           zIndex: 1000
         }}
       />
-      {resizers.map(resizer => (
+      {!isMobileScreenFlexComponent && resizers.map(resizer => (
         <div
           key={resizer.id}
           id={resizer.id}
