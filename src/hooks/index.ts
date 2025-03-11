@@ -1,4 +1,5 @@
 export * from './use-board-translate'
+export * from './use-board'
 export * from './use-dragglabe-flex-board'
 export * from './use-element-resizer'
 export * from './use-flex-components'

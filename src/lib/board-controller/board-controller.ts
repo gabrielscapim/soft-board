@@ -14,7 +14,7 @@ export class BoardController implements BoardControllerInterface {
   private _boardState: BoardState
 
   constructor (
-    boardState: BoardState,
+    boardState: BoardState = new BoardState()
   ) {
     this._boardManager = new BoardManager(boardState)
     this._boardState = boardState

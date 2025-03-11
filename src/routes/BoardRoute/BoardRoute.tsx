@@ -1,15 +1,20 @@
-import { useState } from 'react'
-import { BoardController, BoardState } from '../../lib'
-import { BoardLayout } from './components'
+import {
+  FlexComponentsMenu,
+  FlexComponentPropertiesMenu,
+  GroupComponentsPropertiesMenu,
+  Board
+} from '../../components'
+import { useBoard } from '../../hooks'
 
 export function BoardRoute () {
-  const [boardState] = useState(new BoardState())
-  const boardController = new BoardController(boardState)
+  const { boardState,  boardController } = useBoard()
 
   return (
-    <BoardLayout
-      boardState={boardState}
-      boardController={boardController}
-    />
+    <>
+      <FlexComponentsMenu boardController={boardController} />
+      <FlexComponentPropertiesMenu boardState={boardState} boardController={boardController} />
+      <GroupComponentsPropertiesMenu  boardState={boardState} boardController={boardController} />
+      <Board boardState={boardState} boardController={boardController} />
+    </>
   )
 }
