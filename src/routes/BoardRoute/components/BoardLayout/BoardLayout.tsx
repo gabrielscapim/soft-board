@@ -1,16 +1,16 @@
-import { Board } from '../Board'
-import { FlexComponentsMenu } from '../FlexComponentsMenu'
-import { NavBar } from '../NavBar'
-import { BoardController, BoardState } from '../../lib'
-import { FlexComponentPropertiesMenu } from '../FlexComponentPropertiesMenu'
-import { GroupComponentsPropertiesMenu } from '../GroupComponentsPropertiesMenu'
+import { Board } from '../../../../components/Board'
+import { FlexComponentsMenu } from '../../../../components/FlexComponentsMenu'
+import { NavBar } from '../../../../components/NavBar'
+import { BoardController, BoardState } from '../../../../lib'
+import { FlexComponentPropertiesMenu } from '../../../../components/FlexComponentPropertiesMenu'
+import { GroupComponentsPropertiesMenu } from '../../../../components/GroupComponentsPropertiesMenu'
 
-export type LayoutProps = {
+export type BoardLayoutProps = {
   boardState: BoardState
   boardController: BoardController
 }
 
-export function Layout (props: LayoutProps) {
+export function BoardLayout (props: BoardLayoutProps) {
   const { boardState, boardController } = props
 
   return (
