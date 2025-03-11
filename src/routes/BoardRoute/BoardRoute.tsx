@@ -1,15 +1,19 @@
-import { useState } from 'react'
-import { BoardController, BoardState } from '../../lib'
+import { BoardController } from '../../lib'
 import { BoardLayout } from './components'
+import { useBoard } from '../../hooks'
 
 export function BoardRoute () {
-  const [boardState] = useState(new BoardState())
-  const boardController = new BoardController(boardState)
+  const boardState = useBoard()
+  const boardController = new BoardController(boardState ?? undefined)
 
   return (
-    <BoardLayout
-      boardState={boardState}
-      boardController={boardController}
-    />
+    <>
+      {boardState && (
+        <BoardLayout
+          boardState={boardState}
+          boardController={boardController}
+        />
+      )}
+    </>
   )
 }
