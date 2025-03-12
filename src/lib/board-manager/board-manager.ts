@@ -209,9 +209,6 @@ export class BoardManager implements BoardManagerI {
             if (snap?.dimension?.x !== undefined) {
               const snapWidth = snap.dimension.x - initialProps.x
 
-              console.log('finalWidth', finalWidth)
-              console.log('snapWidth', snapWidth)
-
               if (Math.abs(finalWidth - snapWidth) < DISTANCE_TO_BREAK_SNAP) {
                 finalWidth = snapWidth
               }

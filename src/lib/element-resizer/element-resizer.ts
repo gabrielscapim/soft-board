@@ -27,12 +27,17 @@ export class ElementResizer {
   }
 
   private getClosestGuide (guides: Guide[], target: number): Guide | undefined {
-    const closestGuide = guides.reduce((closest, current) => {
-      const currentDiff = Math.abs(target - (current.lineGuide + (current.offset || 0)))
-      const closestDiff = Math.abs(target - (closest.lineGuide + (closest.offset || 0)))
+    let closestGuide: Guide | undefined = undefined
 
-      return currentDiff < closestDiff ? current : closest
-    }, guides[0])
+    guides.forEach(guide => {
+      if (!closestGuide) {
+        closestGuide = guide
+      } else {
+        if (Math.abs(guide.lineGuide - target) < Math.abs(closestGuide.lineGuide - target)) {
+          closestGuide = guide
+        }
+      }
+    })
 
     return closestGuide
   }
