@@ -81,21 +81,27 @@ export function ResizeBox (props: ResizeBoxProps) {
           zIndex: 1000
         }}
       />
-      {!isMobileScreenFlexComponent && resizers.map(resizer => (
-        <div
-          key={resizer.id}
-          id={resizer.id}
-          className="absolute bg-sky-500 border-2 border-white rounded-full resizer"
-          style={{
-            cursor: resizer.cursor,
-            left: resizer.left,
-            top: resizer.top,
-            width: RESIZER_SIZE,
-            height: RESIZER_SIZE,
-            zIndex: 1001
-          }}
-        />
-      ))}
+      {resizers.map(resizer => {
+        if (isMobileScreenFlexComponent && resizer.id !== 'n' && resizer.id !== 's') {
+          return
+        }
+
+        return (
+          <div
+            key={resizer.id}
+            id={resizer.id}
+            className="absolute bg-sky-500 border-2 border-white rounded-full resizer"
+            style={{
+              cursor: resizer.cursor,
+              left: resizer.left,
+              top: resizer.top,
+              width: RESIZER_SIZE,
+              height: RESIZER_SIZE,
+              zIndex: 1001
+            }}
+          />
+        )
+      })}
     </div>
   )
 }
