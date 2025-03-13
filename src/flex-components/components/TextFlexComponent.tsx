@@ -34,7 +34,7 @@ export function TextFlexComponent (props: FlexComponentProps) {
         wordBreak: 'break-word'
       }}
       onBlur={event => {
-        boardController.onUpdateFlexComponent({flexComponent: {  ...component, properties: { ...properties, text: event.currentTarget.textContent } as TextFlexComponentProperties }})
+        boardController?.onUpdateFlexComponent({flexComponent: {  ...component, properties: { ...properties, text: event.currentTarget.textContent } as TextFlexComponentProperties }})
       }}
     >
       {properties.text}

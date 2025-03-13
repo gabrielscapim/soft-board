@@ -1,4 +1,4 @@
-import { PlayIcon, SquarePen } from 'lucide-react'
+import { PlayIcon, SquareDashedMousePointer } from 'lucide-react'
 import { useLocation, useNavigate } from 'react-router'
 
 export function WireframeModeButton () {
@@ -24,7 +24,7 @@ export function WireframeModeButton () {
             className="btn btn-ghost btn-circle btn-sm"
             onClick={() => navigate('/')}
           >
-            <SquarePen size={20} />
+            <SquareDashedMousePointer size={20} />
           </button>
         </div>
       )}

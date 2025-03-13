@@ -12,7 +12,8 @@ import {
 
 export type FlexComponentProps = {
   component: FlexComponent
-  boardController: BoardController
+  boardController?: BoardController
+  handleAction?: (flexComponent: FlexComponent, event: string) => void
 }
 
 export type FlexComponentElement = (props: FlexComponentProps) => JSX.Element
