@@ -41,7 +41,7 @@ export class KeyboardShortcuts {
   }
 
   onKeyPressed (event: KeyboardEvent) {
-    if (event.key === 'Delete') {
+    if (event.key === 'Delete' || event.key === 'Backspace') {
       this.onDeleteKeyPressed()
     }
 
