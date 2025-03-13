@@ -3,7 +3,7 @@ import { FlexComponentProps } from '../flex-components'
 import { ButtonFlexComponentProperties } from '../../types'
 
 export function ButtonFlexComponent (props: FlexComponentProps) {
-  const { component } = props
+  const { component, handleAction } = props
 
   const properties = component.properties as ButtonFlexComponentProperties
 
@@ -34,6 +34,7 @@ export function ButtonFlexComponent (props: FlexComponentProps) {
         borderRadius: `${properties.rx}px / ${properties.ry}px`,
         zIndex: properties.zIndex
       }}
+      onClick={() => handleAction?.(component, 'onClick')}
     >
       Button
     </div>
