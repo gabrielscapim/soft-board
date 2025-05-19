@@ -42,6 +42,10 @@ export function getAlignmentBoardGuides (
           ? 'secondary'
           : null
 
+      if (distance === 'secondary' && itemBound.snap === 'center') {
+        continue
+      }
+
       if (distance && !hasGuide) {
         vertical.push({
           flexComponentToAlign: { id: lineGuide.flexComponentToAlign.id },
@@ -68,6 +72,10 @@ export function getAlignmentBoardGuides (
           : lineGuide.distance === 'secondary' && diff < SECONDARY_GUIDE_DISTANCE_TO_SNAP
           ? 'secondary'
           : null
+
+      if (distance === 'secondary' && itemBound.snap === 'center') {
+        continue
+      }
 
       if (distance && !hasGuide) {
         horizontal.push({

@@ -15,7 +15,7 @@ import { BoardState } from '../board-state'
 import { Dimensions, Offset } from '../../types'
 import { UUID } from '../../types/common/uuid'
 
-const DISTANCE_TO_BREAK_SNAP = 10
+const DISTANCE_TO_BREAK_SNAP = 5
 
 /**
  * Class responsible for changing the attributes of the BoardState class.

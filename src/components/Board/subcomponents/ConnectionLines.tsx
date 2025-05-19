@@ -71,7 +71,7 @@ export function ConnectionLines (props: ConnectionLinesProps) {
           key={`${component.id}-${component.connection.id}`}
           d={calculatePathCurve(component, boardTranslate, scale)}
           stroke="rgba(30, 144, 255, 0.35)"
-          strokeWidth={2}
+          strokeWidth={1}
           strokeDasharray="5"
           fill="none"
           markerStart="url(#startcircle)"
