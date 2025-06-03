@@ -1,3 +1,4 @@
+import { FLEX_COMPONENTS_SCHEMAS } from '../../../flex-components'
 import { useFlexComponents, useSelectedFlexComponents } from '../../../hooks'
 import { useGrid } from '../../../hooks/use-grid'
 import { BoardState } from '../../../lib'
@@ -67,7 +68,8 @@ export function ResizeBox (props: ResizeBoxProps) {
     { left: adjustedX - RESIZER_SIZE / 2, top: adjustedY - RESIZER_SIZE / 2, id: 'nw', cursor: 'nw-resize' },
   ]
 
-  const isMobileScreenFlexComponent = selectedFlexComponents.some(flexComponent => flexComponent.type === 'mobileScreen')
+  const notHorizontalResizable = selectedFlexComponents.some(flexComponent => FLEX_COMPONENTS_SCHEMAS[flexComponent.type]?.resizable?.horizontal === false)
+  const notVerticalResizable = selectedFlexComponents.some(flexComponent => FLEX_COMPONENTS_SCHEMAS[flexComponent.type]?.resizable?.vertical === false)
 
   return (
     <div>
@@ -82,8 +84,16 @@ export function ResizeBox (props: ResizeBoxProps) {
         }}
       />
       {resizers.map(resizer => {
-        if (isMobileScreenFlexComponent && resizer.id !== 'n' && resizer.id !== 's') {
-          return
+        if (notHorizontalResizable) {
+          if (resizer.id === 'e' || resizer.id === 'w' || resizer.id === 'ne' || resizer.id === 'se' || resizer.id === 'nw' || resizer.id === 'sw') {
+            return
+          }
+        }
+
+        if (notVerticalResizable) {
+          if (resizer.id === 'n' || resizer.id === 's' || resizer.id === 'ne' || resizer.id === 'se' || resizer.id === 'nw' || resizer.id === 'sw') {
+            return
+          }
         }
 
         return (
