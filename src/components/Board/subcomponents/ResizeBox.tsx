@@ -1,3 +1,4 @@
+import { FLEX_COMPONENTS_SCHEMAS } from '../../../flex-components'
 import { useFlexComponents, useSelectedFlexComponents } from '../../../hooks'
 import { useGrid } from '../../../hooks/use-grid'
 import { BoardState } from '../../../lib'
@@ -13,7 +14,7 @@ type ResizerConfig = {
   cursor: string
 }
 
-const RESIZER_SIZE = 10
+const RESIZER_SIZE = 8
 
 export function ResizeBox (props: ResizeBoxProps) {
   const { boardState } = props
@@ -67,12 +68,13 @@ export function ResizeBox (props: ResizeBoxProps) {
     { left: adjustedX - RESIZER_SIZE / 2, top: adjustedY - RESIZER_SIZE / 2, id: 'nw', cursor: 'nw-resize' },
   ]
 
-  const isMobileScreenFlexComponent = selectedFlexComponents.some(flexComponent => flexComponent.type === 'mobileScreen')
+  const notHorizontalResizable = selectedFlexComponents.some(flexComponent => FLEX_COMPONENTS_SCHEMAS[flexComponent.type]?.resizable?.horizontal === false)
+  const notVerticalResizable = selectedFlexComponents.some(flexComponent => FLEX_COMPONENTS_SCHEMAS[flexComponent.type]?.resizable?.vertical === false)
 
   return (
     <div>
       <div
-        className="absolute border-2 border-blue-500 pointer-events-none"
+        className="absolute border-2 border-sky-500 pointer-events-none"
         style={{
           left: boxX,
           top: boxY,
@@ -82,15 +84,23 @@ export function ResizeBox (props: ResizeBoxProps) {
         }}
       />
       {resizers.map(resizer => {
-        if (isMobileScreenFlexComponent && resizer.id !== 'n' && resizer.id !== 's') {
-          return
+        if (notHorizontalResizable) {
+          if (resizer.id === 'e' || resizer.id === 'w' || resizer.id === 'ne' || resizer.id === 'se' || resizer.id === 'nw' || resizer.id === 'sw') {
+            return
+          }
+        }
+
+        if (notVerticalResizable) {
+          if (resizer.id === 'n' || resizer.id === 's' || resizer.id === 'ne' || resizer.id === 'se' || resizer.id === 'nw' || resizer.id === 'sw') {
+            return
+          }
         }
 
         return (
           <div
             key={resizer.id}
             id={resizer.id}
-            className="absolute bg-sky-500 border-2 border-white rounded-full resizer"
+            className="absolute bg-white border-[1px] border-sky-500 rounded-full resizer"
             style={{
               cursor: resizer.cursor,
               left: resizer.left,

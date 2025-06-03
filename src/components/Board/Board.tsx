@@ -1,7 +1,6 @@
 import Cursor from '../../public/cursor.png'
 import { createElement, useRef } from 'react'
 import { BoardController, BoardState } from '../../lib'
-import { FLEX_COMPONENTS } from '../../flex-components'
 import { AlignmentGuides, ConnectionLines, ResizeBox, SelectionBox } from './subcomponents'
 import {
   useBoardTranslate,
@@ -14,6 +13,7 @@ import {
   useSelectionBoard,
   useZoomBoard
 } from '../../hooks'
+import { FLEX_COMPONENTS_ELEMENTS } from '../../flex-components'
 
 export type BoardProps = {
   boardState: BoardState
@@ -57,7 +57,7 @@ export function Board (props: BoardProps) {
         style={{ transform: `translate(${boardTranslate.x}px, ${boardTranslate.y}px) scale(${scale})` }}
       >
         {flexComponents.map(flexComponent => (
-          createElement(FLEX_COMPONENTS[flexComponent.type], {
+          createElement(FLEX_COMPONENTS_ELEMENTS[flexComponent.type], {
             key: flexComponent.id,
             component: {
               ...flexComponent

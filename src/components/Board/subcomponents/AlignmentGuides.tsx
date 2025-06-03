@@ -93,7 +93,7 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
 
       {secondaryHorizontalGuides.map((guide, index) => {
         const yPos = transform(guide.lineGuide) + boardTranslate.y
-        const alignedComponent = flexComponentsById.get(guide.flexComponentToAlign.id)
+        const alignedComponent = flexComponentsById.get(guide.componentToAlign.id)
 
         if (!alignedComponent) {
           return null
@@ -139,13 +139,14 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
             fill="rgba(173,216,230,0.3)"
             stroke="rgba(30,144,255,0.8)"
             strokeWidth={2}
+            strokeDasharray="4"
           />
         )
       })}
 
       {secondaryVerticalGuides.map((guide, index) => {
         const xPos = transform(guide.lineGuide) + boardTranslate.x
-        const alignedComponent = flexComponentsById.get(guide.flexComponentToAlign.id)
+        const alignedComponent = flexComponentsById.get(guide.componentToAlign.id)
 
         if (!alignedComponent) {
           return null
@@ -191,6 +192,7 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
             fill="rgba(173,216,230,0.3)"
             stroke="rgba(30,144,255,0.8)"
             strokeWidth={2}
+            strokeDasharray="4"
           />
         )
       })}
@@ -210,8 +212,9 @@ function getGroupDimensions (
   let groupMaxX = selectedComponents[0].properties.x + selectedComponents[0].properties.width
   let groupMaxY = selectedComponents[0].properties.y + selectedComponents[0].properties.height
 
-  selectedComponents.forEach(fc => {
-    const { x, y, width, height } = fc.properties
+  selectedComponents.forEach(component => {
+    const { x, y, width, height } = component.properties
+
     if (x < groupMinX) groupMinX = x
     if (y < groupMinY) groupMinY = y
     if (x + width > groupMaxX) groupMaxX = x + width
