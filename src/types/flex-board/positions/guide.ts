@@ -1,4 +1,4 @@
-import { UUID } from '../common/uuid'
+import { UUID } from '../../common'
 
 export type GuideDistance = 'primary' | 'secondary'
 

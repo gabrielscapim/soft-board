@@ -1,6 +1,6 @@
 import { PRIMARY_GUIDE_DISTANCE_TO_SNAP, SECONDARY_GUIDE_DISTANCE_TO_SNAP } from '../../helpers'
 import { FlexComponent, FlexComponentProperties } from '../../types'
-import { Guide } from '../../types/board-positions'
+import { Guide } from '../../types'
 import { UUID } from '../../types/common/uuid'
 import { getComponentsLineGuidesStops, getDraggingSnappingEdges } from './_methods'
 
