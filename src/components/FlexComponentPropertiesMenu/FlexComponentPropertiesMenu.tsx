@@ -1,29 +1,20 @@
-import { createElement, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useFlexComponents, useSelectedFlexComponents } from '../../hooks'
 import { BoardController, BoardState } from '../../lib'
 import { Floating } from '../Floating'
-import { FlexComponent, FlexComponentProperty, FlexComponentType } from '../../types'
-import { BasePropertyInput, TextPropertyInputs } from './subcomponents'
+import { BaseProperty, FlexComponent } from '../../types'
+import { BasePropertyInput } from './subcomponents'
 import { Input } from '../Input'
 import { Select } from '../Select'
 import { UUID } from '../../types/common/uuid'
 import { OrderComponents } from '../Board/subcomponents'
 
-const BASE_INPUTS: { name: string, property: FlexComponentProperty }[] = [
+const BASE_INPUTS: { name: string, property: BaseProperty }[] = [
   { name: 'X', property: 'x' },
   { name: 'Y', property: 'y' },
   { name: 'W', property: 'width' },
   { name: 'H', property: 'height' }
 ]
-
-const INPUTS_BY_TYPE: Partial<Record<FlexComponentType, typeof TextPropertyInputs>> = {
-  text: TextPropertyInputs
-}
-
-export type FlexComponentPropertiesInputsProps = {
-  flexComponent: FlexComponent
-  boardController: BoardController
-}
 
 export type FlexComponentPropertiesMenuProps = {
   boardState: BoardState
@@ -94,7 +85,7 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
                   properties={flexComponent?.properties}
                   onBlur={onBlur}
                   onUpdateProperties={(property, value) => {
-                    setFlexComponent(prevState => prevState ? { ...prevState, properties: { ...prevState.properties, [property]: value } } : null)
+                    setFlexComponent(prevState => prevState ? { ...prevState, properties: { ...prevState.properties, [property]: value } } as typeof prevState : null)
                   }}
                 />
               ))}
@@ -114,22 +105,8 @@ export function FlexComponentPropertiesMenu (props: FlexComponentPropertiesMenuP
                 }
               }}
             />
-
             <span className="divider my-1" />
             <OrderComponents boardController={boardController} />
-
-            {flexComponent?.type && INPUTS_BY_TYPE[flexComponent.type] && (
-              <>
-                <span className="divider my-1" />
-                {createElement(
-                  INPUTS_BY_TYPE[flexComponent.type]!,
-                  {
-                    flexComponent,
-                    boardController
-                  }
-                )}
-              </>
-            )}
           </ul>
         </Floating>
       )}

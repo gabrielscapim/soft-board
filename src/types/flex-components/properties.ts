@@ -13,6 +13,8 @@ export type FlexComponentProperty =
   keyof TextFlexComponentProperties |
   keyof ToggleFlexComponentProperties
 
+export type BaseProperty = keyof BaseProperties
+
 /** Base */
 export type BaseProperties = {
   x: number

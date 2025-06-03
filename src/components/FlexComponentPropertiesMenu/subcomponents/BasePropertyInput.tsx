@@ -1,18 +1,19 @@
 import { useRef } from 'react'
-import { FlexComponentProperties, FlexComponentProperty } from '../../../types'
+import { BaseProperty, FlexComponentProperties } from '../../../types'
 
-export type BasePropertyInputProps<T extends FlexComponentProperty> = {
-  property: T
+export type BasePropertyInputProps = {
+  property: BaseProperty
   name?: string
   properties?: FlexComponentProperties
   onBlur?: () => void
-  onUpdateProperties?: (property: T, value: number) => void
+  onUpdateProperties?: (property: BaseProperty, value: number) => void
 }
 
-export function BasePropertyInput (props: BasePropertyInputProps<FlexComponentProperty>) {
+export function BasePropertyInput (props: BasePropertyInputProps) {
   const { property, name, properties, onUpdateProperties, onBlur } = props
 
   const ref = useRef<HTMLInputElement>(null)
+  const value = (properties?.[property] ?? 0) as number
 
   return (
     <label className="input input-xs input-bordered flex items-center gap-2">
@@ -21,7 +22,7 @@ export function BasePropertyInput (props: BasePropertyInputProps<FlexComponentPr
         type="number"
         className="grow"
         ref={ref}
-        value={properties?.[property as keyof typeof properties] ?? ''}
+        value={value}
         onChange={event => onUpdateProperties?.(property, Number(event.target.value))}
         onBlur={onBlur}
         onKeyUp={event => {
