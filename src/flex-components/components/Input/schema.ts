@@ -5,7 +5,6 @@ export const inputFlexComponentSchema = {
     {
       name: 'Primary input',
       properties: {
-        absolute: false,
         variant: 'primary',
         width: 320,
         height: 44,
@@ -22,7 +21,6 @@ export const inputFlexComponentSchema = {
     {
       name: 'Secondary input',
       properties: {
-        absolute: false,
         variant: 'secondary',
         width: 320,
         height: 44,
@@ -39,7 +37,6 @@ export const inputFlexComponentSchema = {
     {
       name: 'Tertiary input',
       properties: {
-        absolute: false,
         variant: 'tertiary',
         width: 320,
         height: 44,
@@ -56,7 +53,6 @@ export const inputFlexComponentSchema = {
     {
       name: 'Extra small input',
       properties: {
-        absolute: false,
         variant: 'secondary',
         width: 320,
         height: 36,
@@ -73,7 +69,6 @@ export const inputFlexComponentSchema = {
     {
       name: 'Small input',
       properties: {
-        absolute: false,
         variant: 'secondary',
         width: 320,
         height: 40,
@@ -90,7 +85,6 @@ export const inputFlexComponentSchema = {
     {
       name: 'Medium input',
       properties: {
-        absolute: false,
         variant: 'secondary',
         width: 320,
         height: 44,
@@ -107,7 +101,6 @@ export const inputFlexComponentSchema = {
     {
       name: 'Large input',
       properties: {
-        absolute: false,
         variant: 'secondary',
         width: 320,
         height: 48,
@@ -124,7 +117,6 @@ export const inputFlexComponentSchema = {
     {
       name: 'Password input',
       properties: {
-        absolute: false,
         variant: 'secondary',
         width: 320,
         height: 44,
@@ -144,7 +136,6 @@ export const inputFlexComponentSchema = {
     {
       name: 'Dropdown',
       properties: {
-        absolute: false,
         variant: 'secondary',
         width: 320,
         height: 44,
