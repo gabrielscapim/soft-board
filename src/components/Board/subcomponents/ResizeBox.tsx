@@ -13,7 +13,7 @@ type ResizerConfig = {
   cursor: string
 }
 
-const RESIZER_SIZE = 10
+const RESIZER_SIZE = 8
 
 export function ResizeBox (props: ResizeBoxProps) {
   const { boardState } = props
@@ -72,7 +72,7 @@ export function ResizeBox (props: ResizeBoxProps) {
   return (
     <div>
       <div
-        className="absolute border-2 border-blue-500 pointer-events-none"
+        className="absolute border-2 border-sky-500 pointer-events-none"
         style={{
           left: boxX,
           top: boxY,
@@ -90,7 +90,7 @@ export function ResizeBox (props: ResizeBoxProps) {
           <div
             key={resizer.id}
             id={resizer.id}
-            className="absolute bg-sky-500 border-2 border-white rounded-full resizer"
+            className="absolute bg-white border-[1px] border-sky-500 rounded-full resizer"
             style={{
               cursor: resizer.cursor,
               left: resizer.left,
