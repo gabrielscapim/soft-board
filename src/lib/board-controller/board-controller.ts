@@ -1,9 +1,9 @@
-import { UUID } from '../../types/common/uuid.ts'
-import { ButtonFlexComponent, DividerFlexComponent, InputFlexComponent, MobileScreenFlexComponent, RectangleFlexComponent, SelectFlexComponent, TextFlexComponent } from '../../types/index.ts'
+import { UUID, FlexComponent } from '../../types'
+import { v4 as uuid } from 'uuid'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
-import { v4 as uuid } from 'uuid'
 import { BoardControllerInterface, OnAddFlexComponentParams, OnChangeBoardScaleParams, OnUpdateFlexComponentParams } from './board-controller-interface.ts'
+import { FLEX_COMPONENTS_SCHEMAS } from '../../flex-components'
 
 /**
  * Class responsible to communicate with the front-end and the BoardManager class.
@@ -27,132 +27,22 @@ export class BoardController implements BoardControllerInterface {
       ? Math.max(...this._boardState.flexComponents.map(flexComponent => flexComponent.properties.zIndex ?? 0)) + 1
       : 1
 
-    if (type === 'button') {
-      const button: ButtonFlexComponent = {
-        id: uuid() as UUID,
-        name: 'Button',
-        type: 'button',
-        properties: {
-          x: position.x,
-          y: position.y,
-          width: 100,
-          height: 48,
-          rx: 10,
-          ry: 10,
-          zIndex
-        }
-      }
+    // Temporarily until we have a proper way to handle flex components
+    const variation = FLEX_COMPONENTS_SCHEMAS[type].variations[0]
 
-      return this._boardManager.addFlexComponents({ flexComponents: [button] })
-    }
-
-    if (type === 'divider') {
-      const divider: DividerFlexComponent = {
-        id: uuid() as UUID,
-        name: 'Divider',
-        type: 'divider',
-        properties: {
-          x: position.x,
-          y: position.y,
-          width: 300,
-          height: 4,
-          zIndex
-        }
-      }
-
-      return this._boardManager.addFlexComponents({ flexComponents: [divider] })
-    }
-
-    if (type === 'input') {
-      const input: InputFlexComponent = {
-        id: uuid() as UUID,
-        name: 'Input',
-        type: 'input',
-        properties: {
-          x: position.x,
-          y: position.y,
-          width: 200,
-          height: 48,
-          rx: 10,
-          ry: 10,
-          zIndex
-        }
-      }
-
-      return this._boardManager.addFlexComponents({ flexComponents: [input] })
-    }
-
-    if (type === 'mobileScreen') {
-      const mobileScreen: MobileScreenFlexComponent = {
-        id: uuid() as UUID,
-        name: 'Mobile Screen',
-        type: 'mobileScreen',
-        properties: {
-          x: position.x,
-          y: position.y,
-          width: 375,
-          height: 812,
-          zIndex
-        }
-      }
-
-      return this._boardManager.addFlexComponents({ flexComponents: [mobileScreen] })
-    }
-
-    if (type === 'select') {
-      const select: SelectFlexComponent = {
-        id: uuid() as UUID,
-        name: 'Select',
-        type: 'select',
-        properties: {
-          x: position.x,
-          y: position.y,
-          width: 200,
-          height: 48,
-          rx: 10,
-          ry: 10,
-          zIndex
-        }
-      }
-
-      return this._boardManager.addFlexComponents({ flexComponents: [select] })
-    }
-
-    if (type === 'text') {
-      const text: TextFlexComponent = {
-        id: uuid() as UUID,
-        name: 'Text',
-        type: 'text',
-        properties: {
-          x: position.x,
-          y: position.y,
-          width: 200,
-          height: 24,
-          text: 'Text',
-          fontSize: 16,
-          zIndex
-        }
-      }
-
-      return this._boardManager.addFlexComponents({ flexComponents: [text] })
-    }
-
-    const rectangle: RectangleFlexComponent = {
+    const flexComponent = {
       id: uuid() as UUID,
-      name: 'Rectangle',
-      type: 'rectangle',
+      type,
+      name: variation.name,
       properties: {
+        ...variation.properties,
         x: position.x,
         y: position.y,
-        width: 150,
-        height: 100,
-        rx: 10,
-        ry: 10,
         zIndex
       }
-    }
+    } as FlexComponent
 
-    this._boardManager.addFlexComponents({ flexComponents: [rectangle] })
+    this._boardManager.addFlexComponents({ flexComponents: [flexComponent] })
   }
 
   onAlignComponents (option: string) {
