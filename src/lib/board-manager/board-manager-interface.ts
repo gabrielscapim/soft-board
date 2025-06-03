@@ -1,5 +1,5 @@
 import { FlexComponent } from '../../types'
-import { Guide } from '../../types/board-positions/guide'
+import { Guide } from '../../types'
 import { UUID } from '../../types/common/uuid'
 
 export type AddFlexComponentsParams = {

@@ -2,7 +2,7 @@ import { createElement, useState } from 'react'
 import { MobileScreenFlexComponent as MobileScreen } from '../../flex-components/components'
 import { useBoard, useFlexComponents } from '../../hooks'
 import { FlexComponent, MobileScreenFlexComponent } from '../../types'
-import { FLEX_COMPONENTS } from '../../flex-components'
+import { FLEX_COMPONENTS_ELEMENTS } from '../../flex-components'
 
 export function WireframeModeRoute () {
   const { boardState } = useBoard()
@@ -20,7 +20,7 @@ export function WireframeModeRoute () {
           <MobileScreen component={{ ...currentMobileScreen, properties: { ...currentMobileScreen.properties, x: 0, y: 0 } }} />
 
           {children.map(flexComponent =>
-            createElement(FLEX_COMPONENTS[flexComponent.type], {
+            createElement(FLEX_COMPONENTS_ELEMENTS[flexComponent.type], {
               key: flexComponent.id,
               component: flexComponent,
               // TO-DO: handleAction

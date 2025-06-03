@@ -44,7 +44,7 @@ export function InputFlexComponent (props: FlexComponentProps) {
         paddingRight: `${properties.paddingRight}px`,
         paddingTop: `${properties.paddingTop}px`,
         paddingBottom: `${properties.paddingBottom}px`,
-        textAlign: properties.textAlign
+        textAlign: properties.textAlign as React.CSSProperties['textAlign'] | undefined
       }}
     >
       {properties.leftIcon && <DynamicIcon size={20} name={properties.leftIcon as IconName} className="mr-2" />}

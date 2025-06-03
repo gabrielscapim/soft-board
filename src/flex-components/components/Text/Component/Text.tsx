@@ -31,7 +31,7 @@ export function TextFlexComponent (props: FlexComponentProps) {
         height: `${properties.height}px`,
         fontSize: `${properties.fontSize}px`,
         fontWeight: properties.fontWeight,
-        textAlign: properties.align,
+        textAlign: properties.align as React.CSSProperties['textAlign'] | undefined,
         fontStyle: properties.italic ? 'italic' : 'normal',
         lineHeight: `${properties.lineHeight}px`,
         overflow: 'hidden',

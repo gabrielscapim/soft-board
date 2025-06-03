@@ -27,7 +27,7 @@ export type BaseProperties = {
 
 /** Button */
 export type ButtonFlexComponentProperties = BaseProperties & {
-  color?: 'primary' | 'secondary'
+  color?: string // primary; secondary
   borderRadius?: number
   fontSize?: number
   paddingLeft?: number
@@ -39,19 +39,19 @@ export type ButtonFlexComponentProperties = BaseProperties & {
 /** Divider */
 export type DividerFlexComponentProperties = BaseProperties & {
   icon?: string
-  color?: 'primary' | 'secondary' | 'tertiary'
-  style?: 'solid' | 'dashed' | 'dotted'
+  color?: string // primary; secondary; tertiary
+  style?: string // solid; dashed; dotted
 }
 
 /** Icon */
 export type IconFlexComponentProperties = BaseProperties & {
-  color?: 'primary' | 'secondary'
+  color?: string // primary; secondary
   icon?: string
 }
 
 /** Input */
 export type InputFlexComponentProperties = BaseProperties & {
-  variant?: 'primary' | 'secondary' | 'tertiary'
+  variant?: string // primary; secondary; tertiary
   borderRadius?: number
   fontSize?: number
   paddingLeft?: number
@@ -61,7 +61,7 @@ export type InputFlexComponentProperties = BaseProperties & {
   rightIcon?: string
   leftIcon?: string
   placeholder?: string
-  textAlign?: 'left' | 'center' | 'right'
+  textAlign?: string // left; center; right
 }
 
 /** Mobile screen */
@@ -74,7 +74,7 @@ export type RadioButtonFlexComponentProperties = BaseProperties & {
 
 /** Shape */
 export type ShapeFlexComponentProperties = BaseProperties & {
-  color?: 'primary' | 'secondary' | 'tertiary'
+  color?: string // primary; secondary; tertiary
   fill?: boolean
   borderRadius?: number
   borderWidth?: number
@@ -82,13 +82,13 @@ export type ShapeFlexComponentProperties = BaseProperties & {
 
 /** Text */
 export type TextFlexComponentProperties = BaseProperties & {
-  color?: 'primary' | 'secondary'
+  color?: string // primary; secondary
   text?: string
   fontSize?: number
   italic?: boolean
   fontWeight?: number
   lineHeight?: number
-  align?: 'left' | 'center' | 'right' | 'justify'
+  align?: string // left; center; right; justify
 }
 
 /** Toggle */
