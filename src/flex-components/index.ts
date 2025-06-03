@@ -1,2 +1,3 @@
-export * from './flex-component-names'
-export * from './flex-components'
+export * from './components'
+export * from './registry'
+export * from './types'
