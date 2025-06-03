@@ -5,7 +5,7 @@ export type GuideDistance = 'primary' | 'secondary'
 export type GuideSnap = 'start' | 'center' | 'end'
 
 export type Guide = {
-  flexComponentToAlign: {
+  componentToAlign: {
     id: UUID
   }
   distance: GuideDistance

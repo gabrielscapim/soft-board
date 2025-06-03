@@ -1,47 +1,95 @@
-/** Base properties */
+import { FlexComponent } from './flex-component'
+
+export type FlexComponentProperties = FlexComponent['properties']
+
+export type FlexComponentProperty =
+  keyof ButtonFlexComponentProperties |
+  keyof DividerFlexComponentProperties |
+  keyof IconFlexComponentProperties |
+  keyof InputFlexComponentProperties |
+  keyof MobileScreenFlexComponentProperties |
+  keyof RadioButtonFlexComponentProperties |
+  keyof ShapeFlexComponentProperties |
+  keyof TextFlexComponentProperties |
+  keyof ToggleFlexComponentProperties
+
+/** Base */
 export type BaseProperties = {
   x: number
 	y: number
 	width: number
 	height: number
   zIndex?: number
+  absolute?: boolean
 }
 
-/** Button properties */
+/** Button */
 export type ButtonFlexComponentProperties = BaseProperties & {
-  rx?: number
-  ry?: number
+  color?: 'primary' | 'secondary'
+  borderRadius?: number
+  fontSize?: number
+  paddingLeft?: number
+  paddingRight?: number
+  paddingTop?: number
+  paddingBottom?: number
 }
 
-/** Divider properties */
-export type DividerFlexComponentProperties = BaseProperties
+/** Divider */
+export type DividerFlexComponentProperties = BaseProperties & {
+  icon?: string
+  color?: 'primary' | 'secondary' | 'tertiary'
+  style?: 'solid' | 'dashed' | 'dotted'
+}
 
-/** Input propertires */
+/** Icon */
+export type IconFlexComponentProperties = BaseProperties & {
+  color?: 'primary' | 'secondary'
+  icon?: string
+}
+
+/** Input */
 export type InputFlexComponentProperties = BaseProperties & {
-  rx?: number
-  ry?: number
+  variant?: 'primary' | 'secondary' | 'tertiary'
+  borderRadius?: number
+  fontSize?: number
+  paddingLeft?: number
+  paddingRight?: number
+  paddingTop?: number
+  paddingBottom?: number
+  rightIcon?: string
+  leftIcon?: string
+  placeholder?: string
+  textAlign?: 'left' | 'center' | 'right'
 }
 
-// MobileScreen properties
+/** Mobile screen */
 export type MobileScreenFlexComponentProperties = BaseProperties
 
-/** Rectangle properties */
-export type RectangleFlexComponentProperties = BaseProperties & {
-  rx?: number
-  ry?: number
+/** Radio button */
+export type RadioButtonFlexComponentProperties = BaseProperties & {
+  activated?: boolean
 }
 
-/** Select properties */
-export type SelectFlexComponentProperties = BaseProperties & {
-  rx?: number
-  ry?: number
+/** Shape */
+export type ShapeFlexComponentProperties = BaseProperties & {
+  color?: 'primary' | 'secondary' | 'tertiary'
+  fill?: boolean
+  borderRadius?: number
+  borderWidth?: number
 }
 
-/** Text properties */
+/** Text */
 export type TextFlexComponentProperties = BaseProperties & {
+  color?: 'primary' | 'secondary'
   text?: string
   fontSize?: number
   italic?: boolean
-  bold?: boolean
+  fontWeight?: number
+  lineHeight?: number
   align?: 'left' | 'center' | 'right' | 'justify'
+}
+
+/** Toggle */
+export type ToggleFlexComponentProperties = BaseProperties & {
+  activated?: boolean
 }
