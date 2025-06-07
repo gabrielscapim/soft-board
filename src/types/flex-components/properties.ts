@@ -74,7 +74,7 @@ export type RadioButtonFlexComponentProperties = BaseProperties & {
 
 /** Shape */
 export type ShapeFlexComponentProperties = BaseProperties & {
-  color?: string // primary; secondary; tertiary
+  color?: string // primary; secondary
   fill?: boolean
   borderRadius?: number
   borderWidth?: number
