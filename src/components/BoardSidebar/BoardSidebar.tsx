@@ -9,6 +9,7 @@ export type BoardSidebarSection =
 
 export function BoardSidebar () {
   const [selectedSection, setSelectedSection] = useState<BoardSidebarSection>('Components')
+  const [search, setSearch] = useState('')
 
   return (
     <Sidebar
@@ -16,10 +17,15 @@ export function BoardSidebar () {
       className="overflow-hidden *:data-[sidebar=sidebar]:flex-row"
     >
       <FixedBoardSidebar
-        onSectionClick={section => setSelectedSection(section)}
+        onSectionClick={section => {
+          setSelectedSection(section)
+          setSearch('')
+        }}
       />
       <CollapsibleBoardSidebar
         selectedSection={selectedSection}
+        search={search}
+        onSearchChange={setSearch}
       />
     </Sidebar>
   )
