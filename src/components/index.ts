@@ -1,3 +1,4 @@
+export * from './BoardSidebar'
 export * from './Board'
 export * from './Button'
 export * from './FlexComponentPropertiesMenu'
