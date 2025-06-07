@@ -27,7 +27,7 @@ export function CollapsibleBoardSidebar (props: CollapsibleBoardSidebarProps) {
           <SidebarGroupContent>
             <div className="grid grid-cols-1 gap-2 p-4">
               {selectedSection === 'Components' && <BoardComponentsPreview search={search} />}
-              {selectedSection === 'Templates' && <span className="opacity-40">No templates available</span>}
+              {selectedSection === 'Templates' && <span className="opacity-40">No templates found</span>}
               {selectedSection === 'Screens' && <BoardScreensPreview search={search} />}
             </div>
           </SidebarGroupContent>

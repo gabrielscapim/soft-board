@@ -31,6 +31,7 @@ export function BoardScreensPreview (props: BoardScreensPreviewProps) {
 
   return (
     <>
+      {!screensPreview.length && <span className="opacity-40">No screens found</span>}
       {screensPreview.map(screen => (
         <BoardComponentCardPreview
           key={screen.variation.name}

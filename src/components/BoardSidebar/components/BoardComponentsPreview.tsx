@@ -32,6 +32,7 @@ export function BoardComponentsPreview (props: BoardComponentsPreviewProps) {
 
   return (
     <>
+      {!componentsPreview.length && <span className="opacity-40">No components found</span>}
       {componentsPreview.map(component => (
         <BoardComponentCardPreview
           key={component.variation.name}
