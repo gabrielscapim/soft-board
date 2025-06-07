@@ -1,16 +1,24 @@
 import { Outlet } from 'react-router'
-import { NavBar } from '../NavBar'
-import { useBoard } from '../../hooks'
+import { BoardSidebar } from '../BoardSidebar'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '../ui/sidebar'
+import { Separator } from '../ui/separator'
 
 export function Layout () {
-  const board = useBoard()
-
   return (
-    <div className="h-screen flex flex-col">
-      <NavBar boardState={board.boardState} boardController={board.boardController} />
-      <div className="flex grow">
-        <Outlet />
-      </div>
-    </div>
+    <SidebarProvider>
+      <BoardSidebar />
+      <SidebarInset>
+        <header className="bg-background sticky top-0 flex shrink-0 items-center gap-2 border-b p-2">
+          <SidebarTrigger className="m-0" />
+          <Separator
+            orientation="vertical"
+            className="mr-2 data-[orientation=vertical]:h-4"
+          />
+        </header>
+        <main>
+          <Outlet />
+        </main>
+      </SidebarInset>
+    </SidebarProvider>
   )
 }

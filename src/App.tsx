@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router'
 import './index.css'
-import { BoardRoute, WireframeModeRoute } from './routes'
 import { BoardContextProvider } from './contexts/BoardContext/BoardContextProvider'
 import { BoardController, BoardState } from './lib'
 import { useState } from 'react'
@@ -13,12 +12,9 @@ function App () {
   return (
     <BoardContextProvider boardState={boardState} boardController={boardController}>
       <Routes>
-        <Route
-          path="/"
-          element={<Layout />}
-        >
-          <Route index element={<BoardRoute />} />
-          <Route path="wireframe-mode" element={<WireframeModeRoute />} />
+        <Route path="/" element={<Layout />}>
+          {/* <Route index element={<BoardRoute />} />
+          <Route path="wireframe-mode" element={<WireframeModeRoute />} /> */}
         </Route>
       </Routes>
     </BoardContextProvider>
