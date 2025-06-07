@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Sidebar } from '../ui/sidebar'
+import { Sidebar, useSidebar } from '../ui/sidebar'
 import { CollapsibleBoardSidebar, FixedBoardSidebar } from './components'
 
 export type BoardSidebarSection =
@@ -10,6 +10,7 @@ export type BoardSidebarSection =
 export function BoardSidebar () {
   const [selectedSection, setSelectedSection] = useState<BoardSidebarSection>('Components')
   const [search, setSearch] = useState('')
+  const { setOpen } = useSidebar()
 
   return (
     <Sidebar
@@ -20,6 +21,7 @@ export function BoardSidebar () {
         onSectionClick={section => {
           setSelectedSection(section)
           setSearch('')
+          setOpen(true)
         }}
       />
       <CollapsibleBoardSidebar
