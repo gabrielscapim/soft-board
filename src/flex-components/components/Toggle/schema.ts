@@ -3,7 +3,7 @@ import { FlexComponentSchema } from '../../types'
 export const toggleFlexComponentSchema = {
   variations: [
     {
-      name: 'Activated toggle',
+      name: 'Activated Toggle',
       properties: {
         activated: true,
         width: 44,
@@ -13,7 +13,7 @@ export const toggleFlexComponentSchema = {
       }
     },
     {
-      name: 'Deactivated toggle',
+      name: 'Deactivated Toggle',
       properties: {
         activated: false,
         width: 44,
@@ -23,7 +23,7 @@ export const toggleFlexComponentSchema = {
       }
     },
     {
-      name: 'Extra small toggle',
+      name: 'Extra small Toggle',
       properties: {
         activated: false,
         width: 36,
@@ -33,7 +33,7 @@ export const toggleFlexComponentSchema = {
       }
     },
     {
-      name: 'Small toggle',
+      name: 'Small Toggle',
       properties: {
         activated: false,
         width: 40,
@@ -43,7 +43,7 @@ export const toggleFlexComponentSchema = {
       }
     },
     {
-      name: 'Medium toggle',
+      name: 'Medium Toggle',
       properties: {
         activated: false,
         width: 44,
@@ -53,7 +53,7 @@ export const toggleFlexComponentSchema = {
       }
     },
     {
-      name: 'Large toggle',
+      name: 'Large Toggle',
       properties: {
         activated: false,
         width: 48,

@@ -3,7 +3,7 @@ import { FlexComponentSchema } from '../../types'
 export const buttonFlexComponentSchema = {
   variations: [
     {
-      name: 'Primary button',
+      name: 'Primary Button',
       properties: {
         color: 'primary',
         borderRadius: 12,
@@ -19,7 +19,7 @@ export const buttonFlexComponentSchema = {
       }
     },
     {
-      name: 'Secondary button',
+      name: 'Secondary Button',
       properties: {
         color: 'secondary',
         borderRadius: 12,
@@ -35,7 +35,7 @@ export const buttonFlexComponentSchema = {
       }
     },
     {
-      name: 'Extra small button',
+      name: 'Extra small Button',
       properties: {
         color: 'secondary',
         borderRadius: 6,
@@ -51,7 +51,7 @@ export const buttonFlexComponentSchema = {
       }
     },
     {
-      name: 'Small button',
+      name: 'Small Button',
       properties: {
         color: 'primary',
         borderRadius: 12,
@@ -67,7 +67,7 @@ export const buttonFlexComponentSchema = {
       }
     },
     {
-      name: 'Medium button',
+      name: 'Medium Button',
       properties: {
         color: 'primary',
         borderRadius: 12,
@@ -83,7 +83,7 @@ export const buttonFlexComponentSchema = {
       }
     },
     {
-      name: 'Large button',
+      name: 'Large Button',
       properties: {
         color: 'primary',
         borderRadius: 12,

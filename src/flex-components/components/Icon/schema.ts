@@ -3,7 +3,7 @@ import { FlexComponentSchema } from '../../types'
 export const iconFlexComponentSchema = {
   variations: [
     {
-      name: 'Primary icon',
+      name: 'Primary Icon',
       properties: {
         color: 'primary',
         width: 24,
@@ -13,7 +13,7 @@ export const iconFlexComponentSchema = {
       }
     },
     {
-      name: 'Secondary icon',
+      name: 'Secondary Icon',
       properties: {
         color: 'secondary',
         width: 24,

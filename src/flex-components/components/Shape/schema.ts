@@ -3,7 +3,7 @@ import { FlexComponentSchema } from '../../types'
 export const shapeFlexComponentSchema = {
   variations: [
     {
-      name: 'Primary shape',
+      name: 'Primary Shape',
       properties: {
         x: 0,
         y: 0,
@@ -14,7 +14,7 @@ export const shapeFlexComponentSchema = {
       }
     },
     {
-      name: 'Secondary shape',
+      name: 'Secondary Shape',
       properties: {
         x: 0,
         y: 0,
@@ -25,18 +25,7 @@ export const shapeFlexComponentSchema = {
       }
     },
     {
-      name: 'Tertiary shape',
-      properties: {
-        x: 0,
-        y: 0,
-        color: 'tertiary',
-        width: 128,
-        height: 128,
-        borderRadius: 12
-      }
-    },
-    {
-      name: 'Unfilled shape',
+      name: 'Unfilled Shape',
       properties: {
         x: 0,
         y: 0,
@@ -52,7 +41,7 @@ export const shapeFlexComponentSchema = {
       properties: {
         x: 0,
         y: 0,
-        color: 'primary',
+        color: 'secondary',
         width: 128,
         height: 128,
         borderRadius: 64
@@ -63,7 +52,7 @@ export const shapeFlexComponentSchema = {
       properties: {
         x: 0,
         y: 0,
-        color: 'primary',
+        color: 'secondary',
         width: 256,
         height: 128,
         borderRadius: 12

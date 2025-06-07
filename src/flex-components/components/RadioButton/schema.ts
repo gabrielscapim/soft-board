@@ -3,7 +3,7 @@ import { FlexComponentSchema } from '../../types'
 export const radioButtonFlexComponentSchema = {
   variations: [
     {
-      name: 'Activated radio button',
+      name: 'Activated Radio Button',
       properties: {
         activated: true,
         width: 20,
@@ -13,7 +13,7 @@ export const radioButtonFlexComponentSchema = {
       }
     },
     {
-      name: 'Deactivated radio button',
+      name: 'Deactivated Radio Button',
       properties: {
         activated: false,
         width: 20,
@@ -23,7 +23,7 @@ export const radioButtonFlexComponentSchema = {
       }
     },
     {
-      name: 'Extra small radio button',
+      name: 'Extra small Radio Button',
       properties: {
         activated: true,
         width: 12,
@@ -33,7 +33,7 @@ export const radioButtonFlexComponentSchema = {
       }
     },
     {
-      name: 'Small radio button',
+      name: 'Small Radio Button',
       properties: {
         activated: true,
         width: 16,
@@ -43,7 +43,7 @@ export const radioButtonFlexComponentSchema = {
       }
     },
     {
-      name: 'Medium radio button',
+      name: 'Medium Radio Button',
       properties: {
         activated: true,
         width: 20,
@@ -53,7 +53,7 @@ export const radioButtonFlexComponentSchema = {
       }
     },
     {
-      name: 'Large radio button',
+      name: 'Large Radio Button',
       properties: {
         activated: true,
         width: 24,

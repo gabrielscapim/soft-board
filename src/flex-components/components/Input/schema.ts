@@ -3,10 +3,10 @@ import { FlexComponentSchema } from '../../types'
 export const inputFlexComponentSchema = {
   variations: [
     {
-      name: 'Primary input',
+      name: 'Primary Input',
       properties: {
         variant: 'primary',
-        width: 320,
+        width: 250,
         height: 44,
         borderRadius: 12,
         fontSize: 16,
@@ -19,10 +19,10 @@ export const inputFlexComponentSchema = {
       }
     },
     {
-      name: 'Secondary input',
+      name: 'Secondary Input',
       properties: {
         variant: 'secondary',
-        width: 320,
+        width: 250,
         height: 44,
         borderRadius: 12,
         fontSize: 16,
@@ -35,10 +35,10 @@ export const inputFlexComponentSchema = {
       }
     },
     {
-      name: 'Tertiary input',
+      name: 'Tertiary Input',
       properties: {
         variant: 'tertiary',
-        width: 320,
+        width: 250,
         height: 44,
         borderRadius: 0,
         fontSize: 16,
@@ -51,10 +51,10 @@ export const inputFlexComponentSchema = {
       }
     },
     {
-      name: 'Extra small input',
+      name: 'Extra small Input',
       properties: {
         variant: 'secondary',
-        width: 320,
+        width: 250,
         height: 36,
         borderRadius: 12,
         fontSize: 12,
@@ -67,10 +67,10 @@ export const inputFlexComponentSchema = {
       }
     },
     {
-      name: 'Small input',
+      name: 'Small Input',
       properties: {
         variant: 'secondary',
-        width: 320,
+        width: 250,
         height: 40,
         borderRadius: 12,
         fontSize: 14,
@@ -83,10 +83,10 @@ export const inputFlexComponentSchema = {
       }
     },
     {
-      name: 'Medium input',
+      name: 'Medium Input',
       properties: {
         variant: 'secondary',
-        width: 320,
+        width: 250,
         height: 44,
         borderRadius: 12,
         fontSize: 16,
@@ -99,10 +99,10 @@ export const inputFlexComponentSchema = {
       }
     },
     {
-      name: 'Large input',
+      name: 'Large Input',
       properties: {
         variant: 'secondary',
-        width: 320,
+        width: 250,
         height: 48,
         borderRadius: 12,
         fontSize: 18,
@@ -115,10 +115,10 @@ export const inputFlexComponentSchema = {
       }
     },
     {
-      name: 'Password input',
+      name: 'Password Input',
       properties: {
         variant: 'secondary',
-        width: 320,
+        width: 250,
         height: 44,
         borderRadius: 12,
         fontSize: 16,
@@ -137,7 +137,7 @@ export const inputFlexComponentSchema = {
       name: 'Dropdown',
       properties: {
         variant: 'secondary',
-        width: 320,
+        width: 250,
         height: 44,
         borderRadius: 12,
         fontSize: 16,
