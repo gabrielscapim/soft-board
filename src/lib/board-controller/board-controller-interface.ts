@@ -1,11 +1,14 @@
 import {
   FlexComponent,
+  FlexComponentProperties,
   FlexComponentType,
   Offset
 } from '../../types'
 
 export type OnAddFlexComponentParams = {
   type: FlexComponentType
+  name: string
+  properties: FlexComponentProperties
   position: Offset
 }
 
