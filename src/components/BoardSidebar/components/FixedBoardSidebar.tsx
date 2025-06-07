@@ -44,7 +44,9 @@ export function FixedBoardSidebar (props: FixedBoardSidebarProps) {
             <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0">
               <a href="#">
                 <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <Command className="size-4" />
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <text x="7" y="19" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" fill="currentColor">F</text>
+                  </svg>
                 </div>
               </a>
             </SidebarMenuButton>
