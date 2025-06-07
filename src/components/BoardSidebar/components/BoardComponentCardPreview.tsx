@@ -8,16 +8,20 @@ export type BoardComponentCardPreviewProps = {
   type: FlexComponentType
   name: string
   properties: FlexComponentProperties
+  onClick?: () => void
 }
 
 const PREVIEW_WIDTH = 140
 const PREVIEW_HEIGHT = 80
 
 export function BoardComponentCardPreview (props: BoardComponentCardPreviewProps) {
-  const { type, name, properties } = props
+  const { type, name, properties, onClick } = props
 
   return (
-    <Card className="w-full max-w-sm gap-2 hover:bg-accent hover:shadow-sm transition-shadow cursor-pointer py-4">
+    <Card
+      className="w-full max-w-sm gap-2 hover:bg-accent hover:shadow-sm transition-shadow cursor-pointer py-4"
+      onClick={onClick}
+    >
       <CardContent className="flex items-center justify-center h-20 px-2">
         <div
           className="flex items-center justify-center"
