@@ -9,6 +9,7 @@ import { useDebouncedCallback } from 'use-debounce'
 export type BoardPropertiesMenuTabProps = {
   boardState: BoardState
   flexComponent: FlexComponent
+  boardController: BoardController
   onUpdateProperties (key: string, value: unknown): void
   onUpdateName (value: string): void
   onUpdateConnection (value: string): void
@@ -103,6 +104,7 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
             <tab.content
               boardState={boardState}
               flexComponent={flexComponent}
+              boardController={boardController}
               onUpdateProperties={onUpdateProperties}
               onUpdateName={value => onUpdateFlexComponent('name', value)}
               onUpdateConnection={value => onUpdateFlexComponent('connection', value)}

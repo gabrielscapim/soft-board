@@ -42,7 +42,7 @@ export class BoardController implements BoardControllerInterface {
     this._boardManager.addFlexComponents({ flexComponents: [flexComponent] })
   }
 
-  onAlignComponents (option: string) {
+  onAlignFlexComponents (option: string) {
     const selected = this._boardState.selectedFlexComponents ?? []
     const flexComponents = this._boardState.flexComponents.filter(flexComponent => selected.includes(flexComponent.id))
 
