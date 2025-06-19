@@ -1,4 +1,4 @@
-import { BoardPropertieMenuTabProps } from '../BoardPropertiesMenu'
+import { BoardPropertiesMenuTabProps } from '../BoardPropertiesMenu'
 import { ReactNode } from 'react'
 import { Button } from '@/components/ui/button'
 
@@ -112,7 +112,7 @@ const ALIGNMENT_OPTIONS: { name: string, label: string, icon: ReactNode }[] = [
   }
 ]
 
-export function LayoutTabContent (props: BoardPropertieMenuTabProps) {
+export function LayoutTabContent (props: BoardPropertiesMenuTabProps) {
   const { boardController } = props
 
   return (

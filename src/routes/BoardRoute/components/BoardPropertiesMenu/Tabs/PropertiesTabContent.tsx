@@ -1,9 +1,9 @@
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { BoardPropertieMenuTabProps } from '../BoardPropertiesMenu'
+import { BoardPropertiesMenuTabProps } from '../BoardPropertiesMenu'
 import { FLEX_COMPONENTS_PROPERTIES_MENU } from '@/flex-components/registry/properties-menu'
 
-export function PropertiesTabContent (props: BoardPropertieMenuTabProps) {
+export function PropertiesTabContent (props: BoardPropertiesMenuTabProps) {
   const { selected } = props
 
   const Menu = FLEX_COMPONENTS_PROPERTIES_MENU[selected.type]
