@@ -1,0 +1,47 @@
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+import { BoardPropertiesMenuProps } from '@/routes/BoardRoute/components'
+import { IconFlexComponentProperties } from '@/types'
+
+const COLORS = [
+  {
+    value: 'primary',
+    label: 'Primary'
+  },
+  {
+    value: 'secondary',
+    label: 'Secondary'
+  }
+]
+
+export function IconPropertiesMenu (props: BoardPropertiesMenuProps) {
+  const { selected } = props
+
+  const properties = selected.properties as IconFlexComponentProperties
+
+  return (
+    <>
+      <Label className="grid gap-2">
+        Color
+        <Select value={properties.color}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select color" />
+          </SelectTrigger>
+          <SelectContent className="max-h-72">
+            {COLORS.map(color => (
+              <SelectItem key={color.value} value={color.value}>
+                {color.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </Label>
+    </>
+  )
+}
