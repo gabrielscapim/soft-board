@@ -21,10 +21,9 @@ import { BoardPropertiesMenuTabProps } from '../BoardPropertiesMenu'
 import { useFlexComponents } from '@/hooks'
 
 export function ActionsTabContent (props: BoardPropertiesMenuTabProps) {
-  const { selected, boardState } = props
+  const { flexComponent, boardState, onUpdateConnection } = props
 
   const [open, setOpen] = useState(true)
-  const [value, setValue] = useState('')
 
   const flexComponents = useFlexComponents(boardState)
 
@@ -32,7 +31,7 @@ export function ActionsTabContent (props: BoardPropertiesMenuTabProps) {
     return flexComponents.filter((component) => component.type === 'mobileScreen')
   }, [flexComponents])
 
-  const isButton = selected.type === 'button'
+  const isButton = flexComponent.type === 'button'
 
   return (
     <>
@@ -51,8 +50,8 @@ export function ActionsTabContent (props: BoardPropertiesMenuTabProps) {
               aria-expanded={open}
               className="justify-between w-full"
             >
-              {value
-                ? mobileScreens.find((screen) => screen.id === value)?.name
+              {flexComponent.connection
+                ? mobileScreens.find((screen) => screen.id === flexComponent.connection)?.name
                 : 'Select a screen'}
               <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
@@ -68,14 +67,14 @@ export function ActionsTabContent (props: BoardPropertiesMenuTabProps) {
                       key={screen.id}
                       value={screen.id}
                       onSelect={currentValue => {
-                        setValue(currentValue === value ? '' : currentValue)
+                        onUpdateConnection(currentValue)
                         setOpen(false)
                       }}
                     >
                       <CheckIcon
                         className={cn(
                           'mr-2 h-4 w-4',
-                          value === screen.id ? 'opacity-100' : 'opacity-0'
+                          flexComponent.connection === screen.id ? 'opacity-100' : 'opacity-0'
                         )}
                       />
                       {screen.name}

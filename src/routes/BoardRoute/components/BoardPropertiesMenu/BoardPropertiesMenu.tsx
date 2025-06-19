@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { BoardController, BoardState } from '@/lib'
-import { FlexComponent, FlexComponentProperties } from '@/types'
+import { FlexComponent } from '@/types'
 import clsx, { ClassValue } from 'clsx'
 import { ActionsTabContent, LayoutTabContent, PropertiesTabContent } from './Tabs'
 import { useState, useEffect } from 'react'
@@ -8,10 +8,10 @@ import { useDebouncedCallback } from 'use-debounce'
 
 export type BoardPropertiesMenuTabProps = {
   boardState: BoardState
-  boardController: BoardController
-  selected: FlexComponent
-  onUpdateProperties<T extends keyof FlexComponentProperties>(key: T, value: FlexComponentProperties[T]): void
-  properties: FlexComponentProperties
+  flexComponent: FlexComponent
+  onUpdateProperties (key: string, value: unknown): void
+  onUpdateName (value: string): void
+  onUpdateConnection (value: string): void
 }
 
 export type BoardPropertiesMenuProps = {
@@ -40,33 +40,44 @@ const TABS = [
 ]
 
 export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
-  const { selected, className, boardController } = props
+  const { selected, className, boardState, boardController } = props
 
   const [tab, setTab] = useState('properties')
-  const [properties, setProperties] = useState<FlexComponentProperties>(selected.properties)
+  const [flexComponent, setFlexComponent] = useState<FlexComponent>(selected)
 
   useEffect(() => {
     setTab('properties')
-  }, [selected.id])
+    setFlexComponent(selected)
+  }, [selected])
 
-
-  const commit = useDebouncedCallback((properties: FlexComponentProperties) => {
+  // Debounced commit function to update the flex component
+  const commit = useDebouncedCallback((flexComponent: FlexComponent) => {
     boardController.onUpdateFlexComponent({
-      flexComponent: {
-        ...selected,
-        properties
-      }
+      flexComponent
     })
   }, 200)
 
-  const onUpdateProperties = <T extends keyof typeof properties>(
-    key: T,
-    value: (typeof properties)[T]
+  // Update properties of the flex component
+  const onUpdateProperties = (
+    key: string,
+    value: unknown
   ) => {
-    setProperties(prev => {
-      const newProperties = { ...prev, [key]: value }
-      commit(newProperties)
-      return newProperties
+    setFlexComponent(prev => {
+      const newFlexComponent = { ...prev, properties: { ...prev.properties, [key]: value } }
+      commit(newFlexComponent)
+      return newFlexComponent
+    })
+  }
+
+  // Update the flex component itself (e.g., name, connection)
+  const onUpdateFlexComponent = (
+    key: string,
+    value: unknown
+  ) => {
+    setFlexComponent(prev => {
+      const newFlexComponent = { ...prev, [key]: value }
+      commit(newFlexComponent)
+      return newFlexComponent
     })
   }
 
@@ -84,11 +95,17 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
           </TabsList>
         </div>
         {TABS.map(tab => (
-          <TabsContent key={tab.value} value={tab.value} className="p-4 flex flex-col gap-4">
+          <TabsContent
+            key={tab.value}
+            value={tab.value}
+            className="p-4 flex flex-col gap-4"
+          >
             <tab.content
-              {...props}
+              boardState={boardState}
+              flexComponent={flexComponent}
               onUpdateProperties={onUpdateProperties}
-              properties={properties}
+              onUpdateName={value => onUpdateFlexComponent('name', value)}
+              onUpdateConnection={value => onUpdateFlexComponent('connection', value)}
             />
           </TabsContent>
         ))}

@@ -9,5 +9,5 @@ export type FlexComponentProps = {
 
 export type FlexComponentPropertiesMenuProps = {
   properties: FlexComponentProperties
-  onUpdateProperties<T extends keyof FlexComponentProperties>(key: T, value: FlexComponentProperties[T]): void
+  onUpdateProperties (key: string, value: unknown): void
 }

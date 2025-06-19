@@ -4,15 +4,18 @@ import { BoardPropertiesMenuTabProps } from '../BoardPropertiesMenu'
 import { FLEX_COMPONENTS_PROPERTIES_MENU } from '@/flex-components/registry/properties-menu'
 
 export function PropertiesTabContent (props: BoardPropertiesMenuTabProps) {
-  const { selected } = props
+  const { flexComponent, onUpdateProperties, onUpdateName } = props
 
-  const Menu = FLEX_COMPONENTS_PROPERTIES_MENU[selected.type]
+  const Menu = FLEX_COMPONENTS_PROPERTIES_MENU[flexComponent.type]
 
   return (
     <>
       <Label className="flex flex-col items-start">
         Name
-        <Input value={selected.name} />
+        <Input
+          value={flexComponent.name}
+          onChange={event => onUpdateName(event.target.value)}
+        />
       </Label>
 
       <div>
@@ -22,11 +25,19 @@ export function PropertiesTabContent (props: BoardPropertiesMenuTabProps) {
         <div className="grid grid-cols-2 gap-2">
           <Label className="text-xs">
             W
-            <Input type="number" value={selected.properties.width} />
+            <Input
+              type="number"
+              value={flexComponent.properties.width}
+              onChange={event => onUpdateProperties('width', Number(event.target.value))}
+            />
           </Label>
           <Label className="text-xs">
             H
-            <Input type="number" value={selected.properties.height} />
+            <Input
+              type="number"
+              value={flexComponent.properties.height}
+              onChange={event => onUpdateProperties('height', Number(event.target.value))}
+            />
           </Label>
         </div>
       </div>
@@ -38,16 +49,29 @@ export function PropertiesTabContent (props: BoardPropertiesMenuTabProps) {
         <div className="grid grid-cols-2 gap-2">
           <Label className="text-xs">
             X
-            <Input type="number" value={selected.properties.x} />
+            <Input
+              type="number"
+              value={flexComponent.properties.x}
+              onChange={event => onUpdateProperties('x', Number(event.target.value))}
+            />
           </Label>
           <Label className="text-xs">
             Y
-            <Input type="number" value={selected.properties.y} />
+            <Input
+              type="number"
+              value={flexComponent.properties.y}
+              onChange={event => onUpdateProperties('y', Number(event.target.value))}
+            />
           </Label>
         </div>
       </div>
 
-      {Menu && <Menu {...props} />}
+      {Menu && (
+        <Menu
+          properties={flexComponent.properties}
+          onUpdateProperties={onUpdateProperties}
+        />
+      )}
     </>
   )
 }
