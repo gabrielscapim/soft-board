@@ -20,7 +20,9 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
   const [flexComponent, setFlexComponent] = useState<FlexComponent | null>(selectedFlexComponents.length === 1 ? selectedFlexComponents[0] : null)
 
   useEffect(() => {
-    setTab('properties')
+    if (selectedFlexComponents.length > 1) {
+      setTab('layout')
+    }
     setFlexComponent(selectedFlexComponents.length === 1 ? selectedFlexComponents[0] : null)
   }, [selectedFlexComponents])
 
