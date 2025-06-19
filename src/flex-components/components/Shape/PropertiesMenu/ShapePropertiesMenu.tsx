@@ -23,9 +23,7 @@ const COLORS = [
 ]
 
 export function ShapePropertiesMenu (props: FlexComponentPropertiesMenuProps) {
-  const { selected } = props
-
-  const properties = selected.properties as ShapeFlexComponentProperties
+  const properties = props.properties as ShapeFlexComponentProperties
 
   return (
     <>

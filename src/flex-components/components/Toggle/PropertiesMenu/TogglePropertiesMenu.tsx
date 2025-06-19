@@ -4,9 +4,7 @@ import { FlexComponentPropertiesMenuProps } from '@/flex-components/types'
 import { ToggleFlexComponentProperties } from '@/types'
 
 export function TogglePropertiesMenu (props: FlexComponentPropertiesMenuProps) {
-  const { selected } = props
-
-  const properties = selected.properties as ToggleFlexComponentProperties
+  const properties = props.properties as ToggleFlexComponentProperties
 
   return (
     <>

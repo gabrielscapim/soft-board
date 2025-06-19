@@ -60,9 +60,7 @@ const DECORATIONS = [
 ]
 
 export function TextPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
-  const { selected } = props
-
-  const properties = selected.properties as TextFlexComponentProperties
+  const properties = props.properties as TextFlexComponentProperties
 
   return (
     <>

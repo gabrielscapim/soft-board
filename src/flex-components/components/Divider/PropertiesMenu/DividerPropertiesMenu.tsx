@@ -25,9 +25,7 @@ const COLORS = [
 ]
 
 export function DividerPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
-  const { selected } = props
-
-  const properties = selected.properties as DividerFlexComponentProperties
+  const properties = props.properties as DividerFlexComponentProperties
 
   return (
     <>

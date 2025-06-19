@@ -1,5 +1,5 @@
-import { BoardController, BoardState } from '../../lib'
-import { FlexComponent } from '../../types'
+import { BoardController } from '../../lib'
+import { FlexComponent, FlexComponentProperties } from '../../types'
 
 export type FlexComponentProps = {
   component: FlexComponent
@@ -8,7 +8,6 @@ export type FlexComponentProps = {
 }
 
 export type FlexComponentPropertiesMenuProps = {
-  boardState: BoardState
-  boardController: BoardController
-  selected: FlexComponent
+  properties: FlexComponentProperties
+  onUpdateProperties<T extends keyof FlexComponentProperties>(key: T, value: FlexComponentProperties[T]): void
 }

@@ -4,9 +4,7 @@ import { FlexComponentPropertiesMenuProps } from '@/flex-components/types'
 import { RadioButtonFlexComponentProperties } from '@/types'
 
 export function RadioButtonPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
-  const { selected } = props
-
-  const properties = selected.properties as RadioButtonFlexComponentProperties
+  const properties = props.properties as RadioButtonFlexComponentProperties
 
   return (
     <>

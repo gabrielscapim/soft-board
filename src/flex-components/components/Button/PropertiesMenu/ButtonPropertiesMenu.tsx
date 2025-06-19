@@ -22,9 +22,7 @@ const COLORS = [
 ]
 
 export function ButtonPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
-  const { selected } = props
-
-  const properties = selected.properties as ButtonFlexComponentProperties
+  const properties = props.properties as ButtonFlexComponentProperties
 
   return (
     <>

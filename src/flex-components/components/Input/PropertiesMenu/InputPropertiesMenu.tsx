@@ -41,9 +41,7 @@ const TEXT_ALIGNMENTS = [
 ]
 
 export function InputPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
-  const { selected } = props
-
-  const properties = selected.properties as InputFlexComponentProperties
+  const properties = props.properties as InputFlexComponentProperties
 
   return (
     <>

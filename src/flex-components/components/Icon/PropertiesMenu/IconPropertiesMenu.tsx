@@ -21,9 +21,7 @@ const COLORS = [
 ]
 
 export function IconPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
-  const { selected } = props
-
-  const properties = selected.properties as IconFlexComponentProperties
+  const properties = props.properties as IconFlexComponentProperties
 
   return (
     <>
