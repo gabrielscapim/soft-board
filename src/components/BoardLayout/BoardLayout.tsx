@@ -3,7 +3,7 @@ import { BoardSidebar } from '../BoardSidebar'
 import { SidebarInset, SidebarProvider } from '../ui/sidebar'
 import { BoardHeader } from '../BoardHeader'
 
-export function Layout () {
+export function BoardLayout () {
   return (
     <SidebarProvider>
       <BoardSidebar />
