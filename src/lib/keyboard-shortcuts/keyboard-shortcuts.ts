@@ -71,7 +71,8 @@ export class KeyboardShortcuts {
       .filter(flexComponent => copiedFlexComponents.includes(flexComponent.id))
       .map<FlexComponent>(flexComponent => ({
         ...flexComponent,
-        id: uuid() as UUID
+        id: uuid() as UUID,
+        connection: null
       }))
 
     this._boardManager.addFlexComponents({ flexComponents: newFlexComponents })
