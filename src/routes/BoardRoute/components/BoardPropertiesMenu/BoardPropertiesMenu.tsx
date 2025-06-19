@@ -1,21 +1,20 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { BoardController, BoardState } from '@/lib'
 import { FlexComponent } from '@/types'
 import clsx, { ClassValue } from 'clsx'
 import { useState, useEffect } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { ActionsTabContent, LayoutTabContent, PropertiesTabContent } from './Tabs'
+import { useBoard } from '@/hooks'
 
 export type BoardPropertiesMenuProps = {
-  boardState: BoardState
-  boardController: BoardController
   selectedFlexComponents: FlexComponent[]
   className?: ClassValue
 }
 
 export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
-  const { selectedFlexComponents, className, boardState, boardController } = props
+  const { selectedFlexComponents, className } = props
 
+  const { boardState, boardController } = useBoard()
   const [tab, setTab] = useState('properties')
   const [flexComponent, setFlexComponent] = useState<FlexComponent | null>(selectedFlexComponents.length === 1 ? selectedFlexComponents[0] : null)
 
