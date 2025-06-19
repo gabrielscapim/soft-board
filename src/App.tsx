@@ -3,8 +3,8 @@ import './index.css'
 import { BoardContextProvider } from './contexts/BoardContext/BoardContextProvider'
 import { BoardController, BoardState } from './lib'
 import { useState } from 'react'
-import { BoardLayout } from './components'
-import { BoardRoute } from './routes'
+import { BoardLayout, WireframeModeLayout } from './components'
+import { BoardRoute, WireframeModeRoute } from './routes'
 
 function App () {
   const [boardState] = useState(new BoardState())
@@ -16,7 +16,11 @@ function App () {
         {/* Board route */}
         <Route path="/" element={<BoardLayout />}>
           <Route index element={<BoardRoute />} />
-          {/* <Route path="wireframe-mode" element={<WireframeModeRoute />} /> */}
+        </Route>
+
+        {/* Wireframe mode route */}
+        <Route path="wireframe-mode" element={<WireframeModeLayout />}>
+          <Route index element={<WireframeModeRoute />} />
         </Route>
       </Routes>
     </BoardContextProvider>
