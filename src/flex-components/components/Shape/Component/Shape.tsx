@@ -28,6 +28,7 @@ export function ShapeFlexComponent (props: FlexComponentProps) {
         width: `${properties.width}px`,
         height: `${properties.height}px`,
         borderRadius: `${properties.borderRadius}px`,
+        borderWidth: `${properties.borderWidth}px`,
         zIndex: properties.zIndex
       }}
     />
