@@ -9,7 +9,7 @@ export function MobileScreenFlexComponent (props: FlexComponentProps) {
   return (
     <div
       id={component.id}
-      className="draggable-group absolute mockup-phone bg-white"
+      className="draggable-group absolute bg-white border-[6px] border-[#6b6b6b] rounded-[65px] p-[11px] grid place-items-center overflow-hidden"
       style={{
         top: `${properties.y}px`,
         left: `${properties.x}px`,
@@ -17,7 +17,6 @@ export function MobileScreenFlexComponent (props: FlexComponentProps) {
         height: `${properties.height}px`,
         zIndex: properties.zIndex
       }}
-    >
-    </div>
+    />
   )
 }
