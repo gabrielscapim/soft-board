@@ -118,8 +118,11 @@ export function LayoutTabContent (props: BoardPropertieMenuTabProps) {
   return (
     <>
       <div>
-        <p className="text-sm leading-none font-medium select-none pb-3">
+        <p className="text-sm leading-none font-medium select-none">
           Order
+        </p>
+        <p className="text-xs text-muted-foreground pb-3 pt-2">
+          Change the order of selected components in the board.
         </p>
         <div className="flex justify-between">
           {ORDER_OPTIONS.map(option => (
@@ -145,8 +148,11 @@ export function LayoutTabContent (props: BoardPropertieMenuTabProps) {
         </div>
       </div>
       <div>
-        <p className="text-sm leading-none font-medium select-none pb-3">
+        <p className="text-sm leading-none font-medium select-none">
           Alignment
+        </p>
+        <p className="text-xs text-muted-foreground pb-3 pt-2">
+          Align selected components in the board.
         </p>
         <div className="grid grid-cols-4 gap-3">
           {ALIGNMENT_OPTIONS.map(option => (
