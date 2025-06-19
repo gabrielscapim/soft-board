@@ -29,7 +29,10 @@ export function ShapePropertiesMenu (props: FlexComponentPropertiesMenuProps) {
     <>
       <Label className="grid gap-2">
         Color
-        <Select value={properties.color}>
+        <Select
+          value={properties.color}
+          onValueChange={value => props.onUpdateProperties('color', value)}
+        >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select color" />
           </SelectTrigger>
@@ -45,12 +48,20 @@ export function ShapePropertiesMenu (props: FlexComponentPropertiesMenuProps) {
 
       <Label className="flex flex-col items-start">
         Border radius
-        <Input type="number" value={properties.borderRadius} />
+        <Input
+          type="number"
+          value={properties.borderRadius}
+          onChange={event => props.onUpdateProperties('borderRadius', Number(event.target.value))}
+        />
       </Label>
 
       <Label className="flex flex-col items-start">
         Border width
-        <Input type="number" value={properties.borderWidth} />
+        <Input
+          type="number"
+          value={properties.borderWidth}
+          onChange={event => props.onUpdateProperties('borderWidth', Number(event.target.value))}
+        />
       </Label>
 
       <Label className="flex flex-row items-center justify-between border-input p-3 border rounded-md">
@@ -60,7 +71,11 @@ export function ShapePropertiesMenu (props: FlexComponentPropertiesMenuProps) {
             Fill shape with color.
           </p>
         </div>
-        <Switch id="shape-fill" checked={properties.fill} />
+        <Switch
+          id="shape-fill"
+          checked={properties.fill}
+          onCheckedChange={value => props.onUpdateProperties('fill', value)}
+        />
       </Label>
     </>
   )

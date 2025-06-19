@@ -15,7 +15,11 @@ export function RadioButtonPropertiesMenu (props: FlexComponentPropertiesMenuPro
             State of the radio button.
           </p>
         </div>
-        <Switch id="shape-fill" checked={properties.activated} />
+        <Switch
+          id="shape-fill"
+          checked={properties.activated}
+          onCheckedChange={value => props.onUpdateProperties('activated', value)}
+        />
       </Label>
     </>
   )

@@ -15,7 +15,11 @@ export function TogglePropertiesMenu (props: FlexComponentPropertiesMenuProps) {
             State of the toggle.
           </p>
         </div>
-        <Switch id="shape-fill" checked={properties.activated} />
+        <Switch
+          id="shape-fill"
+          checked={properties.activated}
+          onCheckedChange={value => props.onUpdateProperties('activated', value)}
+        />
       </Label>
     </>
   )

@@ -66,7 +66,10 @@ export function TextPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
     <>
       <Label className="grid gap-2">
         Color
-        <Select value={properties.color}>
+        <Select
+          value={properties.color}
+          onValueChange={value => props.onUpdateProperties('color', value)}
+        >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select color" />
           </SelectTrigger>
@@ -82,22 +85,37 @@ export function TextPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
 
       <Label className="flex flex-col items-start">
         Font size
-        <Input type="number" value={properties.fontSize} />
+        <Input
+          type="number"
+          value={properties.fontSize}
+          onChange={event => props.onUpdateProperties('fontSize', Number(event.target.value))}
+        />
       </Label>
 
       <Label className="flex flex-col items-start">
         Font weight
-        <Input type="number" value={properties.fontWeight} />
+        <Input
+          type="number"
+          value={properties.fontWeight}
+          onChange={event => props.onUpdateProperties('fontWeight', Number(event.target.value))}
+        />
       </Label>
 
       <Label className="flex flex-col items-start">
         Line weight
-        <Input type="number" value={properties.lineHeight} />
+        <Input
+          type="number"
+          value={properties.lineHeight}
+          onChange={event => props.onUpdateProperties('lineHeight', Number(event.target.value))}
+        />
       </Label>
 
       <Label className="grid gap-2">
         Align
-        <Select value={properties.align}>
+        <Select
+          value={properties.align}
+          onValueChange={value => props.onUpdateProperties('align', value)}
+        >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select alignment" />
           </SelectTrigger>
@@ -113,7 +131,10 @@ export function TextPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
 
       <Label className="grid gap-2">
         Decoration
-        <Select value={properties.decoration ?? 'none'}>
+        <Select
+          value={properties.decoration ?? 'none'}
+          onValueChange={value => props.onUpdateProperties('decoration', value)}
+        >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select decoration" />
           </SelectTrigger>
