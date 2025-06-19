@@ -8,7 +8,7 @@ import {
   SidebarGroup,
   SidebarGroupContent
 } from '@/components/ui/sidebar'
-import { Command, Component, LayoutPanelTop, Smartphone } from 'lucide-react'
+import { Component, LayoutPanelTop, Smartphone } from 'lucide-react'
 import { BoardSidebarSection } from '..'
 
 const sections = [
