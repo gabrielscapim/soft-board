@@ -12,7 +12,7 @@ export function BoardRoute () {
 
   return (
     <>
-      {selectedFlexComponents?.length === 0 && selected && (
+      {selectedFlexComponents?.length === 1 && selected && (
         <BoardPropertiesMenu
           selected={selected}
           boardState={boardState}
