@@ -9,7 +9,7 @@ export function ZoomController () {
   const scale = useScale(boardState)
 
   return (
-    <div className="flex justify-center items-center mr-8 gap-3">
+    <div className="flex justify-center items-center gap-3">
       <Button
         size="icon"
         className="size-6"
