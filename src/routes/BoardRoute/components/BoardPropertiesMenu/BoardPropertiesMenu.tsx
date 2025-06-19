@@ -1,15 +1,24 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { BoardController, BoardState } from '@/lib'
-import { FlexComponent } from '@/types'
-import clsx from 'clsx'
+import { FlexComponent, FlexComponentProperties } from '@/types'
+import clsx, { ClassValue } from 'clsx'
 import { ActionsTabContent, LayoutTabContent, PropertiesTabContent } from './Tabs'
 import { useState, useEffect } from 'react'
-import { BoardPropertiesMenuProps } from '@/flex-components'
+import { useDebouncedCallback } from 'use-debounce'
 
 export type BoardPropertiesMenuTabProps = {
   boardState: BoardState
   boardController: BoardController
   selected: FlexComponent
+  onUpdateProperties<T extends keyof FlexComponentProperties>(key: T, value: FlexComponentProperties[T]): void
+  properties: FlexComponentProperties
+}
+
+export type BoardPropertiesMenuProps = {
+  boardState: BoardState
+  boardController: BoardController
+  selected: FlexComponent
+  className?: ClassValue
 }
 
 const TABS = [
@@ -31,13 +40,35 @@ const TABS = [
 ]
 
 export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
-  const { selected, className } = props
+  const { selected, className, boardController } = props
 
   const [tab, setTab] = useState('properties')
+  const [properties, setProperties] = useState<FlexComponentProperties>(selected.properties)
 
   useEffect(() => {
     setTab('properties')
   }, [selected.id])
+
+
+  const commit = useDebouncedCallback((properties: FlexComponentProperties) => {
+    boardController.onUpdateFlexComponent({
+      flexComponent: {
+        ...selected,
+        properties
+      }
+    })
+  }, 200)
+
+  const onUpdateProperties = <T extends keyof typeof properties>(
+    key: T,
+    value: (typeof properties)[T]
+  ) => {
+    setProperties(prev => {
+      const newProperties = { ...prev, [key]: value }
+      commit(newProperties)
+      return newProperties
+    })
+  }
 
   return (
     <div
@@ -54,7 +85,11 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
         </div>
         {TABS.map(tab => (
           <TabsContent key={tab.value} value={tab.value} className="p-4 flex flex-col gap-4">
-            <tab.content {...props} />
+            <tab.content
+              {...props}
+              onUpdateProperties={onUpdateProperties}
+              properties={properties}
+            />
           </TabsContent>
         ))}
       </Tabs>
