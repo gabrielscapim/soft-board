@@ -1,4 +1,4 @@
-import { BoardPropertiesMenuProps } from '@/routes/BoardRoute/components'
+import { BoardPropertiesMenuProps } from '@/flex-components/types'
 import { TextFlexComponentProperties } from '@/types'
 import { Label } from '@/components/ui/label'
 import {

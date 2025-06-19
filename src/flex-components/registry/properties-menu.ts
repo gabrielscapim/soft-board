@@ -9,7 +9,7 @@ import {
   TextPropertiesMenu,
   TogglePropertiesMenu
 } from '../components'
-import { BoardPropertiesMenuProps } from '@/routes/BoardRoute/components/BoardPropertiesMenu/BoardPropertiesMenu'
+import { BoardPropertiesMenuProps } from '../types'
 
 export const FLEX_COMPONENTS_PROPERTIES_MENU: Partial<Record<FlexComponentType, (props: BoardPropertiesMenuProps) => JSX.Element>> = {
   button: ButtonPropertiesMenu,

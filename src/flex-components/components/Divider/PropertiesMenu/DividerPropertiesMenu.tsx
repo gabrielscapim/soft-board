@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { BoardPropertiesMenuProps } from '@/routes/BoardRoute/components'
+import { BoardPropertiesMenuProps } from '@/flex-components/types'
 import { DividerFlexComponentProperties } from '@/types'
 
 const COLORS = [

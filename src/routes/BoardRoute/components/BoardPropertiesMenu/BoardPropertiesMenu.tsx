@@ -1,16 +1,10 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { BoardController, BoardState } from '@/lib'
 import { FlexComponent } from '@/types'
-import clsx, { ClassValue } from 'clsx'
+import clsx from 'clsx'
 import { ActionsTabContent, LayoutTabContent, PropertiesTabContent } from './Tabs'
 import { useState, useEffect } from 'react'
-
-export type BoardPropertiesMenuProps = {
-  boardState: BoardState
-  boardController: BoardController
-  selected: FlexComponent
-  className?: ClassValue
-}
+import { BoardPropertiesMenuProps } from '@/flex-components'
 
 export type BoardPropertiesMenuTabProps = {
   boardState: BoardState

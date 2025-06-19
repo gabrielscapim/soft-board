@@ -1,6 +1,6 @@
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
-import { BoardPropertiesMenuProps } from '@/routes/BoardRoute/components'
+import { BoardPropertiesMenuProps } from '@/flex-components/types'
 import { RadioButtonFlexComponentProperties } from '@/types'
 
 export function RadioButtonPropertiesMenu (props: BoardPropertiesMenuProps) {

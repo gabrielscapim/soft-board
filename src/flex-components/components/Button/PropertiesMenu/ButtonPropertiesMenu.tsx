@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { BoardPropertiesMenuProps } from '@/routes/BoardRoute/components/BoardPropertiesMenu/BoardPropertiesMenu'
+import { BoardPropertiesMenuProps } from '@/flex-components/types'
 import { ButtonFlexComponentProperties } from '@/types'
 
 const COLORS = [
