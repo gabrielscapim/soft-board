@@ -4,6 +4,7 @@ import { BoardContextProvider } from './contexts/BoardContext/BoardContextProvid
 import { BoardController, BoardState } from './lib'
 import { useState } from 'react'
 import { Layout } from './components'
+import { BoardRoute } from './routes'
 
 function App () {
   const [boardState] = useState(new BoardState())
@@ -13,8 +14,8 @@ function App () {
     <BoardContextProvider boardState={boardState} boardController={boardController}>
       <Routes>
         <Route path="/" element={<Layout />}>
-          {/* <Route index element={<BoardRoute />} />
-          <Route path="wireframe-mode" element={<WireframeModeRoute />} /> */}
+          <Route index element={<BoardRoute />} />
+          {/* <Route path="wireframe-mode" element={<WireframeModeRoute />} /> */}
         </Route>
       </Routes>
     </BoardContextProvider>
