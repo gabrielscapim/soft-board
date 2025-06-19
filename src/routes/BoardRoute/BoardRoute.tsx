@@ -1,6 +1,4 @@
-import {
-  Board
-} from '../../components'
+import { Board } from '../../components'
 import { useBoard, useFlexComponents, useSelectedFlexComponents } from '../../hooks'
 import { BoardPropertiesMenu } from './components'
 
@@ -14,7 +12,6 @@ export function BoardRoute () {
 
   return (
     <>
-      {/* <GroupComponentsPropertiesMenu  boardState={boardState} boardController={boardController} /> */}
       {selectedFlexComponents?.length === 0 && selected && (
         <BoardPropertiesMenu
           selected={selected}
