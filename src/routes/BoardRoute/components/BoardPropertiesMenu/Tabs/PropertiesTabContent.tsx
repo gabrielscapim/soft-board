@@ -1,9 +1,15 @@
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { BoardPropertiesMenuTabProps } from '../BoardPropertiesMenu'
 import { FLEX_COMPONENTS_PROPERTIES_MENU } from '@/flex-components/registry/properties-menu'
+import { FlexComponent } from '@/types'
 
-export function PropertiesTabContent (props: BoardPropertiesMenuTabProps) {
+export type PropertiesTabContentProps = {
+  flexComponent: FlexComponent
+  onUpdateProperties (key: string, value: unknown): void
+  onUpdateName (value: string): void
+}
+
+export function PropertiesTabContent (props: PropertiesTabContentProps) {
   const { flexComponent, onUpdateProperties, onUpdateName } = props
 
   const Menu = FLEX_COMPONENTS_PROPERTIES_MENU[flexComponent.type]

@@ -17,10 +17,17 @@ import {
 } from '@/components/ui/popover'
 
 import { useMemo, useState } from 'react'
-import { BoardPropertiesMenuTabProps } from '../BoardPropertiesMenu'
 import { useFlexComponents } from '@/hooks'
+import { FlexComponent } from '@/types'
+import { BoardState } from '@/lib'
 
-export function ActionsTabContent (props: BoardPropertiesMenuTabProps) {
+export type ActionsTabContentProps = {
+  flexComponent: FlexComponent
+  boardState: BoardState
+  onUpdateConnection: (value: string) => void
+}
+
+export function ActionsTabContent (props: ActionsTabContentProps) {
   const { flexComponent, boardState, onUpdateConnection } = props
 
   const [open, setOpen] = useState(true)

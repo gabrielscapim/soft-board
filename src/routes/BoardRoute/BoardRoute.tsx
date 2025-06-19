@@ -5,16 +5,15 @@ import { BoardPropertiesMenu } from './components'
 export function BoardRoute () {
   const { boardState,  boardController } = useBoard()
 
-  const selectedFlexComponents = useSelectedFlexComponents(boardState)
+  const selected = useSelectedFlexComponents(boardState)
   const flexComponents = useFlexComponents(boardState)
-
-  const selected = flexComponents.find(component => component.id === selectedFlexComponents?.[0])
+  const selectedFlexComponents = flexComponents.filter(component => selected?.includes(component.id))
 
   return (
     <>
-      {selectedFlexComponents?.length === 1 && selected && (
+      {selectedFlexComponents.length > 0 && (
         <BoardPropertiesMenu
-          selected={selected}
+          selectedFlexComponents={selectedFlexComponents}
           boardState={boardState}
           boardController={boardController}
         />

@@ -2,54 +2,27 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { BoardController, BoardState } from '@/lib'
 import { FlexComponent } from '@/types'
 import clsx, { ClassValue } from 'clsx'
-import { ActionsTabContent, LayoutTabContent, PropertiesTabContent } from './Tabs'
 import { useState, useEffect } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
-
-export type BoardPropertiesMenuTabProps = {
-  boardState: BoardState
-  flexComponent: FlexComponent
-  boardController: BoardController
-  onUpdateProperties (key: string, value: unknown): void
-  onUpdateName (value: string): void
-  onUpdateConnection (value: string): void
-}
+import { ActionsTabContent, LayoutTabContent, PropertiesTabContent } from './Tabs'
 
 export type BoardPropertiesMenuProps = {
   boardState: BoardState
   boardController: BoardController
-  selected: FlexComponent
+  selectedFlexComponents: FlexComponent[]
   className?: ClassValue
 }
 
-const TABS = [
-  {
-    value: 'properties',
-    label: 'Properties',
-    content: PropertiesTabContent,
-  },
-  {
-    value: 'layout',
-    label: 'Layout',
-    content: LayoutTabContent,
-  },
-  {
-    value: 'actions',
-    label: 'Actions',
-    content: ActionsTabContent
-  }
-]
-
 export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
-  const { selected, className, boardState, boardController } = props
+  const { selectedFlexComponents, className, boardState, boardController } = props
 
   const [tab, setTab] = useState('properties')
-  const [flexComponent, setFlexComponent] = useState<FlexComponent>(selected)
+  const [flexComponent, setFlexComponent] = useState<FlexComponent | null>(selectedFlexComponents.length === 1 ? selectedFlexComponents[0] : null)
 
   useEffect(() => {
     setTab('properties')
-    setFlexComponent(selected)
-  }, [selected])
+    setFlexComponent(selectedFlexComponents.length === 1 ? selectedFlexComponents[0] : null)
+  }, [selectedFlexComponents])
 
   // Debounced commit function to update the flex component
   const commit = useDebouncedCallback((flexComponent: FlexComponent) => {
@@ -64,6 +37,9 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
     value: unknown
   ) => {
     setFlexComponent(prev => {
+      if (!prev) {
+        return prev
+      }
       const newFlexComponent = { ...prev, properties: { ...prev.properties, [key]: value } }
       commit(newFlexComponent)
       return newFlexComponent
@@ -76,6 +52,9 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
     value: unknown
   ) => {
     setFlexComponent(prev => {
+      if (!prev) {
+        return prev
+      }
       const newFlexComponent = { ...prev, [key]: value }
       commit(newFlexComponent)
       return newFlexComponent
@@ -90,27 +69,43 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
       <Tabs value={tab} className="gap-0" onValueChange={setTab}>
         <div className="mx-3 mb-0 mt-3">
           <TabsList className="w-full">
-            <TabsTrigger value="properties">Properties</TabsTrigger>
+            <TabsTrigger value="properties" disabled={!flexComponent}>Properties</TabsTrigger>
             <TabsTrigger value="layout">Layout</TabsTrigger>
-            <TabsTrigger value="actions">Actions</TabsTrigger>
+            <TabsTrigger value="actions" disabled={!flexComponent}>Actions</TabsTrigger>
           </TabsList>
         </div>
-        {TABS.map(tab => (
-          <TabsContent
-            key={tab.value}
-            value={tab.value}
-            className="p-4 flex flex-col gap-4"
-          >
-            <tab.content
-              boardState={boardState}
-              flexComponent={flexComponent}
-              boardController={boardController}
+        <TabsContent
+          value="properties"
+          className="p-4 flex flex-col gap-4"
+        >
+          {flexComponent && (
+            <PropertiesTabContent
+              flexComponent={flexComponent!}
               onUpdateProperties={onUpdateProperties}
               onUpdateName={value => onUpdateFlexComponent('name', value)}
+            />
+          )}
+        </TabsContent>
+        <TabsContent
+          value="layout"
+          className="p-4 flex flex-col gap-4"
+        >
+          <LayoutTabContent
+            boardController={boardController}
+          />
+        </TabsContent>
+        <TabsContent
+          value="actions"
+          className="p-4 flex flex-col gap-4"
+        >
+          {flexComponent && (
+            <ActionsTabContent
+              flexComponent={flexComponent!}
+              boardState={boardState}
               onUpdateConnection={value => onUpdateFlexComponent('connection', value)}
             />
-          </TabsContent>
-        ))}
+          )}
+        </TabsContent>
       </Tabs>
     </div>
   )
