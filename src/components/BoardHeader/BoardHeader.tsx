@@ -1,14 +1,13 @@
-import { Separator } from '@radix-ui/react-separator'
 import { SidebarTrigger } from '../ui/sidebar'
+import { ZoomController } from './components'
 
 export function BoardHeader () {
   return (
     <header className="bg-background sticky top-0 flex shrink-0 items-center gap-2 border-b p-2">
-      <SidebarTrigger className="m-0 cursor-pointer" />
-      <Separator
-        orientation="vertical"
-        className="mr-2 data-[orientation=vertical]:h-4"
-      />
+      <div className="flex justify-between items-center w-full">
+        <SidebarTrigger className="m-0 cursor-pointer" />
+        <ZoomController />
+      </div>
     </header>
   )
 }

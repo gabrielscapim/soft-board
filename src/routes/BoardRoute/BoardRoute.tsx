@@ -3,7 +3,7 @@ import { useBoard, useFlexComponents, useSelectedFlexComponents } from '../../ho
 import { BoardPropertiesMenu } from './components'
 
 export function BoardRoute () {
-  const { boardState,  boardController } = useBoard()
+  const { boardState, boardController } = useBoard()
 
   const selected = useSelectedFlexComponents(boardState)
   const flexComponents = useFlexComponents(boardState)
