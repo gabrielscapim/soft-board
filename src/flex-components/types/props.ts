@@ -1,4 +1,3 @@
-import { ClassValue } from 'clsx'
 import { BoardController, BoardState } from '../../lib'
 import { FlexComponent } from '../../types'
 
@@ -8,9 +7,8 @@ export type FlexComponentProps = {
   handleAction?: (flexComponent: FlexComponent, event: string) => void
 }
 
-export type BoardPropertiesMenuProps = {
+export type FlexComponentPropertiesMenuProps = {
   boardState: BoardState
   boardController: BoardController
   selected: FlexComponent
-  className?: ClassValue
 }
