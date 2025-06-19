@@ -14,8 +14,6 @@ export function BoardRoute () {
       {selectedFlexComponents.length > 0 && (
         <BoardPropertiesMenu
           selectedFlexComponents={selectedFlexComponents}
-          boardState={boardState}
-          boardController={boardController}
         />
       )}
       <Board boardState={boardState} boardController={boardController} />
