@@ -34,13 +34,12 @@ export type ButtonFlexComponentProperties = BaseProperties & {
   paddingRight?: number
   paddingTop?: number
   paddingBottom?: number
+  label?: string
 }
 
 /** Divider */
 export type DividerFlexComponentProperties = BaseProperties & {
-  icon?: string
   color?: string // primary; secondary; tertiary
-  style?: string // solid; dashed; dotted
 }
 
 /** Icon */
@@ -74,7 +73,7 @@ export type RadioButtonFlexComponentProperties = BaseProperties & {
 
 /** Shape */
 export type ShapeFlexComponentProperties = BaseProperties & {
-  color?: string // primary; secondary; tertiary
+  color?: string // primary; secondary
   fill?: boolean
   borderRadius?: number
   borderWidth?: number
@@ -85,7 +84,7 @@ export type TextFlexComponentProperties = BaseProperties & {
   color?: string // primary; secondary
   text?: string
   fontSize?: number
-  italic?: boolean
+  decoration?: string // none; underline; line-through; overline
   fontWeight?: number
   lineHeight?: number
   align?: string // left; center; right; justify

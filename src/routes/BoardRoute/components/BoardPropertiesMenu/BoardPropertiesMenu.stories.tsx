@@ -1,0 +1,40 @@
+import { StoryObj } from '@storybook/react'
+import { BoardPropertiesMenu } from './BoardPropertiesMenu'
+import { UUID } from '@/types'
+
+const meta = {
+  title: 'Board route/Board Properties Menu',
+  component: BoardPropertiesMenu,
+  parameters: {
+    layout: 'centered',
+  },
+  tags: ['autodocs'],
+  argTypes: {
+    component: {
+      properties: {},
+    },
+  },
+}
+
+export default meta
+
+type Story = StoryObj<typeof meta>
+
+export const Example: Story = {
+  args: {
+    className: 'static',
+    selectedFlexComponents: [
+      {
+        id: '1' as UUID,
+        type: 'button',
+        name: 'Button 1',
+        properties: {
+          x: 0,
+          y: 0,
+          width: 800,
+          height: 600
+        }
+      }
+    ]
+  }
+}

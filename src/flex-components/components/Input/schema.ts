@@ -3,10 +3,11 @@ import { FlexComponentSchema } from '../../types'
 export const inputFlexComponentSchema = {
   variations: [
     {
-      name: 'Primary input',
+      name: 'Primary Input',
       properties: {
         variant: 'primary',
-        width: 320,
+        placeholder: 'Input',
+        width: 250,
         height: 44,
         borderRadius: 12,
         fontSize: 16,
@@ -14,15 +15,17 @@ export const inputFlexComponentSchema = {
         paddingTop: 12,
         paddingLeft: 16,
         paddingRight: 16,
+        textAlign: 'left',
         x: 0,
         y: 0
       }
     },
     {
-      name: 'Secondary input',
+      name: 'Secondary Input',
       properties: {
         variant: 'secondary',
-        width: 320,
+        placeholder: 'Input',
+        width: 250,
         height: 44,
         borderRadius: 12,
         fontSize: 16,
@@ -30,15 +33,17 @@ export const inputFlexComponentSchema = {
         paddingTop: 12,
         paddingLeft: 16,
         paddingRight: 16,
+        textAlign: 'left',
         x: 0,
         y: 0
       }
     },
     {
-      name: 'Tertiary input',
+      name: 'Tertiary Input',
       properties: {
         variant: 'tertiary',
-        width: 320,
+        placeholder: 'Input',
+        width: 250,
         height: 44,
         borderRadius: 0,
         fontSize: 16,
@@ -46,15 +51,17 @@ export const inputFlexComponentSchema = {
         paddingTop: 12,
         paddingLeft: 16,
         paddingRight: 16,
+        textAlign: 'left',
         x: 0,
         y: 0
       }
     },
     {
-      name: 'Extra small input',
+      name: 'Extra small Input',
       properties: {
         variant: 'secondary',
-        width: 320,
+        placeholder: 'Input',
+        width: 250,
         height: 36,
         borderRadius: 12,
         fontSize: 12,
@@ -62,15 +69,17 @@ export const inputFlexComponentSchema = {
         paddingTop: 6,
         paddingLeft: 8,
         paddingRight: 8,
+        textAlign: 'left',
         x: 0,
         y: 0
       }
     },
     {
-      name: 'Small input',
+      name: 'Small Input',
       properties: {
         variant: 'secondary',
-        width: 320,
+        placeholder: 'Input',
+        width: 250,
         height: 40,
         borderRadius: 12,
         fontSize: 14,
@@ -78,15 +87,17 @@ export const inputFlexComponentSchema = {
         paddingTop: 9,
         paddingLeft: 12,
         paddingRight: 12,
+        textAlign: 'left',
         x: 0,
         y: 0
       }
     },
     {
-      name: 'Medium input',
+      name: 'Medium Input',
       properties: {
         variant: 'secondary',
-        width: 320,
+        placeholder: 'Input',
+        width: 250,
         height: 44,
         borderRadius: 12,
         fontSize: 16,
@@ -94,15 +105,17 @@ export const inputFlexComponentSchema = {
         paddingTop: 12,
         paddingLeft: 16,
         paddingRight: 16,
+        textAlign: 'left',
         x: 0,
         y: 0
       }
     },
     {
-      name: 'Large input',
+      name: 'Large Input',
       properties: {
         variant: 'secondary',
-        width: 320,
+        placeholder: 'Input',
+        width: 250,
         height: 48,
         borderRadius: 12,
         fontSize: 18,
@@ -110,15 +123,16 @@ export const inputFlexComponentSchema = {
         paddingTop: 16,
         paddingLeft: 20,
         paddingRight: 20,
+        textAlign: 'left',
         x: 0,
         y: 0
       }
     },
     {
-      name: 'Password input',
+      name: 'Password Input',
       properties: {
         variant: 'secondary',
-        width: 320,
+        width: 250,
         height: 44,
         borderRadius: 12,
         fontSize: 16,
@@ -137,7 +151,7 @@ export const inputFlexComponentSchema = {
       name: 'Dropdown',
       properties: {
         variant: 'secondary',
-        width: 320,
+        width: 250,
         height: 44,
         borderRadius: 12,
         fontSize: 16,

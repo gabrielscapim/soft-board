@@ -1,10 +1,10 @@
 import { Route, Routes } from 'react-router'
 import './index.css'
-import { BoardRoute, WireframeModeRoute } from './routes'
 import { BoardContextProvider } from './contexts/BoardContext/BoardContextProvider'
 import { BoardController, BoardState } from './lib'
 import { useState } from 'react'
-import { Layout } from './components'
+import { BoardLayout, WireframeModeLayout } from './components'
+import { BoardRoute, WireframeModeRoute } from './routes'
 
 function App () {
   const [boardState] = useState(new BoardState())
@@ -13,12 +13,14 @@ function App () {
   return (
     <BoardContextProvider boardState={boardState} boardController={boardController}>
       <Routes>
-        <Route
-          path="/"
-          element={<Layout />}
-        >
+        {/* Board route */}
+        <Route path="/" element={<BoardLayout />}>
           <Route index element={<BoardRoute />} />
-          <Route path="wireframe-mode" element={<WireframeModeRoute />} />
+        </Route>
+
+        {/* Wireframe mode route */}
+        <Route path="wireframe-mode" element={<WireframeModeLayout />}>
+          <Route index element={<WireframeModeRoute />} />
         </Route>
       </Routes>
     </BoardContextProvider>

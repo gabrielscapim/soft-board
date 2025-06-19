@@ -3,7 +3,7 @@ import { FlexComponentSchema } from '../../types'
 export const dividerFlexComponentSchema = {
   variations: [
     {
-      name: 'Primary divider',
+      name: 'Primary Divider',
       properties: {
         color: 'primary',
         height: 2,
@@ -13,7 +13,7 @@ export const dividerFlexComponentSchema = {
       }
     },
     {
-      name: 'Secondary divider',
+      name: 'Secondary Divider',
       properties: {
         color: 'secondary',
         height: 2,
@@ -23,7 +23,7 @@ export const dividerFlexComponentSchema = {
       }
     },
     {
-      name: 'Tertiary divider',
+      name: 'Tertiary Divider',
       properties: {
         color: 'tertiary',
         height: 2,

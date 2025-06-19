@@ -3,7 +3,6 @@ import { v4 as uuid } from 'uuid'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import { BoardControllerInterface, OnAddFlexComponentParams, OnChangeBoardScaleParams, OnUpdateFlexComponentParams } from './board-controller-interface.ts'
-import { FLEX_COMPONENTS_SCHEMAS } from '../../flex-components'
 
 /**
  * Class responsible to communicate with the front-end and the BoardManager class.
@@ -21,23 +20,21 @@ export class BoardController implements BoardControllerInterface {
   }
 
   onAddFlexComponent (params: OnAddFlexComponentParams) {
-    const { type, position } = params
+    const { type, name, properties, position } = params
 
     const zIndex = this._boardState.flexComponents.length > 0
       ? Math.max(...this._boardState.flexComponents.map(flexComponent => flexComponent.properties.zIndex ?? 0)) + 1
       : 1
 
-    // Temporarily until we have a proper way to handle flex components
-    const variation = FLEX_COMPONENTS_SCHEMAS[type].variations[0]
-
     const flexComponent = {
       id: uuid() as UUID,
       type,
-      name: variation.name,
+      name,
       properties: {
-        ...variation.properties,
+        ...properties,
         x: position.x,
         y: position.y,
+        absolute: true,
         zIndex
       }
     } as FlexComponent
@@ -45,7 +42,7 @@ export class BoardController implements BoardControllerInterface {
     this._boardManager.addFlexComponents({ flexComponents: [flexComponent] })
   }
 
-  onAlignComponents (option: string) {
+  onAlignFlexComponents (option: string) {
     const selected = this._boardState.selectedFlexComponents ?? []
     const flexComponents = this._boardState.flexComponents.filter(flexComponent => selected.includes(flexComponent.id))
 

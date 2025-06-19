@@ -1,19 +1,21 @@
-import {
-  FlexComponentsMenu,
-  FlexComponentPropertiesMenu,
-  GroupComponentsPropertiesMenu,
-  Board
-} from '../../components'
-import { useBoard } from '../../hooks'
+import { Board } from '../../components'
+import { useBoard, useFlexComponents, useSelectedFlexComponents } from '../../hooks'
+import { BoardPropertiesMenu } from './components'
 
 export function BoardRoute () {
-  const { boardState,  boardController } = useBoard()
+  const { boardState, boardController } = useBoard()
+
+  const selected = useSelectedFlexComponents(boardState)
+  const flexComponents = useFlexComponents(boardState)
+  const selectedFlexComponents = flexComponents.filter(component => selected?.includes(component.id))
 
   return (
     <>
-      <FlexComponentsMenu boardController={boardController} />
-      <FlexComponentPropertiesMenu boardState={boardState} boardController={boardController} />
-      <GroupComponentsPropertiesMenu  boardState={boardState} boardController={boardController} />
+      {selectedFlexComponents.length > 0 && (
+        <BoardPropertiesMenu
+          selectedFlexComponents={selectedFlexComponents}
+        />
+      )}
       <Board boardState={boardState} boardController={boardController} />
     </>
   )
