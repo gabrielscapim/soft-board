@@ -6,6 +6,7 @@ export const buttonFlexComponentSchema = {
       name: 'Primary Button',
       properties: {
         color: 'primary',
+        label: 'Button',
         borderRadius: 12,
         fontSize: 16,
         paddingBottom: 12,
@@ -22,6 +23,7 @@ export const buttonFlexComponentSchema = {
       name: 'Secondary Button',
       properties: {
         color: 'secondary',
+        label: 'Button',
         borderRadius: 12,
         fontSize: 16,
         paddingBottom: 12,
@@ -38,6 +40,7 @@ export const buttonFlexComponentSchema = {
       name: 'Extra small Button',
       properties: {
         color: 'secondary',
+        label: 'Button',
         borderRadius: 6,
         fontSize: 12,
         paddingBottom: 6,
@@ -54,6 +57,7 @@ export const buttonFlexComponentSchema = {
       name: 'Small Button',
       properties: {
         color: 'primary',
+        label: 'Button',
         borderRadius: 12,
         fontSize: 16,
         paddingBottom: 12,
@@ -70,6 +74,7 @@ export const buttonFlexComponentSchema = {
       name: 'Medium Button',
       properties: {
         color: 'primary',
+        label: 'Button',
         borderRadius: 12,
         fontSize: 16,
         paddingBottom: 12,
@@ -86,6 +91,7 @@ export const buttonFlexComponentSchema = {
       name: 'Large Button',
       properties: {
         color: 'primary',
+        label: 'Button',
         borderRadius: 12,
         fontSize: 16,
         paddingBottom: 12,

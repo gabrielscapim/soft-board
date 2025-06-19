@@ -40,7 +40,7 @@ export function ButtonFlexComponent (props: FlexComponentProps) {
       }}
       onClick={() => handleAction?.(component, 'onClick')}
     >
-      Button
+      {properties.label}
     </div>
   )
 }
