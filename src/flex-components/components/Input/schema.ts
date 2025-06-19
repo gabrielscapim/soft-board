@@ -6,6 +6,7 @@ export const inputFlexComponentSchema = {
       name: 'Primary Input',
       properties: {
         variant: 'primary',
+        placeholder: 'Input',
         width: 250,
         height: 44,
         borderRadius: 12,
@@ -14,6 +15,7 @@ export const inputFlexComponentSchema = {
         paddingTop: 12,
         paddingLeft: 16,
         paddingRight: 16,
+        textAlign: 'left',
         x: 0,
         y: 0
       }
@@ -22,6 +24,7 @@ export const inputFlexComponentSchema = {
       name: 'Secondary Input',
       properties: {
         variant: 'secondary',
+        placeholder: 'Input',
         width: 250,
         height: 44,
         borderRadius: 12,
@@ -30,6 +33,7 @@ export const inputFlexComponentSchema = {
         paddingTop: 12,
         paddingLeft: 16,
         paddingRight: 16,
+        textAlign: 'left',
         x: 0,
         y: 0
       }
@@ -38,6 +42,7 @@ export const inputFlexComponentSchema = {
       name: 'Tertiary Input',
       properties: {
         variant: 'tertiary',
+        placeholder: 'Input',
         width: 250,
         height: 44,
         borderRadius: 0,
@@ -46,6 +51,7 @@ export const inputFlexComponentSchema = {
         paddingTop: 12,
         paddingLeft: 16,
         paddingRight: 16,
+        textAlign: 'left',
         x: 0,
         y: 0
       }
@@ -54,6 +60,7 @@ export const inputFlexComponentSchema = {
       name: 'Extra small Input',
       properties: {
         variant: 'secondary',
+        placeholder: 'Input',
         width: 250,
         height: 36,
         borderRadius: 12,
@@ -62,6 +69,7 @@ export const inputFlexComponentSchema = {
         paddingTop: 6,
         paddingLeft: 8,
         paddingRight: 8,
+        textAlign: 'left',
         x: 0,
         y: 0
       }
@@ -70,6 +78,7 @@ export const inputFlexComponentSchema = {
       name: 'Small Input',
       properties: {
         variant: 'secondary',
+        placeholder: 'Input',
         width: 250,
         height: 40,
         borderRadius: 12,
@@ -78,6 +87,7 @@ export const inputFlexComponentSchema = {
         paddingTop: 9,
         paddingLeft: 12,
         paddingRight: 12,
+        textAlign: 'left',
         x: 0,
         y: 0
       }
@@ -86,6 +96,7 @@ export const inputFlexComponentSchema = {
       name: 'Medium Input',
       properties: {
         variant: 'secondary',
+        placeholder: 'Input',
         width: 250,
         height: 44,
         borderRadius: 12,
@@ -94,6 +105,7 @@ export const inputFlexComponentSchema = {
         paddingTop: 12,
         paddingLeft: 16,
         paddingRight: 16,
+        textAlign: 'left',
         x: 0,
         y: 0
       }
@@ -102,6 +114,7 @@ export const inputFlexComponentSchema = {
       name: 'Large Input',
       properties: {
         variant: 'secondary',
+        placeholder: 'Input',
         width: 250,
         height: 48,
         borderRadius: 12,
@@ -110,6 +123,7 @@ export const inputFlexComponentSchema = {
         paddingTop: 16,
         paddingLeft: 20,
         paddingRight: 20,
+        textAlign: 'left',
         x: 0,
         y: 0
       }
