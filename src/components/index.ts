@@ -1,7 +1,6 @@
 export * from './BoardSidebar'
 export * from './Board'
 export * from './Button'
-export * from './FlexComponentPropertiesMenu'
 export * from './FlexComponentsMenu'
 export * from './Floating'
 export * from './GroupComponentsPropertiesMenu'
