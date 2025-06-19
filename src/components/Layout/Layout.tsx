@@ -9,7 +9,7 @@ export function Layout () {
       <BoardSidebar />
       <SidebarInset>
         <BoardHeader />
-        <main>
+        <main className="flex grow">
           <Outlet />
         </main>
       </SidebarInset>
