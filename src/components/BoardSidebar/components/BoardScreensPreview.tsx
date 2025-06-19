@@ -2,6 +2,7 @@ import { FLEX_COMPONENTS_SCHEMAS } from '@/flex-components'
 import { useMemo } from 'react'
 import { BoardComponentCardPreview } from './BoardComponentCardPreview'
 import Fuse from 'fuse.js'
+import { useBoard, useScreenDimensions } from '@/hooks'
 
 export type BoardScreensPreviewProps = {
   search: string
@@ -9,6 +10,9 @@ export type BoardScreensPreviewProps = {
 
 export function BoardScreensPreview (props: BoardScreensPreviewProps) {
   const { search } = props
+
+  const { boardController } = useBoard()
+    const { width, height } = useScreenDimensions()
 
   const screensPreview = useMemo(() => {
     const components = Object.entries(FLEX_COMPONENTS_SCHEMAS)
@@ -29,6 +33,11 @@ export function BoardScreensPreview (props: BoardScreensPreviewProps) {
     return filtered.map(result => result.item)
   }, [search])
 
+  const position = {
+    x: Math.round((width / 2) / 10) * 10,
+    y: Math.round((height / 2) / 10) * 10
+  }
+
   return (
     <>
       {!screensPreview.length && <span className="opacity-40">No screens found</span>}
@@ -38,6 +47,12 @@ export function BoardScreensPreview (props: BoardScreensPreviewProps) {
           type={screen.type as 'mobileScreen'}
           name={screen.variation.name}
           properties={screen.variation.properties}
+          onClick={() => boardController.onAddFlexComponent({
+            type: screen.type as 'mobileScreen',
+            properties: screen.variation.properties,
+            name: screen.variation.name,
+            position
+          })}
         />
       ))}
     </>
