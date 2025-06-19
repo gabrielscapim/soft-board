@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 const ORDER_OPTIONS: { name: string; label: string; icon: ReactNode }[] = [
   {
     name: 'front',
-    label: 'Move to Front',
+    label: 'Front',
     icon: (
       <>
         <rect x="4" y="4" width="10" height="7" rx="1" fill="#444444"/>
@@ -16,7 +16,7 @@ const ORDER_OPTIONS: { name: string; label: string; icon: ReactNode }[] = [
   },
   {
     name: 'forward',
-    label: 'Move Forward',
+    label: 'Forward',
     icon: (
       <>
         <rect x="4" y="6" width="12" height="9" rx="1" fill="#444444"/>
@@ -26,7 +26,7 @@ const ORDER_OPTIONS: { name: string; label: string; icon: ReactNode }[] = [
   },
   {
     name: 'back',
-    label: 'Move Back',
+    label: 'Back',
     icon: (
       <>
         <rect x="4" y="4" width="10" height="7" rx="1" fill="#888888"/>
@@ -37,7 +37,7 @@ const ORDER_OPTIONS: { name: string; label: string; icon: ReactNode }[] = [
   },
   {
     name: 'backward',
-    label: 'Move Backward',
+    label: 'Backward',
     icon: (
       <>
         <rect x="4" y="6" width="12" height="9" rx="1" fill="#888888"/>
@@ -124,7 +124,7 @@ export function LayoutTabContent (props: BoardPropertiesMenuTabProps) {
         <p className="text-xs text-muted-foreground pb-3 pt-2">
           Change the order of selected components in the board.
         </p>
-        <div className="flex justify-between">
+        <div className="grid grid-cols-4 gap-3">
           {ORDER_OPTIONS.map(option => (
             <div
               key={option.name}
