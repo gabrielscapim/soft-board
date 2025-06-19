@@ -1,9 +1,9 @@
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
-import { BoardPropertiesMenuProps } from '@/flex-components/types'
+import { FlexComponentPropertiesMenuProps } from '@/flex-components/types'
 import { RadioButtonFlexComponentProperties } from '@/types'
 
-export function RadioButtonPropertiesMenu (props: BoardPropertiesMenuProps) {
+export function RadioButtonPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
   const { selected } = props
 
   const properties = selected.properties as RadioButtonFlexComponentProperties

@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { BoardPropertiesMenuProps } from '@/flex-components/types'
+import { FlexComponentPropertiesMenuProps } from '@/flex-components/types'
 import { InputFlexComponentProperties } from '@/types'
 
 const VARIANTS = [
@@ -40,7 +40,7 @@ const TEXT_ALIGNMENTS = [
   }
 ]
 
-export function InputPropertiesMenu (props: BoardPropertiesMenuProps) {
+export function InputPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
   const { selected } = props
 
   const properties = selected.properties as InputFlexComponentProperties

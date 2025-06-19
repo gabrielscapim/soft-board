@@ -1,4 +1,4 @@
-import { BoardPropertiesMenuProps } from '@/flex-components/types'
+import { FlexComponentPropertiesMenuProps } from '@/flex-components/types'
 import { ShapeFlexComponentProperties } from '@/types'
 import { Label } from '@/components/ui/label'
 import {
@@ -22,7 +22,7 @@ const COLORS = [
   }
 ]
 
-export function ShapePropertiesMenu (props: BoardPropertiesMenuProps) {
+export function ShapePropertiesMenu (props: FlexComponentPropertiesMenuProps) {
   const { selected } = props
 
   const properties = selected.properties as ShapeFlexComponentProperties

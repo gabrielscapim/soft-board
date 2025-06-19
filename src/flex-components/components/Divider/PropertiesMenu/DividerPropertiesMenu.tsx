@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { BoardPropertiesMenuProps } from '@/flex-components/types'
+import { FlexComponentPropertiesMenuProps } from '@/flex-components/types'
 import { DividerFlexComponentProperties } from '@/types'
 
 const COLORS = [
@@ -24,7 +24,7 @@ const COLORS = [
   }
 ]
 
-export function DividerPropertiesMenu (props: BoardPropertiesMenuProps) {
+export function DividerPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
   const { selected } = props
 
   const properties = selected.properties as DividerFlexComponentProperties

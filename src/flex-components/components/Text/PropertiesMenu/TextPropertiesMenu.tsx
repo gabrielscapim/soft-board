@@ -1,4 +1,4 @@
-import { BoardPropertiesMenuProps } from '@/flex-components/types'
+import { FlexComponentPropertiesMenuProps } from '@/flex-components/types'
 import { TextFlexComponentProperties } from '@/types'
 import { Label } from '@/components/ui/label'
 import {
@@ -59,7 +59,7 @@ const DECORATIONS = [
   }
 ]
 
-export function TextPropertiesMenu (props: BoardPropertiesMenuProps) {
+export function TextPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
   const { selected } = props
 
   const properties = selected.properties as TextFlexComponentProperties
