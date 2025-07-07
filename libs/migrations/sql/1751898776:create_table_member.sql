@@ -1,3 +1,9 @@
+CREATE TYPE member_role AS ENUM (
+  'owner',
+  'admin',
+  'member'
+);
+
 CREATE TABLE member (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
