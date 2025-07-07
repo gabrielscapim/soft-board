@@ -4,6 +4,6 @@ export type WorkspaceDatabase = {
   id: UUID
   name: VARCHAR_255
   slug: VARCHAR_255
-  create_date: TIMESTAMPTZ
-  update_date: TIMESTAMPTZ
+  createDate: TIMESTAMPTZ
+  updateDate: TIMESTAMPTZ
 }
