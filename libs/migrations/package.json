@@ -1,7 +1,6 @@
 {
   "name": "migrations",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
     "migrate:dev": "dotenv -e .env.development -- node _scripts/migrate.js",
     "migrate:test": "dotenv -e .env.test -- node _scripts/migrate.js",
