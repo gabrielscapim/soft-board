@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import { COOKIE_PARSER_SECRET, CORS_ORIGINS } from '../../constants'
 import { Endpoint } from '../../types'
 import { errorHandler, setAuth } from '../../middlewares'
+import { requireAuth } from '../../middlewares/require-auth'
 
 export type CreateAppOptions = {
   endpoints?: Endpoint[] | Record<string, Omit<Endpoint, 'path'>>
@@ -25,8 +26,19 @@ export function createApp (options: CreateAppOptions = {}): Express {
 
   // Register endpoints
   for (const endpoint of getEndpoints(options.endpoints)) {
-    const method = endpoint.method ?? 'post'
-    app[method](endpoint.path, endpoint.handler())
+    const {
+      path,
+      handler,
+      method = 'post',
+      auth = true
+    } = endpoint
+
+    // If endpoint requires authentication, use the requireAuth middleware
+    if (auth){
+      app[method](path, requireAuth, handler())
+    } else {
+      app[method](path, handler())
+    }
   }
 
   // Should be the last middleware because will handle errors from all previous middlewares

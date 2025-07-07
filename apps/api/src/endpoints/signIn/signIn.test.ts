@@ -7,7 +7,7 @@ import * as bcrypt from 'bcrypt'
 import { PASSWORD_SALT_ROUNDS } from '../../constants'
 
 describe('signIn', () => {
-  describe.skip('when user is not found or credentials are invalid', () => {
+  describe('when user is not found or credentials are invalid', () => {
     test('throws Unauthorized error', async () => {
       const app = createApp({ endpoints: { signIn } })
 
