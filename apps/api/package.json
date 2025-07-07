@@ -14,7 +14,9 @@
     "axios": "^1.10.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "pino": "^9.7.0"
+    "http-errors": "^2.0.0",
+    "pino": "^9.7.0",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
