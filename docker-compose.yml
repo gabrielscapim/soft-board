@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: flex-board-postgres
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - flex-board-network
+
+networks:
+  flex-board-network:
+
+volumes:
+  flex-board-volume:
