@@ -5,7 +5,7 @@
   "scripts": {
     "migrate:dev": "dotenv -e .env.development -- node _scripts/migrate.js",
     "migrate:test": "dotenv -e .env.test -- node _scripts/migrate.js",
-    "new-migration": "node _scripts/new-migration.js"
+    "new": "node _scripts/new-migration.js"
   },
   "keywords": [],
   "author": "",
