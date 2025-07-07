@@ -1,0 +1,21 @@
+{
+  "name": "migrations",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "migrate:dev": "dotenv -e .env.development -- node _scripts/migrate.js",
+    "migrate:test": "dotenv -e .env.test -- node _scripts/migrate.js",
+    "new-migration": "node _scripts/new-migration.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/pg": "^8.15.4",
+    "dotenv-cli": "^8.0.0"
+  },
+  "dependencies": {
+    "pg": "^8.16.3"
+  }
+}
