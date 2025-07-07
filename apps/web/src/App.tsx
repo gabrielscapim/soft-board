@@ -4,26 +4,36 @@ import { BoardContextProvider } from './contexts/BoardContext/BoardContextProvid
 import { BoardController, BoardState } from './lib'
 import { useState } from 'react'
 import { BoardLayout, WireframeModeLayout } from './components'
-import { BoardRoute, WireframeModeRoute } from './routes'
+import { BoardRoute, SignInRoute, WireframeModeRoute } from './routes'
+import { Toaster } from 'sonner'
+import { ClientProvider } from './contexts'
+import { Client } from './client'
+
+const client = new Client()
 
 function App () {
   const [boardState] = useState(new BoardState())
   const boardController = new BoardController(boardState)
 
   return (
-    <BoardContextProvider boardState={boardState} boardController={boardController}>
-      <Routes>
-        {/* Board route */}
-        <Route path="/" element={<BoardLayout />}>
-          <Route index element={<BoardRoute />} />
-        </Route>
+    <ClientProvider client={client}>
+      <BoardContextProvider boardState={boardState} boardController={boardController}>
+        <Toaster />
+        <Routes>
+          <Route path="/sign-in" element={<SignInRoute />} />
 
-        {/* Wireframe mode route */}
-        <Route path="wireframe-mode" element={<WireframeModeLayout />}>
-          <Route index element={<WireframeModeRoute />} />
-        </Route>
-      </Routes>
-    </BoardContextProvider>
+          {/* Board route */}
+          <Route path="/" element={<BoardLayout />}>
+            <Route index element={<BoardRoute />} />
+          </Route>
+
+          {/* Wireframe mode route */}
+          <Route path="wireframe-mode" element={<WireframeModeLayout />}>
+            <Route index element={<WireframeModeRoute />} />
+          </Route>
+        </Routes>
+      </BoardContextProvider>
+    </ClientProvider>
   )
 }
 
