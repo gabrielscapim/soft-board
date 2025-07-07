@@ -22,7 +22,16 @@ export class Client {
     })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async getError (error: any): Promise<string> {
+    if (axios.isAxiosError(error)) {
+      return error.response?.data?.detail
+    }
+
+    return error?.response?.data?.message ?? 'An unexpected error occurred'
+  }
+
   async signIn (command: SignInCommand): Promise<SignInResult> {
-    return (await this.axios.post<SignInResult>('/sign-in', command)).data
+    return (await this.axios.post<SignInResult>('/signIn', command)).data
   }
 }
