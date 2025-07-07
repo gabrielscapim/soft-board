@@ -5,7 +5,7 @@ import { Endpoint } from '../../types'
 import { errorHandler, setAuth } from '../../middlewares'
 
 export type CreateAppOptions = {
-  endpoints?: Endpoint[]
+  endpoints?: Endpoint[] | Record<string, Omit<Endpoint, 'path'>>
 }
 
 export function createApp (options: CreateAppOptions = {}): Express {
@@ -18,7 +18,8 @@ export function createApp (options: CreateAppOptions = {}): Express {
 
   app.use(express.json())
 
-  for (const endpoint of options.endpoints ?? []) {
+  // Register endpoints
+  for (const endpoint of getEndpoints(options.endpoints)) {
     const method = endpoint.method ?? 'post'
     app[method](endpoint.path, endpoint.handler())
   }
@@ -27,4 +28,20 @@ export function createApp (options: CreateAppOptions = {}): Express {
   app.use(errorHandler)
 
   return app
+}
+
+// Helper function to get endpoints in a consistent format
+function getEndpoints (endpoints: CreateAppOptions['endpoints']): Endpoint[] {
+  if (!endpoints) {
+    return []
+  }
+
+  if (Array.isArray(endpoints)) {
+    return endpoints
+  }
+
+  return Object.entries(endpoints).map(([key, value]) => ({
+    path: `/${key}`,
+    ...value
+  }))
 }
