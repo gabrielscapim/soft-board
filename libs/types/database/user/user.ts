@@ -4,8 +4,8 @@ export type UserDatabase = {
   id: UUID
   name: VARCHAR_255
   email: VARCHAR_255
-  normalized_email: VARCHAR_255 | null
-  password_hash: TEXT | null
-  create_date: TIMESTAMPTZ
-  update_date: TIMESTAMPTZ
+  normalizedEmail: VARCHAR_255 | null
+  passwordHash: TEXT | null
+  createDate: TIMESTAMPTZ
+  updateDate: TIMESTAMPTZ
 }

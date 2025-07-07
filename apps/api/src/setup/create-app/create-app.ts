@@ -1,11 +1,12 @@
 import cors from 'cors'
 import express, { type Express } from 'express'
-import { CORS_ORIGINS } from '../../constants'
+import cookieParser from 'cookie-parser'
+import { COOKIE_PARSER_SECRET, CORS_ORIGINS } from '../../constants'
 import { Endpoint } from '../../types'
 import { errorHandler, setAuth } from '../../middlewares'
 
 export type CreateAppOptions = {
-  endpoints?: Endpoint[]
+  endpoints?: Endpoint[] | Record<string, Omit<Endpoint, 'path'>>
 }
 
 export function createApp (options: CreateAppOptions = {}): Express {
@@ -14,11 +15,16 @@ export function createApp (options: CreateAppOptions = {}): Express {
   // Set credentials true to allow cookies and other credentials to be sent with requests
   app.use(cors({ origin: CORS_ORIGINS, credentials: true }))
 
+  // Cookie parser is used to parse cookies attached to the client request object
+  // The secret is used to sign the cookies, ensuring they are not tampered with
+  app.use(cookieParser(COOKIE_PARSER_SECRET))
+
   app.use(setAuth)
 
   app.use(express.json())
 
-  for (const endpoint of options.endpoints ?? []) {
+  // Register endpoints
+  for (const endpoint of getEndpoints(options.endpoints)) {
     const method = endpoint.method ?? 'post'
     app[method](endpoint.path, endpoint.handler())
   }
@@ -27,4 +33,20 @@ export function createApp (options: CreateAppOptions = {}): Express {
   app.use(errorHandler)
 
   return app
+}
+
+// Helper function to get endpoints in a consistent format
+function getEndpoints (endpoints: CreateAppOptions['endpoints']): Endpoint[] {
+  if (!endpoints) {
+    return []
+  }
+
+  if (Array.isArray(endpoints)) {
+    return endpoints
+  }
+
+  return Object.entries(endpoints).map(([key, value]) => ({
+    path: `/${key}`,
+    ...value
+  }))
 }
