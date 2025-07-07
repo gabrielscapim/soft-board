@@ -1,10 +1,11 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useClient } from '@/hooks'
+import { useAuthentication, useClient } from '@/hooks'
 import { toast } from 'sonner'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
+import { useNavigate } from 'react-router'
 
 const formSchema = yup.object({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -13,6 +14,8 @@ const formSchema = yup.object({
 
 export function SignInForm () {
   const client = useClient()
+  const authentication = useAuthentication()
+  const navigate = useNavigate()
   const formik = useFormik({
     validationSchema: formSchema,
     initialValues: {
@@ -21,7 +24,9 @@ export function SignInForm () {
     },
     onSubmit: async values => {
       try {
-        await client.signIn({ email: values.email, password: values.password })
+        const result = await client.signIn({ email: values.email, password: values.password })
+        authentication.setAuthenticatedUser(result)
+        navigate('/', { replace: true })
       } catch (error) {
         toast.error(await client.getError(error))
       }

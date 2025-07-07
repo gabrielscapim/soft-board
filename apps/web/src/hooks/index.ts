@@ -1,3 +1,4 @@
+export * from './use-authentication'
 export * from './use-client'
 export * from './use-board-translate'
 export * from './use-board'
