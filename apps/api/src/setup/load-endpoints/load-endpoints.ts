@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { Endpoint } from '../types'
+import { Endpoint } from '../../types'
 
 export async function loadEndpoints (rootDir: string): Promise<Endpoint[]> {
   const result = []

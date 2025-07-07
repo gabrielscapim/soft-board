@@ -1,8 +1,8 @@
 import cors from 'cors'
 import express, { type Express } from 'express'
 import { CORS_ORIGINS } from '../../constants'
-import { Endpoint } from '../types'
-import { errorHandler } from '../../middlewares'
+import { Endpoint } from '../../types'
+import { errorHandler, setAuth } from '../../middlewares'
 
 export type CreateAppOptions = {
   endpoints?: Endpoint[]
@@ -11,7 +11,11 @@ export type CreateAppOptions = {
 export function createApp (options: CreateAppOptions = {}): Express {
   const app = express()
 
-  app.use(cors({ origin: CORS_ORIGINS }))
+  // Set credentials true to allow cookies and other credentials to be sent with requests
+  app.use(cors({ origin: CORS_ORIGINS, credentials: true }))
+
+  app.use(setAuth)
+
   app.use(express.json())
 
   for (const endpoint of options.endpoints ?? []) {
