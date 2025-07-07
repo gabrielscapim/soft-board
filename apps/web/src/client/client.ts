@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { type AxiosInstance } from 'axios'
 import type {
+  GetAuthenticatedUserResult,
   SignInCommand,
   SignInResult
 } from 'types/endpoints'
@@ -22,13 +24,18 @@ export class Client {
     })
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async getError (error: any): Promise<string> {
     if (axios.isAxiosError(error)) {
       return error.response?.data?.detail
     }
 
     return error?.response?.data?.message ?? 'An unexpected error occurred'
+  }
+
+  /** Endpoints */
+
+  async getAuthenticatedUser (): Promise<GetAuthenticatedUserResult> {
+    return (await this.axios.get<GetAuthenticatedUserResult>('/getAuthenticatedUser')).data
   }
 
   async signIn (command: SignInCommand): Promise<SignInResult> {
