@@ -1,6 +1,7 @@
 import cors from 'cors'
 import express, { type Express } from 'express'
-import { CORS_ORIGINS } from '../../constants'
+import cookieParser from 'cookie-parser'
+import { COOKIE_PARSER_SECRET, CORS_ORIGINS } from '../../constants'
 import { Endpoint } from '../../types'
 import { errorHandler, setAuth } from '../../middlewares'
 
@@ -13,6 +14,10 @@ export function createApp (options: CreateAppOptions = {}): Express {
 
   // Set credentials true to allow cookies and other credentials to be sent with requests
   app.use(cors({ origin: CORS_ORIGINS, credentials: true }))
+
+  // Cookie parser is used to parse cookies attached to the client request object
+  // The secret is used to sign the cookies, ensuring they are not tampered with
+  app.use(cookieParser(COOKIE_PARSER_SECRET))
 
   app.use(setAuth)
 
