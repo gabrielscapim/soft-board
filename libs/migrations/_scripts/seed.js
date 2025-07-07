@@ -2,18 +2,21 @@ require('dotenv').config()
 const { Client } = require('pg')
 const { randomUUID } = require('crypto')
 
+// Password: abc123456
 const users = [
   {
     id: randomUUID(),
     name: 'Batman',
     email: 'batman@email.com',
-    normalized_email: 'BATMAN@EMAIL.COM'
+    normalized_email: 'BATMAN@EMAIL.COM',
+    password_hash: '$2a$12$6qXo0IuAfOYxcRBP3gkUwuks2R.skxh5ktaRlo2py9OoBx3kz/ere'
   },
   {
     id: randomUUID(),
     name: 'Robin',
     email: 'robin@email.com',
-    normalized_email: 'ROBIN@EMAIL.COM'
+    normalized_email: 'ROBIN@EMAIL.COM',
+    password_hash: '$2a$12$6qXo0IuAfOYxcRBP3gkUwuks2R.skxh5ktaRlo2py9OoBx3kz/ere'
   }
 ]
 
