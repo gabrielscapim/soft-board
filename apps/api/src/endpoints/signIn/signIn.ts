@@ -43,9 +43,18 @@ export function handler (): Handler {
       throw new Unauthorized('Invalid email or password')
     }
 
+    const fallbackTeam = await pool
+      .SELECT<{ slug: string }>`slug`
+      .FROM`team`
+      .LEFT_JOIN`member ON member."team_id" = team.id`
+      .WHERE`member."user_id" = ${user.id}`
+      .ORDER_BY`team.create_date ASC`
+      .first()
+
     const result: SignInResult = {
       userId: user.id,
-      name: user.name
+      name: user.name,
+      fallbackTeamSlug: fallbackTeam?.slug ?? null
     }
 
     const authenticationData: AuthenticationData = {

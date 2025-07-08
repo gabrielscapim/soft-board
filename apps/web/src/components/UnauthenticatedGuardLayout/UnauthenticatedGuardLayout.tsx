@@ -13,7 +13,7 @@ export function UnauthenticatedGuardLayout () {
     }
 
     if (authenticatedUser) {
-      navigate('/boards', { replace: true })
+      navigate(`/${authenticatedUser.fallbackTeamSlug ?? ''}`, { replace: true })
     }
   }, [authenticatedUser, navigate, loading])
 
