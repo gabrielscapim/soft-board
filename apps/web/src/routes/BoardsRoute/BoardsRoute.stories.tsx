@@ -1,12 +1,12 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { TeamBoardsRoute } from './TeamBoardsRoute'
+import { BoardsRoute } from './BoardsRoute'
 import { Client } from '@/client'
 import { ClientProvider } from '@/contexts'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const meta = {
   title: 'Routes/Team Boards',
-  component: TeamBoardsRoute,
+  component: BoardsRoute,
   parameters: {
     layout: 'fullscreen',
   },
@@ -57,7 +57,7 @@ const meta = {
     },
   ],
   tags: ['autodocs']
-} satisfies Meta<typeof TeamBoardsRoute>
+} satisfies Meta<typeof BoardsRoute>
 
 export default meta
 
