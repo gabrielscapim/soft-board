@@ -1,2 +1,7 @@
+export * from './createBoard'
+export * from './deleteBoard'
 export * from './getAuthenticatedUser'
+export * from './getBoards'
+export * from './getTeam'
 export * from './signIn'
+export * from './updateBoard'

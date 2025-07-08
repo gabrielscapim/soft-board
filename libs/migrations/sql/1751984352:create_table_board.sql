@@ -1,0 +1,11 @@
+CREATE TABLE board (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  team_id UUID NOT NULL REFERENCES team(id) ON DELETE CASCADE,
+  title VARCHAR(255),
+  author_id UUID REFERENCES "user"(id) ON DELETE SET NULL,
+  image VARCHAR(255),
+  create_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  update_date TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX ON BOARD (team_id);

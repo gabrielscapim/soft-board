@@ -1,13 +1,13 @@
-import { Route, Routes } from 'react-router'
+import { Navigate, Route, Routes } from 'react-router'
 import './index.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BoardContextProvider } from './contexts/BoardContext/BoardContextProvider'
 import { BoardController, BoardState } from './lib'
 import { useState } from 'react'
-import { AuthenticationGuardLayout, BoardLayout, RootLayout, UnauthenticatedGuardLayout, WireframeModeLayout } from './components'
-import { BoardRoute, NotFoundRoute, RootRoute, SignInRoute, WireframeModeRoute } from './routes'
+import { AuthenticationGuardLayout, RootLayout, UnauthenticatedGuardLayout } from './components'
+import { ErrorRoute, RootRoute, SignInRoute, BoardsRoute } from './routes'
 import { Toaster } from 'sonner'
-import { AuthenticationProvider, ClientProvider } from './contexts'
+import { AuthenticationProvider, ClientProvider, TeamProvider } from './contexts'
 import { Client } from './client'
 
 const client = new Client()
@@ -25,30 +25,30 @@ function App () {
             <Toaster />
             <div className="bg-muted">
               <Routes>
-                {/* Unauthenticated Routes */}
+
+                {/* Public Routes */}
                 <Route path="/" element={<UnauthenticatedGuardLayout />}>
                   <Route index element={<SignInRoute />} />
                   <Route path="sign-in" element={<SignInRoute />} />
                 </Route>
 
-                {/* Authentication Routes */}
-                <Route path="/" element={<AuthenticationGuardLayout />}>
-                  <Route path="" element={<RootLayout />}>
-                    <Route path="/boards" element={<RootRoute />} />
-                    <Route path="/members" element={<RootRoute />} />
-                    <Route path="/settings" element={<RootRoute />} />
-                  </Route>
-
-                  <Route path="board" element={<BoardLayout />}>
-                    <Route index element={<BoardRoute />} />
-                  </Route>
-
-                  <Route path="wireframe-mode" element={<WireframeModeLayout />}>
-                    <Route index element={<WireframeModeRoute />} />
+                {/* Private Routes */}
+                <Route path=":teamSlug" element={<AuthenticationGuardLayout />}>
+                  <Route
+                    element={
+                      <TeamProvider>
+                        <RootLayout />
+                      </TeamProvider>
+                    }
+                  >
+                    <Route index element={<Navigate to="boards" replace />} />
+                    <Route path="boards" element={<BoardsRoute />} />
+                    <Route path="members" element={<RootRoute />} />
+                    <Route path="settings" element={<RootRoute />} />
                   </Route>
                 </Route>
 
-                <Route path="*" element={<NotFoundRoute />} />
+                <Route path="*" element={<ErrorRoute status={404} description="The page you are looking for does not exist." />} />
               </Routes>
             </div>
           </BoardContextProvider>

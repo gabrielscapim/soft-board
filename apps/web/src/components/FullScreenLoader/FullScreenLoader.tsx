@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Progress } from '../ui/progress'
 
 export function FullScreenLoader () {
-  const [progress, setProgress] = useState(30)
+  const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     if (progress >= 100) return
@@ -12,14 +12,14 @@ export function FullScreenLoader () {
         const newProgress = oldProgress + 5
         return newProgress > 100 ? 100 : newProgress
       })
-    }, 50)
+    }, 150)
 
     return () => clearInterval(interval)
   }, [progress])
 
   return (
-    <div className="min-h-svh w-screen flex items-center justify-center bg-background">
-      <Progress value={progress} className="w-24" />
+    <div className="min-h-svh w-screen flex items-center justify-center">
+      <Progress value={progress} className="w-48" />
     </div>
   )
 }

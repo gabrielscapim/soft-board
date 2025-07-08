@@ -13,7 +13,7 @@ import {
   SidebarRail
 } from '../ui/sidebar'
 import { NavUser, TeamSwitcher } from './components'
-import loginImage from '../../public/sign-in-image.png'
+import loginImage from '/paint_image_1.png'
 import { Link } from 'react-router'
 
 const items = [
