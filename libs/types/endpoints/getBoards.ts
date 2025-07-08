@@ -7,6 +7,7 @@ export type GetBoardsResultData = {
   teamId: string
   createDate: string
   updateDate: string
+  image?: string | null
   title?: string | null
   author?: {
     id: string

@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { SignInForm } from './components'
-import image from '../../public/sign-in-image.png'
+import { getRootImage } from '@/helpers'
 
 export function SignInRoute () {
   return (
@@ -12,7 +12,7 @@ export function SignInRoute () {
 
             <div className="bg-muted relative hidden md:block">
               <img
-                src={image}
+                src={getRootImage()}
                 alt="Image"
                 className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
               />

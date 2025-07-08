@@ -12,6 +12,9 @@ const schema = yup.object({
   title: yup.string().nullable().optional().default(null)
 })
 
+// TO-DO - Improve this to accept images from the client
+const IMAGE_IDS = [1, 2, 3, 4, 5, 6, 7, 8]
+
 export function handler (): Handler {
   return async (req, res) => {
     const teamId = req.team!.teamId
@@ -25,7 +28,8 @@ export function handler (): Handler {
       .VALUES({
         teamId,
         title,
-        authorId: userId
+        authorId: userId,
+        image: IMAGE_IDS[Math.floor(Math.random() * IMAGE_IDS.length)].toString()
       })
       .RETURNING<BoardRow>`id`
 

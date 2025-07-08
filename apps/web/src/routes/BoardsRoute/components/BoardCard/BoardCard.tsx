@@ -1,11 +1,11 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { AspectRatio } from '@radix-ui/react-aspect-ratio'
 import { GetBoardsResultData } from 'types/endpoints'
-import loginImage from '../../../../public/sign-in-image.png'
 import { FormattedDate } from '@/components'
 import clsx from 'clsx'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { EllipsisVerticalIcon, PencilIcon, TrashIcon } from 'lucide-react'
+import { getRootImage } from '@/helpers'
 
 export type BoardCardProps = {
   board: GetBoardsResultData
@@ -20,7 +20,7 @@ export function BoardCard (props: BoardCardProps) {
     <Card key={board.id} className="overflow-hidden p-0 gap-1">
       <AspectRatio ratio={16 / 9}>
         <img
-          src={loginImage}
+          src={getRootImage(board.image)}
           alt="Board"
           className="object-cover w-full h-full"
         />

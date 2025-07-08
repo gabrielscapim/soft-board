@@ -5,6 +5,7 @@ export type BoardDatabase = {
   teamId: UUID
   title: VARCHAR_255 | null
   authorId: UUID | null
+  image: VARCHAR_255 | null
   createDate: TIMESTAMPTZ
   updateDate: TIMESTAMPTZ
 }
