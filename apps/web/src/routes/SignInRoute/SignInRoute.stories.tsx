@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react'
 import { SignInRoute } from './SignInRoute'
+import { MemoryRouter } from 'react-router'
 
 const meta = {
   title: 'Routes/Sign In',
@@ -7,6 +8,13 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
+  decorators: [
+    (Story) => (
+      <MemoryRouter>
+        <Story />
+      </MemoryRouter>
+    ),
+  ],
   tags: ['autodocs'],
 } satisfies Meta<typeof SignInRoute>
 
