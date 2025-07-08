@@ -2,14 +2,20 @@ import axios, { AxiosError, type AxiosInstance } from 'axios'
 import type {
   CreateBoardCommand,
   CreateBoardResult,
+  CreateMemberCommand,
+  CreateMemberResult,
   DeleteBoardCommand,
+  DeleteMembersCommand,
   GetAuthenticatedUserResult,
   GetBoardsQuery,
   GetBoardsResult,
+  GetMembersQuery,
+  GetMembersResult,
   GetTeamResult,
   SignInCommand,
   SignInResult,
-  UpdateBoardCommand
+  UpdateBoardCommand,
+  UpdateMemberRoleCommand
 } from 'types/endpoints'
 
 export type ClientOptions = {
@@ -68,8 +74,16 @@ export class Client {
     return (await this.axios.post<CreateBoardResult>('/createBoard', command)).data
   }
 
+  async createMember (command: CreateMemberCommand): Promise<CreateMemberResult> {
+    return (await this.axios.post<CreateMemberResult>('/createMember', command)).data
+  }
+
   async deleteBoard (command: DeleteBoardCommand): Promise<void> {
     await this.axios.post('/deleteBoard', command)
+  }
+
+  async deleteMembers (command: DeleteMembersCommand): Promise<void> {
+    await this.axios.post('/deleteMembers', command)
   }
 
   async getAuthenticatedUser (): Promise<GetAuthenticatedUserResult> {
@@ -78,6 +92,10 @@ export class Client {
 
   async getBoards (params: GetBoardsQuery): Promise<GetBoardsResult> {
     return (await this.axios.post<GetBoardsResult>('/getBoards', { params })).data
+  }
+
+  async getMembers (params: GetMembersQuery): Promise<GetMembersResult> {
+    return (await this.axios.post<GetMembersResult>('/getMembers', { params })).data
   }
 
   async getTeam (): Promise<GetTeamResult> {
@@ -90,5 +108,9 @@ export class Client {
 
   async updateBoard (command: UpdateBoardCommand): Promise<void> {
     await this.axios.post('/updateBoard', command)
+  }
+
+  async updateMemberRole (command: UpdateMemberRoleCommand): Promise<void> {
+    await this.axios.post('/updateMemberRole', command)
   }
 }
