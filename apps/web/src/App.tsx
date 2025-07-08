@@ -27,13 +27,16 @@ function App () {
               <Routes>
                 {/* Unauthenticated Routes */}
                 <Route path="/" element={<UnauthenticatedGuardLayout />}>
-                  <Route path="/sign-in" element={<SignInRoute />} />
+                  <Route index element={<SignInRoute />} />
+                  <Route path="sign-in" element={<SignInRoute />} />
                 </Route>
 
                 {/* Authentication Routes */}
                 <Route path="/" element={<AuthenticationGuardLayout />}>
                   <Route path="" element={<RootLayout />}>
-                    <Route index element={<RootRoute />} />
+                    <Route path="/boards" element={<RootRoute />} />
+                    <Route path="/members" element={<RootRoute />} />
+                    <Route path="/settings" element={<RootRoute />} />
                   </Route>
 
                   <Route path="board" element={<BoardLayout />}>

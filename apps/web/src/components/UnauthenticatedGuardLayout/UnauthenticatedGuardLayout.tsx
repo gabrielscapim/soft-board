@@ -13,7 +13,7 @@ export function UnauthenticatedGuardLayout () {
     }
 
     if (authenticatedUser) {
-      navigate('/', { replace: true })
+      navigate('/boards', { replace: true })
     }
   }, [authenticatedUser, navigate, loading])
 

@@ -14,21 +14,22 @@ import {
 } from '../ui/sidebar'
 import { NavUser, TeamSwitcher } from './components'
 import loginImage from '../../public/sign-in-image.png'
+import { Link } from 'react-router'
 
 const items = [
   {
     title: 'Boards',
-    url: '#',
+    url: 'boards',
     icon: SquareMousePointer
   },
   {
     title: 'Members',
-    url: '#',
+    url: 'members',
     icon: UsersRound,
   },
   {
     title: 'Settings',
-    url: '#',
+    url: 'settings',
     icon: Settings
   }
 ]
@@ -47,10 +48,10 @@ export function RootSidebar () {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link to={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
