@@ -1,3 +1,4 @@
+export * from './AuthenticationGuardLayout'
 export * from './Board'
 export * from './BoardHeader'
 export * from './BoardLayout'

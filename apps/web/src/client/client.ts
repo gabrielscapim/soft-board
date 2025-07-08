@@ -35,7 +35,7 @@ export class Client {
   /** Endpoints */
 
   async getAuthenticatedUser (): Promise<GetAuthenticatedUserResult> {
-    return (await this.axios.get<GetAuthenticatedUserResult>('/getAuthenticatedUser')).data
+    return (await this.axios.post<GetAuthenticatedUserResult>('/getAuthenticatedUser')).data
   }
 
   async signIn (command: SignInCommand): Promise<SignInResult> {
