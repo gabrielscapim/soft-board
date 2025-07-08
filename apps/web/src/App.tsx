@@ -5,7 +5,7 @@ import { BoardContextProvider } from './contexts/BoardContext/BoardContextProvid
 import { BoardController, BoardState } from './lib'
 import { useState } from 'react'
 import { AuthenticationGuardLayout, BoardLayout, UnauthenticatedGuardLayout, WireframeModeLayout } from './components'
-import { BoardRoute, SignInRoute, WireframeModeRoute } from './routes'
+import { BoardRoute, NotFoundRoute, SignInRoute, WireframeModeRoute } from './routes'
 import { Toaster } from 'sonner'
 import { AuthenticationProvider, ClientProvider } from './contexts'
 import { Client } from './client'
@@ -39,6 +39,8 @@ function App () {
                   <Route index element={<WireframeModeRoute />} />
                 </Route>
               </Route>
+
+              <Route path="*" element={<NotFoundRoute />} />
             </Routes>
           </BoardContextProvider>
         </AuthenticationProvider>
