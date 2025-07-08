@@ -1,6 +1,6 @@
 import { useClient } from '@/hooks'
 import { useQuery } from '@tanstack/react-query'
-import { PropsWithChildren, useEffect } from 'react'
+import { PropsWithChildren } from 'react'
 import { useParams } from 'react-router'
 import { TeamContext } from './TeamContext'
 
@@ -20,19 +20,10 @@ export function TeamProvider ({ children }: TeamProviderProps) {
         return await client.getTeam()
       }
 
-      return undefined
+      client.teamSlug = undefined
     },
     enabled: !!teamSlug || !client.teamSlug // If teamSlug is provided in the URL, use it; otherwise, use the one set in the client
   })
-
-  useEffect(() => {
-    if (teamSlug) {
-      client.teamSlug = teamSlug
-    } else {
-      client.teamSlug = undefined
-    }
-  }, [client, teamSlug])
-
   return (
     <TeamContext.Provider
       value={{
