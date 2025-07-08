@@ -2,7 +2,6 @@ import { RequestHandler } from 'express'
 import { getPool } from '../../libs'
 import { Forbidden } from 'http-errors'
 
-//
 export const setTeam: RequestHandler = async (req, res, next) => {
   // If the request has no authentication data, skip setting the team. The require-auth middleware will handle this
   if (!req.auth) {
