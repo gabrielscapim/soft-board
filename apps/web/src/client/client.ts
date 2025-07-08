@@ -38,7 +38,23 @@ export class Client {
     })
   }
 
-  async getError (error: any): Promise<string> {
+  static isBadRequest (error: unknown): boolean {
+    return axios.isAxiosError(error) && error.response?.status === 400
+  }
+
+  static isConflict (error: unknown): boolean {
+    return axios.isAxiosError(error) && error.response?.status === 409
+  }
+
+  static isForbidden (error: unknown): boolean {
+    return axios.isAxiosError(error) && error.response?.status === 403
+  }
+
+  static isNotFound (error: unknown): boolean {
+    return axios.isAxiosError(error) && error.response?.status === 404
+  }
+
+  static async getError (error: any): Promise<string> {
     if (axios.isAxiosError(error)) {
       return error.response?.data?.detail
     }

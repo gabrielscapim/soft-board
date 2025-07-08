@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router'
+import { Client } from '@/client'
 
 const formSchema = yup.object({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -28,7 +29,7 @@ export function SignInForm () {
         authentication.setAuthenticatedUser(result)
         navigate('/', { replace: true })
       } catch (error) {
-        toast.error(await client.getError(error))
+        toast.error(await Client.getError(error))
       }
     }
   })
