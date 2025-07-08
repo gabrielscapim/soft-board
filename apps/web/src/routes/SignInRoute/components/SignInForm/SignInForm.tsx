@@ -29,7 +29,7 @@ export function SignInForm () {
         authentication.setAuthenticatedUser(result)
         navigate('/', { replace: true })
       } catch (error: any) {
-        const message = await Client.getError(error)
+        const message = Client.getError(error)
           ? error?.response?.data?.detail
           : 'An unexpected error occurred'
 

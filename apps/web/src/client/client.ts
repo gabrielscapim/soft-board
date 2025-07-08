@@ -53,7 +53,7 @@ export class Client {
     return axios.isAxiosError(error) && error.response?.status === 404
   }
 
-  static async getError (error: any): Promise<AxiosError | null> {
+  static getError (error: any): AxiosError | null {
     if (axios.isAxiosError(error)) {
       return error
     }
