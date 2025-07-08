@@ -3,7 +3,7 @@ import express, { type Express } from 'express'
 import cookieParser from 'cookie-parser'
 import { COOKIE_PARSER_SECRET, CORS_ORIGINS } from '../../constants'
 import { Endpoint } from '../../types'
-import { errorHandler, setAuth } from '../../middlewares'
+import { errorHandler, setAuth, setTeam } from '../../middlewares'
 import { requireAuth } from '../../middlewares/require-auth'
 
 export type CreateAppOptions = {
@@ -21,6 +21,7 @@ export function createApp (options: CreateAppOptions = {}): Express {
   app.use(cookieParser(COOKIE_PARSER_SECRET))
 
   app.use(setAuth)
+  app.use(setTeam)
 
   app.use(express.json())
 
