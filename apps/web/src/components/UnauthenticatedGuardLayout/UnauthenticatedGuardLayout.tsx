@@ -1,6 +1,7 @@
 import { useAuthentication } from '@/hooks'
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router'
+import { FullScreenLoader } from '../FullScreenLoader'
 
 export function UnauthenticatedGuardLayout () {
   const { authenticatedUser, loading } = useAuthentication()
@@ -23,7 +24,7 @@ export function UnauthenticatedGuardLayout () {
           <Outlet />
         </>
       )}
-      {loading && <div>Loading...</div>}
+      {loading && <FullScreenLoader />}
     </>
   )
 }
