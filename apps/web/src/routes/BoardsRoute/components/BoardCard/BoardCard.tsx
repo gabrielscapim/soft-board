@@ -27,7 +27,7 @@ export function BoardCard (props: BoardCardProps) {
       </AspectRatio>
       <CardHeader className="flex justify-between items-center pt-3 px-3 pb-0">
         <CardTitle
-          className={clsx(!board.title && 'opacity-30')}
+          className={clsx(!board.title && 'opacity-20')}
         >
           {board.title ?? 'Untitled'}
         </CardTitle>
