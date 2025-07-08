@@ -4,8 +4,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BoardContextProvider } from './contexts/BoardContext/BoardContextProvider'
 import { BoardController, BoardState } from './lib'
 import { useState } from 'react'
-import { AuthenticationGuardLayout, BoardLayout, UnauthenticatedGuardLayout, WireframeModeLayout } from './components'
-import { BoardRoute, NotFoundRoute, SignInRoute, WireframeModeRoute } from './routes'
+import { AuthenticationGuardLayout, BoardLayout, RootLayout, UnauthenticatedGuardLayout, WireframeModeLayout } from './components'
+import { BoardRoute, NotFoundRoute, RootRoute, SignInRoute, WireframeModeRoute } from './routes'
 import { Toaster } from 'sonner'
 import { AuthenticationProvider, ClientProvider } from './contexts'
 import { Client } from './client'
@@ -32,7 +32,11 @@ function App () {
 
                 {/* Authentication Routes */}
                 <Route path="/" element={<AuthenticationGuardLayout />}>
-                  <Route path="" element={<BoardLayout />}>
+                  <Route path="" element={<RootLayout />}>
+                    <Route index element={<RootRoute />} />
+                  </Route>
+
+                  <Route path="board" element={<BoardLayout />}>
                     <Route index element={<BoardRoute />} />
                   </Route>
 

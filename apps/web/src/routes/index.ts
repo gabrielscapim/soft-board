@@ -1,4 +1,5 @@
 export * from './BoardRoute'
 export * from './NotFoundRoute'
+export * from './RootRoute'
 export * from './SignInRoute'
 export * from './WireframeModeRoute'
