@@ -18,11 +18,7 @@ export function BoardsGrid (props: BoardsGridProps) {
 
       {loading && new Array(9).fill(null).map((_, index) => (
         <div key={index} className="w-full">
-          <Skeleton className="h-64 w-full" />
-          <div className="p-3">
-            <Skeleton className="h-6 w-3/4 mb-2" />
-            <Skeleton className="h-4 w-1/2" />
-          </div>
+          <Skeleton className="h-36 w-full" />
         </div>
       ))}
     </div>

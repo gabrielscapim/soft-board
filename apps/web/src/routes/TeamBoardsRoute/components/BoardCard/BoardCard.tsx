@@ -3,6 +3,7 @@ import { AspectRatio } from '@radix-ui/react-aspect-ratio'
 import { GetBoardsResultData } from 'types/endpoints'
 import loginImage from '../../../../public/sign-in-image.png'
 import { FormattedDate } from '@/components'
+import clsx from 'clsx'
 
 export type BoardCardProps = {
   board: GetBoardsResultData
@@ -20,8 +21,17 @@ export function BoardCard (props: BoardCardProps) {
           className="object-cover w-full h-full"
         />
       </AspectRatio>
-      <CardHeader className="pt-3 px-3 pb-0">
-        <CardTitle>{board.title}</CardTitle>
+      <CardHeader
+        className={clsx(
+          'pt-3',
+          'px-3',
+          'pb-0',
+          !board.title && 'text-muted-foreground fon'
+        )}
+      >
+        <CardTitle>
+          {board.title ?? 'Untitled'}
+        </CardTitle>
       </CardHeader>
       <CardContent className="px-3 pb-3">
         <span className="text-xs text-muted-foreground">
