@@ -20,7 +20,7 @@ const users = [
   }
 ]
 
-const workspaces = [
+const teams = [
   {
     id: randomUUID(),
     name: 'Batcave',
@@ -37,19 +37,19 @@ const members = [
   {
     id: randomUUID(),
     user_id: users[0].id,
-    workspace_id: workspaces[0].id,
+    team_id: teams[0].id,
     role: 'owner'
   },
   {
     id: randomUUID(),
     user_id: users[1].id,
-    workspace_id: workspaces[0].id,
+    team_id: teams[0].id,
     role: 'admin'
   },
   {
     id: randomUUID(),
     user_id: users[1].id,
-    workspace_id: workspaces[1].id,
+    team_id: teams[1].id,
     role: 'owner'
   }
 ]
@@ -69,19 +69,19 @@ async function seed () {
       )
     }
 
-    for (const workspace of workspaces) {
+    for (const team of teams) {
       await client.query(
-        `INSERT INTO workspace (id, name, slug)
+        `INSERT INTO team (id, name, slug)
          VALUES ($1, $2, $3)`,
-        [workspace.id, workspace.name, workspace.slug]
+        [team.id, team.name, team.slug]
       )
     }
 
     for (const member of members) {
       await client.query(
-        `INSERT INTO member (id, user_id, workspace_id, role)
+        `INSERT INTO member (id, user_id, team_id, role)
          VALUES ($1, $2, $3, $4)`,
-        [member.id, member.user_id, member.workspace_id, member.role]
+        [member.id, member.user_id, member.team_id, member.role]
       )
     }
 
