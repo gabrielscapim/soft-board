@@ -1,29 +1,49 @@
 import { Route, Routes } from 'react-router'
 import './index.css'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BoardContextProvider } from './contexts/BoardContext/BoardContextProvider'
 import { BoardController, BoardState } from './lib'
 import { useState } from 'react'
-import { BoardLayout, WireframeModeLayout } from './components'
-import { BoardRoute, WireframeModeRoute } from './routes'
+import { AuthenticationGuardLayout, BoardLayout, UnauthenticatedGuardLayout, WireframeModeLayout } from './components'
+import { BoardRoute, SignInRoute, WireframeModeRoute } from './routes'
+import { Toaster } from 'sonner'
+import { AuthenticationProvider, ClientProvider } from './contexts'
+import { Client } from './client'
+
+const client = new Client()
+const queryClient = new QueryClient()
 
 function App () {
   const [boardState] = useState(new BoardState())
   const boardController = new BoardController(boardState)
 
   return (
-    <BoardContextProvider boardState={boardState} boardController={boardController}>
-      <Routes>
-        {/* Board route */}
-        <Route path="/" element={<BoardLayout />}>
-          <Route index element={<BoardRoute />} />
-        </Route>
+    <QueryClientProvider client={queryClient}>
+      <ClientProvider client={client}>
+        <AuthenticationProvider>
+          <BoardContextProvider boardState={boardState} boardController={boardController}>
+            <Toaster />
+            <Routes>
+              {/* Unauthenticated Routes */}
+              <Route path="/" element={<UnauthenticatedGuardLayout />}>
+                <Route path="/sign-in" element={<SignInRoute />} />
+              </Route>
 
-        {/* Wireframe mode route */}
-        <Route path="wireframe-mode" element={<WireframeModeLayout />}>
-          <Route index element={<WireframeModeRoute />} />
-        </Route>
-      </Routes>
-    </BoardContextProvider>
+              {/* Authentication Routes */}
+              <Route path="/" element={<AuthenticationGuardLayout />}>
+                <Route path="" element={<BoardLayout />}>
+                  <Route index element={<BoardRoute />} />
+                </Route>
+
+                <Route path="wireframe-mode" element={<WireframeModeLayout />}>
+                  <Route index element={<WireframeModeRoute />} />
+                </Route>
+              </Route>
+            </Routes>
+          </BoardContextProvider>
+        </AuthenticationProvider>
+      </ClientProvider>
+    </QueryClientProvider>
   )
 }
 

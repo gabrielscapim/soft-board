@@ -1,0 +1,29 @@
+import { useAuthentication } from '@/hooks'
+import { useEffect } from 'react'
+import { Outlet, useNavigate } from 'react-router'
+
+export function UnauthenticatedGuardLayout () {
+  const { authenticatedUser, loading } = useAuthentication()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (loading) {
+      return
+    }
+
+    if (authenticatedUser) {
+      navigate('/', { replace: true })
+    }
+  }, [authenticatedUser, navigate, loading])
+
+  return (
+    <>
+      {!loading && !authenticatedUser && (
+        <>
+          <Outlet />
+        </>
+      )}
+      {loading && <div>Loading...</div>}
+    </>
+  )
+}
