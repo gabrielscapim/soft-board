@@ -3,6 +3,9 @@ import { useQuery } from '@tanstack/react-query'
 import { PropsWithChildren } from 'react'
 import { useParams } from 'react-router'
 import { TeamContext } from './TeamContext'
+import { FullScreenLoader } from '@/components'
+import { Client } from '@/client'
+import { ErrorRoute } from '@/routes'
 
 export type TeamProviderProps = PropsWithChildren
 
@@ -24,6 +27,9 @@ export function TeamProvider ({ children }: TeamProviderProps) {
     },
     enabled: !!teamSlug || !client.teamSlug // If teamSlug is provided in the URL, use it; otherwise, use the one set in the client
   })
+
+  const error = Client.getError(getTeam.error)
+
   return (
     <TeamContext.Provider
       value={{
@@ -32,9 +38,17 @@ export function TeamProvider ({ children }: TeamProviderProps) {
         loading: getTeam.isLoading
       }}
     >
-      {getTeam.data && (
-        children
+      {getTeam.error && (
+        <ErrorRoute
+          status={error?.response?.status}
+          description={Client.isForbidden(error)
+            ? 'Team not found or you do not have permission to access it.'
+            : 'An error occurred while fetching the team.'
+          }
+        />
       )}
+      {getTeam.isLoading && <FullScreenLoader />}
+      {getTeam.data && children}
     </TeamContext.Provider>
   )
 }
