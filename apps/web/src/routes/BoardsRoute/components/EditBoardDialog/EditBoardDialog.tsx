@@ -25,8 +25,6 @@ export type EditBoardDialogProps = {
 export function EditBoardDialog (props: EditBoardDialogProps) {
   const { board, open, onOpenChange, onSave, onCancel } = props
 
-  console.log(board)
-
   const formik = useFormik({
     validationSchema: yup.object({
       name: yup
