@@ -6,6 +6,7 @@ import type {
   DeleteBoardCommand,
   GetAuthenticatedUserResult,
   GetBoardsQuery,
+  GetTeamResult,
   SignInCommand,
   SignInResult,
   UpdateBoardCommand
@@ -53,6 +54,10 @@ export class Client {
 
   async getBoards (params: GetBoardsQuery): Promise<CreateBoardResult> {
     return (await this.axios.get<CreateBoardResult>('/getBoards', { params })).data
+  }
+
+  async getTeam (): Promise<GetTeamResult> {
+    return (await this.axios.post<GetTeamResult>('/getTeam')).data
   }
 
   async signIn (command: SignInCommand): Promise<SignInResult> {
