@@ -1,13 +1,16 @@
 import { Button } from '@/components/ui/button'
 import { PlusIcon } from 'lucide-react'
-import { BoardsGrid } from './components'
+import { BoardsGrid, DeleteBoardDialog } from './components'
 import { useClient } from '@/hooks'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { useState } from 'react'
+import { GetBoardsResultData } from 'types/endpoints'
 
 export function BoardsRoute () {
   const client = useClient()
 
+  const [selectedBoard, setSelectedBoard] = useState<(GetBoardsResultData & { to: 'edit' | 'delete' }) | null>(null)
   const getBoards = useQuery({
     queryKey: ['getBoards'],
     queryFn: async () => await client.getBoards({ })
@@ -16,11 +19,30 @@ export function BoardsRoute () {
     mutationFn: () => client.createBoard({}),
     onSuccess: () => {
       getBoards.refetch()
-      toast.success('Board created successfully!')
+      toast.success('Board created successfully')
     },
     onError: () => toast.error('Failed to create board')
   })
+  const deleteBoard = useMutation({
+    mutationFn: () => client.deleteBoard({ id: selectedBoard!.id }),
+    onSuccess: () => {
+      getBoards.refetch()
+      setSelectedBoard(null)
+      toast.success('Board deleted successfully')
+    },
+    onError: () => toast.error('Failed to delete board')
+  })
+  const editBoard = useMutation({
+    mutationFn: (title: string) => client.updateBoard({ id: selectedBoard!.id, title }),
+    onSuccess: () => {
+      getBoards.refetch()
+      toast.success('Board updated successfully')
+    },
+    onError: () => toast.error('Failed to update board')
+  })
   const boards = getBoards.data?.data ?? []
+
+  console.log('selectedBoard', selectedBoard)
 
   return (
     <div className="p-4 w-full">
@@ -37,7 +59,12 @@ export function BoardsRoute () {
         </Button>
       </div>
 
-      <BoardsGrid loading={getBoards.isPending} boards={boards} />
+      <BoardsGrid
+        loading={getBoards.isPending}
+        boards={boards}
+        handleEdit={board => setSelectedBoard({ ...board, to: 'edit' })}
+        handleDelete={board => setSelectedBoard({ ...board, to: 'delete' })}
+      />
 
       {getBoards.error && (
         <div className="flex flex-col items-center justify-center">
@@ -68,6 +95,12 @@ export function BoardsRoute () {
           </Button>
         </div>
       )}
+
+      <DeleteBoardDialog
+        open={selectedBoard?.to === 'delete'}
+        onDelete={() => deleteBoard.mutate()}
+        onCancel={() => setSelectedBoard(null)}
+      />
     </div>
   )
 }
