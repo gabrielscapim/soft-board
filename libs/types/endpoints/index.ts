@@ -1,4 +1,5 @@
 export * from './createBoard'
+export * from './deleteBoard'
 export * from './getAuthenticatedUser'
 export * from './getBoards'
 export * from './signIn'
