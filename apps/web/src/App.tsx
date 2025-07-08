@@ -23,25 +23,27 @@ function App () {
         <AuthenticationProvider>
           <BoardContextProvider boardState={boardState} boardController={boardController}>
             <Toaster />
-            <Routes>
-              {/* Unauthenticated Routes */}
-              <Route path="/" element={<UnauthenticatedGuardLayout />}>
-                <Route path="/sign-in" element={<SignInRoute />} />
-              </Route>
-
-              {/* Authentication Routes */}
-              <Route path="/" element={<AuthenticationGuardLayout />}>
-                <Route path="" element={<BoardLayout />}>
-                  <Route index element={<BoardRoute />} />
+            <div className="bg-muted">
+              <Routes>
+                {/* Unauthenticated Routes */}
+                <Route path="/" element={<UnauthenticatedGuardLayout />}>
+                  <Route path="/sign-in" element={<SignInRoute />} />
                 </Route>
 
-                <Route path="wireframe-mode" element={<WireframeModeLayout />}>
-                  <Route index element={<WireframeModeRoute />} />
-                </Route>
-              </Route>
+                {/* Authentication Routes */}
+                <Route path="/" element={<AuthenticationGuardLayout />}>
+                  <Route path="" element={<BoardLayout />}>
+                    <Route index element={<BoardRoute />} />
+                  </Route>
 
-              <Route path="*" element={<NotFoundRoute />} />
-            </Routes>
+                  <Route path="wireframe-mode" element={<WireframeModeLayout />}>
+                    <Route index element={<WireframeModeRoute />} />
+                  </Route>
+                </Route>
+
+                <Route path="*" element={<NotFoundRoute />} />
+              </Routes>
+            </div>
           </BoardContextProvider>
         </AuthenticationProvider>
       </ClientProvider>
