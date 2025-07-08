@@ -25,7 +25,7 @@ describe('createMember', () => {
 
       const response = await request(app)
         .post('/createMember')
-        .send({ userId: newMemberUser.id, role: 'member' })
+        .send({ email: newMemberUser.email, role: 'member' })
 
       expect(response.status).toBe(409)
     })
@@ -50,7 +50,7 @@ describe('createMember', () => {
 
       const response = await request(app)
         .post('/createMember')
-        .send({ userId: newMemberUser.id, role: 'member' })
+        .send({ email: newMemberUser.email, role: 'member' })
 
       const check = await pool
         .SELECT`id`

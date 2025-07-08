@@ -10,38 +10,40 @@ type Handler = RequestHandler<unknown, CreateMemberResult, CreateMemberCommand>
 type MemberRow = Pick<MemberDatabase, 'id' | 'role'>
 
 const schema = yup.object({
-  userId: yup.string().uuid().required(),
+  email: yup.string().email().required(),
   role: yup.string().oneOf(['member', 'admin']).required()
 })
 
 export function handler (): Handler {
   return async (req, res) => {
     const teamId = req.team!.teamId
-    const { userId, role } = schema.validateSync(req.body, { abortEarly: false })
+    const { email, role } = schema.validateSync(req.body, { abortEarly: false })
 
     const pool = getPool()
 
-    await pool
+    const normalizedEmail = email.toUpperCase().trim()
+
+    const user = await pool
       .SELECT`id`
       .FROM`"user"`
-      .WHERE`id = ${userId}`
-      .find({ error: `User with id ${userId} not found` })
+      .WHERE`normalized_email = ${normalizedEmail}`
+      .find({ error: `User with email ${email} not found` })
 
     const member = await pool
       .SELECT`id`
       .FROM`member`
-      .WHERE`user_id = ${userId}`
+      .WHERE`user_id = ${user.id}`
       .AND`team_id = ${teamId}`
       .first()
 
     if (member) {
-      throw new Conflict(`User with id ${userId} is already a member of the team`)
+      throw new Conflict(`User with id ${user.id} is already a member of the team`)
     }
 
     const { rows: [created] } = await pool
       .INSERT_INTO`member`
       .VALUES({
-        userId,
+        userId: user.id,
         teamId,
         role
       })

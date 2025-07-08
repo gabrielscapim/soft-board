@@ -1,5 +1,5 @@
 export type CreateMemberCommand = {
-  userId: string
+  email: string
   role: 'member' | 'admin'
 }
 
