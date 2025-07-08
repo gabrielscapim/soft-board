@@ -24,11 +24,6 @@ export function createApp (options: CreateAppOptions = {}): Express {
   // The secret is used to sign the cookies, ensuring they are not tampered with
   app.use(cookieParser(COOKIE_PARSER_SECRET))
 
-  app.use(setAuth)
-  app.use(setTeam)
-
-  app.use(express.json())
-
   // If tests are provided, set the authentication and team data
   if (options.tests) {
     const { auth, team } = options.tests
@@ -47,6 +42,11 @@ export function createApp (options: CreateAppOptions = {}): Express {
       })
     }
   }
+
+  app.use(setAuth)
+  app.use(setTeam)
+
+  app.use(express.json())
 
   // Register endpoints
   for (const endpoint of getEndpoints(options.endpoints)) {
