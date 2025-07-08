@@ -4,7 +4,7 @@ import { SidebarInset, SidebarProvider } from '../ui/sidebar'
 
 export function RootLayout () {
   return (
-    <SidebarProvider>
+    <SidebarProvider width="16rem">
       <RootSidebar />
       <SidebarInset>
         <main className="flex grow">
