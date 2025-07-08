@@ -1,6 +1,6 @@
 import { DatabasePool } from 'pg-script'
 import { getPool } from './get-pool'
-import { MemberDatabase, UserDatabase, WorkspaceDatabase } from 'types/database'
+import { MemberDatabase, UserDatabase, TeamDatabase } from 'types/database'
 import { randomUUID } from 'crypto'
 import slugify from 'slugify'
 
@@ -20,7 +20,7 @@ export class DatabaseFactory {
     const created: MemberDatabase = {
       id: member.id ?? randomUUID(),
       userId: member.userId ?? randomUUID(),
-      workspaceId: member.workspaceId ?? randomUUID(),
+      teamId: member.teamId ?? randomUUID(),
       role: member.role ?? 'member',
       createDate: member.createDate ?? now,
       updateDate: member.updateDate ?? now
@@ -49,18 +49,18 @@ export class DatabaseFactory {
     return created
   }
 
-  async createWorkspace (workspace: Partial<WorkspaceDatabase> = {}): Promise<WorkspaceDatabase> {
+  async createTeam (team: Partial<TeamDatabase> = {}): Promise<TeamDatabase> {
     const now = new Date()
-    const name = workspace.name ?? randomUUID()
-    const created: WorkspaceDatabase = {
-      id: workspace.id ?? randomUUID(),
+    const name = team.name ?? randomUUID()
+    const created: TeamDatabase = {
+      id: team.id ?? randomUUID(),
       name,
-      slug: workspace.slug ?? slugify(name, { lower: true, strict: true }),
-      createDate: workspace.createDate ?? now,
-      updateDate: workspace.updateDate ?? now
+      slug: team.slug ?? slugify(name, { lower: true, strict: true }),
+      createDate: team.createDate ?? now,
+      updateDate: team.updateDate ?? now
     }
 
-    await this.pool.INSERT_INTO`workspace`.VALUES(created)
+    await this.pool.INSERT_INTO`team`.VALUES(created)
 
     return created
   }
