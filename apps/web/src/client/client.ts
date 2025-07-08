@@ -21,12 +21,20 @@ export const DEFAULT_API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http:/
 export class Client {
   private axios: AxiosInstance
   private baseUrl: string
+  public teamSlug?: string
 
   constructor (options: ClientOptions = {}) {
     this.baseUrl = options.baseUrl || DEFAULT_API_BASE_URL
     this.axios = axios.create({
       baseURL: this.baseUrl,
       withCredentials: true // Enable cookies to be sent with requests
+    })
+    this.axios.interceptors.request.use(config => {
+      if (this.teamSlug) {
+        config.headers['team-slug'] = this.teamSlug
+      }
+
+      return config
     })
   }
 
