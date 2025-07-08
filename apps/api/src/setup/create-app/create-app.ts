@@ -2,12 +2,16 @@ import cors from 'cors'
 import express, { type Express } from 'express'
 import cookieParser from 'cookie-parser'
 import { COOKIE_PARSER_SECRET, CORS_ORIGINS } from '../../constants'
-import { Endpoint } from '../../types'
+import { AuthenticationData, Endpoint, TeamData } from '../../types'
 import { errorHandler, setAuth, setTeam } from '../../middlewares'
 import { requireAuth } from '../../middlewares/require-auth'
 
 export type CreateAppOptions = {
   endpoints?: Endpoint[] | Record<string, Omit<Endpoint, 'path'>>
+  tests?: {
+    auth?: AuthenticationData
+    team?: TeamData
+  }
 }
 
 export function createApp (options: CreateAppOptions = {}): Express {
@@ -24,6 +28,25 @@ export function createApp (options: CreateAppOptions = {}): Express {
   app.use(setTeam)
 
   app.use(express.json())
+
+  // If tests are provided, set the authentication and team data
+  if (options.tests) {
+    const { auth, team } = options.tests
+
+    if (auth) {
+      app.use((req, res, next) => {
+        req.auth = auth
+        next()
+      })
+    }
+
+    if (team) {
+      app.use((req, res, next) => {
+        req.team = team
+        next()
+      })
+    }
+  }
 
   // Register endpoints
   for (const endpoint of getEndpoints(options.endpoints)) {
