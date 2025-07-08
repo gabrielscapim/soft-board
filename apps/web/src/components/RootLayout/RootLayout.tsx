@@ -5,8 +5,8 @@ import { RootHeader } from '../RootHeader'
 
 export function RootLayout () {
   const location = useLocation()
-  const path = location.pathname.split('/')[1]
-  const title = path.charAt(0).toUpperCase() + path.slice(1)
+  const path = location.pathname.split('/')[2] as string | undefined
+  const title = path ? path.charAt(0).toUpperCase() + path.slice(1) : ''
 
   return (
     <SidebarProvider width="16rem">
