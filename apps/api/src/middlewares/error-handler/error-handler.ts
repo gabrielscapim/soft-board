@@ -2,6 +2,7 @@ import { ErrorRequestHandler } from 'express'
 import { isHttpError } from 'http-errors'
 import { ValidationError } from 'yup'
 import { logger } from '../../libs'
+import { NotFoundError } from 'pg-script'
 
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (res.headersSent) {
@@ -19,6 +20,12 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
       status: err.status,
       title: err.constructor.name,
       detail: err.message
+    })
+  } else if (err instanceof NotFoundError) {
+    res.status(404).json({
+      status: 404,
+      title: 'Not Found',
+      detail: err.message || 'Resource not found'
     })
   } else {
     logger.error(err)
