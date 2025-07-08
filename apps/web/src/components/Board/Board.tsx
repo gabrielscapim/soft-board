@@ -1,4 +1,4 @@
-import Cursor from '../../public/cursor.png'
+import Cursor from '/cursor.png'
 import { createElement, useRef } from 'react'
 import { BoardController, BoardState } from '../../lib'
 import { AlignmentGuides, ConnectionLines, ResizeBox, SelectionBox } from './subcomponents'

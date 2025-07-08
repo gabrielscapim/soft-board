@@ -1,5 +1,5 @@
 import { MAX_SCALE, MIN_SCALE, ZOOM_SPEED } from '../../helpers'
-import Cursor from '../../public/cursor.png'
+import Cursor from '/cursor.png'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 
