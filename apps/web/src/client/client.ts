@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import axios, { type AxiosInstance } from 'axios'
+import axios, { AxiosError, type AxiosInstance } from 'axios'
 import type {
   CreateBoardCommand,
   CreateBoardResult,
@@ -54,12 +53,12 @@ export class Client {
     return axios.isAxiosError(error) && error.response?.status === 404
   }
 
-  static async getError (error: any): Promise<string> {
+  static async getError (error: any): Promise<AxiosError | null> {
     if (axios.isAxiosError(error)) {
-      return error.response?.data?.detail
+      return error
     }
 
-    return error?.response?.data?.message ?? 'An unexpected error occurred'
+    return null
   }
 
   /** Endpoints */

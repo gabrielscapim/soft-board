@@ -28,8 +28,12 @@ export function SignInForm () {
         const result = await client.signIn({ email: values.email, password: values.password })
         authentication.setAuthenticatedUser(result)
         navigate('/', { replace: true })
-      } catch (error) {
-        toast.error(await Client.getError(error))
+      } catch (error: any) {
+        const message = await Client.getError(error)
+          ? error?.response?.data?.detail
+          : 'An unexpected error occurred'
+
+        toast.error(message)
       }
     }
   })
