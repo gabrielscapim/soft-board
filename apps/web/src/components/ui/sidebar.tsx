@@ -58,8 +58,10 @@ function SidebarProvider ({
   className,
   style,
   children,
+  width = SIDEBAR_WIDTH,
   ...props
 }: React.ComponentProps<'div'> & {
+  width?: string
   defaultOpen?: boolean
   open?: boolean
   onOpenChange?: (open: boolean) => void
@@ -131,7 +133,7 @@ function SidebarProvider ({
           data-slot="sidebar-wrapper"
           style={
             {
-              '--sidebar-width': SIDEBAR_WIDTH,
+              '--sidebar-width': width,
               '--sidebar-width-icon': SIDEBAR_WIDTH_ICON,
               ...style,
             } as React.CSSProperties
