@@ -1,9 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { type AxiosInstance } from 'axios'
 import type {
+  CreateBoardCommand,
+  CreateBoardResult,
+  DeleteBoardCommand,
   GetAuthenticatedUserResult,
+  GetBoardsQuery,
   SignInCommand,
-  SignInResult
+  SignInResult,
+  UpdateBoardCommand
 } from 'types/endpoints'
 
 export type ClientOptions = {
@@ -34,11 +39,27 @@ export class Client {
 
   /** Endpoints */
 
+  async createBoard (command: CreateBoardCommand): Promise<CreateBoardResult> {
+    return (await this.axios.post<CreateBoardResult>('/createBoard', command)).data
+  }
+
+  async deleteBoard (command: DeleteBoardCommand): Promise<void> {
+    await this.axios.post('/deleteBoard', command)
+  }
+
   async getAuthenticatedUser (): Promise<GetAuthenticatedUserResult> {
     return (await this.axios.post<GetAuthenticatedUserResult>('/getAuthenticatedUser')).data
   }
 
+  async getBoards (params: GetBoardsQuery): Promise<CreateBoardResult> {
+    return (await this.axios.get<CreateBoardResult>('/getBoards', { params })).data
+  }
+
   async signIn (command: SignInCommand): Promise<SignInResult> {
     return (await this.axios.post<SignInResult>('/signIn', command)).data
+  }
+
+  async updateBoard (command: UpdateBoardCommand): Promise<void> {
+    await this.axios.post('/updateBoard', command)
   }
 }
