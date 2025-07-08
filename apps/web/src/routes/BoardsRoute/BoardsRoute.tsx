@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { PlusIcon } from 'lucide-react'
-import { BoardsGrid, DeleteBoardDialog } from './components'
+import { BoardsGrid, DeleteBoardDialog, EditBoardDialog } from './components'
 import { useClient } from '@/hooks'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
@@ -36,13 +36,12 @@ export function BoardsRoute () {
     mutationFn: (title: string) => client.updateBoard({ id: selectedBoard!.id, title }),
     onSuccess: () => {
       getBoards.refetch()
+      setSelectedBoard(null)
       toast.success('Board updated successfully')
     },
     onError: () => toast.error('Failed to update board')
   })
   const boards = getBoards.data?.data ?? []
-
-  console.log('selectedBoard', selectedBoard)
 
   return (
     <div className="p-4 w-full">
@@ -96,11 +95,23 @@ export function BoardsRoute () {
         </div>
       )}
 
-      <DeleteBoardDialog
-        open={selectedBoard?.to === 'delete'}
-        onDelete={() => deleteBoard.mutate()}
-        onCancel={() => setSelectedBoard(null)}
-      />
+      {selectedBoard?.to === 'delete' && (
+        <DeleteBoardDialog
+          open={selectedBoard?.to === 'delete'}
+          onDelete={() => deleteBoard.mutate()}
+          onCancel={() => setSelectedBoard(null)}
+        />
+      )}
+
+      {selectedBoard?.to === 'edit' && (
+        <EditBoardDialog
+          board={selectedBoard ?? null}
+          open={selectedBoard?.to === 'edit'}
+          onOpenChange={open => setSelectedBoard(open ? selectedBoard : null)}
+          onSave={title => editBoard.mutate(title)}
+          onCancel={() => setSelectedBoard(null)}
+        />
+      )}
     </div>
   )
 }
