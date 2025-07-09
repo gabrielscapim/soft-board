@@ -6,6 +6,7 @@ import clsx from 'clsx'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { EllipsisVerticalIcon, PencilIcon, TrashIcon } from 'lucide-react'
 import { getRootImage } from '@/helpers'
+import { Link } from 'react-router'
 
 export type BoardCardProps = {
   board: GetBoardsResultData
@@ -18,54 +19,59 @@ export function BoardCard (props: BoardCardProps) {
   const { board, hasPermission, handleEdit, handleDelete } = props
 
   return (
-    <Card key={board.id} className="overflow-hidden p-0 gap-1">
-      <AspectRatio ratio={16 / 9}>
-        <img
-          src={getRootImage(board.image)}
-          alt="Board"
-          className="object-cover w-full h-full"
-        />
-      </AspectRatio>
-      <CardHeader className="flex justify-between items-center pt-3 px-3 pb-0">
-        <CardTitle
-          className={clsx(!board.title && 'opacity-20')}
-        >
-          {board.title ?? 'Untitled'}
-        </CardTitle>
+    <Card
+      key={board.id}
+      className="overflow-hidden p-0 gap-1 cursor-pointer hover:shadow-lg transition-shadow duration-200 ease-in-out"
+    >
+      <Link to={`${board.id}`}>
+        <AspectRatio ratio={16 / 9}>
+          <img
+            src={getRootImage(board.image)}
+            alt="Board"
+            className="object-cover w-full h-full"
+          />
+        </AspectRatio>
+        <CardHeader className="flex justify-between items-center pt-3 px-3 pb-0">
+          <CardTitle
+            className={clsx(!board.title && 'opacity-20')}
+          >
+            {board.title ?? 'Untitled'}
+          </CardTitle>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger className="cursor-pointer">
-            <EllipsisVerticalIcon size={16} />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuGroup>
-              <DropdownMenuItem
-                disabled={!hasPermission}
-                onClick={() => handleEdit?.(board)}
-              >
-                <PencilIcon />
-                Edit
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                disabled={!hasPermission}
-                className="text-destructive focus:text-destructive"
-                onClick={() => handleDelete?.(board)}
-              >
-                <TrashIcon />
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="cursor-pointer">
+              <EllipsisVerticalIcon size={16} />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuGroup>
+                <DropdownMenuItem
+                  disabled={!hasPermission}
+                  onClick={() => handleEdit?.(board)}
+                >
+                  <PencilIcon />
+                  Edit
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  disabled={!hasPermission}
+                  className="text-destructive focus:text-destructive"
+                  onClick={() => handleDelete?.(board)}
+                >
+                  <TrashIcon />
+                  Delete
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
-      </CardHeader>
-      <CardContent className="px-3 pb-3">
-        <span className="text-xs text-muted-foreground">
-          Updated at{' '}
-          <FormattedDate date={board.updateDate} format="dd/MM/yyyy HH:mm" />
-        </span>
-      </CardContent>
+        </CardHeader>
+        <CardContent className="px-3 pb-3">
+          <span className="text-xs text-muted-foreground">
+            Updated at{' '}
+            <FormattedDate date={board.updateDate} format="dd/MM/yyyy HH:mm" />
+          </span>
+        </CardContent>
+      </Link>
     </Card>
   )
 }
