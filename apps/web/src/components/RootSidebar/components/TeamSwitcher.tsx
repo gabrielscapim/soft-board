@@ -8,18 +8,20 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
+import { Skeleton } from '@/components/ui/skeleton'
 import { ChevronsUpDown, Plus } from 'lucide-react'
 import { GetTeamsResultData } from 'types/endpoints'
 
 export type TeamSwitcherProps = {
   teams: GetTeamsResultData[]
+  loading?: boolean
   activeTeam?: GetTeamsResultData
   handleTeamChange?: (team: GetTeamsResultData) => void
   handleCreateTeam?: () => void
 }
 
 export function TeamSwitcher (props: TeamSwitcherProps) {
-  const { teams, activeTeam, handleTeamChange, handleCreateTeam } = props
+  const { teams, loading, activeTeam, handleTeamChange, handleCreateTeam } = props
 
   const { isMobile } = useSidebar()
 
@@ -54,7 +56,7 @@ export function TeamSwitcher (props: TeamSwitcherProps) {
               Teams
             </DropdownMenuLabel>
 
-            {teams.map(team => (
+            {!loading && teams.map(team => (
               <DropdownMenuItem
                 key={team.name}
                 onClick={() => handleTeamChange?.(team)}
@@ -64,10 +66,21 @@ export function TeamSwitcher (props: TeamSwitcherProps) {
               </DropdownMenuItem>
             ))}
 
+            {loading && new Array(5).fill(null).map((_, index) => (
+              <DropdownMenuItem
+                key={index}
+                className="p-1"
+                disabled
+              >
+                <Skeleton className="h-4 w-full" />
+              </DropdownMenuItem>
+            ))}
+
             <DropdownMenuSeparator />
 
             <DropdownMenuItem
               className="gap-2 p-2"
+              disabled={loading}
               onClick={() => handleCreateTeam?.()}
             >
               <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
@@ -84,7 +97,7 @@ export function TeamSwitcher (props: TeamSwitcherProps) {
 
 function TeamAvatar ({ name }: { name: string }) {
   return (
-    <Avatar className="bg-red-50">
+    <Avatar>
       <AvatarFallback>
         {name.charAt(0).toUpperCase() + (name.charAt(1)?.toUpperCase() || '')}
       </AvatarFallback>

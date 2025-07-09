@@ -86,6 +86,7 @@ export function RootSidebar () {
       <SidebarHeader>
         <TeamSwitcher
           teams={teams}
+          loading={getTeams.isLoading}
           activeTeam={activeTeam.team}
           handleTeamChange={team => {
             if (team.slug !== activeTeam.team?.name) {
