@@ -44,6 +44,7 @@ module.exports = defineConfig([{
         '@typescript-eslint/strict-boolean-expressions': 'off',
         'semi': ['error', 'never'],
         '@typescript-eslint/explicit-function-return-type': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-dynamic-delete': 'off',
         '@typescript-eslint/no-floating-promises': 'off',
         '@typescript-eslint/no-non-null-assertion': 'off',
