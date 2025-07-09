@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { CreateTeamCommand, CreateTeamResult } from 'types/endpoints'
 import * as yup from 'yup'
 import { getPool } from '../../libs'
-import { Conflict } from 'http-errors'
+import { Conflict, Forbidden } from 'http-errors'
 import slugify from 'slugify'
 
 type Handler = RequestHandler<unknown, CreateTeamResult, CreateTeamCommand>
@@ -10,6 +10,8 @@ type Handler = RequestHandler<unknown, CreateTeamResult, CreateTeamCommand>
 const schema = yup.object({
   name: yup.string().trim().required('Name is required').max(100, 'Name must be at most 100 characters long')
 })
+
+const MAX_TEAMS_PER_USER = 5
 
 export function handler (): Handler {
   return async (req, res) => {
@@ -28,6 +30,17 @@ export function handler (): Handler {
 
     if (existingTeam) {
       throw new Conflict(`A team with the slug "${slug}" already exists`)
+    }
+
+    const count = await pool
+      .SELECT`id`
+      .FROM`team`
+      .JOIN`member ON member.team_id = team.id`
+      .WHERE`member.user_id = ${userId}`
+      .count()
+
+    if (count > MAX_TEAMS_PER_USER) {
+      throw new Forbidden(`You can only create up to ${MAX_TEAMS_PER_USER} teams`)
     }
 
     const created = await pool.transaction(async pool => {
