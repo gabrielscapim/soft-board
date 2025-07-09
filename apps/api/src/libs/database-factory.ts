@@ -19,6 +19,7 @@ export class DatabaseFactory {
     const now = new Date()
     const created: BoardDatabase = {
       id: board.id ?? randomUUID(),
+      image: board.image ?? null,
       teamId: board.teamId ?? randomUUID(),
       title: board.title ?? randomUUID(),
       authorId: board.authorId ?? null,
