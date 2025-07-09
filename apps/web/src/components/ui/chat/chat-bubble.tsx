@@ -72,7 +72,7 @@ const ChatBubbleAvatar: React.FC<ChatBubbleAvatarProps> = ({
 )
 
 // ChatBubbleMessage
-const chatBubbleMessageVariants = cva('p-4', {
+const chatBubbleMessageVariants = cva('p-3', {
   variants: {
     variant: {
       received:
