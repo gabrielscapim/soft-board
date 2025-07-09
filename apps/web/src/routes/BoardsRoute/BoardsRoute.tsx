@@ -82,8 +82,9 @@ export function BoardsRoute () {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => getBoards.refetch()}
             className="mt-4"
+            disabled={getBoards.isPending}
+            onClick={() => getBoards.refetch()}
           >
             Retry
           </Button>
@@ -101,6 +102,7 @@ export function BoardsRoute () {
           <Button
             variant="outline"
             size="sm"
+            disabled={createBoard.isPending}
             onClick={() => createBoard.mutate()}
           >
             <PlusIcon />
