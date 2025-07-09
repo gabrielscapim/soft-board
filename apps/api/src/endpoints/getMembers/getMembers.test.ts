@@ -20,7 +20,7 @@ describe('getMembers', () => {
       endpoints: { getMembers },
       tests: {
         auth: { userId: user1.id },
-        team: { teamId: team.id }
+        team: { teamId: team.id, memberRole: 'admin' }
       }
     })
 

@@ -17,7 +17,7 @@ describe('getBoards', () => {
       endpoints: { getBoards },
       tests: {
         auth: { userId: user.id },
-        team: { teamId: team.id }
+        team: { teamId: team.id, memberRole: 'member' }
       }
     })
 
