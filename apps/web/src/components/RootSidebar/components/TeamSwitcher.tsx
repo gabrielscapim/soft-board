@@ -15,10 +15,11 @@ export type TeamSwitcherProps = {
   teams: GetTeamsResultData[]
   activeTeam?: GetTeamsResultData
   handleTeamChange?: (team: GetTeamsResultData) => void
+  handleCreateTeam?: () => void
 }
 
 export function TeamSwitcher (props: TeamSwitcherProps) {
-  const { teams, activeTeam, handleTeamChange } = props
+  const { teams, activeTeam, handleTeamChange, handleCreateTeam } = props
 
   const { isMobile } = useSidebar()
 
@@ -65,7 +66,10 @@ export function TeamSwitcher (props: TeamSwitcherProps) {
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem className="gap-2 p-2">
+            <DropdownMenuItem
+              className="gap-2 p-2"
+              onClick={() => handleCreateTeam?.()}
+            >
               <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
                 <Plus className="size-4" />
               </div>

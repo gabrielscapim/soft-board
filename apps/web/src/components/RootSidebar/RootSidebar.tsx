@@ -12,11 +12,12 @@ import {
   SidebarMenuItem,
   SidebarRail
 } from '../ui/sidebar'
-import { NavUser, TeamSwitcher } from './components'
+import { CreateTeamDialog, NavUser, TeamSwitcher } from './components'
 import { Link, useNavigate } from 'react-router'
 import { useAuthentication, useClient, useTeam } from '@/hooks'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { useState } from 'react'
 
 const items = [
   {
@@ -37,6 +38,7 @@ const items = [
 ]
 
 export function RootSidebar () {
+  const [createTeamDialogOpen, setCreateTeamDialogOpen] = useState(false)
   const { authenticatedUser, setAuthenticatedUser } = useAuthentication()
   const client = useClient()
   const activeTeam = useTeam()
@@ -45,6 +47,15 @@ export function RootSidebar () {
   const getTeams = useQuery({
     queryKey: ['getTeams', authenticatedUser?.userId],
     queryFn: () => client.getTeams()
+  })
+  const createTeam = useMutation({
+    mutationFn: (name: string) => client.createTeam({ name }),
+    onSuccess: (data) => {
+      toast.success('Team created successfully')
+      setCreateTeamDialogOpen(false)
+      navigate(`/${data.slug}`)
+    },
+    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to create team')
   })
   const signOut = useMutation({
     mutationFn: () => client.signOut(),
@@ -65,6 +76,7 @@ export function RootSidebar () {
               navigate(`/${team.slug}`)
             }
           }}
+          handleCreateTeam={() => setCreateTeamDialogOpen(true)}
         />
       </SidebarHeader>
       <SidebarContent>
@@ -99,6 +111,14 @@ export function RootSidebar () {
         </SidebarFooter>
       )}
 
+      {createTeamDialogOpen && (
+        <CreateTeamDialog
+          open={createTeamDialogOpen}
+          onOpenChange={setCreateTeamDialogOpen}
+          onCancel={() => setCreateTeamDialogOpen(false)}
+          onSave={(name) => createTeam.mutate(name)}
+        />
+      )}
       <SidebarRail />
     </Sidebar>
   )
