@@ -5,9 +5,6 @@ export type GetAuthenticatedUserResult = {
   userId: string
   name: string
   email: string
-  currentTeam: {
-    role: 'member' | 'admin' | 'owner'
-  } | null
   fallbackTeam: {
     slug: string
   } | null

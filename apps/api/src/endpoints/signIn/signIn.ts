@@ -54,7 +54,6 @@ export function handler (): Handler {
     const result: SignInResult = {
       userId: user.id,
       name: user.name,
-      currentTeam: fallbackTeam ? { role: fallbackTeam.role } : null,
       fallbackTeam: fallbackTeam ? { slug: fallbackTeam.slug } : null
     }
 
