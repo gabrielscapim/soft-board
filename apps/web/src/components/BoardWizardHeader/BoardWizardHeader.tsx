@@ -15,7 +15,7 @@ export function BoardWizardHeader () {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href={`/${team?.slug}/boards`}>
+            <BreadcrumbLink href={`/${team?.slug}`}>
               <div className="flex items-center gap-2">
                 <Avatar>
                   <AvatarFallback>
