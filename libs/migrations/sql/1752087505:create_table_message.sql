@@ -7,6 +7,7 @@ CREATE TYPE message_role AS ENUM (
 
 CREATE TABLE message (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  team_id UUID NOT NULL REFERENCES team(id) ON DELETE CASCADE,
   board_id UUID NOT NULL REFERENCES board(id) ON DELETE CASCADE,
   author_id UUID REFERENCES "user"(id) ON DELETE SET NULL,
   content TEXT,

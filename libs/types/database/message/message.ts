@@ -2,6 +2,7 @@ import { JSONB, TEXT, TIMESTAMPTZ, UUID } from '../common'
 
 export type MessageDatabase = {
   id: UUID
+  teamId: UUID
   boardId: UUID
   authorId: UUID | null
   content: TEXT | null
