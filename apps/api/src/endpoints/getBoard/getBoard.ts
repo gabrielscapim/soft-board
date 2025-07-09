@@ -7,7 +7,7 @@ import { getPool } from '../../libs'
 type Handler = RequestHandler<unknown, GetBoardResult, GetBoardQuery>
 
 type BoardRow =
-  Pick<BoardDatabase, 'id' | 'title' | 'createDate' | 'updateDate' | 'step'>
+  Pick<BoardDatabase, 'id' | 'title' | 'createDate' | 'updateDate' | 'step' | 'image'>
   & { team: Pick<TeamDatabase, 'id' | 'slug' | 'name'> }
 
 const schema = yup.object({
@@ -28,6 +28,7 @@ export function handler (): Handler {
         board.create_date,
         board.update_date,
         board.step,
+        board.image,
         JSON_BUILD_OBJECT(
           'id', team.id,
           'slug', team.slug,
@@ -43,6 +44,7 @@ export function handler (): Handler {
       id: board.id,
       title: board.title,
       step: board.step,
+      image: board.image,
       createDate: board.createDate.toISOString(),
       updateDate: board.updateDate.toISOString(),
       team: {

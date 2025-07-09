@@ -13,6 +13,7 @@ export type GetBoardResult = {
   team: GetBoardResultTeam
   title: string | null
   step: 'init'
+  image: string | null
   createDate: string
   updateDate: string
 }
