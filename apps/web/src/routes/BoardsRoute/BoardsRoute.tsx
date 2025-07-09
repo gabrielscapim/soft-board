@@ -44,9 +44,15 @@ export function BoardsRoute () {
   const boards = getBoards.data?.data ?? []
 
   return (
-    <div className="p-4 w-full">
+    <div className="py-4 w-full px-8">
       <div className="mb-6 flex flex-row justify-between items-center">
-        <h1 className="text-2xl font-semibold">Team boards</h1>
+        <div className="space-y-0.5">
+          <h1 className="text-2xl font-semibold">Team boards</h1>
+          <p className="text-sm text-muted-foreground">
+            Create and manage boards for your team.
+          </p>
+        </div>
+
         <Button
           variant="outline"
           size="sm"
@@ -73,6 +79,15 @@ export function BoardsRoute () {
           <p className="text-xs text-muted-foreground">
             There was an error fetching the boards
           </p>
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-4"
+            disabled={getBoards.isPending}
+            onClick={() => getBoards.refetch()}
+          >
+            Retry
+          </Button>
         </div>
       )}
 
@@ -87,6 +102,7 @@ export function BoardsRoute () {
           <Button
             variant="outline"
             size="sm"
+            disabled={createBoard.isPending}
             onClick={() => createBoard.mutate()}
           >
             <PlusIcon />

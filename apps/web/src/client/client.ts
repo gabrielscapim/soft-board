@@ -2,14 +2,20 @@ import axios, { AxiosError, type AxiosInstance } from 'axios'
 import type {
   CreateBoardCommand,
   CreateBoardResult,
+  CreateMemberCommand,
+  CreateMemberResult,
   DeleteBoardCommand,
+  DeleteMembersCommand,
   GetAuthenticatedUserResult,
   GetBoardsQuery,
   GetBoardsResult,
+  GetMembersQuery,
+  GetMembersResult,
   GetTeamResult,
   SignInCommand,
   SignInResult,
-  UpdateBoardCommand
+  UpdateBoardCommand,
+  UpdateMemberRoleCommand
 } from 'types/endpoints'
 
 export type ClientOptions = {
@@ -64,31 +70,47 @@ export class Client {
 
   /** Endpoints */
 
-  async createBoard (command: CreateBoardCommand): Promise<CreateBoardResult> {
-    return (await this.axios.post<CreateBoardResult>('/createBoard', command)).data
+  async createBoard (data: CreateBoardCommand): Promise<CreateBoardResult> {
+    return (await this.axios.post<CreateBoardResult>('/createBoard', data)).data
   }
 
-  async deleteBoard (command: DeleteBoardCommand): Promise<void> {
-    await this.axios.post('/deleteBoard', command)
+  async createMember (data: CreateMemberCommand): Promise<CreateMemberResult> {
+    return (await this.axios.post<CreateMemberResult>('/createMember', data)).data
+  }
+
+  async deleteBoard (data: DeleteBoardCommand): Promise<void> {
+    await this.axios.post('/deleteBoard', data)
+  }
+
+  async deleteMembers (data: DeleteMembersCommand): Promise<void> {
+    await this.axios.post('/deleteMembers', data)
   }
 
   async getAuthenticatedUser (): Promise<GetAuthenticatedUserResult> {
     return (await this.axios.post<GetAuthenticatedUserResult>('/getAuthenticatedUser')).data
   }
 
-  async getBoards (params: GetBoardsQuery): Promise<GetBoardsResult> {
-    return (await this.axios.post<GetBoardsResult>('/getBoards', { params })).data
+  async getBoards (data: GetBoardsQuery): Promise<GetBoardsResult> {
+    return (await this.axios.post<GetBoardsResult>('/getBoards', data)).data
+  }
+
+  async getMembers (data: GetMembersQuery): Promise<GetMembersResult> {
+    return (await this.axios.post<GetMembersResult>('/getMembers', data)).data
   }
 
   async getTeam (): Promise<GetTeamResult> {
     return (await this.axios.post<GetTeamResult>('/getTeam')).data
   }
 
-  async signIn (command: SignInCommand): Promise<SignInResult> {
-    return (await this.axios.post<SignInResult>('/signIn', command)).data
+  async signIn (data: SignInCommand): Promise<SignInResult> {
+    return (await this.axios.post<SignInResult>('/signIn', data)).data
   }
 
-  async updateBoard (command: UpdateBoardCommand): Promise<void> {
-    await this.axios.post('/updateBoard', command)
+  async updateBoard (data: UpdateBoardCommand): Promise<void> {
+    await this.axios.post('/updateBoard', data)
+  }
+
+  async updateMemberRole (data: UpdateMemberRoleCommand): Promise<void> {
+    await this.axios.post('/updateMemberRole', data)
   }
 }
