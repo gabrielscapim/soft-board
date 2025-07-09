@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { MoreHorizontal, TrashIcon } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
 export type MembersDataTableProps = {
   members?: GetMembersResultData[]
@@ -52,9 +53,16 @@ export function MembersDataTable (props: MembersDataTableProps) {
         const name = row.getValue('name') as MemberData['name']
 
         return (
-          <span>
-            {isSameUser ? `${name} (You)` : name}
-          </span>
+          <div className="flex items-center gap-4">
+            <Avatar>
+              <AvatarFallback>
+                {name ? `${name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase()}` : 'U'}
+              </AvatarFallback>
+            </Avatar>
+            <span>
+              {isSameUser ? `${name} (You)` : name}
+            </span>
+          </div>
         )
       }
     },

@@ -7,14 +7,20 @@ import { Client } from '@/client'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { PlusIcon } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { useSearchParams } from 'react-router'
+import { useDebounce } from 'use-debounce'
 
 export function MembersRoute () {
   const [createMemberDialogOpen, setCreateMemberDialogOpen] = useState(false)
   const [memberToDelete, setMemberToDelete] = useState<GetMembersResultData | null>(null)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const query = searchParams.get('query') ?? ''
+  const [debouncedQuery] = useDebounce(query, 400)
   const client = useClient()
   const getMembers = useQuery({
-    queryKey: ['members'],
-    queryFn: () => client.getMembers({ }),
+    queryKey: ['members', debouncedQuery],
+    queryFn: () => client.getMembers({ query: debouncedQuery })
   })
   const createMember = useMutation({
     mutationFn: (data: CreateMemberCommand) => client.createMember(data),
@@ -76,13 +82,46 @@ export function MembersRoute () {
         </Button>
       </div>
 
-      <MembersDataTable
-        members={members}
-        loading={getMembers.isPending}
-        updateMemberRoleLoading={updateMemberRole.isPending}
-        handleDelete={member => setMemberToDelete(member)}
-        updateMemberRole={(memberId, role) => updateMemberRole.mutate({ memberId, role })}
+      <Input
+        placeholder="Search members by name or email"
+        className="max-w-sm mb-4"
+        value={query}
+        onChange={event => {
+          const value = event.target.value
+          setSearchParams(value ? { query: value } : {})
+        }}
       />
+
+      {getMembers.error && (
+        <div className="flex flex-col items-center justify-center mt-4">
+          <h2 className="text-lg font-semibold text-destructive mb-1">
+            Failed to load members
+          </h2>
+          <p className="text-xs text-muted-foreground">
+            There was an error fetching the members
+          </p>
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-4"
+            disabled={getMembers.isPending}
+            onClick={() => getMembers.refetch()}
+          >
+            Retry
+          </Button>
+        </div>
+      )}
+
+      {!getMembers.error && (
+        <MembersDataTable
+          members={members}
+          loading={getMembers.isPending}
+          updateMemberRoleLoading={updateMemberRole.isPending}
+          handleDelete={member => setMemberToDelete(member)}
+          updateMemberRole={(memberId, role) => updateMemberRole.mutate({ memberId, role })}
+        />
+      )}
+
 
       {createMemberDialogOpen && (
         <CreateMemberDialog
