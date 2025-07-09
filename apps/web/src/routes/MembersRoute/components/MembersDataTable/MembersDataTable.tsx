@@ -126,6 +126,7 @@ export function MembersDataTable (props: MembersDataTableProps) {
       cell: ({ row }) => {
         const member = members.find(m => m.user.id === row.original.userId)!
         const isSameUser = member.user.id === authenticatedUser?.userId
+        const isOwner = member.role === 'owner'
 
         return (
           <DropdownMenu>
@@ -139,7 +140,7 @@ export function MembersDataTable (props: MembersDataTableProps) {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 className="text-destructive focus:text-destructive"
-                disabled={isSameUser || !hasPermission}
+                disabled={isSameUser || !hasPermission || isOwner}
                 onClick={() => handleDelete?.(member)}
               >
                 <TrashIcon />

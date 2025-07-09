@@ -7,7 +7,7 @@ import type {
   CreateTeamCommand,
   CreateTeamResult,
   DeleteBoardCommand,
-  DeleteMembersCommand,
+  DeleteMemberCommand,
   GetAuthenticatedUserResult,
   GetBoardsQuery,
   GetBoardsResult,
@@ -92,8 +92,8 @@ export class Client {
     await this.axios.post('/deleteBoard', data)
   }
 
-  async deleteMembers (data: DeleteMembersCommand): Promise<void> {
-    await this.axios.post('/deleteMembers', data)
+  async deleteMember (data: DeleteMemberCommand): Promise<void> {
+    await this.axios.post('/deleteMember', data)
   }
 
   async getAuthenticatedUser (): Promise<GetAuthenticatedUserResult> {
@@ -118,6 +118,10 @@ export class Client {
 
   async getTeams (): Promise<GetTeamsResult> {
     return (await this.axios.post<GetTeamsResult>('/getTeams')).data
+  }
+
+  async leaveTeam (): Promise<void> {
+    await this.axios.post('/leaveTeam')
   }
 
   async signIn (data: SignInCommand): Promise<SignInResult> {

@@ -44,7 +44,7 @@ export function MembersRoute () {
     }
   })
   const deleteMember = useMutation({
-    mutationFn: () => client.deleteMembers({ memberIds: [memberToDelete!.id] }),
+    mutationFn: () => client.deleteMember({ memberId: memberToDelete!.id }),
     onSuccess: () => {
       getMembers.refetch()
       setMemberToDelete(null)

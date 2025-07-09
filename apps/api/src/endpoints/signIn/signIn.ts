@@ -48,6 +48,7 @@ export function handler (): Handler {
       .FROM`team`
       .LEFT_JOIN`member ON member."team_id" = team.id`
       .WHERE`member."user_id" = ${user.id}`
+      .AND`member.role = 'owner'`
       .ORDER_BY`team.create_date ASC`
       .first()
 
