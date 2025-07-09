@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { SettingsForm } from './components'
-import { useClient, useTeam } from '@/hooks'
+import { useClient, useMemberRole, useTeam } from '@/hooks'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { UpdateTeamCommand } from 'types/endpoints'
@@ -11,6 +11,8 @@ export function SettingsRoute () {
   const getTeam = useTeam()
   const client = useClient()
   const navigate = useNavigate()
+  const memberRole = useMemberRole()
+  const hasPermission = ['owner', 'admin'].includes(memberRole ?? '')
 
   const updateTeam = useMutation({
     mutationFn: (data: UpdateTeamCommand) => client.updateTeam(data),
@@ -37,6 +39,7 @@ export function SettingsRoute () {
         <CardContent>
           <SettingsForm
             team={getTeam.team}
+            hasPermission={hasPermission}
             handleSubmit={name => updateTeam.mutate({ name })}
           />
         </CardContent>

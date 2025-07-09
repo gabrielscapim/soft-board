@@ -9,12 +9,13 @@ import { getRootImage } from '@/helpers'
 
 export type BoardCardProps = {
   board: GetBoardsResultData
+  hasPermission?: boolean
   handleEdit?: (board: GetBoardsResultData) => void
   handleDelete?: (board: GetBoardsResultData) => void
 }
 
 export function BoardCard (props: BoardCardProps) {
-  const { board, handleEdit, handleDelete } = props
+  const { board, hasPermission, handleEdit, handleDelete } = props
 
   return (
     <Card key={board.id} className="overflow-hidden p-0 gap-1">
@@ -40,12 +41,14 @@ export function BoardCard (props: BoardCardProps) {
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuGroup>
               <DropdownMenuItem
+                disabled={!hasPermission}
                 onClick={() => handleEdit?.(board)}
               >
                 <PencilIcon />
                 Edit
               </DropdownMenuItem>
               <DropdownMenuItem
+                disabled={!hasPermission}
                 className="text-destructive focus:text-destructive"
                 onClick={() => handleDelete?.(board)}
               >

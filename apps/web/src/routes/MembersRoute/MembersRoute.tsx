@@ -1,4 +1,4 @@
-import { useClient } from '@/hooks'
+import { useClient, useMemberRole } from '@/hooks'
 import { CreateMemberDialog, DeleteMemberDialog, MembersDataTable } from './components'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { CreateMemberCommand, GetMembersResultData, UpdateMemberRoleCommand } from 'types/endpoints'
@@ -18,6 +18,7 @@ export function MembersRoute () {
   const query = searchParams.get('query') ?? ''
   const [debouncedQuery] = useDebounce(query, 400)
   const client = useClient()
+  const memberRole = useMemberRole()
   const getMembers = useQuery({
     queryKey: ['members', debouncedQuery],
     queryFn: () => client.getMembers({ query: debouncedQuery })
@@ -60,6 +61,7 @@ export function MembersRoute () {
     onError: () => toast.error('Failed to update member role')
   })
   const members = getMembers.data?.data ?? []
+  const hasPermission = ['owner', 'admin'].includes(memberRole ?? '')
 
   return (
     <div className="py-4 w-full px-8">
@@ -74,7 +76,7 @@ export function MembersRoute () {
           className="text-"
           variant="outline"
           size="sm"
-          disabled={createMember.isPending || getMembers.isPending}
+          disabled={createMember.isPending || getMembers.isPending || !hasPermission}
           onClick={() => setCreateMemberDialogOpen(true)}
         >
           <PlusIcon />
@@ -115,6 +117,7 @@ export function MembersRoute () {
       {!getMembers.error && (
         <MembersDataTable
           members={members}
+          hasPermission={hasPermission}
           loading={getMembers.isPending}
           updateMemberRoleLoading={updateMemberRole.isPending}
           handleDelete={member => setMemberToDelete(member)}

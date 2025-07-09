@@ -3,6 +3,7 @@ import { BoardCard } from '../BoardCard'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export type BoardsGridProps = {
+  hasPermission: boolean
   loading?: boolean
   boards?: GetBoardsResultData[]
   handleEdit?: (board: GetBoardsResultData) => void
@@ -10,13 +11,14 @@ export type BoardsGridProps = {
 }
 
 export function BoardsGrid (props: BoardsGridProps) {
-  const { loading, boards = [], handleEdit, handleDelete } = props
+  const { hasPermission, loading, boards = [], handleEdit, handleDelete } = props
 
   return (
     <div className="grid gap-8 w-full lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-1">
       {!loading && boards.map(board => (
         <BoardCard
           key={board.id}
+          hasPermission={hasPermission}
           board={board}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
