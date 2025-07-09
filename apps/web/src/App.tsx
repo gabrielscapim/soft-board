@@ -5,7 +5,7 @@ import { BoardContextProvider } from './contexts/BoardContext/BoardContextProvid
 import { BoardController, BoardState } from './lib'
 import { useState } from 'react'
 import { AuthenticationGuardLayout, RootLayout, UnauthenticatedGuardLayout } from './components'
-import { ErrorRoute, RootRoute, SignInRoute, BoardsRoute, MembersRoute } from './routes'
+import { ErrorRoute, SignInRoute, BoardsRoute, MembersRoute, SettingsRoute } from './routes'
 import { Toaster } from 'sonner'
 import { AuthenticationProvider, ClientProvider, TeamProvider } from './contexts'
 import { Client } from './client'
@@ -44,7 +44,7 @@ function App () {
                     <Route index element={<Navigate to="boards" replace />} />
                     <Route path="boards" element={<BoardsRoute />} />
                     <Route path="members" element={<MembersRoute />} />
-                    <Route path="settings" element={<RootRoute />} />
+                    <Route path="settings" element={<SettingsRoute />} />
                   </Route>
                 </Route>
 
