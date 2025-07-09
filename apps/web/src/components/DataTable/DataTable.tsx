@@ -7,16 +7,12 @@ export type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   loading?: boolean
-  rowSelection?: Record<string, any>
-  setRowSelection?: (rowSelection: Record<string, any>) => void
 }
 
 export function DataTable<TData, TValue> ({
   columns,
   data,
-  loading = false,
-  rowSelection = {},
-  setRowSelection
+  loading = false
 }: DataTableProps<TData, TValue>) {
   const tableData = useMemo(
     () => (loading ? Array(10).fill({}) : data),
@@ -38,11 +34,7 @@ export function DataTable<TData, TValue> ({
     data: tableData,
     columns: tableColumns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onRowSelectionChange: setRowSelection,
-    state: {
-      rowSelection
-    }
+    getPaginationRowModel: getPaginationRowModel()
   })
 
   return (

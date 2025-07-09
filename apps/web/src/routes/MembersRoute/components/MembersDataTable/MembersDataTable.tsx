@@ -1,14 +1,16 @@
 import { GetMembersResultData } from 'types/endpoints'
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTable, FormattedDate } from '@/components'
-import { Checkbox } from '@/components/ui/checkbox'
 import { Badge } from '@/components/ui/badge'
 import { useAuthentication } from '@/hooks'
-import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { MoreHorizontal, TrashIcon } from 'lucide-react'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
 export type MembersDataTableProps = {
   members?: GetMembersResultData[]
   loading?: boolean
+  handleDelete?: (member: GetMembersResultData) => void
 }
 
 type MemberData = {
@@ -21,12 +23,8 @@ type MemberData = {
 }
 
 export function MembersDataTable (props: MembersDataTableProps) {
-  const {
-    members = [],
-    loading = false
-  } = props
+  const { members = [], loading = false, handleDelete } = props
 
-  const [rowSelection, setRowSelection] = useState({})
   const { authenticatedUser } = useAuthentication()
 
   // Exclude the authenticated user from the list of members
@@ -42,41 +40,6 @@ export function MembersDataTable (props: MembersDataTableProps) {
   }))
 
   const columns: ColumnDef<MemberData>[] = [
-    {
-      id: 'select',
-      header: ({ table }) => {
-        const allRows = table.getRowModel().rows
-        const selectableRows = allRows.filter(
-          (row) => row.original.userId !== authenticatedUser?.userId
-        )
-
-        const allSelectableSelected = selectableRows.every((row) => row.getIsSelected())
-        const someSelectableSelected = selectableRows.some((row) => row.getIsSelected())
-
-        return (
-          <Checkbox
-            checked={allSelectableSelected || (someSelectableSelected && 'indeterminate')}
-            onCheckedChange={(checked) => {
-              selectableRows.forEach((row) => row.toggleSelected(!!checked))
-            }}
-            aria-label="Select all"
-            disabled={loading}
-          />
-        )
-      },
-      cell: ({ row }) => {
-        const isSameUser = row.original.userId === authenticatedUser?.userId
-
-        return (
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
-            disabled={loading || isSameUser}
-          />
-        )
-      }
-    },
     {
       accessorKey: 'name',
       header: 'Name',
@@ -119,16 +82,44 @@ export function MembersDataTable (props: MembersDataTableProps) {
       accessorKey: 'updateDate',
       header: 'Updated At',
       cell: ({ row }) => <FormattedDate date={new Date(row.getValue('updateDate'))} />
-    }
+    },
+    {
+      id: 'actions',
+      header: 'Actions',
+      cell: ({ row }) => {
+        const member = members.find(m => m.user.id === row.original.userId)!
+        const isSameUser = member.user.id === authenticatedUser?.userId
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                className="text-destructive focus:text-destructive"
+                disabled={isSameUser}
+                onClick={() => handleDelete?.(member)}
+              >
+                <TrashIcon />
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )
+      },
+    },
   ]
 
   return (
     <DataTable
       columns={columns}
       data={data}
-      rowSelection={rowSelection}
       loading={loading}
-      setRowSelection={setRowSelection}
     />
   )
 }
