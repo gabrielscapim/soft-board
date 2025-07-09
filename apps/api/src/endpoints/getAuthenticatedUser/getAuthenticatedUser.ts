@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import { GetAuthenticatedUserResult } from 'types/endpoints/getAuthenticatedUser'
-import { UserDatabase } from 'types/database'
+import { MemberDatabase, UserDatabase } from 'types/database'
 import { getPool } from '../../libs'
 
 export const auth = false
@@ -11,6 +11,7 @@ type UserRow = Pick<UserDatabase, 'id' | 'name' | 'email'>
 
 export function handler (): Handler {
   return async (req, res) => {
+    const teamId = req.team?.teamId
     const { auth } = req
 
     if (!auth) {
@@ -26,6 +27,14 @@ export function handler (): Handler {
       .WHERE`id = ${auth.userId}`
       .find({ error: 'User not found' })
 
+    const currentTeam = await pool
+      .SELECT<Pick<MemberDatabase, 'role'>>`member.role`
+      .FROM`team`
+      .JOIN`member ON member."team_id" = team.id`
+      .WHERE`team.id = ${teamId}`
+      .AND`member."user_id" = ${auth.userId}`
+      .find({ error: 'Current team not found' })
+
     const fallbackTeam = await pool
       .SELECT<{ slug: string }>`slug`
       .FROM`team`
@@ -38,7 +47,8 @@ export function handler (): Handler {
       userId: user.id,
       name: user.name,
       email: user.email,
-      fallbackTeamSlug: fallbackTeam?.slug ?? null
+      currentTeam: currentTeam ? { role: currentTeam.role } : null,
+      fallbackTeam: fallbackTeam ? { slug: fallbackTeam.slug } : null,
     }
 
     res.status(200).json(result)

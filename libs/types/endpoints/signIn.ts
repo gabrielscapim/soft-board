@@ -6,5 +6,10 @@ export type SignInCommand = {
 export type SignInResult = {
   userId: string
   name: string
-  fallbackTeamSlug: string | null
+  currentTeam: {
+    role: 'member' | 'admin' | 'owner'
+  } | null
+  fallbackTeam: {
+    slug: string
+  } | null
 }

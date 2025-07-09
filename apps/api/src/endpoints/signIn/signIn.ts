@@ -44,7 +44,7 @@ export function handler (): Handler {
     }
 
     const fallbackTeam = await pool
-      .SELECT<{ slug: string }>`slug`
+      .SELECT<{ slug: string, role: 'member' | 'admin' | 'owner' }>`team.slug, member.role`
       .FROM`team`
       .LEFT_JOIN`member ON member."team_id" = team.id`
       .WHERE`member."user_id" = ${user.id}`
@@ -54,7 +54,8 @@ export function handler (): Handler {
     const result: SignInResult = {
       userId: user.id,
       name: user.name,
-      fallbackTeamSlug: fallbackTeam?.slug ?? null
+      currentTeam: fallbackTeam ? { role: fallbackTeam.role } : null,
+      fallbackTeam: fallbackTeam ? { slug: fallbackTeam.slug } : null
     }
 
     const authenticationData: AuthenticationData = {
