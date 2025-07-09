@@ -33,7 +33,7 @@ export function BoardCard (props: BoardCardProps) {
         </AspectRatio>
         <CardHeader className="flex justify-between items-center pt-3 px-3 pb-0">
           <CardTitle
-            className={clsx(!board.title && 'opacity-20')}
+            className={clsx(!board.title && 'opacity-20', 'font-normal')}
           >
             {board.title ?? 'Untitled'}
           </CardTitle>
@@ -47,7 +47,10 @@ export function BoardCard (props: BoardCardProps) {
               <DropdownMenuGroup>
                 <DropdownMenuItem
                   disabled={!hasPermission}
-                  onClick={() => handleEdit?.(board)}
+                  onClick={event => {
+                    event.stopPropagation()
+                    handleEdit?.(board)
+                  }}
                 >
                   <PencilIcon />
                   Edit
@@ -55,7 +58,10 @@ export function BoardCard (props: BoardCardProps) {
                 <DropdownMenuItem
                   disabled={!hasPermission}
                   className="text-destructive focus:text-destructive"
-                  onClick={() => handleDelete?.(board)}
+                  onClick={event => {
+                    event.stopPropagation()
+                    handleDelete?.(board)
+                  }}
                 >
                   <TrashIcon />
                   Delete
