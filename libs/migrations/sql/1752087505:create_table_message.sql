@@ -1,16 +1,16 @@
-CREATE TYPE board_message_role AS ENUM (
+CREATE TYPE message_role AS ENUM (
   'assistant',
   'system',
   'tool',
   'user'
 );
 
-CREATE TABLE board_message (
+CREATE TABLE message (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   board_id UUID NOT NULL REFERENCES board(id) ON DELETE CASCADE,
   author_id UUID REFERENCES "user"(id) ON DELETE SET NULL,
   content TEXT,
-  role board_message_role NOT NULL,
+  role message_role NOT NULL,
   tool_call_id TEXT,
   tool_calls JSONB,
   send_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -18,4 +18,4 @@ CREATE TABLE board_message (
   update_date TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX ON board_message (board_id);
+CREATE INDEX ON message (board_id);

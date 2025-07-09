@@ -1,6 +1,6 @@
 import { JSONB, TEXT, TIMESTAMPTZ, UUID } from '../common'
 
-export type BoardMessageDatabase = {
+export type MessageDatabase = {
   id: UUID
   boardId: UUID
   authorId: UUID | null
