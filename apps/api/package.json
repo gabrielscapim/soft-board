@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "dev": "dotenv -e .env.development.local -e .env.development -- tsx watch src/index.ts | pino-pretty",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "test": "dotenv -e .env.test -- vitest"

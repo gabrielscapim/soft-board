@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "build:api": "npm run build --workspace=apps/api",
     "dev:web": "npm run dev --workspace=apps/web",
-    "build:web": "npm run build --workspace=apps/web"
+    "typecheck:web": "npm run typecheck --workspace=apps/web"
   },
   "workspaces": [
     "apps/*",
