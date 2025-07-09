@@ -5,6 +5,7 @@ import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { UpdateTeamCommand } from 'types/endpoints'
 import { useNavigate } from 'react-router'
+import { Client } from '@/client'
 
 export function SettingsRoute () {
   const getTeam = useTeam()
@@ -17,7 +18,10 @@ export function SettingsRoute () {
       toast.success('Team updated successfully')
       navigate(`/${result.slug}/settings`)
     },
-    onError: () => toast.error('Failed to update team')
+    onError: error => {
+      const isConflict = Client.isConflict(error)
+      toast.error(isConflict ? 'Team name already exists' : 'Failed to update team')
+    }
   })
 
   return (

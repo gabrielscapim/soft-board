@@ -3,6 +3,7 @@ import { UpdateTeamCommand, UpdateTeamResult } from 'types/endpoints'
 import * as yup from 'yup'
 import { getPool } from '../../libs'
 import slugify from 'slugify'
+import { Conflict } from 'http-errors'
 
 type Handler = RequestHandler<undefined, UpdateTeamResult, UpdateTeamCommand>
 
@@ -17,6 +18,17 @@ export function handler (): Handler {
 
     const pool = getPool()
     const slug = slugify(name, { lower: true, strict: true })
+
+    const existingTeam = await pool
+      .SELECT`id`
+      .FROM`team`
+      .WHERE`slug = ${slug}`
+      .AND`id != ${teamId}`
+      .first()
+
+    if (existingTeam) {
+      throw new Conflict(`A team with the slug "${slug}" already exists`)
+    }
 
     await pool
       .UPDATE`team`
