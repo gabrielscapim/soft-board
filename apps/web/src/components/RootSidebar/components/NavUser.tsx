@@ -14,6 +14,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
+import { getAvatarFallbackName } from '@/helpers'
 
 export type NavUserProps = {
   user: {
@@ -29,7 +30,7 @@ export function NavUser (props: NavUserProps) {
   const { user, isOwner, handleSignOut, handleLeaveTeam } = props
   const { isMobile } = useSidebar()
 
-  const avatar = `${user.name.charAt(0).toUpperCase() + user.name.charAt(1).toUpperCase()}`
+  const avatar = getAvatarFallbackName(user.name)
 
   return (
     <SidebarMenu>

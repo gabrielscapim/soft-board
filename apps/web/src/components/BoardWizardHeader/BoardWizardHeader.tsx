@@ -3,6 +3,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Avatar, AvatarFallback } from '../ui/avatar'
 import { Skeleton } from '../ui/skeleton'
 import { useParams } from 'react-router'
+import { getAvatarFallbackName } from '@/helpers'
 
 export function BoardWizardHeader () {
   const params = useParams<{ boardId?: string }>()
@@ -19,7 +20,7 @@ export function BoardWizardHeader () {
               <div className="flex items-center gap-2">
                 <Avatar>
                   <AvatarFallback>
-                    {team?.name ? (team.name.charAt(0).toUpperCase() + (team?.name.charAt(1)?.toUpperCase() || '')) : <span className="opacity-50">T</span>}
+                    {getAvatarFallbackName(team?.name)}
                   </AvatarFallback>
                 </Avatar>
                 {team?.name ?? <span className="opacity-50">Untitled Team</span>}

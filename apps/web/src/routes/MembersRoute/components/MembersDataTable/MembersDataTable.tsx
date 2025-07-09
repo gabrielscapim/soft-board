@@ -7,6 +7,7 @@ import { MoreHorizontal, TrashIcon } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { getAvatarFallbackName } from '@/helpers'
 
 export type MembersDataTableProps = {
   members?: GetMembersResultData[]
@@ -57,7 +58,7 @@ export function MembersDataTable (props: MembersDataTableProps) {
           <div className="flex items-center gap-4">
             <Avatar>
               <AvatarFallback>
-                {name ? `${name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase()}` : 'U'}
+                {getAvatarFallbackName(name)}
               </AvatarFallback>
             </Avatar>
             <span>
