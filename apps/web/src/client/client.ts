@@ -120,6 +120,10 @@ export class Client {
     return (await this.axios.post<GetTeamsResult>('/getTeams')).data
   }
 
+  async leaveTeam (): Promise<void> {
+    await this.axios.post('/leaveTeam')
+  }
+
   async signIn (data: SignInCommand): Promise<SignInResult> {
     return (await this.axios.post<SignInResult>('/signIn', data)).data
   }
