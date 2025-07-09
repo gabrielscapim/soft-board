@@ -14,6 +14,7 @@ CREATE TABLE message (
   role message_role NOT NULL,
   tool_call_id TEXT,
   tool_calls JSONB,
+  error JSONB,
   send_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   create_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   update_date TIMESTAMPTZ NOT NULL DEFAULT NOW()
