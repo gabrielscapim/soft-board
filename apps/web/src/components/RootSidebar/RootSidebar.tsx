@@ -63,15 +63,18 @@ export function RootSidebar () {
     mutationFn: () => client.signOut(),
     onSuccess: () => {
       setAuthenticatedUser(null)
-      navigate('/')
+      window.location.reload()
     },
     onError: () => toast.error('Failed to sign out')
   })
   const leaveTeam = useMutation({
     mutationFn: () => client.leaveTeam(),
     onSuccess: () => {
+      const fallbackTeam = authenticatedUser?.fallbackTeam
+      setLeaveTeamDialogOpen(false)
       toast.success('You have left the team')
-      navigate('/')
+      navigate(`/${fallbackTeam?.slug ?? ''}`, { replace: true })
+      getTeams.refetch()
     },
     onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to leave team')
   })
