@@ -38,7 +38,7 @@ export class DatabaseFactory {
       id: member.id ?? randomUUID(),
       userId: member.userId ?? randomUUID(),
       teamId: member.teamId ?? randomUUID(),
-      role: member.role ?? 'member',
+      role: member.role ?? 'owner',
       createDate: member.createDate ?? now,
       updateDate: member.updateDate ?? now
     }

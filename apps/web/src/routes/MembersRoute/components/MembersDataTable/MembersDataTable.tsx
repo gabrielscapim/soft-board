@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
 export type MembersDataTableProps = {
   members?: GetMembersResultData[]
+  hasPermission?: boolean
   loading?: boolean
   updateMemberRoleLoading?: boolean
   handleDelete?: (member: GetMembersResultData) => void
@@ -27,7 +28,7 @@ type MemberData = {
 }
 
 export function MembersDataTable (props: MembersDataTableProps) {
-  const { members = [], loading = false, updateMemberRoleLoading, handleDelete, updateMemberRole } = props
+  const { members = [], hasPermission, loading, updateMemberRoleLoading, handleDelete, updateMemberRole } = props
 
   const { authenticatedUser } = useAuthentication()
 
@@ -71,6 +72,12 @@ export function MembersDataTable (props: MembersDataTableProps) {
       header: 'Role',
       cell: ({ row }) => {
         const role = row.getValue('role') as MemberData['role']
+        const isOwner = row.original.role === 'owner'
+
+        if (isOwner) {
+          return <span>Owner</span>
+        }
+
         const isSameUser = row.original.userId === authenticatedUser?.userId
         const roles = [
           { value: 'admin', label: 'Admin' },
@@ -84,7 +91,7 @@ export function MembersDataTable (props: MembersDataTableProps) {
           >
             <SelectTrigger
               size="sm"
-              disabled={updateMemberRoleLoading || isSameUser}
+              disabled={updateMemberRoleLoading || isSameUser || !hasPermission}
             >
               <SelectValue placeholder="Select color" />
             </SelectTrigger>
@@ -132,7 +139,7 @@ export function MembersDataTable (props: MembersDataTableProps) {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 className="text-destructive focus:text-destructive"
-                disabled={isSameUser}
+                disabled={isSameUser || !hasPermission}
                 onClick={() => handleDelete?.(member)}
               >
                 <TrashIcon />

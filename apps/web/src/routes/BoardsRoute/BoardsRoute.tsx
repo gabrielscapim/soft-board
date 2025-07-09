@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { PlusIcon } from 'lucide-react'
 import { BoardsGrid, DeleteBoardDialog, EditBoardDialog } from './components'
-import { useClient } from '@/hooks'
+import { useClient, useMemberRole } from '@/hooks'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useState } from 'react'
@@ -9,6 +9,7 @@ import { GetBoardsResultData } from 'types/endpoints'
 
 export function BoardsRoute () {
   const client = useClient()
+  const memberRole = useMemberRole()
 
   const [selectedBoard, setSelectedBoard] = useState<(GetBoardsResultData & { to: 'edit' | 'delete' }) | null>(null)
   const getBoards = useQuery({
@@ -65,6 +66,7 @@ export function BoardsRoute () {
       </div>
 
       <BoardsGrid
+        hasPermission={['owner', 'admin'].includes(memberRole ?? '')}
         loading={getBoards.isPending}
         boards={boards}
         handleEdit={board => setSelectedBoard({ ...board, to: 'edit' })}

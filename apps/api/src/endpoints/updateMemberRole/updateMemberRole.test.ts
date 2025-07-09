@@ -19,7 +19,7 @@ describe('updateMemberRole', () => {
       endpoints: { updateMemberRole },
       tests: {
         auth: { userId: clientUser.id },
-        team: { teamId: team.id }
+        team: { teamId: team.id, memberRole: 'owner' }
       }
     })
 

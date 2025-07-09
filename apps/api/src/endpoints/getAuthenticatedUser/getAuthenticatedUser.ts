@@ -38,7 +38,7 @@ export function handler (): Handler {
       userId: user.id,
       name: user.name,
       email: user.email,
-      fallbackTeamSlug: fallbackTeam?.slug ?? null
+      fallbackTeam: fallbackTeam ? { slug: fallbackTeam.slug } : null
     }
 
     res.status(200).json(result)

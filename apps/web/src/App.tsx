@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { AuthenticationGuardLayout, RootLayout, UnauthenticatedGuardLayout } from './components'
 import { ErrorRoute, SignInRoute, BoardsRoute, MembersRoute, SettingsRoute } from './routes'
 import { Toaster } from 'sonner'
-import { AuthenticationProvider, ClientProvider, TeamProvider } from './contexts'
+import { AuthenticationProvider, AuthorizationProvider, ClientProvider, TeamProvider } from './contexts'
 import { Client } from './client'
 
 const client = new Client()
@@ -37,7 +37,9 @@ function App () {
                   <Route
                     element={
                       <TeamProvider>
-                        <RootLayout />
+                        <AuthorizationProvider>
+                          <RootLayout />
+                        </AuthorizationProvider>
                       </TeamProvider>
                     }
                   >

@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import { DeleteMembersCommand } from 'types/endpoints'
 import * as yup from 'yup'
-import { getPool } from '../../libs'
+import { assertMemberPermission, getPool } from '../../libs'
 import { BadRequest } from 'http-errors'
 
 type Handler = RequestHandler<unknown, unknown, DeleteMembersCommand>
@@ -12,6 +12,8 @@ const schema = yup.object({
 
 export function handler (): Handler {
   return async (req, res) => {
+    assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can delete members')
+
     const teamId = req.team!.teamId
     const userId = req.auth?.userId
     const { memberIds } = schema.validateSync(req.body, { abortEarly: false })

@@ -19,7 +19,7 @@ describe('createMember', () => {
         endpoints: { createMember },
         tests: {
           auth: { userId: clientUser.id },
-          team: { teamId: team.id }
+          team: { teamId: team.id, memberRole: 'owner' }
         }
       })
 
@@ -44,7 +44,7 @@ describe('createMember', () => {
         endpoints: { createMember },
         tests: {
           auth: { userId: clientUser.id },
-          team: { teamId: team.id }
+          team: { teamId: team.id, memberRole: 'owner' }
         }
       })
 

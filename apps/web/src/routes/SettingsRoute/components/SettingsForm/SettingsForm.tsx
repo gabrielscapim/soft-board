@@ -7,6 +7,7 @@ import * as yup from 'yup'
 
 export type SettingsFormProps = {
   team?: GetTeamResult
+  hasPermission?: boolean
   handleSubmit?: (name: string) => void
 }
 
@@ -15,7 +16,7 @@ const schema = yup.object({
 })
 
 export function SettingsForm (props: SettingsFormProps) {
-  const { team, handleSubmit } = props
+  const { team, hasPermission, handleSubmit } = props
 
   const formik = useFormik({
     validationSchema: schema,
@@ -38,6 +39,7 @@ export function SettingsForm (props: SettingsFormProps) {
           name="name"
           maxLength={100}
           required
+          disabled={formik.isSubmitting || !hasPermission}
           value={formik.values.name}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -49,7 +51,7 @@ export function SettingsForm (props: SettingsFormProps) {
       <Button
         type="submit"
         className="w-fit self-start"
-        disabled={formik.isSubmitting}
+        disabled={formik.isSubmitting || !hasPermission}
       >
         Save changes
       </Button>

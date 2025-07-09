@@ -1,11 +1,11 @@
 import { RequestHandler } from 'express'
 import { UpdateTeamCommand, UpdateTeamResult } from 'types/endpoints'
 import * as yup from 'yup'
-import { getPool } from '../../libs'
+import { assertMemberPermission, getPool } from '../../libs'
 import slugify from 'slugify'
 import { Conflict } from 'http-errors'
 
-type Handler = RequestHandler<undefined, UpdateTeamResult, UpdateTeamCommand>
+type Handler = RequestHandler<unknown, UpdateTeamResult, UpdateTeamCommand>
 
 const schema = yup.object({
   name: yup.string().trim().required('Name is required').max(100, 'Name must be at most 100 characters long')
@@ -13,6 +13,8 @@ const schema = yup.object({
 
 export function handler (): Handler {
   return async (req, res) => {
+    assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can update team details')
+
     const teamId = req.team!.teamId
     const { name } = schema.validateSync(req.body, { abortEarly: false })
 
