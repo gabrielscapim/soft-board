@@ -13,8 +13,10 @@ import {
   SidebarRail
 } from '../ui/sidebar'
 import { NavUser, TeamSwitcher } from './components'
-import loginImage from '/paint_image_1.png'
 import { Link } from 'react-router'
+import { useAuthentication, useClient } from '@/hooks'
+import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 const items = [
   {
@@ -35,6 +37,15 @@ const items = [
 ]
 
 export function RootSidebar () {
+  const { authenticatedUser, setAuthenticatedUser } = useAuthentication()
+  const client = useClient()
+
+  const signOut = useMutation({
+    mutationFn: () => client.signOut(),
+    onSuccess: () => setAuthenticatedUser(null),
+    onError: () => toast.error('Failed to sign out')
+  })
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -59,13 +70,19 @@ export function RootSidebar () {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={{
-          name: 'Gabriel Scapim',
-          email: 'email@email.com',
-          avatar: loginImage
-        }} />
-      </SidebarFooter>
+
+      {authenticatedUser && (
+        <SidebarFooter>
+          <NavUser
+            user={{
+              name: authenticatedUser.name,
+              email: authenticatedUser.email
+            }}
+            handleSignOut={() => signOut.mutate()}
+          />
+        </SidebarFooter>
+      )}
+
       <SidebarRail />
     </Sidebar>
   )

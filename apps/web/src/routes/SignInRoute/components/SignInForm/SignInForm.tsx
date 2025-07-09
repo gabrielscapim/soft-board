@@ -26,7 +26,7 @@ export function SignInForm () {
     onSubmit: async values => {
       try {
         const result = await client.signIn({ email: values.email, password: values.password })
-        authentication.setAuthenticatedUser(result)
+        authentication.setAuthenticatedUser({ ...result, email: values.email })
         navigate('/', { replace: true })
       } catch (error: any) {
         const message = Client.getError(error)
