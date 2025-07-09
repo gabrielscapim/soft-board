@@ -4,6 +4,8 @@ import type {
   CreateBoardResult,
   CreateMemberCommand,
   CreateMemberResult,
+  CreateTeamCommand,
+  CreateTeamResult,
   DeleteBoardCommand,
   DeleteMembersCommand,
   GetAuthenticatedUserResult,
@@ -79,6 +81,10 @@ export class Client {
 
   async createMember (data: CreateMemberCommand): Promise<CreateMemberResult> {
     return (await this.axios.post<CreateMemberResult>('/createMember', data)).data
+  }
+
+  async createTeam (data: CreateTeamCommand): Promise<CreateTeamResult> {
+    return (await this.axios.post<CreateTeamResult>('/createTeam', data)).data
   }
 
   async deleteBoard (data: DeleteBoardCommand): Promise<void> {

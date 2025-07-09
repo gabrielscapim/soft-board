@@ -1,4 +1,4 @@
-import { ChevronsUpDown, LogOut, UserIcon } from 'lucide-react'
+import { ChevronsUpDown, LogOut } from 'lucide-react'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -21,11 +21,10 @@ export type NavUserProps = {
     email: string
   }
   handleSignOut?: () => void
-  handleProfile?: () => void
 }
 
 export function NavUser (props: NavUserProps) {
-  const { user, handleSignOut, handleProfile } = props
+  const { user, handleSignOut } = props
   const { isMobile } = useSidebar()
 
   const avatar = `${user.name.charAt(0).toUpperCase() + user.name.charAt(1).toUpperCase()}`
@@ -71,13 +70,7 @@ export function NavUser (props: NavUserProps) {
                 </div>
               </div>
             </DropdownMenuLabel>
-
             <DropdownMenuSeparator />
-
-            <DropdownMenuItem onClick={handleProfile}>
-              <UserIcon />
-              Profile
-            </DropdownMenuItem>
             <DropdownMenuItem onClick={handleSignOut}>
               <LogOut />
               Log out

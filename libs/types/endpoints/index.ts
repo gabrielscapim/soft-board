@@ -1,5 +1,6 @@
 export * from './createBoard'
 export * from './createMember'
+export * from './createTeam'
 export * from './deleteBoard'
 export * from './deleteMembers'
 export * from './getAuthenticatedUser'
