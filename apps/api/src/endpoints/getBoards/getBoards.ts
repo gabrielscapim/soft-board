@@ -4,7 +4,7 @@ import { GetBoardsQuery, GetBoardsResult, GetBoardsResultData } from 'types/endp
 import * as yup from 'yup'
 import { getPool } from '../../libs'
 
-type Handler = RequestHandler<GetBoardsQuery, GetBoardsResult>
+type Handler = RequestHandler<unknown, GetBoardsResult, GetBoardsQuery>
 
 type BoardRow =
   Pick<BoardDatabase, 'id' | 'title' | 'createDate' | 'updateDate' | 'image'>
