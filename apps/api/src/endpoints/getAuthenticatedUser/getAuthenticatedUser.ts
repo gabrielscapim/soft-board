@@ -7,7 +7,7 @@ export const auth = false
 
 type Handler = RequestHandler<unknown, GetAuthenticatedUserResult>
 
-type UserRow = Pick<UserDatabase, 'id' | 'name'>
+type UserRow = Pick<UserDatabase, 'id' | 'name' | 'email'>
 
 export function handler (): Handler {
   return async (req, res) => {
@@ -21,7 +21,7 @@ export function handler (): Handler {
     const pool = getPool()
 
     const user = await pool
-      .SELECT<UserRow>`id, name`
+      .SELECT<UserRow>`id, name, email`
       .FROM`"user"`
       .WHERE`id = ${auth.userId}`
       .find({ error: 'User not found' })
@@ -37,6 +37,7 @@ export function handler (): Handler {
     const result: GetAuthenticatedUserResult = {
       userId: user.id,
       name: user.name,
+      email: user.email,
       fallbackTeamSlug: fallbackTeam?.slug ?? null
     }
 
