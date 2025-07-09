@@ -3,6 +3,7 @@ import { UpdateMemberRoleCommand } from 'types/endpoints'
 import * as yup from 'yup'
 import { assertMemberPermission, getPool } from '../../libs'
 import { BadRequest } from 'http-errors'
+import { MemberDatabase } from 'types/database'
 
 type Handler = RequestHandler<unknown, unknown, UpdateMemberRoleCommand>
 
@@ -10,6 +11,8 @@ const schema = yup.object({
   memberId: yup.string().uuid().required(),
   role: yup.string().oneOf(['member', 'admin']).required()
 })
+
+type MemberRow = Pick<MemberDatabase, 'userId' | 'role'>
 
 export function handler (): Handler {
   return async (req, res) => {
@@ -21,7 +24,7 @@ export function handler (): Handler {
     const pool = getPool()
 
     const member = await pool
-      .SELECT<{ userId: string }>`user_id`
+      .SELECT<MemberRow>`user_id, role`
       .FROM`member`
       .WHERE`id = ${memberId}`
       .AND`team_id = ${teamId}`
@@ -29,6 +32,10 @@ export function handler (): Handler {
 
     if (member.userId === req.auth!.userId) {
       throw new BadRequest('You cannot change your own role')
+    }
+
+    if (member.role === 'owner') {
+      throw new BadRequest('You cannot change the role of an owner')
     }
 
     await pool

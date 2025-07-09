@@ -72,6 +72,12 @@ export function MembersDataTable (props: MembersDataTableProps) {
       header: 'Role',
       cell: ({ row }) => {
         const role = row.getValue('role') as MemberData['role']
+        const isOwner = row.original.role === 'owner'
+
+        if (isOwner) {
+          return <span>Owner</span>
+        }
+
         const isSameUser = row.original.userId === authenticatedUser?.userId
         const roles = [
           { value: 'admin', label: 'Admin' },
