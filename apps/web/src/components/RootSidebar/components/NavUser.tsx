@@ -1,4 +1,4 @@
-import { ChevronsUpDown, LogOut } from 'lucide-react'
+import { ChevronsUpDown, DoorOpen, LogOut } from 'lucide-react'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -20,11 +20,13 @@ export type NavUserProps = {
     name: string
     email: string
   }
+  isOwner?: boolean
   handleSignOut?: () => void
+  handleLeaveTeam?: () => void
 }
 
 export function NavUser (props: NavUserProps) {
-  const { user, handleSignOut } = props
+  const { user, isOwner, handleSignOut, handleLeaveTeam } = props
   const { isMobile } = useSidebar()
 
   const avatar = `${user.name.charAt(0).toUpperCase() + user.name.charAt(1).toUpperCase()}`
@@ -71,6 +73,10 @@ export function NavUser (props: NavUserProps) {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleLeaveTeam} disabled={isOwner}>
+              <DoorOpen />
+              Leave team
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={handleSignOut}>
               <LogOut />
               Log out

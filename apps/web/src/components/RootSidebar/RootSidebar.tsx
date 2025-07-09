@@ -12,9 +12,9 @@ import {
   SidebarMenuItem,
   SidebarRail
 } from '../ui/sidebar'
-import { CreateTeamDialog, NavUser, TeamSwitcher } from './components'
+import { CreateTeamDialog, LeaveTeamDialog, NavUser, TeamSwitcher } from './components'
 import { Link, useNavigate } from 'react-router'
-import { useAuthentication, useClient, useTeam } from '@/hooks'
+import { useAuthentication, useClient, useMemberRole, useTeam } from '@/hooks'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useState } from 'react'
@@ -39,9 +39,11 @@ const items = [
 
 export function RootSidebar () {
   const [createTeamDialogOpen, setCreateTeamDialogOpen] = useState(false)
+  const [leaveTeamDialogOpen, setLeaveTeamDialogOpen] = useState(false)
   const { authenticatedUser, setAuthenticatedUser } = useAuthentication()
   const client = useClient()
   const activeTeam = useTeam()
+  const role = useMemberRole()
   const navigate = useNavigate()
 
   const getTeams = useQuery({
@@ -64,6 +66,15 @@ export function RootSidebar () {
       navigate('/')
     },
     onError: () => toast.error('Failed to sign out')
+  })
+  const leaveTeam = useMutation({
+    mutationFn: () => client.leaveTeam(),
+    onSuccess: () => {
+      toast.success('You have left the team')
+      setAuthenticatedUser(null)
+      navigate('/')
+    },
+    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to leave team')
   })
 
   const teams = getTeams.data?.data ?? []
@@ -109,7 +120,9 @@ export function RootSidebar () {
               name: authenticatedUser.name,
               email: authenticatedUser.email
             }}
+            isOwner={role === 'owner'}
             handleSignOut={() => signOut.mutate()}
+            handleLeaveTeam={() => setLeaveTeamDialogOpen(true)}
           />
         </SidebarFooter>
       )}
@@ -120,6 +133,15 @@ export function RootSidebar () {
           onOpenChange={setCreateTeamDialogOpen}
           onCancel={() => setCreateTeamDialogOpen(false)}
           onSave={(name) => createTeam.mutate(name)}
+        />
+      )}
+
+      {leaveTeamDialogOpen && (
+        <LeaveTeamDialog
+          team={activeTeam.team}
+          open={leaveTeamDialogOpen}
+          onLeave={() => leaveTeam.mutate()}
+          onCancel={() => setLeaveTeamDialogOpen(false)}
         />
       )}
       <SidebarRail />
