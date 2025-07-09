@@ -21,7 +21,7 @@ export const setTeam: RequestHandler = async (req, res, next) => {
   const pool = getPool()
 
   const team = await pool
-    .SELECT`team.id, member.role AS "memberRole"`
+    .SELECT`team.id`
     .FROM`member`
     .JOIN`team ON team.id = member.team_id`
     .WHERE`member.user_id = ${userId}`
@@ -33,8 +33,7 @@ export const setTeam: RequestHandler = async (req, res, next) => {
   }
 
   req.team = {
-    teamId: team.id,
-    memberRole: team.memberRole
+    teamId: team.id
   }
   res.set('team-slug', slug)
 
