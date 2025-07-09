@@ -12,6 +12,7 @@ import type {
   GetMembersQuery,
   GetMembersResult,
   GetTeamResult,
+  GetTeamsResult,
   SignInCommand,
   SignInResult,
   UpdateBoardCommand,
@@ -102,6 +103,10 @@ export class Client {
 
   async getTeam (): Promise<GetTeamResult> {
     return (await this.axios.post<GetTeamResult>('/getTeam')).data
+  }
+
+  async getTeams (): Promise<GetTeamsResult> {
+    return (await this.axios.post<GetTeamsResult>('/getTeams')).data
   }
 
   async signIn (data: SignInCommand): Promise<SignInResult> {

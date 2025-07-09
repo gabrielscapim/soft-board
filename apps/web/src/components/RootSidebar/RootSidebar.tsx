@@ -13,9 +13,9 @@ import {
   SidebarRail
 } from '../ui/sidebar'
 import { NavUser, TeamSwitcher } from './components'
-import { Link } from 'react-router'
-import { useAuthentication, useClient } from '@/hooks'
-import { useMutation } from '@tanstack/react-query'
+import { Link, useNavigate } from 'react-router'
+import { useAuthentication, useClient, useTeam } from '@/hooks'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
 const items = [
@@ -39,17 +39,33 @@ const items = [
 export function RootSidebar () {
   const { authenticatedUser, setAuthenticatedUser } = useAuthentication()
   const client = useClient()
+  const activeTeam = useTeam()
+  const navigate = useNavigate()
 
+  const getTeams = useQuery({
+    queryKey: ['getTeams', authenticatedUser?.userId],
+    queryFn: () => client.getTeams()
+  })
   const signOut = useMutation({
     mutationFn: () => client.signOut(),
     onSuccess: () => setAuthenticatedUser(null),
     onError: () => toast.error('Failed to sign out')
   })
 
+  const teams = getTeams.data?.data ?? []
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <TeamSwitcher />
+        <TeamSwitcher
+          teams={teams}
+          activeTeam={activeTeam.team}
+          handleTeamChange={team => {
+            if (team.slug !== activeTeam.team?.name) {
+              navigate(`/${team.slug}`)
+            }
+          }}
+        />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
