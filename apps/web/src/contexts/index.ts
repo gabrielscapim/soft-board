@@ -1,4 +1,5 @@
 export * from './AuthenticationContext'
+export * from './AuthorizationContext'
 export * from './BoardContext'
 export * from './ClientContext'
 export * from './TeamContext'

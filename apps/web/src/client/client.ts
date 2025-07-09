@@ -11,6 +11,7 @@ import type {
   GetAuthenticatedUserResult,
   GetBoardsQuery,
   GetBoardsResult,
+  GetCurrentUserRoleResult,
   GetMembersQuery,
   GetMembersResult,
   GetTeamResult,
@@ -101,6 +102,10 @@ export class Client {
 
   async getBoards (data: GetBoardsQuery): Promise<GetBoardsResult> {
     return (await this.axios.post<GetBoardsResult>('/getBoards', data)).data
+  }
+
+  async getCurrentUserRole (): Promise<GetCurrentUserRoleResult> {
+    return (await this.axios.post<GetCurrentUserRoleResult>('/getCurrentUserRole')).data
   }
 
   async getMembers (data: GetMembersQuery): Promise<GetMembersResult> {
