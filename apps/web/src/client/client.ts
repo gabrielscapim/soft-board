@@ -9,6 +9,8 @@ import type {
   DeleteBoardCommand,
   DeleteMemberCommand,
   GetAuthenticatedUserResult,
+  GetBoardQuery,
+  GetBoardResult,
   GetBoardsQuery,
   GetBoardsResult,
   GetCurrentUserRoleResult,
@@ -98,6 +100,10 @@ export class Client {
 
   async getAuthenticatedUser (): Promise<GetAuthenticatedUserResult> {
     return (await this.axios.post<GetAuthenticatedUserResult>('/getAuthenticatedUser')).data
+  }
+
+  async getBoard (data: GetBoardQuery): Promise<GetBoardResult> {
+    return (await this.axios.post<GetBoardResult>('/getBoard', data)).data
   }
 
   async getBoards (data: GetBoardsQuery): Promise<GetBoardsResult> {
