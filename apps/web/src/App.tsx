@@ -4,8 +4,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BoardContextProvider } from './contexts/BoardContext/BoardContextProvider'
 import { BoardController, BoardState } from './lib'
 import { useState } from 'react'
-import { AuthenticationGuardLayout, RootLayout, UnauthenticatedGuardLayout } from './components'
-import { ErrorRoute, SignInRoute, BoardsRoute, MembersRoute, SettingsRoute, BoardWizard } from './routes'
+import { AuthenticationGuardLayout, BoardWizardLayout, RootLayout, UnauthenticatedGuardLayout } from './components'
+import { ErrorRoute, SignInRoute, BoardsRoute, MembersRoute, SettingsRoute, BoardWizardRoute } from './routes'
 import { Toaster } from 'sonner'
 import { AuthenticationProvider, AuthorizationProvider, ClientProvider, TeamProvider } from './contexts'
 import { Client } from './client'
@@ -54,11 +54,13 @@ function App () {
                     element={
                       <TeamProvider>
                         <AuthorizationProvider>
-                          <BoardWizard />
+                          <BoardWizardLayout />
                         </AuthorizationProvider>
                       </TeamProvider>
                     }
-                  />
+                  >
+                    <Route index element={<BoardWizardRoute />} />
+                  </Route>
                 </Route>
 
                 <Route path="*" element={<ErrorRoute status={404} description="The page you are looking for does not exist." />} />
