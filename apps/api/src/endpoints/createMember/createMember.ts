@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { MemberDatabase } from 'types/database'
 import { CreateMemberCommand, CreateMemberResult } from 'types/endpoints'
 import * as yup from 'yup'
-import { getPool } from '../../libs'
+import { assertMemberPermission, getPool } from '../../libs'
 import { Conflict } from 'http-errors'
 
 type Handler = RequestHandler<unknown, CreateMemberResult, CreateMemberCommand>
@@ -16,6 +16,8 @@ const schema = yup.object({
 
 export function handler (): Handler {
   return async (req, res) => {
+    assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can create members')
+
     const teamId = req.team!.teamId
     const { email, role } = schema.validateSync(req.body, { abortEarly: false })
 
