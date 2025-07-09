@@ -15,7 +15,9 @@ import type {
   SignInCommand,
   SignInResult,
   UpdateBoardCommand,
-  UpdateMemberRoleCommand
+  UpdateMemberRoleCommand,
+  UpdateTeamCommand,
+  UpdateTeamResult
 } from 'types/endpoints'
 
 export type ClientOptions = {
@@ -116,5 +118,9 @@ export class Client {
 
   async updateMemberRole (data: UpdateMemberRoleCommand): Promise<void> {
     await this.axios.post('/updateMemberRole', data)
+  }
+
+  async updateTeam (data: UpdateTeamCommand): Promise<UpdateTeamResult> {
+    return (await this.axios.post<UpdateTeamResult>('/updateTeam', data)).data
   }
 }
