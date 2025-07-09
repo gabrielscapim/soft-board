@@ -1,3 +1,3 @@
 export type DeleteMembersCommand = {
-  membersIds: string[]
+  memberIds: string[]
 }

@@ -26,7 +26,7 @@ describe('deleteMembers', () => {
 
     await request(app)
       .post('/deleteMembers')
-      .send({ membersIds: [member1.id, member2.id] })
+      .send({ memberIds: [member1.id, member2.id] })
 
     const check = await pool
       .SELECT`id`
