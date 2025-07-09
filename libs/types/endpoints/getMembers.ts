@@ -1,4 +1,5 @@
 export type GetMembersQuery = {
+  query?: string
   pageNumber?: number
   pageSize?: number
 }
