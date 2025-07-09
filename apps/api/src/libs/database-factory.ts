@@ -1,6 +1,6 @@
 import { DatabasePool } from 'pg-script'
 import { getPool } from './get-pool'
-import { MemberDatabase, UserDatabase, TeamDatabase, BoardDatabase } from 'types/database'
+import { MemberDatabase, UserDatabase, TeamDatabase, BoardDatabase, MessageDatabase } from 'types/database'
 import { randomUUID } from 'crypto'
 import slugify from 'slugify'
 
@@ -45,6 +45,27 @@ export class DatabaseFactory {
     }
 
     await this.pool.INSERT_INTO`member`.VALUES(created)
+
+    return created
+  }
+
+  async createMessage (message: Partial<MessageDatabase> = {}): Promise<MessageDatabase> {
+    const now = new Date()
+    const created: MessageDatabase = {
+      id: message.id ?? randomUUID(),
+      teamId: message.teamId ?? randomUUID(),
+      boardId: message.boardId ?? randomUUID(),
+      authorId: message.authorId ?? null,
+      content: message.content ?? null,
+      role: message.role ?? 'user',
+      toolCallId: message.toolCallId ?? null,
+      toolCalls: message.toolCalls ?? null,
+      sendDate: message.sendDate ?? now,
+      createDate: message.createDate ?? now,
+      updateDate: message.updateDate ?? now
+    }
+
+    await this.pool.INSERT_INTO`message`.VALUES(created)
 
     return created
   }
