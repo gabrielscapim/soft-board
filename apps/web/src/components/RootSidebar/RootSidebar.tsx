@@ -59,7 +59,10 @@ export function RootSidebar () {
   })
   const signOut = useMutation({
     mutationFn: () => client.signOut(),
-    onSuccess: () => setAuthenticatedUser(null),
+    onSuccess: () => {
+      setAuthenticatedUser(null)
+      navigate('/')
+    },
     onError: () => toast.error('Failed to sign out')
   })
 
