@@ -71,7 +71,6 @@ export function RootSidebar () {
     mutationFn: () => client.leaveTeam(),
     onSuccess: () => {
       toast.success('You have left the team')
-      setAuthenticatedUser(null)
       navigate('/')
     },
     onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to leave team')
