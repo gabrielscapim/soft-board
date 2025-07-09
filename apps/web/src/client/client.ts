@@ -7,7 +7,7 @@ import type {
   CreateTeamCommand,
   CreateTeamResult,
   DeleteBoardCommand,
-  DeleteMembersCommand,
+  DeleteMemberCommand,
   GetAuthenticatedUserResult,
   GetBoardsQuery,
   GetBoardsResult,
@@ -92,8 +92,8 @@ export class Client {
     await this.axios.post('/deleteBoard', data)
   }
 
-  async deleteMembers (data: DeleteMembersCommand): Promise<void> {
-    await this.axios.post('/deleteMembers', data)
+  async deleteMember (data: DeleteMemberCommand): Promise<void> {
+    await this.axios.post('/deleteMember', data)
   }
 
   async getAuthenticatedUser (): Promise<GetAuthenticatedUserResult> {
