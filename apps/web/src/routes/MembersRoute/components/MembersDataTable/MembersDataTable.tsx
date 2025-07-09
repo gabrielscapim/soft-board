@@ -1,19 +1,22 @@
 import { GetMembersResultData } from 'types/endpoints'
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTable, FormattedDate } from '@/components'
-import { Badge } from '@/components/ui/badge'
 import { useAuthentication } from '@/hooks'
 import { Button } from '@/components/ui/button'
 import { MoreHorizontal, TrashIcon } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 export type MembersDataTableProps = {
   members?: GetMembersResultData[]
   loading?: boolean
+  updateMemberRoleLoading?: boolean
   handleDelete?: (member: GetMembersResultData) => void
+  updateMemberRole?: (memberId: string, role: 'admin' | 'member') => void
 }
 
 type MemberData = {
+  id: string
   userId: string
   name: string
   role: 'owner' | 'admin' | 'member'
@@ -23,7 +26,7 @@ type MemberData = {
 }
 
 export function MembersDataTable (props: MembersDataTableProps) {
-  const { members = [], loading = false, handleDelete } = props
+  const { members = [], loading = false, updateMemberRoleLoading, handleDelete, updateMemberRole } = props
 
   const { authenticatedUser } = useAuthentication()
 
@@ -31,6 +34,7 @@ export function MembersDataTable (props: MembersDataTableProps) {
   const filteredMembers = members.filter(member => member.user.id !== authenticatedUser?.userId)
   const authenticatedUserMember = members.find(member => member.user.id === authenticatedUser?.userId)
   const data: MemberData[] = [...(authenticatedUserMember ? [authenticatedUserMember] : []), ...filteredMembers].map(member => ({
+    id: member.id,
     userId: member.user.id,
     name: member.user.name,
     role: member.role,
@@ -59,13 +63,31 @@ export function MembersDataTable (props: MembersDataTableProps) {
       header: 'Role',
       cell: ({ row }) => {
         const role = row.getValue('role') as MemberData['role']
-        const variant: 'default' | 'outline' | 'secondary' =
-          role === 'owner' ? 'default' : role === 'admin' ? 'outline' : 'secondary'
+        const isSameUser = row.original.userId === authenticatedUser?.userId
+        const roles = [
+          { value: 'admin', label: 'Admin' },
+          { value: 'member', label: 'Member' }
+        ]
 
         return (
-          <Badge variant={variant}>
-            {role.charAt(0).toUpperCase() + role.slice(1)}
-          </Badge>
+          <Select
+            value={role}
+            onValueChange={value => updateMemberRole?.(row.original.id, value as 'admin' | 'member')}
+          >
+            <SelectTrigger
+              size="sm"
+              disabled={updateMemberRoleLoading || isSameUser}
+            >
+              <SelectValue placeholder="Select color" />
+            </SelectTrigger>
+            <SelectContent className="max-h-72">
+              {roles.map(role => (
+                <SelectItem key={role.value} value={role.value}>
+                  {role.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         )
       }
     },
