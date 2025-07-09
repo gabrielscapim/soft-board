@@ -18,7 +18,7 @@ describe('updateBoard', () => {
       endpoints: { updateBoard },
       tests: {
         auth: { userId: user.id },
-        team: { teamId: team.id }
+        team: { teamId: team.id, memberRole: 'owner' }
       }
     })
 

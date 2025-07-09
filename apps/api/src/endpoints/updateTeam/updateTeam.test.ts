@@ -3,6 +3,7 @@ import { DatabaseFactory, getPool } from '../../libs'
 import * as updateTeam from './updateTeam'
 import { createApp } from '../../setup'
 import request from 'supertest'
+import { randomUUID } from 'crypto'
 
 describe('updateTeam', () => {
   test('update team name', async () => {
@@ -11,13 +12,13 @@ describe('updateTeam', () => {
     const user = await factory.createUser()
     const team = await factory.createTeam()
     await factory.createMember({ userId: user.id, teamId: team.id })
-    const newName = 'New Team Name'
+    const newName = randomUUID()
 
     const app = createApp({
       endpoints: { updateTeam },
       tests: {
         auth: { userId: user.id },
-        team: { teamId: team.id }
+        team: { teamId: team.id, memberRole: 'owner' }
       }
     })
 

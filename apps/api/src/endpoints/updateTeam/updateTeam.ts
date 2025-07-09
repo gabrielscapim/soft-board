@@ -5,7 +5,7 @@ import { assertMemberPermission, getPool } from '../../libs'
 import slugify from 'slugify'
 import { Conflict } from 'http-errors'
 
-type Handler = RequestHandler<undefined, UpdateTeamResult, UpdateTeamCommand>
+type Handler = RequestHandler<unknown, UpdateTeamResult, UpdateTeamCommand>
 
 const schema = yup.object({
   name: yup.string().trim().required('Name is required').max(100, 'Name must be at most 100 characters long')

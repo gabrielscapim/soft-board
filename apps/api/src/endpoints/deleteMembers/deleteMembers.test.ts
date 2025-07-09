@@ -20,7 +20,7 @@ describe('deleteMembers', () => {
       endpoints: { deleteMembers },
       tests: {
         auth: { userId: clientUser.id },
-        team: { teamId: team.id }
+        team: { teamId: team.id, memberRole: 'owner' }
       }
     })
 
