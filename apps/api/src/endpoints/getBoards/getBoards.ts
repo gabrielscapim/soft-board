@@ -16,7 +16,7 @@ const schema = yup.object({
 
 export function handler (): Handler {
   return async (req, res) => {
-    const { q } = schema.validateSync(req.query)
+    const { q } = schema.validateSync(req.body, { abortEarly: false })
     const teamId = req.team!.teamId
 
     const pool = getPool()
