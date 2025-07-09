@@ -1,7 +1,6 @@
 export * from './BoardRoute'
 export * from './ErrorRoute'
 export * from './MembersRoute'
-export * from './RootRoute'
 export * from './SettingsRoute'
 export * from './SignInRoute'
 export * from './BoardsRoute'
