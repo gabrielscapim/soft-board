@@ -5,7 +5,7 @@ import { BoardContextProvider } from './contexts/BoardContext/BoardContextProvid
 import { BoardController, BoardState } from './lib'
 import { useState } from 'react'
 import { AuthenticationGuardLayout, RootLayout, UnauthenticatedGuardLayout } from './components'
-import { ErrorRoute, SignInRoute, BoardsRoute, MembersRoute, SettingsRoute } from './routes'
+import { ErrorRoute, SignInRoute, BoardsRoute, MembersRoute, SettingsRoute, BoardWizard } from './routes'
 import { Toaster } from 'sonner'
 import { AuthenticationProvider, AuthorizationProvider, ClientProvider, TeamProvider } from './contexts'
 import { Client } from './client'
@@ -48,6 +48,17 @@ function App () {
                     <Route path="members" element={<MembersRoute />} />
                     <Route path="settings" element={<SettingsRoute />} />
                   </Route>
+
+                  <Route
+                    path="boards/:boardId"
+                    element={
+                      <TeamProvider>
+                        <AuthorizationProvider>
+                          <BoardWizard />
+                        </AuthorizationProvider>
+                      </TeamProvider>
+                    }
+                  />
                 </Route>
 
                 <Route path="*" element={<ErrorRoute status={404} description="The page you are looking for does not exist." />} />
