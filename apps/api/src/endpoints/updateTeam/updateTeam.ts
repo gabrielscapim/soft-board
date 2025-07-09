@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express'
-import { UpdateTeamCommand } from 'types/endpoints'
+import { UpdateTeamCommand, UpdateTeamResult } from 'types/endpoints'
 import * as yup from 'yup'
 import { getPool } from '../../libs'
 import slugify from 'slugify'
 
-type Handler = RequestHandler<unknown, unknown, UpdateTeamCommand>
+type Handler = RequestHandler<undefined, UpdateTeamResult, UpdateTeamCommand>
 
 const schema = yup.object({
   name: yup.string().trim().required('Name is required').max(100, 'Name must be at most 100 characters long')
@@ -27,6 +27,6 @@ export function handler (): Handler {
       })
       .WHERE`id = ${teamId}`
 
-    res.status(204).end()
+    res.status(200).json({ slug })
   }
 }
