@@ -106,6 +106,10 @@ export class Client {
     return (await this.axios.post<SignInResult>('/signIn', data)).data
   }
 
+  async signOut (): Promise<void> {
+    await this.axios.post('/signOut')
+  }
+
   async updateBoard (data: UpdateBoardCommand): Promise<void> {
     await this.axios.post('/updateBoard', data)
   }
