@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
 import { Skeleton } from '@/components/ui/skeleton'
+import { getAvatarFallbackName } from '@/helpers'
 import { ChevronsUpDown, Plus } from 'lucide-react'
 import { GetTeamsResultData } from 'types/endpoints'
 
@@ -38,7 +39,11 @@ export function TeamSwitcher (props: TeamSwitcherProps) {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <TeamAvatar name={activeTeam.name} />
+              <Avatar>
+                <AvatarFallback>
+                  {getAvatarFallbackName(activeTeam.name)}
+                </AvatarFallback>
+              </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{activeTeam.name}</span>
               </div>
@@ -92,15 +97,5 @@ export function TeamSwitcher (props: TeamSwitcherProps) {
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
-}
-
-function TeamAvatar ({ name }: { name: string }) {
-  return (
-    <Avatar>
-      <AvatarFallback>
-        {name.charAt(0).toUpperCase() + (name.charAt(1)?.toUpperCase() || '')}
-      </AvatarFallback>
-    </Avatar>
   )
 }

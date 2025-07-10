@@ -1,4 +1,5 @@
 export * from './board'
+export * from './message'
 export * from './member'
 export * from './team'
 export * from './user'

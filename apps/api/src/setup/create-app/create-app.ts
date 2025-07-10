@@ -1,13 +1,17 @@
 import cors from 'cors'
 import express, { type Express } from 'express'
+import { asValue, createContainer } from 'awilix'
 import cookieParser from 'cookie-parser'
 import { COOKIE_PARSER_SECRET, CORS_ORIGINS } from '../../constants'
 import { AuthenticationData, Endpoint, TeamData } from '../../types'
 import { errorHandler, setAuth, setTeam } from '../../middlewares'
 import { requireAuth } from '../../middlewares/require-auth'
+import OpenAI from 'openai'
+import { getOpenai } from '../../libs'
 
 export type CreateAppOptions = {
   endpoints?: Endpoint[] | Record<string, Omit<Endpoint, 'path'>>
+  openai?: OpenAI
   tests?: {
     auth?: AuthenticationData
     team?: TeamData
@@ -15,6 +19,12 @@ export type CreateAppOptions = {
 }
 
 export function createApp (options: CreateAppOptions = {}): Express {
+  // Create a new Awilix container for dependency injection
+  const container = createContainer({ strict: true })
+  container.register({
+    openai: asValue(options.openai ?? getOpenai())
+  })
+
   const app = express()
 
   // Set credentials true to allow cookies and other credentials to be sent with requests
@@ -59,7 +69,7 @@ export function createApp (options: CreateAppOptions = {}): Express {
 
     // If endpoint requires authentication, use the requireAuth middleware
     if (auth){
-      app[method](path, requireAuth, handler())
+      app[method](path, requireAuth, handler(container.cradle))
     } else {
       app[method](path, handler())
     }

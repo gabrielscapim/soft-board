@@ -10,6 +10,8 @@ export const ENDPOINTS_DIR = path.join(__dirname, 'endpoints')
 
 export const NODE_ENV = process.env.NODE_ENV || 'development'
 
+export const OPENAI_API_KEY = process.env.OPENAI_API_KEY
+
 export const PASSWORD_SALT_ROUNDS = 12
 
 export const PORT = process.env.PORT || 3000

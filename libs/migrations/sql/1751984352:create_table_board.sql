@@ -4,6 +4,7 @@ CREATE TABLE board (
   title VARCHAR(255),
   author_id UUID REFERENCES "user"(id) ON DELETE SET NULL,
   image VARCHAR(255),
+  step VARCHAR(50) NOT NULL DEFAULT 'init',
   create_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   update_date TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

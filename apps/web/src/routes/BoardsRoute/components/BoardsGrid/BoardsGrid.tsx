@@ -3,7 +3,7 @@ import { BoardCard } from '../BoardCard'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export type BoardsGridProps = {
-  hasPermission: boolean
+  hasPermission?: boolean
   loading?: boolean
   boards?: GetBoardsResultData[]
   handleEdit?: (board: GetBoardsResultData) => void

@@ -32,7 +32,8 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
     res.status(500).json({
       status: 500,
-      title: 'Internal Server Error'
+      title: 'Internal Server Error',
+      detail: 'An unexpected error occurred'
     })
   }
 }

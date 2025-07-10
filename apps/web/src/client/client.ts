@@ -9,13 +9,19 @@ import type {
   DeleteBoardCommand,
   DeleteMemberCommand,
   GetAuthenticatedUserResult,
+  GetBoardQuery,
+  GetBoardResult,
   GetBoardsQuery,
   GetBoardsResult,
   GetCurrentUserRoleResult,
   GetMembersQuery,
   GetMembersResult,
+  GetMessagesQuery,
+  GetMessagesResult,
   GetTeamResult,
   GetTeamsResult,
+  SendMessageCommand,
+  SendMessageResult,
   SignInCommand,
   SignInResult,
   UpdateBoardCommand,
@@ -100,6 +106,10 @@ export class Client {
     return (await this.axios.post<GetAuthenticatedUserResult>('/getAuthenticatedUser')).data
   }
 
+  async getBoard (data: GetBoardQuery): Promise<GetBoardResult> {
+    return (await this.axios.post<GetBoardResult>('/getBoard', data)).data
+  }
+
   async getBoards (data: GetBoardsQuery): Promise<GetBoardsResult> {
     return (await this.axios.post<GetBoardsResult>('/getBoards', data)).data
   }
@@ -112,12 +122,20 @@ export class Client {
     return (await this.axios.post<GetMembersResult>('/getMembers', data)).data
   }
 
+  async getMessages (data: GetMessagesQuery): Promise<GetMessagesResult> {
+    return (await this.axios.post<GetMessagesResult>('/getMessages', data)).data
+  }
+
   async getTeam (): Promise<GetTeamResult> {
     return (await this.axios.post<GetTeamResult>('/getTeam')).data
   }
 
   async getTeams (): Promise<GetTeamsResult> {
     return (await this.axios.post<GetTeamsResult>('/getTeams')).data
+  }
+
+  async sendMessage (data: SendMessageCommand): Promise<SendMessageResult> {
+    return (await this.axios.post<SendMessageResult>('/sendMessage', data)).data
   }
 
   async leaveTeam (): Promise<void> {

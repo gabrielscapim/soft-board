@@ -6,6 +6,7 @@ export type BoardDatabase = {
   title: VARCHAR_255 | null
   authorId: UUID | null
   image: VARCHAR_255 | null
+  step: 'init'
   createDate: TIMESTAMPTZ
   updateDate: TIMESTAMPTZ
 }
