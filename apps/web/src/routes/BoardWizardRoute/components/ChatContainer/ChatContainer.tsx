@@ -1,6 +1,5 @@
 import { GetAuthenticatedUserResult, GetBoardResult, GetMessagesResultData } from 'types/endpoints'
 import { Card } from '@/components/ui/card'
-import { ChatContainerHeader } from './ChatContainerHeader'
 import { ChatMessagesList } from './ChatContainerMessagesList'
 import { ChatContainerInput } from './ChatContainerInput'
 
@@ -17,7 +16,6 @@ export function ChatContainer (props: ChatContainerProps) {
 
   return (
     <Card className="h-full w-2/6 text-sm gap-0 py-0 rounded-none border-t-0">
-      <ChatContainerHeader board={board} />
       <ChatMessagesList
         board={board}
         loading={loading}
