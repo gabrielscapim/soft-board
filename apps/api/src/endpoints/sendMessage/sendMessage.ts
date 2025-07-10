@@ -27,6 +27,11 @@ export function handler ({ openai }: Deps): Handler {
 
     const result = await pool.transaction(async pool => {
       await pool
+        .UPDATE`board`
+        .SET({ updateDate: new Date() })
+        .WHERE`id = ${boardId}`
+
+      await pool
         .INSERT_INTO`message`
         .VALUES({
           teamId,
