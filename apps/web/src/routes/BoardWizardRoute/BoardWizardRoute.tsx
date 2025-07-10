@@ -1,38 +1,59 @@
-import { ChatBubble, ChatBubbleAvatar, ChatBubbleMessage } from '@/components/ui/chat/chat-bubble'
-import { ChatMessageList } from '@/components/ui/chat/chat-message-list'
-import { useSelectedBoard } from '@/hooks'
+import { useAuthentication, useClient, useSelectedBoard } from '@/hooks'
 import { useParams } from 'react-router'
+import { ChatContainer } from './components'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { useState } from 'react'
+import { GetMessagesResultData } from 'types/endpoints'
 
 export function BoardWizardRoute () {
   const params = useParams<{ boardId?: string }>()
   const boardId = params.boardId
   const { board } = useSelectedBoard(boardId)
+  const client = useClient()
+  const { authenticatedUser } = useAuthentication()
+  const [sendingMessage, setSendingMessage] = useState<string | null>(null)
+
+  const sendMessage = useMutation({
+    mutationFn: async (content: string) => {
+      setSendingMessage(content)
+      await client.sendMessage({ boardId: boardId!, content })
+    },
+    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to send message'),
+    onSuccess: () => getMessages.refetch(),
+    onSettled: () => setSendingMessage(null)
+  })
+
+  const getMessages = useQuery({
+    queryKey: ['getMessages', boardId],
+    queryFn: () => client.getMessages({ boardId: boardId! }),
+    enabled: Boolean(boardId)
+  })
+  const messages = getMessages.data?.data ?? []
 
   return (
-    <div>
-      <pre>
-        {JSON.stringify(board, null, 2)}
-      </pre>
-      <ChatMessageList>
-        <ChatBubble variant='sent'>
-          <ChatBubbleAvatar fallback='US' />
-          <ChatBubbleMessage variant='sent'>
-            Hello, how has your day been? I hope you are doing well.
-          </ChatBubbleMessage>
-        </ChatBubble>
-
-        <ChatBubble variant='received'>
-          <ChatBubbleAvatar fallback='AI' />
-          <ChatBubbleMessage variant='received'>
-            Hi, I am doing well, thank you for asking. How can I help you today?
-          </ChatBubbleMessage>
-        </ChatBubble>
-
-        <ChatBubble variant='received'>
-          <ChatBubbleAvatar fallback='AI' />
-          <ChatBubbleMessage isLoading />
-        </ChatBubble>
-      </ChatMessageList>
+    <div className="flex flex-col p-2 w-full">
+      {board && (
+        <ChatContainer
+            board={board}
+            authenticatedUser={authenticatedUser}
+            loading={sendMessage.isPending}
+            messages={
+              sendingMessage
+                ? [
+                    ...messages,
+                    {
+                      id: 'preview',
+                      content: sendingMessage,
+                      author: authenticatedUser,
+                      role: 'user',
+                    } as GetMessagesResultData
+                  ]
+                : messages
+            }
+            onSendMessage={content => sendMessage.mutate(content)}
+          />
+      )}
     </div>
   )
 }
