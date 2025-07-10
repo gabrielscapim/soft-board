@@ -2,7 +2,7 @@ import { useSelectedBoard, useTeam } from '@/hooks'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '../ui/breadcrumb'
 import { Avatar, AvatarFallback } from '../ui/avatar'
 import { Skeleton } from '../ui/skeleton'
-import { useParams } from 'react-router'
+import { Link, useParams } from 'react-router'
 import { getAvatarFallbackName } from '@/helpers'
 import { Separator } from '../ui/separator'
 import clsx from 'clsx'
@@ -15,7 +15,10 @@ export function BoardWizardHeader () {
 
   return (
     <header className="flex flex-row items-center bg-background sticky top-0 shrink-0 border-b p-2 z-50">
-      <div className="text-sm flex flex-row items-center gap-2">
+      <Link
+        className="text-sm flex flex-row items-center gap-2"
+        to={`/${team?.slug}`}
+      >
         <Avatar>
           <AvatarFallback>
             {getAvatarFallbackName(team?.name)}
@@ -24,7 +27,7 @@ export function BoardWizardHeader () {
         <span className={clsx('truncate font-medium', !team?.name && 'opacity-50')}>
           {team?.name ?? 'Untitled Team'}
         </span>
-      </div>
+      </Link>
       <Separator
         orientation="vertical"
         className="mx-4 data-[orientation=vertical]:h-4"
