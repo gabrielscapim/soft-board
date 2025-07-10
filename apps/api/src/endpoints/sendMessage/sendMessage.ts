@@ -1,10 +1,10 @@
-import { SendMessageCommand } from 'types/endpoints'
-import { RequestHandler, Response } from 'express'
+import { SendMessageCommand, SendMessageResult } from 'types/endpoints'
+import { RequestHandler } from 'express'
 import { getPool } from '../../libs'
-import OpenAI from 'openai'
+import OpenAI, { OpenAIError } from 'openai'
 import * as yup from 'yup'
 
-type Handler = RequestHandler<unknown, unknown, SendMessageCommand>
+type Handler = RequestHandler<unknown, SendMessageResult, SendMessageCommand>
 
 type Deps = {
   openai: OpenAI
@@ -23,14 +23,9 @@ export function handler ({ openai }: Deps): Handler {
 
     const pool = getPool()
 
-    const { response, error } = await completeMessageStream(openai, content, res)
+    const { response, error } = await completeMessage(openai, content)
 
-    await pool.transaction(async pool => {
-      await pool
-        .UPDATE`board`
-        .SET({ updateDate: new Date() })
-        .WHERE`id = ${boardId}`
-
+    const result = await pool.transaction(async pool => {
       await pool
         .INSERT_INTO`message`
         .VALUES({
@@ -41,7 +36,7 @@ export function handler ({ openai }: Deps): Handler {
           role: 'user'
         })
 
-      await pool
+      const { rows: [message] } = await pool
         .INSERT_INTO`message`
         .VALUES({
           teamId,
@@ -51,63 +46,56 @@ export function handler ({ openai }: Deps): Handler {
           error
         })
         .RETURNING<{ id: string }>`id`
+
+      return {
+        id: message.id,
+        content: response
+      }
     })
 
-    res.end()
+    res.status(201).json(result)
   }
 }
 
-async function completeMessageStream (
+async function completeMessage (
   openai: OpenAI,
-  content: string,
-  res: Response
-): Promise<{
-  response: string | null
-  error?: { name: string; message: string; stack?: string }
-}> {
+  content: string
+): Promise<{ response: string | null, error?: { name: string, message: string, stack?: string } }> {
   try {
-    // Set headers for SSE (Server-Sent Events)
-    res.status(200)
-    res.setHeader('Content-Type', 'text/event-stream')
-    res.setHeader('Cache-Control', 'no-cache')
-    res.setHeader('Connection', 'keep-alive')
-    res.flushHeaders()
-
-    // Create a stream with OpenAI's chat completion
-    const stream = await openai.chat.completions.create({
-      model: 'gpt-4o',
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4.1',
       messages: [
-        { role: 'system', content: 'You are a helpful assistant.' },
-        { role: 'user',   content }
-      ],
-      stream: true
+        {
+          role: 'system',
+          content: 'You are a helpful assistant.'
+        },
+        {
+          role: 'user',
+          content: content
+        }
+      ]
     })
+    const response = completion.choices[0].message.content
 
-    let response = ''
-
-    // Iterate over the stream and send each chunk to the client
-    for await (const chunk of stream) {
-      const content = chunk.choices[0].delta.content
-
-      if (content) {
-        response += content
-        res.write(content)
-      }
+    return {
+      response
     }
-
-    return { response }
   } catch (error) {
-    const fallback = 'An error occurred while processing your message.'
+    const response = 'An error occurred while processing your message.'
 
-    res.write(fallback)
-
-    if (error instanceof OpenAI.OpenAIError) {
+    if (error instanceof OpenAIError) {
       return {
-        response: fallback,
-        error: { name: error.name, message: error.message, stack: error.stack }
+        response,
+        error: {
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        }
       }
     }
 
-    return { response: fallback }
+    return {
+      response
+    }
   }
 }

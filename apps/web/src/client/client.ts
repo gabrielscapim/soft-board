@@ -21,6 +21,7 @@ import type {
   GetTeamResult,
   GetTeamsResult,
   SendMessageCommand,
+  SendMessageResult,
   SignInCommand,
   SignInResult,
   UpdateBoardCommand,
@@ -133,44 +134,8 @@ export class Client {
     return (await this.axios.post<GetTeamsResult>('/getTeams')).data
   }
 
-  async sendMessage (
-    data: SendMessageCommand,
-    onChunk: (chunk: string) => void
-  ): Promise<void> {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'text/event-stream',
-      ...(this.teamSlug ? { 'team-slug': this.teamSlug } : {})
-    }
-
-    const response = await fetch(
-      `${this.baseUrl}/sendMessage`,
-      {
-        method: 'POST',
-        headers,
-        credentials: 'include',
-        body: JSON.stringify(data)
-      }
-    )
-
-    if (!response.ok || !response.body) {
-      throw new Error('Failed to send message')
-    }
-
-    const reader = response.body.getReader()
-    const decoder = new TextDecoder('utf-8')
-
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const { value, done } = await reader.read()
-
-      if (done) {
-        break
-      }
-
-      const chunk = decoder.decode(value, { stream: true })
-      onChunk(chunk)
-    }
+  async sendMessage (data: SendMessageCommand): Promise<SendMessageResult> {
+    return (await this.axios.post<SendMessageResult>('/sendMessage', data)).data
   }
 
   async leaveTeam (): Promise<void> {

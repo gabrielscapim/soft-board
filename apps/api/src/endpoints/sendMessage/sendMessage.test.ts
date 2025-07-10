@@ -19,12 +19,11 @@ describe('sendMessage', () => {
       // Mock OpenAI client
       const openai = mockDeep<OpenAI>()
       openai.chat.completions.create.mockResolvedValue({
-        [Symbol.asyncIterator]: async function* () {
-          yield { choices: [{ delta: { content: 'This ' } }] }
-          yield { choices: [{ delta: { content: 'is ' } }] }
-          yield { choices: [{ delta: { content: 'a ' } }] }
-          yield { choices: [{ delta: { content: 'response.' } }] }
-        }
+        choices: [{
+          message: {
+            content: 'This is a response from the assistant.'
+          }
+        }]
       } as any)
 
       const app = createApp({
@@ -43,7 +42,7 @@ describe('sendMessage', () => {
           boardId: board.id
         })
 
-      expect(response.text).toBe('This is a response.')
+      expect(response.body.content).toBe('This is a response from the assistant.')
     })
   })
 
@@ -76,7 +75,7 @@ describe('sendMessage', () => {
           boardId: board.id
         })
 
-      expect(response.text).toBe('An error occurred while processing your message.')
+      expect(response.body.content).toBe('An error occurred while processing your message.')
     })
 
     test('save error in the database', async () => {
@@ -100,7 +99,7 @@ describe('sendMessage', () => {
         }
       })
 
-      await request(app)
+      const response = await request(app)
         .post('/sendMessage')
         .send({
           content: 'Hello, assistant!',
@@ -110,9 +109,8 @@ describe('sendMessage', () => {
       const check = await pool
         .SELECT`error`
         .FROM`message`
-        .WHERE`board_id = ${board.id}`
-        .AND`role = 'assistant'`
-        .first()
+        .WHERE`id = ${response.body.id}`
+        .find()
 
       expect(check.error).toBeDefined()
     })
