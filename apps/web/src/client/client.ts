@@ -16,8 +16,11 @@ import type {
   GetCurrentUserRoleResult,
   GetMembersQuery,
   GetMembersResult,
+  GetMessagesQuery,
+  GetMessagesResult,
   GetTeamResult,
   GetTeamsResult,
+  SendMessageCommand,
   SignInCommand,
   SignInResult,
   UpdateBoardCommand,
@@ -118,12 +121,56 @@ export class Client {
     return (await this.axios.post<GetMembersResult>('/getMembers', data)).data
   }
 
+  async getMessages (data: GetMessagesQuery): Promise<GetMessagesResult> {
+    return (await this.axios.post<GetMessagesResult>('/getMessages', data)).data
+  }
+
   async getTeam (): Promise<GetTeamResult> {
     return (await this.axios.post<GetTeamResult>('/getTeam')).data
   }
 
   async getTeams (): Promise<GetTeamsResult> {
     return (await this.axios.post<GetTeamsResult>('/getTeams')).data
+  }
+
+  async sendMessage (
+    data: SendMessageCommand,
+    onChunk: (chunk: string) => void
+  ): Promise<void> {
+    const headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'text/event-stream',
+      ...(this.teamSlug ? { 'team-slug': this.teamSlug } : {})
+    }
+
+    const response = await fetch(
+      `${this.baseUrl}/sendMessage`,
+      {
+        method: 'POST',
+        headers,
+        credentials: 'include',
+        body: JSON.stringify(data)
+      }
+    )
+
+    if (!response.ok || !response.body) {
+      throw new Error('Failed to send message')
+    }
+
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder('utf-8')
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const { value, done } = await reader.read()
+
+      if (done) {
+        break
+      }
+
+      const chunk = decoder.decode(value, { stream: true })
+      onChunk(chunk)
+    }
   }
 
   async leaveTeam (): Promise<void> {
