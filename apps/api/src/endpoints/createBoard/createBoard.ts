@@ -15,6 +15,8 @@ const schema = yup.object({
 // TO-DO - Improve this to accept images from the client
 const IMAGE_IDS = [1, 2, 3, 4, 5, 6, 7, 8]
 
+const ASSISTANT_MESSAGE = 'Hello! I’m your assistant specialized in the StartFlow method, here to help software startups design MVPs quickly, visually, and with a strong focus on user experience.'
+
 export function handler (): Handler {
   return async (req, res) => {
     const teamId = req.team!.teamId
@@ -23,15 +25,28 @@ export function handler (): Handler {
 
     const pool = getPool()
 
-    const { rows: [created] } = await pool
-      .INSERT_INTO`board`
-      .VALUES({
-        teamId,
-        title,
-        authorId: userId,
-        image: IMAGE_IDS[Math.floor(Math.random() * IMAGE_IDS.length)].toString()
-      })
-      .RETURNING<BoardRow>`id`
+    const created = await pool.transaction(async pool => {
+      const { rows: [created] } = await pool
+        .INSERT_INTO`board`
+        .VALUES({
+          teamId,
+          title,
+          authorId: userId,
+          image: IMAGE_IDS[Math.floor(Math.random() * IMAGE_IDS.length)].toString()
+        })
+        .RETURNING<BoardRow>`id`
+
+      await pool
+        .INSERT_INTO`message`
+        .VALUES({
+          teamId,
+          boardId: created.id,
+          content: ASSISTANT_MESSAGE,
+          role: 'assistant'
+        })
+
+      return created
+    })
 
     res.status(201).json({ id: created.id, teamId })
   }
