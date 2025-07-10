@@ -32,13 +32,13 @@ export function handler (): Handler {
         message.send_date AS "sendDate",
         message.create_date AS "createDate",
         message.update_date AS "updateDate",
-        COALESCE(
-          json_build_object(
+        CASE
+          WHEN "user".id IS NULL THEN NULL
+          ELSE json_build_object(
             'userId', "user".id,
             'name', "user".name
-          ),
-          NULL
-        ) AS author`
+          )
+        END AS author`
       .FROM`message`
       .LEFT_JOIN`"user" ON "user".id = message.author_id`
       .WHERE`message.board_id = ${boardId}`
