@@ -43,6 +43,7 @@ export function handler (): Handler {
       .LEFT_JOIN`"user" ON "user".id = message.author_id`
       .WHERE`message.board_id = ${boardId}`
       .AND`message.team_id = ${teamId}`
+      .ORDER_BY`message.send_date ASC`
       .list()
 
     const data = messages.map<GetMessagesResultData>(message => ({
