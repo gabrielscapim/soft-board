@@ -52,6 +52,8 @@ export function handler ({ openai }: Deps): Handler {
         })
         .RETURNING<{ id: string }>`id`
     })
+
+    res.end()
   }
 }
 
@@ -85,23 +87,19 @@ async function completeMessageStream (
 
     // Iterate over the stream and send each chunk to the client
     for await (const chunk of stream) {
-      const token = chunk.choices[0].delta.content
+      const content = chunk.choices[0].delta.content
 
-      if (token) {
-        response += token
-        res.write(token)
+      if (content) {
+        response += content
+        res.write(content)
       }
     }
-
-    // End the response when the stream is complete
-    res.end()
 
     return { response }
   } catch (error) {
     const fallback = 'An error occurred while processing your message.'
 
     res.write(fallback)
-    res.end()
 
     if (error instanceof OpenAI.OpenAIError) {
       return {
