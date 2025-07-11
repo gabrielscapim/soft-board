@@ -40,7 +40,8 @@ export function handler ({ openai }: Deps): Handler {
           boardId,
           authorId: userId,
           content: content,
-          role: 'user'
+          role: 'user',
+          sendDate: new Date()
         })
 
       const { rows: [message] } = await pool
@@ -50,6 +51,7 @@ export function handler ({ openai }: Deps): Handler {
           boardId: boardId,
           content: response ? removeMd(response) : null,
           role: 'assistant',
+          sendDate: new Date(),
           error
         })
         .RETURNING<{ id: string }>`id`
