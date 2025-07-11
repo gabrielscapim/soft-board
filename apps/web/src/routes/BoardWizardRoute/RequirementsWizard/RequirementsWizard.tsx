@@ -1,0 +1,132 @@
+import { useAuthentication, useClient, useSelectedBoard } from '@/hooks'
+import { useParams } from 'react-router'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { useState } from 'react'
+import { GetMessagesResultData, GetRequirementsResultData, UpdateRequirementCommand } from 'types/endpoints'
+import { ChatContainer, RequirementsContainer, DeleteRequirementDialog, EditRequirementDialog } from './components'
+
+export function RequirementsWizard () {
+  const params = useParams<{ boardId?: string }>()
+  const boardId = params.boardId
+  const { board } = useSelectedBoard(boardId)
+  const client = useClient()
+  const { authenticatedUser } = useAuthentication()
+  const [sendingMessage, setSendingMessage] = useState<string | null>(null)
+  const [requirementToDelete, setRequiredToDelete] = useState<GetRequirementsResultData | null>(null)
+  const [requirementToEdit, setRequirementToEdit] = useState<GetRequirementsResultData | null>(null)
+
+  const sendMessage = useMutation({
+    mutationFn: async (content: string) => {
+      setSendingMessage(content)
+      await client.sendMessage({ boardId: boardId!, content })
+    },
+    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to send message'),
+    onSuccess: () => getMessages.refetch(),
+    onSettled: () => setSendingMessage(null)
+  })
+  const createRequirement = useMutation({
+    mutationFn: () => client.createRequirement({ boardId: boardId! }),
+    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to create requirement'),
+    onSuccess: () => {
+      toast.success('Requirement created successfully')
+      getRequirements.refetch()
+    }
+  })
+  const updateRequirement = useMutation({
+    mutationFn: (data: UpdateRequirementCommand) => client.updateRequirement(data),
+    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to update requirement'),
+    onSuccess: () => {
+      toast.success('Requirement updated successfully')
+      getRequirements.refetch()
+      setRequirementToEdit(null)
+    }
+  })
+  const deleteRequirement = useMutation({
+    mutationFn: (requirementId: string) => client.deleteRequirement({ id: requirementId, boardId: boardId! }),
+    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to delete requirement'),
+    onSuccess: () => {
+      getRequirements.refetch()
+      toast.success('Requirement deleted successfully')
+      setRequiredToDelete(null)
+    }
+  })
+
+  const getMessages = useQuery({
+    queryKey: ['getMessages', boardId],
+    queryFn: () => client.getMessages({ boardId: boardId! }),
+    enabled: Boolean(boardId)
+  })
+  const getRequirements = useQuery({
+    queryKey: ['getRequirements', boardId],
+    queryFn: () => client.getRequirements({ boardId: boardId! }),
+    enabled: Boolean(boardId)
+  })
+
+  const messages = getMessages.data?.data ?? []
+  const requirements = getRequirements.data?.data ?? []
+
+  return (
+    <>
+      <div className="w-1/2 bg-card flex flex-col h-full border-r">
+        {board && (
+          <ChatContainer
+            board={board}
+            authenticatedUser={authenticatedUser}
+            loading={sendMessage.isPending}
+            messages={
+              sendingMessage
+                ? [
+                    ...messages,
+                    {
+                      id: 'preview',
+                      content: sendingMessage,
+                      author: authenticatedUser,
+                      role: 'user',
+                    } as GetMessagesResultData
+                  ]
+                : messages
+              }
+              onSendMessage={content => sendMessage.mutate(content)}
+            />
+          )
+        }
+      </div>
+
+      <div className="w-1/2 px-8 py-4 overflow-auto">
+        <RequirementsContainer
+          requirements={requirements}
+          loading={createRequirement.isPending || deleteRequirement.isPending || updateRequirement.isPending}
+          handleCreate={() => createRequirement.mutate()}
+          handleDelete={requirement => setRequiredToDelete(requirement)}
+          handleEdit={requirement => setRequirementToEdit(requirement)}
+        />
+      </div>
+
+      {requirementToDelete && (
+        <DeleteRequirementDialog
+          open={Boolean(requirementToDelete)}
+          onDelete={() => deleteRequirement.mutate(requirementToDelete.id)}
+          onCancel={() => setRequiredToDelete(null)}
+        />
+      )}
+
+      {requirementToEdit && (
+        <EditRequirementDialog
+          requirement={requirementToEdit}
+          open={Boolean(requirementToEdit)}
+          onOpenChange={open => setRequirementToEdit(open ? requirementToEdit : null)}
+          onSave={(title, description) => {
+            updateRequirement.mutate({
+              id: requirementToEdit.id,
+              boardId: boardId!,
+              title,
+              description
+            })
+          }}
+          onCancel={() => setRequirementToEdit(null)}
+        />
+      )}
+    </>
+  )
+}
