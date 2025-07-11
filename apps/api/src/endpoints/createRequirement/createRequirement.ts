@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import { CreateRequirementCommand, CreateRequirementResult } from 'types/endpoints'
 import * as yup from 'yup'
-import { getPool } from '../../libs'
+import { assertMemberPermission, getPool } from '../../libs'
 import { BadRequest } from 'http-errors'
 
 type Handler = RequestHandler<unknown, CreateRequirementResult, CreateRequirementCommand>
@@ -19,6 +19,8 @@ export function handler (): Handler {
     const userId = req.auth?.userId
     const teamId = req.team!.teamId
     const { boardId, title, description } = schema.validateSync(req.body, { abortEarly: false })
+
+    assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can create requirements')
 
     const pool = getPool()
 
