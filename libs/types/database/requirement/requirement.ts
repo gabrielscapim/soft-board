@@ -5,7 +5,8 @@ export type RequirementDatabase = {
   teamId: UUID
   boardId: UUID
   authorId: UUID | null
-  content: TEXT
+  title: TEXT | null
+  description: TEXT | null
   order: INTEGER
   createDate: TIMESTAMPTZ
   updateDate: TIMESTAMPTZ
