@@ -7,7 +7,7 @@ type Handler = RequestHandler<unknown, CreateRequirementResult, CreateRequiremen
 
 const schema = yup.object({
   boardId: yup.string().trim().required('Board ID is required'),
-  title: yup.string().trim().nullable(),
+  title: yup.string().trim().nullable().max(100, 'Title must be at most 100 characters long'),
   description: yup.string().trim().nullable()
 })
 
