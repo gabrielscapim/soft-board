@@ -1,3 +1,4 @@
+export type INTEGER = number
 export type JSONB = Record<string, any>
 export type TEXT = string
 export type TIMESTAMPTZ = Date
