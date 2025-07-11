@@ -26,6 +26,14 @@ export function handler (): Handler {
       .AND`team_id = ${teamId}`
       .find({ error: `Board with ID "${boardId}" not found in team with ID "${teamId}"` })
 
+    const { rows: [max] } = await pool
+      .SELECT<{ order: number }>`MAX("order") AS order`
+      .FROM`requirement`
+      .WHERE`board_id = ${board.id}`
+      .AND`team_id = ${teamId}`
+
+    const order = max?.order ? max.order + 1 : 0
+
     const created = await pool.transaction(async pool => {
       const { rows: [requirement] } = await pool
         .INSERT_INTO`requirement`
@@ -34,7 +42,8 @@ export function handler (): Handler {
           boardId: board.id,
           authorId: userId,
           title,
-          description
+          description,
+          order
         })
         .RETURNING<{ id: string }>`id`
 
