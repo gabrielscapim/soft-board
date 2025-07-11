@@ -3,6 +3,8 @@ import type {
   CreateBoardCommand,
   CreateBoardResult,
   CreateMemberCommand,
+  CreateRequirementCommand,
+  CreateRequirementResult,
   CreateMemberResult,
   CreateTeamCommand,
   CreateTeamResult,
@@ -27,7 +29,11 @@ import type {
   UpdateBoardCommand,
   UpdateMemberRoleCommand,
   UpdateTeamCommand,
-  UpdateTeamResult
+  UpdateTeamResult,
+  DeleteRequirementCommand,
+  GetRequirementsQuery,
+  GetRequirementsResult,
+  UpdateRequirementCommand
 } from 'types/endpoints'
 
 export type ClientOptions = {
@@ -90,6 +96,10 @@ export class Client {
     return (await this.axios.post<CreateMemberResult>('/createMember', data)).data
   }
 
+  async createRequirement (data: CreateRequirementCommand): Promise<CreateRequirementResult> {
+    return (await this.axios.post<CreateRequirementResult>('/createRequirement', data)).data
+  }
+
   async createTeam (data: CreateTeamCommand): Promise<CreateTeamResult> {
     return (await this.axios.post<CreateTeamResult>('/createTeam', data)).data
   }
@@ -100,6 +110,10 @@ export class Client {
 
   async deleteMember (data: DeleteMemberCommand): Promise<void> {
     await this.axios.post('/deleteMember', data)
+  }
+
+  async deleteRequirement (data: DeleteRequirementCommand): Promise<void> {
+    await this.axios.post('/deleteRequirement', data)
   }
 
   async getAuthenticatedUser (): Promise<GetAuthenticatedUserResult> {
@@ -124,6 +138,10 @@ export class Client {
 
   async getMessages (data: GetMessagesQuery): Promise<GetMessagesResult> {
     return (await this.axios.post<GetMessagesResult>('/getMessages', data)).data
+  }
+
+  async getRequirements (data: GetRequirementsQuery): Promise<GetRequirementsResult> {
+    return (await this.axios.post<GetRequirementsResult>('/getRequirements', data)).data
   }
 
   async getTeam (): Promise<GetTeamResult> {
@@ -156,6 +174,10 @@ export class Client {
 
   async updateMemberRole (data: UpdateMemberRoleCommand): Promise<void> {
     await this.axios.post('/updateMemberRole', data)
+  }
+
+  async updateRequirement (data: UpdateRequirementCommand): Promise<void> {
+    await this.axios.post('/updateRequirement', data)
   }
 
   async updateTeam (data: UpdateTeamCommand): Promise<UpdateTeamResult> {
