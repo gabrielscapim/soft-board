@@ -177,7 +177,7 @@
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #c0a0b9;
+    background: oklch(74.443% 0.00008 271.152);
   }
 
   .scrollbar:hover::-webkit-scrollbar {
