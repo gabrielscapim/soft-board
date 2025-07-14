@@ -68,7 +68,7 @@ export function RequirementsWizard () {
 
   return (
     <>
-      <div className="w-1/2 bg-card flex flex-col h-full border-r">
+      <div className="w-8/12 bg-card flex flex-col h-full border-r text-sm">
         {board && (
           <ChatContainer
             board={board}
@@ -93,7 +93,7 @@ export function RequirementsWizard () {
         }
       </div>
 
-      <div className="w-1/2 px-8 py-4 overflow-auto">
+      <div className="w-4/12 p-4 overflow-auto scrollbar">
         <RequirementsContainer
           requirements={requirements}
           loading={createRequirement.isPending || deleteRequirement.isPending || updateRequirement.isPending}
