@@ -79,9 +79,10 @@ export type UpdateFlexComponentParams = {
 
 export interface BoardManagerI {
   addFlexComponents (params: AddFlexComponentsParams): void
+  onChangeBoardMoving (params: OnChangeBoardMovingParams): void
   onClickOutsideOfFlexComponent (): void
   onDeleteFlexComponents (params: OnDeleteFlexComponentsParams): void
-  onChangeBoardMoving (params: OnChangeBoardMovingParams): void
+  onDeselectFlexComponents (): void
   onDraggingFlexComponent (params: OnDraggingFlexComponentParams): void
   onEndDragFlexComponent (): void
   onEndResizeFlexComponent (): void

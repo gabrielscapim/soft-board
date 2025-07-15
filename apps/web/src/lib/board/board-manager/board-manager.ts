@@ -16,9 +16,6 @@ import { Dimensions, Offset } from '../../../types'
 
 const DISTANCE_TO_BREAK_SNAP = 5
 
-/**
- * Class responsible for changing the attributes of the BoardState class.
- */
 export class BoardManager implements BoardManagerI {
   private _boardState: BoardState
   private _initialFlexComponentProperties: Map<string, Dimensions & Offset> | null
