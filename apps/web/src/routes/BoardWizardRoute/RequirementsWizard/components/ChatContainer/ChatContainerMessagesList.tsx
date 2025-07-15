@@ -2,6 +2,7 @@ import { ChatBubble, ChatBubbleAvatar, ChatBubbleMessage } from '@/components/ui
 import { ChatMessageList } from '@/components/ui/chat/chat-message-list'
 import { getAvatarFallbackName, getRootImage } from '@/helpers'
 import { GetAuthenticatedUserResult, GetBoardResult, GetMessagesResultData } from 'types/endpoints'
+import removeMd from 'remove-markdown'
 
 export type ChatMessagesListProps = {
   board: GetBoardResult
@@ -16,19 +17,27 @@ export function ChatMessagesList (props: ChatMessagesListProps) {
   return (
     <div className="w-full overflow-y-hidden h-full flex flex-col">
       <ChatMessageList>
-        {messages.map(message => (
-          <ChatBubble
-            key={message.id}
-            variant={message.author?.userId === authenticatedUser?.userId ? 'sent' : 'received'}
-          >
-            <ChatBubbleAvatar
-              fallback={getAvatarFallbackName(message.author?.name)}
-              src={message.author ? undefined : getRootImage(board.image)}
-            />
-            <ChatBubbleMessage variant={message.author?.userId === authenticatedUser?.userId ? 'sent' : 'received'}>
-              {message.content}
-            </ChatBubbleMessage>
-          </ChatBubble>
+        {messages
+          .filter(message =>
+            message.content &&
+            message.role !== 'system' &&
+            message.role !== 'tool' &&
+            message.toolCalls === null &&
+            message.toolCallId === null
+          )
+          .map(message => (
+            <ChatBubble
+              key={message.id}
+              variant={message.author?.userId === authenticatedUser?.userId ? 'sent' : 'received'}
+            >
+              <ChatBubbleAvatar
+                fallback={getAvatarFallbackName(message.author?.name)}
+                src={message.author ? undefined : getRootImage(board.image)}
+              />
+              <ChatBubbleMessage variant={message.author?.userId === authenticatedUser?.userId ? 'sent' : 'received'}>
+                {message.content ? removeMd(message.content) : ''}
+              </ChatBubbleMessage>
+            </ChatBubble>
         ))}
 
         {loading && (
