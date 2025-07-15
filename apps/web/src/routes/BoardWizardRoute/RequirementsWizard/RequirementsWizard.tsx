@@ -24,8 +24,10 @@ export function RequirementsWizard () {
     onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to send message'),
     onSuccess: async (result) => {
       await getMessages.refetch()
+
+      const actionTools = ['create_requirement', 'update_requirement_by_id', 'delete_requirement_by_id']
       const hasRequirementAction = result.messages.some(message => (
-        message.toolCalls?.some(toolCall => toolCall.function.name === 'create_requirement' || toolCall.function.name === 'update_requirement_by_id')
+        message.toolCalls?.some(({ function: { name } }) => actionTools.includes(name))
       ))
 
       if (hasRequirementAction) {
