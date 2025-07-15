@@ -27,6 +27,7 @@ import type {
   SignInCommand,
   SignInResult,
   UpdateBoardCommand,
+  UpdateBoardStepCommand,
   UpdateMemberRoleCommand,
   UpdateTeamCommand,
   UpdateTeamResult,
@@ -170,6 +171,10 @@ export class Client {
 
   async updateBoard (data: UpdateBoardCommand): Promise<void> {
     await this.axios.post('/updateBoard', data)
+  }
+
+  async updateBoardStep (data: UpdateBoardStepCommand): Promise<void> {
+    await this.axios.post('/updateBoardStep', data)
   }
 
   async updateMemberRole (data: UpdateMemberRoleCommand): Promise<void> {
