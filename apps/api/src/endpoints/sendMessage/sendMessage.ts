@@ -1,16 +1,18 @@
-import { SendMessageCommand, SendMessageResult } from 'types/endpoints'
+import { SendMessageResultMessage, SendMessageCommand, SendMessageResult } from 'types/endpoints'
 import { RequestHandler } from 'express'
-import { getPool } from '../../libs'
+import { getPool, logger } from '../../libs'
 import OpenAI, { OpenAIError } from 'openai'
 import * as yup from 'yup'
 import { DatabasePool } from 'pg-script'
-import { ChatCompletionMessageParam } from 'openai/resources/index'
-import { MessageDatabase } from 'types/database'
-import removeMd from 'remove-markdown'
+import { ChatCompletionMessageParam, ChatCompletionMessageToolCall } from 'openai/resources/index'
+import { BoardDatabase, MessageDatabase } from 'types/database'
+import { CreateRequirementTool, DeleteRequirementByIdTool, GetRequirementsTool, REQUIREMENTS_AGENT_PROMPT, StartFlowAgent, Tool, UpdateRequirementByIdTool } from './startflow-agent'
 
 type Handler = RequestHandler<unknown, SendMessageResult, SendMessageCommand>
 
-type MessageRow = Pick<MessageDatabase, 'role' | 'content'> & { userName: string | null }
+type MessageRow = Pick<MessageDatabase, 'role' | 'content' | 'toolCallId' | 'toolCalls'> & { userName: string | null }
+
+type BoardRow = Pick<BoardDatabase, 'id' | 'step'>
 
 type Deps = {
   openai: OpenAI
@@ -21,6 +23,8 @@ const schema = yup.object({
   boardId: yup.string().required('Board ID is required')
 })
 
+const DEFAULT_ERROR_MESSAGE = 'An error occurred while processing your message.'
+
 export function handler ({ openai }: Deps): Handler {
   return async (req, res) => {
     const { content, boardId } = await schema.validate(req.body, { abortEarly: false })
@@ -29,10 +33,49 @@ export function handler ({ openai }: Deps): Handler {
 
     const pool = getPool()
 
+    const board = await pool
+      .SELECT<BoardRow>`id, step`
+      .FROM`board`
+      .WHERE`id = ${boardId}`
+      .AND`team_id = ${teamId}`
+      .find({ error: `Board with id ${boardId} not found` })
+
     const history = await getHistory(pool, boardId)
-    const { response, error } = await completeMessage(openai, content, history)
+    const tools = getTools(board, pool)
+    const prompt = getPrompt(board)
+
+    const agent = new StartFlowAgent({
+      openai,
+      history,
+      prompt,
+      tools
+    })
+
+    const responseMessages: Array<ChatCompletionMessageParam> = []
+    let agentError: { name: string; message: string; stack?: string } | null = null
+
+    try {
+      responseMessages.push(...await agent.run(content))
+    } catch (error) {
+      if (error instanceof OpenAIError) {
+        agentError = {
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        }
+      }
+
+      logger.error({ error }, 'Error while running StartFlowAgent')
+
+      responseMessages.push({
+        role: 'assistant',
+        content: DEFAULT_ERROR_MESSAGE
+      })
+    }
 
     const result = await pool.transaction(async pool => {
+      const result: SendMessageResultMessage[] = []
+
       await pool
         .INSERT_INTO`message`
         .VALUES({
@@ -40,27 +83,48 @@ export function handler ({ openai }: Deps): Handler {
           boardId,
           authorId: userId,
           content: content,
-          role: 'user'
+          role: 'user',
+          sendDate: new Date()
         })
 
-      const { rows: [message] } = await pool
-        .INSERT_INTO`message`
-        .VALUES({
-          teamId,
-          boardId: boardId,
-          content: response ? removeMd(response) : null,
-          role: 'assistant',
-          error
-        })
-        .RETURNING<{ id: string }>`id`
+      for (const message of responseMessages) {
+        const { rows: [created] } = await pool
+          .INSERT_INTO<{ id: string }>`message`
+          .VALUES({
+            teamId,
+            boardId,
+            content: message.content ?? null,
+            role: message.role,
+            sendDate: new Date(),
+            toolCalls: message.role === 'assistant' ? JSON.stringify(message.tool_calls) : null,
+            toolCallId: message.role === 'tool' ? message.tool_call_id : null,
+            error: agentError
+          })
+          .RETURNING`id`
 
-      return {
-        id: message.id,
-        content: response
+        const toolCalls = message.role === 'assistant'
+          ? message.tool_calls?.map(toolCall => ({
+            id: toolCall.id,
+            type: toolCall.type,
+            function: {
+              name: toolCall.function.name,
+              arguments: JSON.parse(toolCall.function.arguments)
+            }
+          }))
+          : null
+
+        result.push({
+          id: created.id,
+          role: message.role as SendMessageResultMessage['role'],
+          content: typeof message.content === 'string' ? message.content : null,
+          toolCalls: toolCalls ?? null
+        })
       }
+
+      return result
     })
 
-    res.status(201).json(result)
+    res.status(200).json({ messages: result })
   }
 }
 
@@ -72,72 +136,79 @@ async function getHistory (
     .SELECT<MessageRow>`
       message.role,
       message.content,
+      message.tool_call_id AS "toolCallId",
+      message.tool_calls AS "toolCalls",
       "user".name as "userName"`
     .FROM`message`
     .WHERE`board_id = ${boardId}`
     .LEFT_JOIN`"user" ON "user".id = message.author_id`
     .ORDER_BY`send_date ASC`
-    .LIMIT(10)
     .list()
 
-  const history = messages.map(message => {
-    return {
-      role: message.role,
-      content: message.content,
-      name: message.userName ?? undefined
+  const history = messages.map<ChatCompletionMessageParam>(message => {
+    if (message.role === 'user') {
+      const result: ChatCompletionMessageParam = {
+        role: 'user',
+        content: message.content ?? '',
+        name: message.userName ?? undefined
+      }
+
+      return result
     }
-  }) as Array<ChatCompletionMessageParam>
+
+    if (message.role === 'assistant') {
+      const result: ChatCompletionMessageParam = {
+        role: 'assistant',
+        content: message.content ?? '',
+        tool_calls: (message.toolCalls as Array<ChatCompletionMessageToolCall>)?.map(toolCall => ({
+          id: toolCall.id,
+          type: 'function',
+          function: {
+            name: toolCall.function.name,
+            arguments: JSON.stringify(toolCall.function.arguments)
+          }
+        }))
+      }
+
+      return result
+    }
+
+    if (message.role === 'tool') {
+      const result: ChatCompletionMessageParam = {
+        role: 'tool',
+        content: message.content ?? '',
+        tool_call_id: message.toolCallId!
+      }
+
+      return result
+    }
+
+    throw new Error(`Unknown message role: ${message.role}`)
+  })
 
   return history
 }
 
-async function completeMessage (
-  openai: OpenAI,
-  content: string,
-  history: Array<ChatCompletionMessageParam>
-): Promise<{ response: string | null, error?: { name: string, message: string, stack?: string } }> {
-  const messages: Array<ChatCompletionMessageParam> = [
-    {
-      role: 'system',
-      content: PROMPT
-    },
-    ...history,
-    {
-      role: 'user',
-      content: content
-    }
-  ]
-
-  try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4.1',
-      messages
-    })
-    const response = completion.choices[0].message.content
-
-    return {
-      response
-    }
-  } catch (error) {
-    const response = 'An error occurred while processing your message.'
-
-    if (error instanceof OpenAIError) {
-      return {
-        response,
-        error: {
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        }
-      }
-    }
-
-    return {
-      response
-    }
+function getTools (
+  board: BoardRow,
+  pool: DatabasePool
+): Tool[] {
+  if (board.step === 'init') {
+    return [
+      new CreateRequirementTool({ boardId: board.id, pool }),
+      new DeleteRequirementByIdTool({ boardId: board.id, pool }),
+      new GetRequirementsTool({ boardId: board.id, pool }),
+      new UpdateRequirementByIdTool({ boardId: board.id, pool })
+    ]
   }
+
+  return []
 }
 
-// eslint-disable-next-line no-useless-escape
-const PROMPT = 'You are an expert agent in the StartFlow method, designed to support software startups in building MVPs using wireflows (a combination of wireframes and user flows). Your role is to guide the user through three main stages, always focused on UX, speed, and low cost. Below are your operational instructions:\n\nSTAGE 1: UNDERSTAND AND ORGANIZE FEATURES\nGoal: Help the user identify and prioritize features to represent visually.\n- Ask if the user already has any artifacts (post-its, backlog, documents, etc.).\n- If not, use the questions below to help identify features.\n- Encourage the user story structure: \"As a [user type], I want [goal], so that [benefit]\".\n- Request feature prioritization.\n\nQuestion prompts for identifying features:\n- On a first contact with the application, what tasks should the user be able to perform?\n- For returning users, what tasks should they be able to execute?\n- What market demand does the application aim to meet? How?\n- Are there competitors? What tasks are similar? What is innovative?\n\nQuestion prompts for organizing features:\n- Have the relevant features been selected?\n- Is there any other feature that could be used right now?\n- What is the most important feature? And the next one?\n\nSTAGE 2: BUILD THE WIREFLOWS\nGoal: Create visual representations (wireflows) of each prioritized feature.\n- Help the user create the flows using:\n  • Layouts: fields, lists, sliders, etc.\n  • Triggers: buttons, icons, links.\n  • Connectors: arrows between screens.\n- Allow digital tools (e.g., Figma) or pen and paper.\n- Suggest using design standards like Material Design and Apple HIG.\n\nQuestion prompts:\n- How many screens are needed for this feature?\n- What UI elements should be on each screen?\n- What screen does the trigger lead to?\n- What happens if the user enters invalid data?\n- Can the user go back to a previous screen?\n- Can this task be done with fewer clicks?\n- What happens when the task is completed?\n\nSTAGE 3: VERIFY AND REFINE THE WIREFLOWS\nGoal: Evaluate and improve the wireflows to ensure good UX.\n- Review the flows with the user using the criteria below.\n- Refine before moving to the next feature.\n- If possible, encourage validation with real users.\n\nEvaluation criteria:\n1. Efficiency: Does each screen have at least one trigger?\n2. Feedback: Is there a screen confirming task completion?\n3. Clarity (text): Are textual triggers clearly described?\n4. Clarity (icons): Do icon-based triggers clearly communicate their action?\n5. Error prevention: Are required fields marked?\n6. Error recovery: Are errors handled with appropriate screens?\n7. Flexibility: Can users undo actions or go back?\n8. Consistency: Do all connectors originate from triggers?\n\nFINAL RESULT\nBy the end of the process, the user will have a refined set of wireflows that visually represent MVP functionalities, ready for prototyping or validation. You should continue iterating with the user as new features are defined.'
+function getPrompt (board: BoardRow): string {
+  if (board.step === 'init') {
+    return REQUIREMENTS_AGENT_PROMPT
+  }
 
+  return 'You are a helpful assistant.'
+}

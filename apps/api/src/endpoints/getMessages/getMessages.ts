@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import { MessageDatabase } from 'types/database'
-import { GetMessagesQuery, GetMessagesResult, GetMessagesResultData } from 'types/endpoints'
+import { GetMessagesQuery, GetMessagesResult, GetMessagesResultData, GetMessagesResultToolCall } from 'types/endpoints'
 import * as yup from 'yup'
 import { getPool } from '../../libs'
 
@@ -52,7 +52,7 @@ export function handler (): Handler {
       content: message.content,
       role: message.role,
       toolCallId: message.toolCallId,
-      toolCalls: message.toolCalls,
+      toolCalls: message.toolCalls as GetMessagesResultToolCall[] | null,
       author: message.author ? {
         userId: message.author.userId,
         name: message.author.name

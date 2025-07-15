@@ -7,6 +7,15 @@ export type GetMessagesResultAuthor = {
   name: string
 }
 
+export type GetMessagesResultToolCall = {
+  id: string
+  type: 'function'
+  function: {
+    name: string
+    arguments: string
+  }
+}
+
 export type GetMessagesResultData = {
   id: string
   boardId: string
@@ -14,7 +23,7 @@ export type GetMessagesResultData = {
   content: string | null
   role: 'assistant' | 'user' | 'tool' | 'system'
   toolCallId: string | null
-  toolCalls: Record<string, any> | null
+  toolCalls: GetMessagesResultToolCall[] | null
   sendDate: string
   createDate: string
   updateDate: string

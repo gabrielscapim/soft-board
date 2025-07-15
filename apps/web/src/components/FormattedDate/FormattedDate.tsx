@@ -1,7 +1,7 @@
 import clsx from 'clsx'
-import { formatDate } from 'date-fns/format'
+import { differenceInHours, formatDistanceToNow, format as dfFormat } from 'date-fns'
 import { isValid } from 'date-fns/isValid'
-import { ptBR } from 'date-fns/locale/pt-BR'
+import { enUS } from 'date-fns/locale'
 import { ReactNode } from 'react'
 
 export type FormattedDateProps = {
@@ -21,13 +21,24 @@ export function FormattedDate (props: FormattedDateProps) {
     return fallback
   }
 
-  const formatted = formatDate(value, format, { locale: format === 'EEEE' ? undefined : ptBR })
+  const now = new Date()
+  const diffHours = differenceInHours(now, value)
+
+  let label: string
+
+  if (diffHours < 1) {
+    label = formatDistanceToNow(value, { locale: enUS, addSuffix: true })
+  } else if (diffHours < 24) {
+    label = formatDistanceToNow(value, { locale: enUS, addSuffix: true })
+  } else {
+    label = dfFormat(value, format, { locale: enUS })
+  }
 
   return (
     <span
       className={clsx(className, 'whitespace-nowrap')}
     >
-      {formatted}
+      {label}
     </span>
   )
 }

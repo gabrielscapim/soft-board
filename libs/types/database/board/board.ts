@@ -1,4 +1,4 @@
-import { TIMESTAMPTZ, UUID, VARCHAR_255 } from '../common'
+import { TIMESTAMPTZ, UUID, VARCHAR_255, VARCHAR_50 } from '../common'
 
 export type BoardDatabase = {
   id: UUID
@@ -6,7 +6,7 @@ export type BoardDatabase = {
   title: VARCHAR_255 | null
   authorId: UUID | null
   image: VARCHAR_255 | null
-  step: 'init'
+  step: VARCHAR_50
   createDate: TIMESTAMPTZ
   updateDate: TIMESTAMPTZ
 }

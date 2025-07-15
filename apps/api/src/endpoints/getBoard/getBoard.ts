@@ -43,7 +43,7 @@ export function handler (): Handler {
     const result: GetBoardResult = {
       id: board.id,
       title: board.title,
-      step: board.step,
+      step: board.step as GetBoardResult['step'],
       image: board.image,
       createDate: board.createDate.toISOString(),
       updateDate: board.updateDate.toISOString(),

@@ -159,3 +159,28 @@
     --sidebar-ring: oklch(0.439 0 0);
   }
 }
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 7px;
+    height: 5px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: transparent;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: oklch(89.221% 0.00107 11.943);
+    border-radius: 100vh;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: oklch(74.443% 0.00008 271.152);
+  }
+
+  .scrollbar:hover::-webkit-scrollbar {
+    display: block;
+  }
+}
