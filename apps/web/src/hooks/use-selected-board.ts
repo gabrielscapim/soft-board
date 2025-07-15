@@ -13,6 +13,7 @@ export function useSelectedBoard (boardId?: string) {
   return {
     board: getBoard.data,
     loading: getBoard.isLoading,
-    error: getBoard.error
+    error: getBoard.error,
+    refetch: getBoard.refetch
   }
 }
