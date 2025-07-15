@@ -28,11 +28,11 @@ export function RequirementCard (props: RequirementCardProps) {
         <CardDescription className="text-xs">
           {requirement.description ? requirement.description : <span className="opacity-30">No description provided</span>}
         </CardDescription>
-        <CardAction className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <CardAction className="flex gap-1 flex-col opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <Button
             variant="ghost"
             size="icon"
-            className="size-7 mr-2"
+            className="size-7"
             disabled={loading}
             onClick={handleEdit}
           >
