@@ -26,7 +26,7 @@ export class GetRequirementsTool extends Tool {
     }
 
     const response = requirements.reduce((acc, req) => {
-      return acc + `### ${req.title} (ID: ${req.id})\n${req.description}\n\n`
+      return acc + `### ${req.title ?? 'Unnamed'} (ID: ${req.id})\n${req.description ?? 'No description'}\n\n`
     }, '')
 
     return response
