@@ -8,7 +8,7 @@ export type MessageDatabase = {
   content: TEXT | null
   role: 'assistant' | 'user' | 'tool' | 'system'
   toolCallId: UUID | null
-  toolCalls: JSONB | null
+  toolCalls: JSONB[] | null
   sendDate: TIMESTAMPTZ
   createDate: TIMESTAMPTZ
   updateDate: TIMESTAMPTZ
