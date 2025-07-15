@@ -1,5 +1,4 @@
-import { FlexComponent, Offset } from '../../types'
-import { UUID } from '../../types/common/uuid'
+import { FlexComponent, Offset } from '../../../types'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import { getAlignmentBoardGuides } from '../get-alignment-board-guides'
@@ -141,14 +140,16 @@ export class DraggableBoard {
         }
       }
 
-      this._boardManager.onDraggingFlexComponent({
-        id: this._selectedElement?.id as UUID,
-        properties: {
-          roundedDeltaX: deltaX,
-          roundedDeltaY: deltaY,
-        },
-        snap
-      })
+      if (this._selectedElement) {
+        this._boardManager.onDraggingFlexComponent({
+          id: this._selectedElement?.id,
+          properties: {
+            roundedDeltaX: deltaX,
+            roundedDeltaY: deltaY,
+          },
+          snap
+        })
+      }
     }
   }
 
@@ -168,7 +169,7 @@ export class DraggableBoard {
 
       this._selectedElement = draggableGroupElement
       this._offset = this.getMousePosition(event)
-      this._boardManager.onStartDragFlexComponent({ id: draggableGroupElement.id as UUID, event, clickedInsideGroup })
+      this._boardManager.onStartDragFlexComponent({ id: draggableGroupElement.id, event, clickedInsideGroup })
 
       return
     }

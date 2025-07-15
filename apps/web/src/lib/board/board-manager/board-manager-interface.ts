@@ -1,13 +1,12 @@
-import { FlexComponent } from '../../types'
-import { Guide } from '../../types'
-import { UUID } from '../../types/common/uuid'
+import { FlexComponent } from '../../../types'
+import { Guide } from '../../../types'
 
 export type AddFlexComponentsParams = {
   flexComponents: FlexComponent[]
 }
 
 export type OnDeleteFlexComponentsParams = {
-  flexComponents: UUID[]
+  flexComponents: string[]
 }
 
 export type OnChangeBoardMovingParams = {
@@ -15,7 +14,7 @@ export type OnChangeBoardMovingParams = {
 }
 
 export type OnDraggingFlexComponentParams = {
-  id: UUID
+  id: string
   properties: {
     roundedDeltaX: number
     roundedDeltaY: number
@@ -65,7 +64,7 @@ export type OnScaleChangeParams = {
 
 export type OnStartDragFlexComponentParams = {
   event: MouseEvent
-  id?: UUID | null
+  id?: string | null
   clickedInsideGroup?: boolean
 }
 

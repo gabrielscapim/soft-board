@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { UUID } from '../../../../types/common'
 import { IconFlexComponent } from './Icon'
 import { iconFlexComponentSchema } from '../schema'
 
@@ -24,7 +23,7 @@ type Story = StoryObj<typeof meta>
 export const Primary: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Icon',
       type: 'icon',
       properties: {
@@ -38,7 +37,7 @@ export const Primary: Story = {
 export const Secondary: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Icon',
       type: 'icon',
       properties: {

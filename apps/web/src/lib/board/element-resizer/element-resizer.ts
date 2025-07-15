@@ -1,4 +1,4 @@
-import { FlexComponent, Guide, Offset, ResizeDirection } from '../../types'
+import { FlexComponent, Guide, Offset, ResizeDirection } from '../../../types'
 import { BoardManager } from '../board-manager'
 import { OnResizingFlexComponentParams } from '../board-manager/board-manager-interface'
 import { BoardState } from '../board-state'

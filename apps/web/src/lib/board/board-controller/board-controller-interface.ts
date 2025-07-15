@@ -3,7 +3,7 @@ import {
   FlexComponentProperties,
   FlexComponentType,
   Offset
-} from '../../types'
+} from '../../../types'
 
 export type OnAddFlexComponentParams = {
   type: FlexComponentType

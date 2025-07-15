@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardFooter } from '@/components/ui/card'
 import { FLEX_COMPONENTS_ELEMENTS } from '@/flex-components'
-import { FlexComponentProperties, FlexComponentType, UUID } from '@/types'
+import { FlexComponentProperties, FlexComponentType } from '@/types'
 import { createElement } from 'react'
 import { v4 as uuid } from 'uuid'
 
@@ -44,7 +44,7 @@ export function BoardComponentCardPreview (props: BoardComponentCardPreviewProps
           >
             {createElement(FLEX_COMPONENTS_ELEMENTS[type as FlexComponentType], {
               component: {
-                id: uuid() as UUID,
+                id: uuid(),
                 name,
                 type: type as FlexComponentType,
                 properties: {

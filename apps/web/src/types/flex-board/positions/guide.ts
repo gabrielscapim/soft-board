@@ -1,12 +1,10 @@
-import { UUID } from '../../common'
-
 export type GuideDistance = 'primary' | 'secondary'
 
 export type GuideSnap = 'start' | 'center' | 'end'
 
 export type Guide = {
   componentToAlign: {
-    id: UUID
+    id: string
   }
   distance: GuideDistance
   lineGuide: number

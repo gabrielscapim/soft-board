@@ -12,8 +12,7 @@ import {
   UpdateFlexComponentParams
 } from './board-manager-interface'
 import { BoardState } from '../board-state'
-import { Dimensions, Offset } from '../../types'
-import { UUID } from '../../types/common/uuid'
+import { Dimensions, Offset } from '../../../types'
 
 const DISTANCE_TO_BREAK_SNAP = 5
 
@@ -22,7 +21,7 @@ const DISTANCE_TO_BREAK_SNAP = 5
  */
 export class BoardManager implements BoardManagerI {
   private _boardState: BoardState
-  private _initialFlexComponentProperties: Map<UUID, Dimensions & Offset> | null
+  private _initialFlexComponentProperties: Map<string, Dimensions & Offset> | null
 
   constructor (boardState: BoardState) {
     this._boardState = boardState
@@ -325,7 +324,7 @@ export class BoardManager implements BoardManagerI {
 
   onStartDragFlexComponent (params: OnStartDragFlexComponentParams) {
     const currentSelection = this._boardState.selectedFlexComponents ?? []
-    let newSelection: UUID[] = []
+    let newSelection: string[] = []
 
     if (params.clickedInsideGroup && params.id) {
       newSelection = currentSelection
@@ -347,7 +346,7 @@ export class BoardManager implements BoardManagerI {
       newSelection = Array.from(new Set([...currentSelection, params.id]))
     }
 
-    const initialProperties = new Map<UUID, Dimensions & Offset>()
+    const initialProperties = new Map<string, Dimensions & Offset>()
 
     for (const selectedId of newSelection) {
       const component = this._boardState.flexComponents.find(flexComponent => flexComponent.id === selectedId)
@@ -373,7 +372,7 @@ export class BoardManager implements BoardManagerI {
       return
     }
 
-    const initialProperties = new Map<UUID, Dimensions & Offset>()
+    const initialProperties = new Map<string, Dimensions & Offset>()
 
     for (const id of selected) {
       const selectedFlexComponent = this._boardState.flexComponents.find(flexComponent => flexComponent.id === id)

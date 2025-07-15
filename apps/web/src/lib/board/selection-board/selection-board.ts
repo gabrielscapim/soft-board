@@ -1,4 +1,4 @@
-import { Offset } from '../../types'
+import { Offset } from '../../../types'
 import { BoardState } from '../board-state'
 
 export class SelectionBoard {

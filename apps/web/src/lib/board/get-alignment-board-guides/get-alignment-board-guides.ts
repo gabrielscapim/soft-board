@@ -1,14 +1,13 @@
-import { PRIMARY_GUIDE_DISTANCE_TO_SNAP, SECONDARY_GUIDE_DISTANCE_TO_SNAP } from '../../helpers'
-import { FlexComponent, FlexComponentProperties } from '../../types'
-import { Guide } from '../../types'
-import { UUID } from '../../types/common/uuid'
+import { PRIMARY_GUIDE_DISTANCE_TO_SNAP, SECONDARY_GUIDE_DISTANCE_TO_SNAP } from '../../../helpers'
+import { FlexComponent, FlexComponentProperties } from '../../../types'
+import { Guide } from '../../../types'
 import { getComponentsLineGuidesStops, getDraggingSnappingEdges } from './_methods'
 
 type GetAlignmentBoardGuidesParams = {
   flexComponents: FlexComponent[]
-  selectedFlexComponents: UUID[]
+  selectedFlexComponents: string[]
   dragging: {
-    id: UUID | null
+    id: string | null
     properties: FlexComponentProperties
   }
 }

@@ -1,11 +1,11 @@
-import { SECONDARY_GUIDE_DISTANCE_TO_SNAP } from '../../../helpers'
-import { FlexComponent, UUID, FlexComponentProperties } from '../../../types'
+import { SECONDARY_GUIDE_DISTANCE_TO_SNAP } from '../../../../helpers'
+import { FlexComponent, FlexComponentProperties } from '../../../../types'
 
 type GetComponentsLineGuidesStopsParams = {
   flexComponents: FlexComponent[]
-  selectedFlexComponents: UUID[]
+  selectedFlexComponents: string[]
   dragging: {
-    id: UUID | null
+    id: string | null
     properties: FlexComponentProperties
   }
 }

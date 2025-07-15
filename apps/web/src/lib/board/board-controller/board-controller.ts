@@ -1,4 +1,4 @@
-import { UUID, FlexComponent } from '../../types'
+import { FlexComponent } from '../../../types'
 import { v4 as uuid } from 'uuid'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
@@ -27,7 +27,7 @@ export class BoardController implements BoardControllerInterface {
       : 1
 
     const flexComponent = {
-      id: uuid() as UUID,
+      id: uuid(),
       type,
       name,
       properties: {
