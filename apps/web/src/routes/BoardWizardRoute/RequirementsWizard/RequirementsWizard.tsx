@@ -19,10 +19,20 @@ export function RequirementsWizard () {
   const sendMessage = useMutation({
     mutationFn: async (content: string) => {
       setSendingMessage(content)
-      await client.sendMessage({ boardId: boardId!, content })
+      return await client.sendMessage({ boardId: boardId!, content })
     },
     onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to send message'),
-    onSuccess: () => getMessages.refetch(),
+    onSuccess: async (result) => {
+      await getMessages.refetch()
+      const hasRequirementAction = result.messages.some(message => (
+        message.toolCalls?.some(toolCall => toolCall.function.name === 'create_requirement' || toolCall.function.name === 'update_requirement_by_id')
+      ))
+
+      if (hasRequirementAction) {
+        getRequirements.refetch()
+        toast.success('Requirements updated by the assistant')
+      }
+    },
     onSettled: () => setSendingMessage(null)
   })
   const createRequirement = useMutation({
@@ -83,6 +93,8 @@ export function RequirementsWizard () {
                       content: sendingMessage,
                       author: authenticatedUser,
                       role: 'user',
+                      toolCallId: null,
+                      toolCalls: null
                     } as GetMessagesResultData
                   ]
                 : messages
