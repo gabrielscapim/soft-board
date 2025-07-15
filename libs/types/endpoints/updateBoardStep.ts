@@ -1,4 +1,4 @@
 export type UpdateBoardStepCommand = {
   id: string
-  step: string
+  step: 'next' | 'previous'
 }

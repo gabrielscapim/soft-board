@@ -12,7 +12,6 @@ describe('updateBoardStep', () => {
     const team = await factory.createTeam()
     await factory.createMember({ userId: user.id, teamId: team.id })
     const board = await factory.createBoard({ teamId: team.id, authorId: user.id })
-    const newStep = 'new-step'
 
     const app = createApp({
       endpoints: { updateBoardStep },
@@ -26,7 +25,7 @@ describe('updateBoardStep', () => {
       .post('/updateBoardStep')
       .send({
         id: board.id,
-        step: newStep
+        step: 'next'
       })
 
     const check = await pool
@@ -36,6 +35,6 @@ describe('updateBoardStep', () => {
       .AND`team_id = ${team.id}`
       .find()
 
-    expect(check.step).toBe(newStep)
+    expect(check.step).toBe('requirements')
   })
 })
