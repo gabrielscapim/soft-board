@@ -123,8 +123,6 @@ export class DraggableBoard {
         }
       }
 
-      console.log('screenId', screenId, 'screens', screens)
-
       // Get the alignment guides
       const guides = getAlignmentBoardGuides({
         flexComponents: this._boardState.flexComponents,
