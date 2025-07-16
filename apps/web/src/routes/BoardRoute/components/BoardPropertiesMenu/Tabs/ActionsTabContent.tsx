@@ -57,8 +57,8 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
               aria-expanded={open}
               className="justify-between w-full"
             >
-              {flexComponent.connection
-                ? mobileScreens.find((screen) => screen.id === flexComponent.connection)?.name
+              {flexComponent.connectionId
+                ? mobileScreens.find((screen) => screen.id === flexComponent.connectionId)?.name
                 : 'Select a screen'}
               <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
@@ -81,7 +81,7 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
                       <CheckIcon
                         className={cn(
                           'mr-2 h-4 w-4',
-                          flexComponent.connection === screen.id ? 'opacity-100' : 'opacity-0'
+                          flexComponent.connectionId === screen.id ? 'opacity-100' : 'opacity-0'
                         )}
                       />
                       {screen.name}

@@ -26,7 +26,7 @@ export function WireframeModeRoute () {
               // TO-DO: handleAction
               handleAction: (_, event) => {
                 if (flexComponent.type === 'button' && event === 'onClick') {
-                  const connection = flexComponents.find(component => component.id === flexComponent.connection)
+                  const connection = flexComponents.find(component => component.id === flexComponent.connectionId)
 
                   if (connection?.type === 'mobileScreen') {
                     setCurrentMobileScreen(connection)

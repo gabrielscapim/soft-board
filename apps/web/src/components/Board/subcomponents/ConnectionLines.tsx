@@ -22,7 +22,7 @@ export function ConnectionLines (props: ConnectionLinesProps) {
     return flexComponents
       .map(component => {
         const connection = flexComponents.find(
-          flexComponent => flexComponent.id === component.connection
+          flexComponent => flexComponent.id === component.connectionId
         )
         return connection ? { ...component, connection } : null
       })
