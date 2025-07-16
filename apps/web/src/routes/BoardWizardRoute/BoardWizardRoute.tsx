@@ -1,6 +1,7 @@
 import { useSelectedBoard } from '@/hooks'
 import { useParams } from 'react-router'
 import { RequirementsWizard } from './RequirementsWizard'
+import { WireflowsWizard } from './WireflowsWizard'
 
 export function BoardWizardRoute () {
   const params = useParams<{ boardId?: string }>()
@@ -9,16 +10,10 @@ export function BoardWizardRoute () {
 
   return (
     <div className="flex flex-col w-full p-2">
-      {(board?.step === 'init' || board?.step === 'requirements') && (
-        <div className="flex flex-row overflow-hidden border rounded-xl bg-card h-full">
-          <RequirementsWizard />
-        </div>
-      )}
-      {(board?.step !== 'init' && board?.step !== 'requirements') &&(
-        <div className="flex flex-row overflow-hidden border rounded-xl bg-card h-full">
-          {board?.step}
-        </div>
-      )}
+      <div className="flex flex-row overflow-hidden border rounded-xl bg-card h-full">
+        {(board?.step === 'init' || board?.step === 'requirements') && <RequirementsWizard />}
+        {board?.step === 'wireflows' && <WireflowsWizard />}
+      </div>
     </div>
   )
 }

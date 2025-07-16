@@ -1,6 +1,5 @@
-import { Board } from '../../components'
+import { Board, BoardPropertiesMenu } from '../../components'
 import { useBoard, useFlexComponents, useSelectedFlexComponents } from '../../hooks'
-import { BoardPropertiesMenu } from './components'
 
 export function BoardRoute () {
   const { boardState, boardController } = useBoard()
