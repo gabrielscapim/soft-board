@@ -1,6 +1,6 @@
-import { useAuthentication, useClient, useSelectedBoard } from '@/hooks'
+import { useAuthentication, useClient, useMessages, useRequirements, useSelectedBoard } from '@/hooks'
 import { useParams } from 'react-router'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import { GetMessagesResultData, GetRequirementsResultData, UpdateRequirementCommand } from 'types/endpoints'
@@ -13,6 +13,9 @@ export function RequirementsWizard () {
   const { board } = useSelectedBoard(boardId)
   const client = useClient()
   const { authenticatedUser } = useAuthentication()
+  const getMessages = useMessages(boardId)
+  const getRequirements = useRequirements(boardId)
+
   const [sendingMessage, setSendingMessage] = useState<string | null>(null)
   const [requirementToDelete, setRequiredToDelete] = useState<GetRequirementsResultData | null>(null)
   const [requirementToEdit, setRequirementToEdit] = useState<GetRequirementsResultData | null>(null)
@@ -65,19 +68,8 @@ export function RequirementsWizard () {
     }
   })
 
-  const getMessages = useQuery({
-    queryKey: ['getMessages', boardId],
-    queryFn: () => client.getMessages({ boardId: boardId! }),
-    enabled: Boolean(boardId)
-  })
-  const getRequirements = useQuery({
-    queryKey: ['getRequirements', boardId],
-    queryFn: () => client.getRequirements({ boardId: boardId! }),
-    enabled: Boolean(boardId)
-  })
-
-  const messages = getMessages.data?.data ?? []
-  const requirements = getRequirements.data?.data ?? []
+  const messages = getMessages.messages
+  const requirements = getRequirements.requirements
 
   return (
     <>
