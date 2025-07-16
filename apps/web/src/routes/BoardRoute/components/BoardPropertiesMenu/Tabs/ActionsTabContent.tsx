@@ -39,6 +39,7 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
   }, [flexComponents])
 
   const isButton = flexComponent.type === 'button'
+  const isText = flexComponent.type === 'text'
 
   return (
     <>
@@ -50,7 +51,7 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
           This will allow to navigate between screens in the wireframe mode.
         </p>
         <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild disabled={!isButton}>
+          <PopoverTrigger asChild disabled={!isButton && !isText}>
             <Button
               variant="outline"
               role="combobox"
@@ -69,24 +70,26 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
               <CommandList>
                 <CommandEmpty>No screens found.</CommandEmpty>
                 <CommandGroup>
-                  {mobileScreens.map(screen => (
-                    <CommandItem
-                      key={screen.id}
-                      value={screen.id}
-                      onSelect={currentValue => {
-                        onUpdateConnection(currentValue)
-                        setOpen(false)
-                      }}
-                    >
-                      <CheckIcon
-                        className={cn(
-                          'mr-2 h-4 w-4',
-                          flexComponent.connectionId === screen.id ? 'opacity-100' : 'opacity-0'
-                        )}
-                      />
-                      {screen.name}
-                    </CommandItem>
-                  ))}
+                  {mobileScreens
+                    .filter(screen => screen.id !== flexComponent.screenId)
+                    .map(screen => (
+                      <CommandItem
+                        key={screen.id}
+                        value={screen.id}
+                        onSelect={currentValue => {
+                          onUpdateConnection(currentValue)
+                          setOpen(false)
+                        }}
+                      >
+                        <CheckIcon
+                          className={cn(
+                            'mr-2 h-4 w-4',
+                            flexComponent.connectionId === screen.id ? 'opacity-100' : 'opacity-0'
+                          )}
+                        />
+                        {screen.name}
+                      </CommandItem>
+                    ))}
                 </CommandGroup>
               </CommandList>
             </Command>
@@ -94,7 +97,7 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
         </Popover>
         {!isButton && (
           <p className="text-xs text-yellow-600 pt-2">
-            Only buttons can be used to connect screens.
+            Only buttons or text components can be connected to a screen.
           </p>
         )}
       </div>
