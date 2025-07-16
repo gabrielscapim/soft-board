@@ -1,6 +1,5 @@
 import { StoryObj } from '@storybook/react'
 import { BoardPropertiesMenu } from './BoardPropertiesMenu'
-import { UUID } from '@/types'
 
 const meta = {
   title: 'Board route/Board Properties Menu',
@@ -25,7 +24,7 @@ export const Example: Story = {
     className: 'static',
     selectedFlexComponents: [
       {
-        id: '1' as UUID,
+        id: '1',
         type: 'button',
         name: 'Button 1',
         properties: {

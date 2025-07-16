@@ -1,6 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react'
 import { DividerFlexComponent } from './Divider'
-import { UUID } from '../../../../types'
 import { dividerFlexComponentSchema } from '../schema'
 
 const meta = {
@@ -25,7 +24,7 @@ type Story = StoryObj<typeof meta>
 export const Primary: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Divider',
       type: 'divider',
       properties: {
@@ -39,7 +38,7 @@ export const Primary: Story = {
 export const Secondary: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Divider',
       type: 'divider',
       properties: {
@@ -53,7 +52,7 @@ export const Secondary: Story = {
 export const Tertiary: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Divider',
       type: 'divider',
       properties: {

@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { UUID } from '../../../../types'
 import { ShapeFlexComponent } from './Shape'
 import { shapeFlexComponentSchema } from '../schema'
 
@@ -19,7 +18,7 @@ type Story = StoryObj<typeof meta>
 export const Primary: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Shape',
       type: 'shape',
       properties: {
@@ -33,7 +32,7 @@ export const Primary: Story = {
 export const Secondary: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Shape',
       type: 'shape',
       properties: {
@@ -47,7 +46,7 @@ export const Secondary: Story = {
 export const Tertiary: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Shape',
       type: 'shape',
       properties: {
@@ -61,7 +60,7 @@ export const Tertiary: Story = {
 export const Unfilled: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Shape',
       type: 'shape',
       properties: {
@@ -75,7 +74,7 @@ export const Unfilled: Story = {
 export const Circle: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Shape',
       type: 'shape',
       properties: {
@@ -89,7 +88,7 @@ export const Circle: Story = {
 export const Rectangle: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Shape',
       type: 'shape',
       properties: {

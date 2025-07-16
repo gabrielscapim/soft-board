@@ -1,5 +1,4 @@
-import { FlexComponent } from '../../types'
-import { UUID } from '../../types/common/uuid'
+import { FlexComponent } from '../../../types'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import { v4 as uuid } from 'uuid'
@@ -61,7 +60,7 @@ export class KeyboardShortcuts {
       return
     }
 
-    const copiedFlexComponents: UUID[] = JSON.parse(clipboardData)
+    const copiedFlexComponents: string[] = JSON.parse(clipboardData)
 
     if (!Array.isArray(copiedFlexComponents)) {
       return
@@ -71,7 +70,7 @@ export class KeyboardShortcuts {
       .filter(flexComponent => copiedFlexComponents.includes(flexComponent.id))
       .map<FlexComponent>(flexComponent => ({
         ...flexComponent,
-        id: uuid() as UUID,
+        id: uuid() as string,
         connection: null
       }))
 

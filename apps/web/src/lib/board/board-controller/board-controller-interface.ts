@@ -3,7 +3,7 @@ import {
   FlexComponentProperties,
   FlexComponentType,
   Offset
-} from '../../types'
+} from '../../../types'
 
 export type OnAddFlexComponentParams = {
   type: FlexComponentType
@@ -12,8 +12,16 @@ export type OnAddFlexComponentParams = {
   position: Offset
 }
 
+export type OnAlignFlexComponentsParams = {
+  option: string
+}
+
 export type OnChangeBoardScaleParams = {
   scale: number
+}
+
+export type OnOrderFlexComponentsParams = {
+  option: string
 }
 
 export type OnUpdateFlexComponentParams = {
@@ -22,6 +30,8 @@ export type OnUpdateFlexComponentParams = {
 
 export interface BoardControllerInterface {
   onAddFlexComponent(params: OnAddFlexComponentParams): void
+  onAlignFlexComponents(params: OnAlignFlexComponentsParams): void
   onChangeBoardScale(params: OnChangeBoardScaleParams): void
+  onOrderFlexComponents(params: OnOrderFlexComponentsParams): void
   onUpdateFlexComponent(params: OnUpdateFlexComponentParams): void
 }

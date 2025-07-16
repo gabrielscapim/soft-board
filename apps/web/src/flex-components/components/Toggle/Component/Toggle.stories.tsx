@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { UUID } from '../../../../types'
 import { ToggleFlexComponent } from './Toggle'
 import { toggleFlexComponentSchema } from '../schema'
 
@@ -26,7 +25,7 @@ type Story = StoryObj<typeof meta>
 export const Activated: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Toggle',
       type: 'toggle',
       properties: {
@@ -40,7 +39,7 @@ export const Activated: Story = {
 export const Deactivated: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Toggle',
       type: 'toggle',
       properties: {
@@ -54,7 +53,7 @@ export const Deactivated: Story = {
 export const ExtraSmall: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Toggle',
       type: 'toggle',
       properties: {
@@ -68,7 +67,7 @@ export const ExtraSmall: Story = {
 export const Small: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Toggle',
       type: 'toggle',
       properties: {
@@ -82,7 +81,7 @@ export const Small: Story = {
 export const Medium: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Toggle',
       type: 'toggle',
       properties: {
@@ -96,7 +95,7 @@ export const Medium: Story = {
 export const Large: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Toggle',
       type: 'toggle',
       properties: {

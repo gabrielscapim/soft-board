@@ -1,6 +1,4 @@
-import { BoardEvent, BoardEventListener, FlexComponent } from '../../types'
-import { Guide } from '../../types'
-import { UUID } from '../../types/common/uuid'
+import { BoardEvent, BoardEventListener, FlexComponent, Guide } from '../../../types'
 
 /**
  * The class which contains the flex components and board configs.
@@ -14,7 +12,7 @@ export class BoardState {
   private _isDragging: boolean
   private _isResizing: boolean
   private _scale: number
-  private _selectedFlexComponents: UUID[] | null
+  private _selectedFlexComponents: string[] | null
   private _translate: { x: number, y: number }
 
   constructor () {
@@ -96,7 +94,7 @@ export class BoardState {
     this.runListener('scaleChanged')
   }
 
-  setSelectedFlexComponents (selectedFlexComponents: UUID[] | null) {
+  setSelectedFlexComponents (selectedFlexComponents: string[] | null) {
     this._selectedFlexComponents = selectedFlexComponents
     this.runListener('selectedFlexComponentsChanged')
   }

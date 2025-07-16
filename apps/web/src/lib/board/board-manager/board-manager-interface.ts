@@ -1,13 +1,12 @@
-import { FlexComponent } from '../../types'
-import { Guide } from '../../types'
-import { UUID } from '../../types/common/uuid'
+import { FlexComponent } from '../../../types'
+import { Guide } from '../../../types'
 
 export type AddFlexComponentsParams = {
   flexComponents: FlexComponent[]
 }
 
 export type OnDeleteFlexComponentsParams = {
-  flexComponents: UUID[]
+  flexComponents: string[]
 }
 
 export type OnChangeBoardMovingParams = {
@@ -15,7 +14,7 @@ export type OnChangeBoardMovingParams = {
 }
 
 export type OnDraggingFlexComponentParams = {
-  id: UUID
+  id: string
   properties: {
     roundedDeltaX: number
     roundedDeltaY: number
@@ -26,6 +25,7 @@ export type OnDraggingFlexComponentParams = {
     x?: number
     y?: number
   }
+  screenId?: string
 }
 
 export type OnGuidesChangedParams = {
@@ -65,7 +65,7 @@ export type OnScaleChangeParams = {
 
 export type OnStartDragFlexComponentParams = {
   event: MouseEvent
-  id?: UUID | null
+  id?: string | null
   clickedInsideGroup?: boolean
 }
 
@@ -80,9 +80,10 @@ export type UpdateFlexComponentParams = {
 
 export interface BoardManagerI {
   addFlexComponents (params: AddFlexComponentsParams): void
+  onChangeBoardMoving (params: OnChangeBoardMovingParams): void
   onClickOutsideOfFlexComponent (): void
   onDeleteFlexComponents (params: OnDeleteFlexComponentsParams): void
-  onChangeBoardMoving (params: OnChangeBoardMovingParams): void
+  onDeselectFlexComponents (): void
   onDraggingFlexComponent (params: OnDraggingFlexComponentParams): void
   onEndDragFlexComponent (): void
   onEndResizeFlexComponent (): void

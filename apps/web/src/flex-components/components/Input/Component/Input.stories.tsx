@@ -1,6 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react'
 import { InputFlexComponent } from './Input'
-import { UUID } from '../../../../types'
 import { inputFlexComponentSchema } from '../schema'
 
 const meta = {
@@ -25,7 +24,7 @@ type Story = StoryObj<typeof meta>
 export const Primary: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Input',
       type: 'input',
       properties: {
@@ -39,7 +38,7 @@ export const Primary: Story = {
 export const Secondary: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Input',
       type: 'input',
       properties: {
@@ -53,7 +52,7 @@ export const Secondary: Story = {
 export const Tertiary: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Input',
       type: 'input',
       properties: {
@@ -67,7 +66,7 @@ export const Tertiary: Story = {
 export const ExtraSmall: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Input',
       type: 'input',
       properties: {
@@ -81,7 +80,7 @@ export const ExtraSmall: Story = {
 export const Small: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Input',
       type: 'input',
       properties: {
@@ -95,7 +94,7 @@ export const Small: Story = {
 export const Medium: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Input',
       type: 'input',
       properties: {
@@ -109,7 +108,7 @@ export const Medium: Story = {
 export const Large: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Input',
       type: 'input',
       properties: {
@@ -123,7 +122,7 @@ export const Large: Story = {
 export const Icon: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Input',
       type: 'input',
       properties: {
@@ -137,7 +136,7 @@ export const Icon: Story = {
 export const Dropdown: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Input',
       type: 'input',
       properties: {

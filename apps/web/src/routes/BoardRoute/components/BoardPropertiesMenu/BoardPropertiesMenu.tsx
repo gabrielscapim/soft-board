@@ -103,7 +103,7 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
             <ActionsTabContent
               flexComponent={flexComponent!}
               boardState={boardState}
-              onUpdateConnection={value => onUpdateFlexComponent('connection', value)}
+              onUpdateConnection={value => onUpdateFlexComponent('connectionId', value)}
             />
           )}
         </TabsContent>

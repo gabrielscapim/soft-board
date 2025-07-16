@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { UUID } from '../../../../types/common'
 import { ButtonFlexComponent } from './Button'
 import { buttonFlexComponentSchema } from '../schema'
 
@@ -36,8 +35,8 @@ type Story = StoryObj<typeof meta>
 export const Primary: Story = {
   args: {
     component: {
-      id: '1' as UUID,
-      name: 'Primary ',
+      id: '1',
+      name: 'Primary',
       type: 'button',
       properties: {
         absolute: false,
@@ -50,7 +49,7 @@ export const Primary: Story = {
 export const Secondary: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Button',
       type: 'button',
       properties: {
@@ -64,7 +63,7 @@ export const Secondary: Story = {
 export const ExtraSmall: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Button',
       type: 'button',
       properties: {
@@ -78,7 +77,7 @@ export const ExtraSmall: Story = {
 export const Small: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Button',
       type: 'button',
       properties: {
@@ -92,7 +91,7 @@ export const Small: Story = {
 export const Medium: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Button',
       type: 'button',
       properties: {
@@ -106,7 +105,7 @@ export const Medium: Story = {
 export const Large: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Button',
       type: 'button',
       properties: {

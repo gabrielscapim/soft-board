@@ -1,9 +1,8 @@
-import { FlexComponentProperties } from '../../../types'
-import { UUID } from '../../../types/common/uuid'
+import { FlexComponentProperties } from '../../../../types'
 
 type GetDraggingSnappingEdgesParams = {
   dragging: {
-    id: UUID | null
+    id: string | null
     properties: FlexComponentProperties
   }
 }

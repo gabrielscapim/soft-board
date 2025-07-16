@@ -1,4 +1,3 @@
-import { UUID } from '../common'
 import { FlexComponentType } from './type'
 import {
   ButtonFlexComponentProperties,
@@ -14,11 +13,12 @@ import {
 } from './properties'
 
 export type BaseFlexComponent<T extends FlexComponentType, P extends FlexComponentProperties> = {
-  id: UUID
+  id: string
   name: string
   type: T
   properties: P
-  connection?: UUID | null
+  connectionId?: string | null
+  screenId?: string | null
 }
 
 export type ButtonFlexComponent = BaseFlexComponent<'button', ButtonFlexComponentProperties>

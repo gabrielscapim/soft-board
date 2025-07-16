@@ -1,13 +1,16 @@
-import { UUID, FlexComponent } from '../../types'
+import { FlexComponent } from '../../../types'
 import { v4 as uuid } from 'uuid'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
-import { BoardControllerInterface, OnAddFlexComponentParams, OnChangeBoardScaleParams, OnUpdateFlexComponentParams } from './board-controller-interface.ts'
+import {
+  BoardControllerInterface,
+  OnAddFlexComponentParams,
+  OnAlignFlexComponentsParams,
+  OnChangeBoardScaleParams,
+  OnOrderFlexComponentsParams,
+  OnUpdateFlexComponentParams
+} from './board-controller-interface.ts'
 
-/**
- * Class responsible to communicate with the front-end and the BoardManager class.
- * Creating new objects and calling the BoardManager.
- */
 export class BoardController implements BoardControllerInterface {
   private _boardManager: BoardManager
   private _boardState: BoardState
@@ -27,7 +30,7 @@ export class BoardController implements BoardControllerInterface {
       : 1
 
     const flexComponent = {
-      id: uuid() as UUID,
+      id: uuid(),
       type,
       name,
       properties: {
@@ -42,7 +45,9 @@ export class BoardController implements BoardControllerInterface {
     this._boardManager.addFlexComponents({ flexComponents: [flexComponent] })
   }
 
-  onAlignFlexComponents (option: string) {
+  onAlignFlexComponents (params: OnAlignFlexComponentsParams) {
+    const { option } = params
+
     const selected = this._boardState.selectedFlexComponents ?? []
     const flexComponents = this._boardState.flexComponents.filter(flexComponent => selected.includes(flexComponent.id))
 
@@ -189,7 +194,9 @@ export class BoardController implements BoardControllerInterface {
     this._boardManager.onTranslateBoard({ translateX: newTranslateX, translateY: newTranslateY })
   }
 
-  onOrderFlexComponents (option: string) {
+  onOrderFlexComponents (params: OnOrderFlexComponentsParams) {
+    const { option } = params
+
     const selected = this._boardState.selectedFlexComponents ?? []
     const selectedFlexComponents = this._boardState.flexComponents.filter(flexComponent => selected.includes(flexComponent.id))
 

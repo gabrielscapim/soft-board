@@ -1,11 +1,11 @@
-import { SECONDARY_GUIDE_DISTANCE_TO_SNAP } from '../../../helpers'
-import { FlexComponent, UUID, FlexComponentProperties } from '../../../types'
+import { SECONDARY_GUIDE_DISTANCE_TO_SNAP } from '../../../../helpers'
+import { FlexComponent, FlexComponentProperties } from '../../../../types'
 
 type GetComponentsLineGuidesStopsParams = {
   flexComponents: FlexComponent[]
-  selectedFlexComponents: UUID[]
+  selectedFlexComponents: string[]
   dragging: {
-    id: UUID | null
+    id: string | null
     properties: FlexComponentProperties
   }
 }
@@ -27,13 +27,16 @@ export function getComponentsLineGuidesStops (
   const vertical: LineGuide[] = []
   const horizontal: LineGuide[] = []
 
-  for (const component of params.flexComponents) {
-    const isDragging = params.dragging.id === component.id || params.selectedFlexComponents.includes(component.id)
+  const screenId = params.flexComponents.find(component => component.id === params.selectedFlexComponents?.[0])?.screenId
+  const componentsToAlign = params.flexComponents.filter(component => {
+    const isBeingDragged = params.dragging.id === component.id || params.selectedFlexComponents.includes(component.id)
+    const isSameScreen = screenId && component.screenId === screenId
+    const isCurrentScreen = component.id === screenId
 
-    if (isDragging) {
-      continue
-    }
+    return !isBeingDragged && (isSameScreen || isCurrentScreen)
+  })
 
+  for (const component of componentsToAlign) {
     const { x, y, width, height } = component.properties
 
     const left = Math.min(x, x + width)

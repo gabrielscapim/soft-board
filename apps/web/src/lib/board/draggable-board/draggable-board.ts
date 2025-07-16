@@ -1,5 +1,4 @@
-import { FlexComponent, Offset } from '../../types'
-import { UUID } from '../../types/common/uuid'
+import { FlexComponent, Offset } from '../../../types'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import { getAlignmentBoardGuides } from '../get-alignment-board-guides'
@@ -86,8 +85,8 @@ export class DraggableBoard {
     if (this._offset) {
       event.preventDefault()
 
-      const selected = this._boardState.selectedFlexComponents ?? []
-      const selectedComponents = this._boardState.flexComponents.filter(flexComponent => selected.includes(flexComponent.id))
+      const selectedIds = this._boardState.selectedFlexComponents ?? []
+      const selectedComponents = this._boardState.flexComponents.filter(flexComponent => selectedIds.includes(flexComponent.id))
 
       if (selectedComponents.length === 0) {
         return
@@ -105,11 +104,32 @@ export class DraggableBoard {
         }
       }
 
+      // Verify if the composite dragging is inside some screen
+      let screenId: string | undefined = undefined
+      const screens = this._boardState.flexComponents.filter(component => component.type === 'mobileScreen')
+
+      for (const screen of screens) {
+        const screenProperties = screen.properties
+        const isInsideScreen = (
+          compositeDragging.properties.x >= screenProperties.x &&
+          compositeDragging.properties.x + compositeDragging.properties.width <= screenProperties.x + screenProperties.width &&
+          compositeDragging.properties.y >= screenProperties.y &&
+          compositeDragging.properties.y + compositeDragging.properties.height <= screenProperties.y + screenProperties.height
+        )
+
+        if (isInsideScreen) {
+          screenId = screen.id
+          break
+        }
+      }
+
+      console.log('screenId', screenId, 'screens', screens)
+
       // Get the alignment guides
       const guides = getAlignmentBoardGuides({
         flexComponents: this._boardState.flexComponents,
         dragging: compositeDragging,
-        selectedFlexComponents: selected
+        selectedFlexComponents: selectedIds
       })
 
       this._boardManager.onGuidesChanged({
@@ -141,14 +161,17 @@ export class DraggableBoard {
         }
       }
 
-      this._boardManager.onDraggingFlexComponent({
-        id: this._selectedElement?.id as UUID,
-        properties: {
-          roundedDeltaX: deltaX,
-          roundedDeltaY: deltaY,
-        },
-        snap
-      })
+      if (this._selectedElement) {
+        this._boardManager.onDraggingFlexComponent({
+          id: this._selectedElement?.id,
+          properties: {
+            roundedDeltaX: deltaX,
+            roundedDeltaY: deltaY,
+          },
+          snap,
+          screenId
+        })
+      }
     }
   }
 
@@ -168,7 +191,7 @@ export class DraggableBoard {
 
       this._selectedElement = draggableGroupElement
       this._offset = this.getMousePosition(event)
-      this._boardManager.onStartDragFlexComponent({ id: draggableGroupElement.id as UUID, event, clickedInsideGroup })
+      this._boardManager.onStartDragFlexComponent({ id: draggableGroupElement.id, event, clickedInsideGroup })
 
       return
     }

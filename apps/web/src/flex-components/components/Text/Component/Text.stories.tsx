@@ -1,6 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react'
 import { TextFlexComponent } from './Text'
-import { UUID } from '../../../../types'
 import { textFlexComponentSchema } from '../schema'
 
 const meta = {
@@ -19,7 +18,7 @@ type Story = StoryObj<typeof meta>
 export const LargeTitle: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Text',
       type: 'text',
       properties: {
@@ -33,7 +32,7 @@ export const LargeTitle: Story = {
 export const MediumTitle: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Text',
       type: 'text',
       properties: {
@@ -47,7 +46,7 @@ export const MediumTitle: Story = {
 export const SmallTitle: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Text',
       type: 'text',
       properties: {
@@ -61,7 +60,7 @@ export const SmallTitle: Story = {
 export const RegularText: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Text',
       type: 'text',
       properties: {
@@ -75,7 +74,7 @@ export const RegularText: Story = {
 export const SmallText: Story = {
   args: {
     component: {
-      id: '1' as UUID,
+      id: '1',
       name: 'Text',
       type: 'text',
       properties: {
