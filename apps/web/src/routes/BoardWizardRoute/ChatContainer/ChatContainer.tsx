@@ -1,7 +1,5 @@
 import { GetAuthenticatedUserResult, GetBoardResult, GetMessagesResultData } from 'types/endpoints'
-import { ChatMessagesList } from './ChatContainerMessagesList'
-import { ChatContainerInput } from './ChatContainerInput'
-import { ChatContainerHeader } from './ChatContainerHeader'
+import { ChatContainerHeader, ChatContainerInput, ChatMessagesList } from './components'
 
 export type ChatContainerProps = {
   board: GetBoardResult

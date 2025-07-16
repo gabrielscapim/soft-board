@@ -4,7 +4,8 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import { GetMessagesResultData, GetRequirementsResultData, UpdateRequirementCommand } from 'types/endpoints'
-import { ChatContainer, RequirementsContainer, DeleteRequirementDialog, EditRequirementDialog } from './components'
+import { RequirementsContainer, DeleteRequirementDialog, EditRequirementDialog } from './components'
+import { ChatContainer } from '../ChatContainer'
 
 export function RequirementsWizard () {
   const params = useParams<{ boardId?: string }>()
