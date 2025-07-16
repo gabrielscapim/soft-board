@@ -25,6 +25,7 @@ export type OnDraggingFlexComponentParams = {
     x?: number
     y?: number
   }
+  screenId?: string
 }
 
 export type OnGuidesChangedParams = {

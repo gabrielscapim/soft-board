@@ -56,7 +56,7 @@ export class BoardManager implements BoardManagerI {
   }
 
   onDraggingFlexComponent (params: OnDraggingFlexComponentParams) {
-    const { properties, snap } = params
+    const { properties, snap, screenId } = params
 
     const selected = this._boardState.selectedFlexComponents
 
@@ -124,7 +124,8 @@ export class BoardManager implements BoardManagerI {
           ...flexComponent.properties,
           x: newX,
           y: newY
-        }
+        },
+        screenId
       }
     })
 

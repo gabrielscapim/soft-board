@@ -85,8 +85,8 @@ export class DraggableBoard {
     if (this._offset) {
       event.preventDefault()
 
-      const selected = this._boardState.selectedFlexComponents ?? []
-      const selectedComponents = this._boardState.flexComponents.filter(flexComponent => selected.includes(flexComponent.id))
+      const selectedIds = this._boardState.selectedFlexComponents ?? []
+      const selectedComponents = this._boardState.flexComponents.filter(flexComponent => selectedIds.includes(flexComponent.id))
 
       if (selectedComponents.length === 0) {
         return
@@ -104,11 +104,32 @@ export class DraggableBoard {
         }
       }
 
+      // Verify if the composite dragging is inside some screen
+      let screenId: string | undefined = undefined
+      const screens = this._boardState.flexComponents.filter(component => component.type === 'mobileScreen')
+
+      for (const screen of screens) {
+        const screenProperties = screen.properties
+        const isInsideScreen = (
+          compositeDragging.properties.x >= screenProperties.x &&
+          compositeDragging.properties.x + compositeDragging.properties.width <= screenProperties.x + screenProperties.width &&
+          compositeDragging.properties.y >= screenProperties.y &&
+          compositeDragging.properties.y + compositeDragging.properties.height <= screenProperties.y + screenProperties.height
+        )
+
+        if (isInsideScreen) {
+          screenId = screen.id
+          break
+        }
+      }
+
+      console.log('screenId', screenId, 'screens', screens)
+
       // Get the alignment guides
       const guides = getAlignmentBoardGuides({
         flexComponents: this._boardState.flexComponents,
         dragging: compositeDragging,
-        selectedFlexComponents: selected
+        selectedFlexComponents: selectedIds
       })
 
       this._boardManager.onGuidesChanged({
@@ -147,7 +168,8 @@ export class DraggableBoard {
             roundedDeltaX: deltaX,
             roundedDeltaY: deltaY,
           },
-          snap
+          snap,
+          screenId
         })
       }
     }
