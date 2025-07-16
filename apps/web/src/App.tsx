@@ -1,7 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router'
 import './index.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { BoardContextProvider } from './contexts/BoardContext/BoardContextProvider'
 import {
   AuthenticationGuardLayout,
   BoardLayout,
@@ -22,6 +21,7 @@ import { Toaster } from 'sonner'
 import {
   AuthenticationProvider,
   AuthorizationProvider,
+  BoardContextProvider,
   ClientProvider,
   TeamProvider
 } from './contexts'
