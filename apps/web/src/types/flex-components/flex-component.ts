@@ -18,6 +18,7 @@ export type BaseFlexComponent<T extends FlexComponentType, P extends FlexCompone
   type: T
   properties: P
   connectionId?: string | null
+  screenId?: string | null
 }
 
 export type ButtonFlexComponent = BaseFlexComponent<'button', ButtonFlexComponentProperties>
