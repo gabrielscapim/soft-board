@@ -11,15 +11,18 @@ import {
   OnUpdateFlexComponentParams
 } from './board-controller-interface.ts'
 
+export type BoardControllerOptions = {
+  boardState: BoardState
+  boardManager: BoardManager
+}
+
 export class BoardController implements BoardControllerInterface {
   private _boardManager: BoardManager
   private _boardState: BoardState
 
-  constructor (
-    boardState: BoardState = new BoardState()
-  ) {
-    this._boardManager = new BoardManager(boardState)
-    this._boardState = boardState
+  constructor (options: BoardControllerOptions) {
+    this._boardManager = options.boardManager
+    this._boardState = options.boardState
   }
 
   onAddFlexComponent (params: OnAddFlexComponentParams) {

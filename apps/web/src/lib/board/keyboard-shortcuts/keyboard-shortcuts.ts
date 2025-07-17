@@ -3,15 +3,18 @@ import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import { v4 as uuid } from 'uuid'
 
+export type BoardShortcutsOptions = {
+  boardState: BoardState
+  boardManager: BoardManager
+}
+
 export class KeyboardShortcuts {
   private _boardManager: BoardManager
   private _boardState: BoardState
 
-  constructor (
-    boardState: BoardState
-  ) {
-    this._boardManager = new BoardManager(boardState)
-    this._boardState = boardState
+  constructor (options: BoardShortcutsOptions) {
+    this._boardManager = options.boardManager
+    this._boardState = options.boardState
 
     this.onCopyPressed = this.onCopyPressed.bind(this)
     this.onKeyPressed = this.onKeyPressed.bind(this)

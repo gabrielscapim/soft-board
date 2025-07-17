@@ -1,6 +1,5 @@
 import { StoryObj } from '@storybook/react'
 import { BoardPropertiesMenu } from './BoardPropertiesMenu'
-import { BoardController, BoardState } from '@/lib'
 
 const meta = {
   title: 'Board route/Board Properties Menu',
@@ -20,13 +19,10 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-const boardState = new BoardState()
-const boardController = new BoardController(boardState)
-
 export const Example: Story = {
   args: {
-    boardState,
-    boardController,
+    boardState: {} as any,
+    boardController: {} as any,
     className: 'static',
     selectedFlexComponents: [
       {

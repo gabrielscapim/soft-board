@@ -1,30 +1,40 @@
 import { PropsWithChildren, useEffect, useState } from 'react'
-import { BoardController, BoardState } from '../../lib'
+import { BoardController, BoardManager, BoardState } from '../../lib'
 import { BoardContext } from './BoardContext'
 import { useParams } from 'react-router'
+import { useClient } from '@/hooks'
 
 export type BoardContextProvider = PropsWithChildren
 
 export function BoardContextProvider ({ children }: BoardContextProvider) {
   const params = useParams<{ boardId?: string }>()
   const boardId = params.boardId
+  const client = useClient()
 
-  const [board, setBoard] = useState<{ state: BoardState, controller: BoardController }>(() => {
-    const state = new BoardState({ id: boardId })
-    const controller = new BoardController(state)
+  const [board, setBoard] = useState(() => {
+    const boardState = new BoardState({ id: boardId })
+    const boardManager = new BoardManager({ client, boardState })
+    const boardController = new BoardController({ boardState, boardManager })
 
-    return { state, controller }
+    return { boardState, boardController, boardManager }
   })
 
   useEffect(() => {
-    const state = new BoardState({ id: boardId })
-    const controller = new BoardController(state)
+    const boardState = new BoardState({ id: boardId })
+    const boardManager = new BoardManager({ client, boardState })
+    const boardController = new BoardController({ boardState, boardManager })
 
-    setBoard({ state, controller })
-  }, [boardId])
+    setBoard({ boardState, boardController, boardManager })
+  }, [boardId, client])
 
   return (
-    <BoardContext.Provider value={{ boardState: board.state, boardController: board.controller }}>
+    <BoardContext.Provider
+      value={{
+        boardState: board.boardState,
+        boardController: board.boardController,
+        boardManager: board.boardManager
+      }}
+    >
       {children}
     </BoardContext.Provider>
   )

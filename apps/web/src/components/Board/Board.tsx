@@ -1,6 +1,6 @@
 import Cursor from '/cursor.png'
 import { createElement, useRef } from 'react'
-import { BoardController, BoardState } from '../../lib'
+import { BoardController, BoardManager, BoardState } from '../../lib'
 import { AlignmentGuides, ConnectionLines, ResizeBox, SelectionBox } from './subcomponents'
 import {
   useBoardTranslate,
@@ -18,10 +18,11 @@ import { FLEX_COMPONENTS_ELEMENTS } from '../../flex-components'
 export type BoardProps = {
   boardState: BoardState
   boardController: BoardController
+  boardManager: BoardManager
 }
 
 export function Board (props: BoardProps) {
-  const { boardState, boardController } = props
+  const { boardState, boardController, boardManager } = props
 
   const flexBoardContainerRef = useRef<HTMLDivElement>(null)
   const flexBoardRef = useRef<HTMLDivElement>(null)
@@ -35,7 +36,7 @@ export function Board (props: BoardProps) {
   useElementResizer(boardState, flexBoardContainerRef.current)
   useZoomBoard(boardState, flexBoardContainerRef.current, flexBoardRef.current)
   useSelectionBoard(boardState, flexBoardContainerRef.current, selectionBoxRef.current)
-  useKeyboardShortcuts(boardState)
+  useKeyboardShortcuts(boardState, boardManager)
 
   return (
     <div

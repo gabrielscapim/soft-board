@@ -3,7 +3,7 @@ import { Board, BoardPropertiesMenu } from '@/components'
 import { useBoardContext, useFlexComponents, useSelectedFlexComponents } from '@/hooks'
 
 export function BoardContainer () {
-  const { boardState, boardController } = useBoardContext()
+  const { boardState, boardController, boardManager } = useBoardContext()
 
   const selected = useSelectedFlexComponents(boardState)
   const flexComponents = useFlexComponents(boardState)
@@ -22,6 +22,7 @@ export function BoardContainer () {
       <Board
         boardState={boardState}
         boardController={boardController}
+        boardManager={boardManager}
       />
     </>
   )
