@@ -1,12 +1,14 @@
 import { Button } from '@/components/ui/button'
-import { MIN_SCALE, MAX_SCALE } from '@/helpers'
-import { useBoardContext, useScale } from '@/hooks'
 import { MinusIcon, PlusIcon } from 'lucide-react'
 
-export function ZoomController () {
-  const { boardState, boardController } = useBoardContext()
+export type BoardZoomControllerProps = {
+  scale?: number
+  onZoomIn?: () => void
+  onZoomOut?: () => void
+}
 
-  const scale = useScale(boardState)
+export function BoardZoomController (props: BoardZoomControllerProps) {
+  const { scale = 1, onZoomIn, onZoomOut } = props
 
   return (
     <div className="flex justify-center items-center gap-3">
@@ -14,7 +16,7 @@ export function ZoomController () {
         size="icon"
         className="size-7"
         variant="outline"
-        onClick={() => boardController.onChangeBoardScale({ scale: Math.max(scale - 0.25, MIN_SCALE) })}
+        onClick={() => onZoomOut?.()}
       >
         <MinusIcon />
       </Button>
@@ -23,7 +25,7 @@ export function ZoomController () {
         size="icon"
         className="size-7"
         variant="outline"
-        onClick={() => boardController.onChangeBoardScale({ scale: Math.min(scale + 0.25, MAX_SCALE) })}
+        onClick={() => onZoomIn?.()}
       >
         <PlusIcon />
       </Button>
