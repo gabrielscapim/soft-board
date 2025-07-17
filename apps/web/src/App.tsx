@@ -3,8 +3,8 @@ import './index.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import {
   AuthenticationGuardLayout,
-  BoardLayout,
   BoardWizardLayout,
+  EditBoardLayout,
   RootLayout,
   UnauthenticatedGuardLayout
 } from './components'
@@ -15,7 +15,7 @@ import {
   MembersRoute,
   SettingsRoute,
   BoardWizardRoute,
-  BoardRoute
+  EditBoardRoute
 } from './routes'
 import { Toaster } from 'sonner'
 import {
@@ -45,8 +45,8 @@ function App () {
                 <Route path="sign-in" element={<SignInRoute />} />
               </Route>
 
-              <Route path="/board-test" element={<BoardLayout />}>
-                <Route index element={<BoardRoute />} />
+              <Route path="/board-test" element={<EditBoardLayout />}>
+                <Route index element={<EditBoardRoute />} />
               </Route>
 
               {/* Private Routes */}

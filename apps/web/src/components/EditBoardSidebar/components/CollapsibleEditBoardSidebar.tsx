@@ -1,14 +1,14 @@
 import { SidebarHeader, SidebarContent, SidebarGroup, SidebarGroupContent, Sidebar } from '@/components/ui/sidebar'
-import { BoardSidebarSection } from '..'
 import { BoardComponentsPreview, BoardScreensPreview, SearchInput } from '.'
+import { EditBoardSidebarSection } from '../EditBoardSidebar'
 
-export type CollapsibleBoardSidebarProps = {
-  selectedSection: BoardSidebarSection
+export type CollapsibleEditBoardSidebarProps = {
+  selectedSection: EditBoardSidebarSection
   search: string
   onSearchChange?: (search: string) => void
 }
 
-export function CollapsibleBoardSidebar (props: CollapsibleBoardSidebarProps) {
+export function CollapsibleEditBoardSidebar (props: CollapsibleEditBoardSidebarProps) {
   const { selectedSection, search, onSearchChange } = props
 
   return (

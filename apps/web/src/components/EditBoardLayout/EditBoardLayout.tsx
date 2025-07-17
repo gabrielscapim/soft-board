@@ -1,14 +1,14 @@
 import { Outlet } from 'react-router'
-import { BoardSidebar } from '../BoardSidebar'
+import { EditBoardSidebar } from '../EditBoardSidebar'
 import { SidebarInset, SidebarProvider } from '../ui/sidebar'
-import { BoardHeader } from '../BoardHeader'
+import { EditBoardHeader } from '../EditBoardHeader'
 
-export function BoardLayout () {
+export function EditBoardLayout () {
   return (
     <SidebarProvider>
-      <BoardSidebar />
+      <EditBoardSidebar />
       <SidebarInset>
-        <BoardHeader />
+        <EditBoardHeader />
         <main className="flex grow">
           <Outlet />
         </main>

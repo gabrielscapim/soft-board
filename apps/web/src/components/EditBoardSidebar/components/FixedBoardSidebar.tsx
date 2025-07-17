@@ -9,7 +9,7 @@ import {
   SidebarGroupContent
 } from '@/components/ui/sidebar'
 import { Component, LayoutPanelTop, Smartphone } from 'lucide-react'
-import { BoardSidebarSection } from '..'
+import { EditBoardSidebarSection } from '../EditBoardSidebar'
 
 const sections = [
   {
@@ -26,11 +26,11 @@ const sections = [
   }
 ] as const
 
-export type FixedBoardSidebarProps = {
-  onSectionClick?: (section: BoardSidebarSection) => void
+export type FixedEditBoardSidebarProps = {
+  onSectionClick?: (section: EditBoardSidebarSection) => void
 }
 
-export function FixedBoardSidebar (props: FixedBoardSidebarProps) {
+export function FixedEditBoardSidebar (props: FixedEditBoardSidebarProps) {
   const { onSectionClick } = props
 
   return (

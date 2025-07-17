@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { Sidebar, useSidebar } from '../ui/sidebar'
-import { CollapsibleBoardSidebar, FixedBoardSidebar } from './components'
+import { CollapsibleEditBoardSidebar, FixedEditBoardSidebar } from './components'
 
-export type BoardSidebarSection =
+export type EditBoardSidebarSection =
   'Components' |
   'Templates' |
   'Screens'
 
-export function BoardSidebar () {
-  const [selectedSection, setSelectedSection] = useState<BoardSidebarSection>('Components')
+export function EditBoardSidebar () {
+  const [selectedSection, setSelectedSection] = useState<EditBoardSidebarSection>('Components')
   const [search, setSearch] = useState('')
   const { setOpen } = useSidebar()
 
@@ -17,14 +17,14 @@ export function BoardSidebar () {
       collapsible="icon"
       className="overflow-hidden *:data-[sidebar=sidebar]:flex-row"
     >
-      <FixedBoardSidebar
+      <FixedEditBoardSidebar
         onSectionClick={section => {
           setSelectedSection(section)
           setSearch('')
           setOpen(true)
         }}
       />
-      <CollapsibleBoardSidebar
+      <CollapsibleEditBoardSidebar
         selectedSection={selectedSection}
         search={search}
         onSearchChange={setSearch}

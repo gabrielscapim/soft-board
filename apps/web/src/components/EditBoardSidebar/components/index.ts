@@ -1,6 +1,6 @@
 export * from './BoardComponentCardPreview'
 export * from './BoardComponentsPreview'
 export * from './BoardScreensPreview'
-export * from './CollapsibleBoardSidebar'
+export * from './CollapsibleEditBoardSidebar'
 export * from './FixedBoardSidebar'
 export * from './SearchInput'

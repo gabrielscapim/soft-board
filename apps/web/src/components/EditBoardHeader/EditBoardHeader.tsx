@@ -4,7 +4,7 @@ import { SidebarTrigger } from '../ui/sidebar'
 import { ZoomController } from './components'
 import { FullscreenIcon } from 'lucide-react'
 
-export function BoardHeader () {
+export function EditBoardHeader () {
   return (
     <header className="bg-background sticky top-0 shrink-0 border-b p-2">
       <div className="flex justify-between items-center w-full">
