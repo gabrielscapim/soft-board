@@ -11,7 +11,10 @@ export function BoardContainer () {
 
   return (
     <>
-      <BoardContainerHeader />
+      <BoardContainerHeader
+        boardState={boardState}
+        boardController={boardController}
+      />
       {selectedFlexComponents.length > 0 && (
         <BoardPropertiesMenu
           boardState={boardState}

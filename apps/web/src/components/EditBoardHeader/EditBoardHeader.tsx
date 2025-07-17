@@ -1,12 +1,16 @@
 import { Link } from 'react-router'
 import { Button } from '../ui/button'
 import { useSidebar } from '../ui/sidebar'
-import { ZoomController } from './components'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 import { Minimize2, PanelRightClose, PanelRightOpen } from 'lucide-react'
+import { BoardZoomController } from '../BoardZoomController'
+import { useBoardContext, useScale } from '@/hooks'
+import { MAX_SCALE, MIN_SCALE } from '@/helpers'
 
 export function EditBoardHeader () {
   const { open, toggleSidebar } = useSidebar()
+  const { boardState, boardController } = useBoardContext()
+  const scale = useScale(boardState)
 
   return (
     <header className="bg-background sticky top-0 shrink-0 p-3">
@@ -49,7 +53,11 @@ export function EditBoardHeader () {
         </div>
 
         <div className="flex items-center gap-4">
-          <ZoomController />
+          <BoardZoomController
+            scale={scale}
+            onZoomIn={() => boardController.onChangeBoardScale({ scale: Math.min(scale + 0.25, MAX_SCALE) })}
+            onZoomOut={() => boardController.onChangeBoardScale({ scale: Math.max(scale - 0.25, MIN_SCALE) })}
+          />
         </div>
       </div>
     </header>
