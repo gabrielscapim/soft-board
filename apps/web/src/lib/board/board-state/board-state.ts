@@ -1,8 +1,8 @@
-import { FLEX_COMPONENTS_SCHEMAS } from '@/flex-components'
 import { BoardEvent, BoardEventListener, FlexComponent, Guide } from '../../../types'
 
 export type BoardStateOptions = {
   id?: string
+  components?: FlexComponent[]
 }
 
 export class BoardState {
@@ -21,14 +21,7 @@ export class BoardState {
   constructor (options: BoardStateOptions = {}) {
     this._id = options.id || 'default-board-id'
     this._boardListeners = {}
-    this._flexComponents = [
-      {
-        id: '1',
-        type: 'button',
-        properties: FLEX_COMPONENTS_SCHEMAS.button.variations[0].properties,
-        name: FLEX_COMPONENTS_SCHEMAS.button.variations[0].name,
-      }
-    ]
+    this._flexComponents = options.components ?? []
     this._grid = 1
     this._guides = { vertical: [], horizontal: [] }
     this._isBoardMoving = false
