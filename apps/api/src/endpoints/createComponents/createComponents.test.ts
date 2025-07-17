@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { getPool, DatabaseFactory } from '../../libs'
 import { createApp } from '../../setup'
-import * as createComponent from './createComponent'
+import * as createComponents from './createComponents'
 import request from 'supertest'
 
 describe('createComponent', () => {
@@ -14,7 +14,7 @@ describe('createComponent', () => {
     const board = await factory.createBoard({ teamId: team.id })
 
     const app = createApp({
-      endpoints: { createComponent },
+      endpoints: { createComponents },
       tests: {
         auth: { userId: user.id },
         team: { teamId: team.id, memberRole: 'admin' }
@@ -22,11 +22,14 @@ describe('createComponent', () => {
     })
 
     await request(app)
-      .post('/createComponent')
+      .post('/createComponents')
       .send({
         boardId: board.id,
-        type: 'button',
-        properties: { label: 'Click me' }
+        components: [{
+          name: 'Test Component',
+          type: 'button',
+          properties: { label: 'Click me' }
+        }]
       })
 
     const check = await pool

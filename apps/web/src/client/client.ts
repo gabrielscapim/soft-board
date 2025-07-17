@@ -2,7 +2,7 @@ import axios, { AxiosError, type AxiosInstance } from 'axios'
 import type {
   CreateBoardCommand,
   CreateBoardResult,
-  CreateComponentCommand,
+  CreateComponentsCommand,
   CreateMemberCommand,
   CreateRequirementCommand,
   CreateRequirementResult,
@@ -98,8 +98,8 @@ export class Client {
     return (await this.axios.post<CreateBoardResult>('/createBoard', data)).data
   }
 
-  async createComponent (data: CreateComponentCommand): Promise<void> {
-    await this.axios.post('/createComponent', data)
+  async createComponents (data: CreateComponentsCommand): Promise<void> {
+    await this.axios.post('/createComponents', data)
   }
 
   async createMember (data: CreateMemberCommand): Promise<CreateMemberResult> {
