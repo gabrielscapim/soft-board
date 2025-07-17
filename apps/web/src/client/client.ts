@@ -2,6 +2,7 @@ import axios, { AxiosError, type AxiosInstance } from 'axios'
 import type {
   CreateBoardCommand,
   CreateBoardResult,
+  CreateComponentCommand,
   CreateMemberCommand,
   CreateRequirementCommand,
   CreateRequirementResult,
@@ -34,7 +35,11 @@ import type {
   DeleteRequirementCommand,
   GetRequirementsQuery,
   GetRequirementsResult,
-  UpdateRequirementCommand
+  UpdateRequirementCommand,
+  DeleteComponentCommand,
+  GetComponentsQuery,
+  GetComponentsResult,
+  UpdateComponentCommand
 } from 'types/endpoints'
 
 export type ClientOptions = {
@@ -93,6 +98,10 @@ export class Client {
     return (await this.axios.post<CreateBoardResult>('/createBoard', data)).data
   }
 
+  async createComponent (data: CreateComponentCommand): Promise<void> {
+    await this.axios.post('/createComponent', data)
+  }
+
   async createMember (data: CreateMemberCommand): Promise<CreateMemberResult> {
     return (await this.axios.post<CreateMemberResult>('/createMember', data)).data
   }
@@ -107,6 +116,10 @@ export class Client {
 
   async deleteBoard (data: DeleteBoardCommand): Promise<void> {
     await this.axios.post('/deleteBoard', data)
+  }
+
+  async deleteComponent (data: DeleteComponentCommand): Promise<void> {
+    await this.axios.post('/deleteComponent', data)
   }
 
   async deleteMember (data: DeleteMemberCommand): Promise<void> {
@@ -127,6 +140,10 @@ export class Client {
 
   async getBoards (data: GetBoardsQuery): Promise<GetBoardsResult> {
     return (await this.axios.post<GetBoardsResult>('/getBoards', data)).data
+  }
+
+  async getComponents (data: GetComponentsQuery): Promise<GetComponentsResult> {
+    return (await this.axios.post<GetComponentsResult>('/getComponents', data)).data
   }
 
   async getCurrentUserRole (): Promise<GetCurrentUserRoleResult> {
@@ -175,6 +192,10 @@ export class Client {
 
   async updateBoardStep (data: UpdateBoardStepCommand): Promise<void> {
     await this.axios.post('/updateBoardStep', data)
+  }
+
+  async updateComponent (data: UpdateComponentCommand): Promise<void> {
+    await this.axios.post('/updateComponent', data)
   }
 
   async updateMemberRole (data: UpdateMemberRoleCommand): Promise<void> {
