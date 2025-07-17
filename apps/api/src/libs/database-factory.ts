@@ -1,6 +1,6 @@
 import { DatabasePool } from 'pg-script'
 import { getPool } from './get-pool'
-import { MemberDatabase, UserDatabase, TeamDatabase, BoardDatabase, MessageDatabase, RequirementDatabase } from 'types/database'
+import { MemberDatabase, UserDatabase, TeamDatabase, BoardDatabase, MessageDatabase, RequirementDatabase, ComponentDatabase } from 'types/database'
 import { randomUUID } from 'crypto'
 import slugify from 'slugify'
 
@@ -29,6 +29,25 @@ export class DatabaseFactory {
     }
 
     await this.pool.INSERT_INTO`board`.VALUES(created)
+
+    return created
+  }
+
+  async createComponent (component: Partial<ComponentDatabase> = {}): Promise<ComponentDatabase> {
+    const now = new Date()
+    const created: ComponentDatabase = {
+      id: component.id ?? randomUUID(),
+      teamId: component.teamId ?? randomUUID(),
+      boardId: component.boardId ?? randomUUID(),
+      type: component.type ?? 'button',
+      properties: component.properties ?? {},
+      connectionId: component.connectionId ?? null,
+      screenId: component.screenId ?? null,
+      createDate: component.createDate ?? now,
+      updateDate: component.updateDate ?? now
+    }
+
+    await this.pool.INSERT_INTO`component`.VALUES(created)
 
     return created
   }
