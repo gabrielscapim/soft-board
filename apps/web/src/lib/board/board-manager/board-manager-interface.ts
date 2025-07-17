@@ -8,21 +8,6 @@ export type DeleteFlexComponentsParams = {
   flexComponents: string[]
 }
 
-export type OnDraggingFlexComponentParams = {
-  id: string
-  properties: {
-    roundedDeltaX: number
-    roundedDeltaY: number
-  }
-  snap?: {
-    type?: string
-    distance?: 'primary' | 'secondary'
-    x?: number
-    y?: number
-  }
-  screenId?: string
-}
-
 export type OnResizingFlexComponentParams = {
   resizeDirection: string
   dimension: {
@@ -47,12 +32,6 @@ export type OnResizingFlexComponentParams = {
   }
 }
 
-export type OnStartDragFlexComponentParams = {
-  event: MouseEvent
-  id?: string | null
-  clickedInsideGroup?: boolean
-}
-
 export type UpdateFlexComponentParams = {
   updatedFlexComponent: FlexComponent
 }
@@ -60,11 +39,8 @@ export type UpdateFlexComponentParams = {
 export interface BoardManagerI {
   addFlexComponents (params: AddFlexComponentsParams): void
   deleteFlexComponents (params: DeleteFlexComponentsParams): void
-  onDraggingFlexComponent (params: OnDraggingFlexComponentParams): void
-  onEndDragFlexComponent (): void
   onEndResizeFlexComponent (): void
   onResizingFlexComponent (params: OnResizingFlexComponentParams): void
-  onStartDragFlexComponent (params: OnStartDragFlexComponentParams): void
   onStartResizeFlexComponent (): void
   updateFlexComponent (params: UpdateFlexComponentParams): void
 }

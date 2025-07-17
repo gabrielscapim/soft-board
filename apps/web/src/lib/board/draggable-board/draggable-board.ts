@@ -1,29 +1,140 @@
-import { FlexComponent, Offset } from '../../../types'
-import { BoardManager } from '../board-manager'
+import { Dimensions, FlexComponent, Offset } from '../../../types'
 import { BoardState } from '../board-state'
 import { getAlignmentBoardGuides } from '../get-alignment-board-guides'
+import { OnStartDragFlexComponentParams, OnDraggingFlexComponentParams } from './types'
 
-/**
- * Class responsible to turn components inside the board draggable.
- */
+const DISTANCE_TO_BREAK_SNAP = 5
+
 export class DraggableBoard {
-  private _boardManager: BoardManager
   private _boardState: BoardState
   private _boardElement: HTMLElement
   private _offset: Offset | undefined
   private _selectedElement: HTMLDivElement | undefined
+  private _initialFlexComponentProperties: Map<string, Dimensions & Offset> | null = null
 
   constructor (
     boardState: BoardState,
     boardElement: HTMLElement
   ) {
-    this._boardManager = new BoardManager(boardState)
     this._boardState = boardState
     this._boardElement = boardElement
 
     this.startDrag = this.startDrag.bind(this)
     this.onDragging = this.onDragging.bind(this)
     this.endDrag = this.endDrag.bind(this)
+  }
+
+  private onStartDragFlexComponent (params: OnStartDragFlexComponentParams) {
+    const currentSelection = this._boardState.selectedFlexComponents ?? []
+    let newSelection: string[] = []
+
+    if (params.clickedInsideGroup && params.id) {
+      newSelection = currentSelection
+    }
+
+    if (params.clickedInsideGroup && !params.id) {
+      newSelection = currentSelection
+    }
+
+    if (params.clickedInsideGroup && params.id && params.event.shiftKey) {
+      newSelection = Array.from(new Set([...currentSelection, params.id]))
+    }
+
+    if (!params.clickedInsideGroup && params.id && !params.event.shiftKey) {
+      newSelection = [params.id]
+    }
+
+    if (!params.clickedInsideGroup && params.id && params.event.shiftKey) {
+      newSelection = Array.from(new Set([...currentSelection, params.id]))
+    }
+
+    const initialProperties = new Map<string, Dimensions & Offset>()
+
+    for (const selectedId of newSelection) {
+      const component = this._boardState.flexComponents.find(flexComponent => flexComponent.id === selectedId)
+
+      if (component) {
+        initialProperties.set(selectedId, {
+          x: component.properties.x,
+          y: component.properties.y,
+          width: component.properties.width,
+          height: component.properties.height
+        })
+      }
+    }
+
+    this._initialFlexComponentProperties = initialProperties
+    this._boardState.setSelectedFlexComponents(newSelection)
+  }
+
+  private onDraggingFlexComponent (params: OnDraggingFlexComponentParams) {
+    const { properties, snap, screenId } = params
+
+    const selected = this._boardState.selectedFlexComponents
+
+    if (!selected || selected.length === 0 || !this._initialFlexComponentProperties) {
+      return
+    }
+
+    if (!this._boardState.isDragging) {
+      this._boardState.setIsDragging(true)
+    }
+
+    let groupInitialX = Infinity
+    let groupInitialY = Infinity
+
+    for (const id of selected) {
+      const initProps = this._initialFlexComponentProperties.get(id)
+
+      if (initProps && initProps?.x < groupInitialX) groupInitialX = initProps.x
+      if (initProps && initProps?.y < groupInitialY) groupInitialY = initProps.y
+    }
+
+    const groupNewX = groupInitialX + properties.roundedDeltaX
+    const groupNewY = groupInitialY + properties.roundedDeltaY
+
+    let useSnapX = false
+    let useSnapY = false
+
+    if (snap?.x && Math.abs(groupNewX - snap.x) < DISTANCE_TO_BREAK_SNAP) {
+      useSnapX = true
+    }
+
+    if (snap?.y && Math.abs(groupNewY - snap.y) < DISTANCE_TO_BREAK_SNAP) {
+      useSnapY = true
+    }
+
+    const groupDeltaX = useSnapX && snap?.x ? (snap.x - groupInitialX) : properties.roundedDeltaX
+    const groupDeltaY = useSnapY && snap?.y ? (snap.y - groupInitialY) : properties.roundedDeltaY
+
+    const newFlexComponents = this._boardState.flexComponents.map(flexComponent => {
+      if (!selected.includes(flexComponent.id)) {
+        return flexComponent
+      }
+
+      const initialProps = this._initialFlexComponentProperties?.get(flexComponent.id)
+      if (!initialProps) return flexComponent
+
+      const newX = initialProps.x + groupDeltaX
+      const newY = initialProps.y + groupDeltaY
+
+      return {
+        ...flexComponent,
+        properties: {
+          ...flexComponent.properties,
+          x: newX,
+          y: newY
+        },
+        screenId
+      }
+    })
+
+    this._boardState.setFlexComponents(newFlexComponents)
+  }
+
+  private onEndDragFlexComponent () {
+    this._boardState.setIsDragging(false)
+    this._initialFlexComponentProperties = null
   }
 
   private clickedInsideGroup (selectedComponents: FlexComponent[], clickPosition: Offset) {
@@ -78,7 +189,7 @@ export class DraggableBoard {
   public endDrag () {
     this._selectedElement = undefined
     this._offset = undefined
-    this._boardManager.onEndDragFlexComponent()
+    this.onEndDragFlexComponent()
   }
 
   public onDragging (event: MouseEvent) {
@@ -158,7 +269,7 @@ export class DraggableBoard {
       }
 
       if (this._selectedElement) {
-        this._boardManager.onDraggingFlexComponent({
+        this.onDraggingFlexComponent({
           id: this._selectedElement?.id,
           properties: {
             roundedDeltaX: deltaX,
@@ -187,7 +298,7 @@ export class DraggableBoard {
 
       this._selectedElement = draggableGroupElement
       this._offset = this.getMousePosition(event)
-      this._boardManager.onStartDragFlexComponent({ id: draggableGroupElement.id, event, clickedInsideGroup })
+      this.onStartDragFlexComponent({ id: draggableGroupElement.id, event, clickedInsideGroup })
 
       return
     }
@@ -208,7 +319,7 @@ export class DraggableBoard {
 
       if (clickedInsideGroup) {
         this._offset = clickPosition
-        this._boardManager.onStartDragFlexComponent({ event, clickedInsideGroup: true })
+        this.onStartDragFlexComponent({ event, clickedInsideGroup: true })
       }
 
       if (!clickedInsideGroup) {
