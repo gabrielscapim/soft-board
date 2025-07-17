@@ -54,7 +54,7 @@ export function Board (props: BoardProps) {
       <div
         id="flex-board"
         ref={flexBoardRef}
-        className="absolute inset-0"
+        className="w-0 h-0 absolute"
         style={{ transform: `translate(${boardTranslate.x}px, ${boardTranslate.y}px) scale(${scale})` }}
       >
         {flexComponents.map(flexComponent => (
