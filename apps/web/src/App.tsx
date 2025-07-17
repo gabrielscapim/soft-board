@@ -31,12 +31,18 @@ const client = new Client()
 const queryClient = new QueryClient()
 
 function App () {
-  const WithBoardProviders = ({ children }: { children: React.ReactNode }) => (
+  const PrivateRoutesProviders = ({ children }: { children: React.ReactNode }) => (
     <TeamProvider>
       <AuthorizationProvider>
-        <BoardContextProvider>{children}</BoardContextProvider>
+        {children}
       </AuthorizationProvider>
     </TeamProvider>
+  )
+
+  const BoardProviders = ({ children }: { children: React.ReactNode }) => (
+    <PrivateRoutesProviders>
+      <BoardContextProvider>{children}</BoardContextProvider>
+    </PrivateRoutesProviders>
   )
 
   return (
@@ -57,11 +63,9 @@ function App () {
               <Route path=":teamSlug" element={<AuthenticationGuardLayout />}>
                 <Route
                   element={
-                    <TeamProvider>
-                      <AuthorizationProvider>
-                        <RootLayout />
-                      </AuthorizationProvider>
-                    </TeamProvider>
+                    <PrivateRoutesProviders>
+                      <RootLayout />
+                    </PrivateRoutesProviders>
                   }
                 >
                   <Route index element={<Navigate to="boards" replace />} />
@@ -73,9 +77,9 @@ function App () {
                 <Route
                   path="boards/:boardId"
                   element={
-                    <WithBoardProviders>
+                    <BoardProviders>
                       <BoardWizardLayout />
-                    </WithBoardProviders>
+                    </BoardProviders>
                   }
                 >
                   <Route index element={<BoardWizardRoute />} />
@@ -84,9 +88,9 @@ function App () {
                 <Route
                   path="boards/:boardId/edit"
                   element={
-                    <WithBoardProviders>
+                    <BoardProviders>
                       <EditBoardLayout />
-                    </WithBoardProviders>
+                    </BoardProviders>
                   }
                 >
                   <Route index element={<EditBoardRoute />} />
