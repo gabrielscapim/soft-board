@@ -1,3 +1,4 @@
+export type BOOLEAN = boolean
 export type INTEGER = number
 export type JSONB = Record<string, any>
 export type TEXT = string
