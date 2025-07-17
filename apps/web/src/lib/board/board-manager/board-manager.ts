@@ -5,11 +5,23 @@ import {
   UpdateFlexComponentsParams
 } from './board-manager-interface'
 import { BoardState } from '../board-state'
-export class BoardManager implements BoardManagerI {
-  private _boardState: BoardState
+import { PromiseQueue } from '../promise-queue'
+import { Client } from '@/client'
 
-  constructor (boardState: BoardState) {
-    this._boardState = boardState
+export type BoardManagerOptions = {
+  client: Client
+  boardState: BoardState
+}
+
+export class BoardManager implements BoardManagerI {
+  private _client: Client
+  private _boardState: BoardState
+  private _promiseQueue: PromiseQueue
+
+  constructor (options: BoardManagerOptions) {
+    this._client = options.client
+    this._boardState = options.boardState
+    this._promiseQueue = new PromiseQueue()
   }
 
   addFlexComponents (params: AddFlexComponentsParams) {
@@ -20,6 +32,18 @@ export class BoardManager implements BoardManagerI {
 
     this._boardState.setFlexComponents(newFlexComponents)
     this._boardState.setSelectedFlexComponents(flexComponents.map(flexComponent => flexComponent.id))
+
+    const data = flexComponents.map(flexComponent => ({
+      name: flexComponent.name,
+      type: flexComponent.type,
+      properties: flexComponent.properties,
+      id: flexComponent.id,
+      connectionId: flexComponent.connectionId,
+      screenId: flexComponent.screenId
+    }))
+
+    const action = this._client.createComponents({ boardId: this._boardState.id, components: data })
+    this.runAction(() => action)
   }
 
   deleteFlexComponents (params: DeleteFlexComponentsParams) {
@@ -28,6 +52,9 @@ export class BoardManager implements BoardManagerI {
 
     this._boardState.setFlexComponents(newFlexComponents)
     this._boardState.setSelectedFlexComponents(null)
+
+    const action = this._client.deleteComponents({ boardId: this._boardState.id, componentIds: params.flexComponents })
+    this.runAction(() => action)
   }
 
   updateFlexComponents (params: UpdateFlexComponentsParams) {
@@ -40,5 +67,12 @@ export class BoardManager implements BoardManagerI {
     })
 
     this._boardState.setFlexComponents(newFlexComponents)
+
+    const action = this._client.updateComponents({ boardId: this._boardState.id, components: updatedFlexComponents })
+    this.runAction(() => action)
+  }
+
+  runAction (action: () => Promise<void>) {
+    this._promiseQueue.run(action)
   }
 }
