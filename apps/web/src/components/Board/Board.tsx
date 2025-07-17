@@ -32,7 +32,7 @@ export function Board (props: BoardProps) {
   const boardTranslate = useBoardTranslate(boardState)
   const selectedFlexComponents = useSelectedFlexComponents(boardState)
 
-  useDraggableFlexBoard(boardState, flexBoardContainerRef)
+  useDraggableFlexBoard(boardState, boardManager, flexBoardRef)
   useElementResizer(boardState, flexBoardContainerRef)
   useZoomBoard(boardState, flexBoardContainerRef, flexBoardRef)
   useSelectionBoard(boardState, flexBoardContainerRef, selectionBoxRef)
@@ -54,7 +54,7 @@ export function Board (props: BoardProps) {
       <div
         id="flex-board"
         ref={flexBoardRef}
-        className="w-0 h-0 absolute"
+        className="absolute inset-0"
         style={{ transform: `translate(${boardTranslate.x}px, ${boardTranslate.y}px) scale(${scale})` }}
       >
         {flexComponents.map(flexComponent => (

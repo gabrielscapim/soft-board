@@ -1,23 +1,29 @@
 import { Dimensions, FlexComponent, Offset } from '../../../types'
+import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import { getAlignmentBoardGuides } from '../get-alignment-board-guides'
 import { OnStartDragFlexComponentParams, OnDraggingFlexComponentParams } from './types'
 
 const DISTANCE_TO_BREAK_SNAP = 5
 
+export type DraggableBoardOptions = {
+  boardElement: HTMLElement
+  boardState: BoardState
+  boardManager: BoardManager
+}
+
 export class DraggableBoard {
-  private _boardState: BoardState
   private _boardElement: HTMLElement
+  private _boardState: BoardState
+  private _boardManager: BoardManager
   private _offset: Offset | undefined
   private _selectedElement: HTMLDivElement | undefined
   private _initialFlexComponentProperties: Map<string, Dimensions & Offset> | null = null
 
-  constructor (
-    boardState: BoardState,
-    boardElement: HTMLElement
-  ) {
-    this._boardState = boardState
-    this._boardElement = boardElement
+  constructor (options: DraggableBoardOptions) {
+    this._boardElement = options.boardElement
+    this._boardState = options.boardState
+    this._boardManager = options.boardManager
 
     this.startDrag = this.startDrag.bind(this)
     this.onDragging = this.onDragging.bind(this)
@@ -138,11 +144,6 @@ export class DraggableBoard {
     this._boardState.setFlexComponents(newFlexComponents)
   }
 
-  private onEndDragFlexComponent () {
-    this._boardState.setIsDragging(false)
-    this._initialFlexComponentProperties = null
-  }
-
   private onStartDragFlexComponent (params: OnStartDragFlexComponentParams) {
     const currentSelection = this._boardState.selectedFlexComponents ?? []
     let newSelection: string[] = []
@@ -187,9 +188,17 @@ export class DraggableBoard {
   }
 
   public endDrag () {
+    const selectedIds = this._boardState.selectedFlexComponents ?? []
+    const selectedComponents = this._boardState.flexComponents.filter(flexComponent => selectedIds.includes(flexComponent.id))
+
+    if (selectedComponents.length) {
+      this._boardManager.updateFlexComponents({ updatedFlexComponents: selectedComponents })
+    }
+
     this._selectedElement = undefined
     this._offset = undefined
-    this.onEndDragFlexComponent()
+    this._boardState.setIsDragging(false)
+    this._initialFlexComponentProperties = null
   }
 
   public onDragging (event: MouseEvent) {
@@ -305,7 +314,6 @@ export class DraggableBoard {
 
     // Clicked outside a flex component
     if (!draggableGroupElement && !resizerElement) {
-
       // If there is only one flex component selected or none, deselect it
       if (selectedFlexComponents?.length === 1 || selectedFlexComponents?.length === 0) {
         this._boardState.setSelectedFlexComponents(null)
