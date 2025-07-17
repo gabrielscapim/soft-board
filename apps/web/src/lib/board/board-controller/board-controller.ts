@@ -190,8 +190,8 @@ export class BoardController implements BoardControllerInterface {
     const newTranslateX = (this._boardState.translate.x - centerX) * (params.scale / this._boardState.scale) + centerX
     const newTranslateY = (this._boardState.translate.y - centerY) * (params.scale / this._boardState.scale) + centerY
 
-    this._boardManager.onScaleChange({ scale: params.scale })
-    this._boardManager.onTranslateBoard({ translateX: newTranslateX, translateY: newTranslateY })
+    this._boardState.setScale(params.scale)
+    this._boardState.setTranslate({ x: newTranslateX, y: newTranslateY })
   }
 
   onOrderFlexComponents (params: OnOrderFlexComponentsParams) {

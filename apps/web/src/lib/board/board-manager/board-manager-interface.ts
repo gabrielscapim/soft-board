@@ -1,16 +1,11 @@
 import { FlexComponent } from '../../../types'
-import { Guide } from '../../../types'
 
 export type AddFlexComponentsParams = {
   flexComponents: FlexComponent[]
 }
 
-export type OnDeleteFlexComponentsParams = {
+export type DeleteFlexComponentsParams = {
   flexComponents: string[]
-}
-
-export type OnChangeBoardMovingParams = {
-  isBoardMoving: boolean
 }
 
 export type OnDraggingFlexComponentParams = {
@@ -26,13 +21,6 @@ export type OnDraggingFlexComponentParams = {
     y?: number
   }
   screenId?: string
-}
-
-export type OnGuidesChangedParams = {
-  guides: {
-    horizontal: Guide[]
-    vertical: Guide[]
-  }
 }
 
 export type OnResizingFlexComponentParams = {
@@ -59,19 +47,10 @@ export type OnResizingFlexComponentParams = {
   }
 }
 
-export type OnScaleChangeParams = {
-  scale: number
-}
-
 export type OnStartDragFlexComponentParams = {
   event: MouseEvent
   id?: string | null
   clickedInsideGroup?: boolean
-}
-
-export type OnTranslateBoardParams = {
-  translateX: number
-  translateY: number
 }
 
 export type UpdateFlexComponentParams = {
@@ -80,18 +59,12 @@ export type UpdateFlexComponentParams = {
 
 export interface BoardManagerI {
   addFlexComponents (params: AddFlexComponentsParams): void
-  onChangeBoardMoving (params: OnChangeBoardMovingParams): void
-  onClickOutsideOfFlexComponent (): void
-  onDeleteFlexComponents (params: OnDeleteFlexComponentsParams): void
-  onDeselectFlexComponents (): void
+  deleteFlexComponents (params: DeleteFlexComponentsParams): void
   onDraggingFlexComponent (params: OnDraggingFlexComponentParams): void
   onEndDragFlexComponent (): void
   onEndResizeFlexComponent (): void
-  onGuidesChanged (params: OnGuidesChangedParams): void
   onResizingFlexComponent (params: OnResizingFlexComponentParams): void
-  onScaleChange (params: OnScaleChangeParams): void
   onStartDragFlexComponent (params: OnStartDragFlexComponentParams): void
   onStartResizeFlexComponent (): void
-  onTranslateBoard (params: OnTranslateBoardParams): void
   updateFlexComponent (params: UpdateFlexComponentParams): void
 }

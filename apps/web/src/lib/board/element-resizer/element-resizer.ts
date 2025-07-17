@@ -260,11 +260,9 @@ export class ElementResizer {
       selectedFlexComponents: selected
     })
 
-    this._boardManager.onGuidesChanged({
-      guides: {
-        horizontal: guides.horizontal.filter(guide => guide.diff <= 1),
-        vertical: guides.vertical.filter(guide => guide.diff <= 1)
-      }
+    this._boardState.setGuides({
+      horizontal: guides.horizontal.filter(guide => guide.diff <= 1),
+      vertical: guides.vertical.filter(guide => guide.diff <= 1)
     })
 
     const grid = this._boardState.grid

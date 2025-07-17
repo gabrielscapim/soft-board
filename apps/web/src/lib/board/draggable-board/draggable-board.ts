@@ -130,11 +130,9 @@ export class DraggableBoard {
         selectedFlexComponents: selectedIds
       })
 
-      this._boardManager.onGuidesChanged({
-        guides: {
-          horizontal: guides.horizontal.filter(guide => guide.diff <= 1),
-          vertical: guides.vertical.filter(guide => guide.diff <= 1)
-        }
+      this._boardState.setGuides({
+        horizontal: guides.horizontal.filter(guide => guide.diff <= 1),
+        vertical: guides.vertical.filter(guide => guide.diff <= 1)
       })
 
       // Calculate the delta
@@ -199,7 +197,7 @@ export class DraggableBoard {
 
       // If there is only one flex component selected or none, deselect it
       if (selectedFlexComponents?.length === 1 || selectedFlexComponents?.length === 0) {
-        this._boardManager.onClickOutsideOfFlexComponent()
+        this._boardState.setSelectedFlexComponents(null)
         return
       }
 
@@ -214,7 +212,7 @@ export class DraggableBoard {
       }
 
       if (!clickedInsideGroup) {
-        this._boardManager.onClickOutsideOfFlexComponent()
+        this._boardState.setSelectedFlexComponents(null)
       }
     }
   }

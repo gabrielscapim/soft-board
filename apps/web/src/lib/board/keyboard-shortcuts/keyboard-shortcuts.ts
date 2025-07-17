@@ -19,11 +19,11 @@ export class KeyboardShortcuts {
   }
 
   private onDeleteKeyPressed () {
-    this._boardManager.onDeleteFlexComponents({ flexComponents: this._boardState.selectedFlexComponents ?? [] })
+    this._boardManager.deleteFlexComponents({ flexComponents: this._boardState.selectedFlexComponents ?? [] })
   }
 
   private onEscapeKeyPressed () {
-    this._boardManager.onDeselectFlexComponents()
+    this._boardState.setSelectedFlexComponents(null)
   }
 
   onCopyPressed (event: ClipboardEvent) {

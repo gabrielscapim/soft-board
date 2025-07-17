@@ -1,14 +1,10 @@
 import {
   AddFlexComponentsParams,
   BoardManagerI,
-  OnChangeBoardMovingParams,
-  OnDeleteFlexComponentsParams,
+  DeleteFlexComponentsParams,
   OnDraggingFlexComponentParams,
-  OnGuidesChangedParams,
   OnResizingFlexComponentParams,
-  OnScaleChangeParams,
   OnStartDragFlexComponentParams,
-  OnTranslateBoardParams,
   UpdateFlexComponentParams
 } from './board-manager-interface'
 import { BoardState } from '../board-state'
@@ -35,23 +31,11 @@ export class BoardManager implements BoardManagerI {
     this._boardState.setSelectedFlexComponents(flexComponents.map(flexComponent => flexComponent.id))
   }
 
-  onChangeBoardMoving (params: OnChangeBoardMovingParams) {
-    this._boardState.setIsBoardMoving(params.isBoardMoving)
-  }
-
-  onClickOutsideOfFlexComponent () {
-    this._boardState.setSelectedFlexComponents(null)
-  }
-
-  onDeleteFlexComponents (params: OnDeleteFlexComponentsParams) {
+  deleteFlexComponents (params: DeleteFlexComponentsParams) {
     const newFlexComponents = this._boardState.flexComponents
       .filter(flexComponent => !params.flexComponents.includes(flexComponent.id))
 
     this._boardState.setFlexComponents(newFlexComponents)
-    this._boardState.setSelectedFlexComponents(null)
-  }
-
-  onDeselectFlexComponents () {
     this._boardState.setSelectedFlexComponents(null)
   }
 
@@ -140,10 +124,6 @@ export class BoardManager implements BoardManagerI {
   onEndResizeFlexComponent () {
     this._boardState.setIsResizing(false)
     this._initialFlexComponentProperties = null
-  }
-
-  onGuidesChanged (params: OnGuidesChangedParams) {
-    this._boardState.setGuides(params.guides)
   }
 
   onResizingFlexComponent (params: OnResizingFlexComponentParams) {
@@ -316,10 +296,6 @@ export class BoardManager implements BoardManagerI {
     this._boardState.setSelectedFlexComponents(selected)
   }
 
-  onScaleChange (params: OnScaleChangeParams) {
-    this._boardState.setScale(params.scale)
-  }
-
   onStartDragFlexComponent (params: OnStartDragFlexComponentParams) {
     const currentSelection = this._boardState.selectedFlexComponents ?? []
     let newSelection: string[] = []
@@ -386,10 +362,6 @@ export class BoardManager implements BoardManagerI {
     }
 
     this._initialFlexComponentProperties = initialProperties
-  }
-
-  onTranslateBoard (params: OnTranslateBoardParams): void {
-    this._boardState.setTranslate({ x: params.translateX, y: params.translateY })
   }
 
   updateFlexComponent (params: UpdateFlexComponentParams) {
