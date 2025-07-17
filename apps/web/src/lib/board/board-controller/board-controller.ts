@@ -55,14 +55,14 @@ export class BoardController implements BoardControllerInterface {
       const minX = Math.min(...flexComponents.map(flexComponent => flexComponent.properties.x))
 
       flexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponent({
-          updatedFlexComponent: {
+        this._boardManager.updateFlexComponents({
+          updatedFlexComponents: [{
             ...flexComponent,
             properties: {
               ...flexComponent.properties,
               x: minX
             }
-          }
+          }]
         })
       })
     }
@@ -71,14 +71,14 @@ export class BoardController implements BoardControllerInterface {
       const centerX = Math.min(...flexComponents.map(flexComponent => flexComponent.properties.x + flexComponent.properties.width / 2))
 
       flexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponent({
-          updatedFlexComponent: {
+        this._boardManager.updateFlexComponents({
+          updatedFlexComponents: [{
             ...flexComponent,
             properties: {
               ...flexComponent.properties,
               x: centerX - flexComponent.properties.width / 2
             }
-          }
+          }]
         })
       })
     }
@@ -87,14 +87,14 @@ export class BoardController implements BoardControllerInterface {
       const maxX = Math.max(...flexComponents.map(flexComponent => flexComponent.properties.x + flexComponent.properties.width))
 
       flexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponent({
-          updatedFlexComponent: {
+        this._boardManager.updateFlexComponents({
+          updatedFlexComponents: [{
             ...flexComponent,
             properties: {
               ...flexComponent.properties,
               x: maxX - flexComponent.properties.width
             }
-          }
+          }]
         })
       })
     }
@@ -103,14 +103,14 @@ export class BoardController implements BoardControllerInterface {
       const minY = Math.min(...flexComponents.map(flexComponent => flexComponent.properties.y))
 
       flexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponent({
-          updatedFlexComponent: {
+        this._boardManager.updateFlexComponents({
+          updatedFlexComponents: [{
             ...flexComponent,
             properties: {
               ...flexComponent.properties,
               y: minY
             }
-          }
+          }]
         })
       })
     }
@@ -119,14 +119,14 @@ export class BoardController implements BoardControllerInterface {
       const centerY = Math.min(...flexComponents.map(flexComponent => flexComponent.properties.y + flexComponent.properties.height / 2))
 
       flexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponent({
-          updatedFlexComponent: {
+        this._boardManager.updateFlexComponents({
+          updatedFlexComponents: [{
             ...flexComponent,
             properties: {
               ...flexComponent.properties,
               y: centerY - flexComponent.properties.height / 2
             }
-          }
+          }]
         })
       })
     }
@@ -135,14 +135,14 @@ export class BoardController implements BoardControllerInterface {
       const maxY = Math.max(...flexComponents.map(flexComponent => flexComponent.properties.y + flexComponent.properties.height))
 
       flexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponent({
-          updatedFlexComponent: {
+        this._boardManager.updateFlexComponents({
+          updatedFlexComponents: [{
             ...flexComponent,
             properties: {
               ...flexComponent.properties,
               y: maxY - flexComponent.properties.height
             }
-          }
+          }]
         })
       })
     }
@@ -152,15 +152,15 @@ export class BoardController implements BoardControllerInterface {
       const maxX = Math.max(...flexComponents.map(flexComponent => flexComponent.properties.x + flexComponent.properties.width))
 
       flexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponent({
-          updatedFlexComponent: {
+        this._boardManager.updateFlexComponents({
+          updatedFlexComponents: [{
             ...flexComponent,
             properties: {
               ...flexComponent.properties,
               x: minX,
               width: maxX - minX
             }
-          }
+          }]
         })
       })
     }
@@ -170,15 +170,15 @@ export class BoardController implements BoardControllerInterface {
       const maxY = Math.max(...flexComponents.map(flexComponent => flexComponent.properties.y + flexComponent.properties.height))
 
       flexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponent({
-          updatedFlexComponent: {
+        this._boardManager.updateFlexComponents({
+          updatedFlexComponents: [{
             ...flexComponent,
             properties: {
               ...flexComponent.properties,
               y: minY,
               height: maxY - minY
             }
-          }
+          }]
         })
       })
     }
@@ -205,14 +205,14 @@ export class BoardController implements BoardControllerInterface {
       let currentNewMax = max + 1
 
       selectedFlexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponent({
-          updatedFlexComponent: {
+        this._boardManager.updateFlexComponents({
+          updatedFlexComponents: [{
             ...flexComponent,
             properties: {
               ...flexComponent.properties,
               zIndex: flexComponent.properties.zIndex === max ? max : currentNewMax
             }
-          }
+          }]
         })
 
         currentNewMax += 1
@@ -231,24 +231,24 @@ export class BoardController implements BoardControllerInterface {
 
           const adjacentFlexComponent = candidates[0]
 
-          this._boardManager.updateFlexComponent({
-            updatedFlexComponent: {
+          this._boardManager.updateFlexComponents({
+            updatedFlexComponents: [{
               ...flexComponent,
               properties: {
                 ...flexComponent.properties,
                 zIndex: adjacentFlexComponent.properties.zIndex
               }
-            }
+            }]
           })
 
-          this._boardManager.updateFlexComponent({
-            updatedFlexComponent: {
+          this._boardManager.updateFlexComponents({
+            updatedFlexComponents: [{
               ...adjacentFlexComponent,
               properties: {
                 ...adjacentFlexComponent.properties,
                 zIndex: currentZ
               }
-            }
+            }]
           })
         }
       })
@@ -259,14 +259,14 @@ export class BoardController implements BoardControllerInterface {
       let currentNewMin = min - 1
 
       selectedFlexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponent({
-          updatedFlexComponent: {
+        this._boardManager.updateFlexComponents({
+          updatedFlexComponents: [{
             ...flexComponent,
             properties: {
               ...flexComponent.properties,
               zIndex: flexComponent.properties.zIndex === min ? min : currentNewMin
             }
-          }
+          }]
         })
 
         currentNewMin -= 1
@@ -285,24 +285,24 @@ export class BoardController implements BoardControllerInterface {
 
           const adjacentFlexComponent = candidates[0]
 
-          this._boardManager.updateFlexComponent({
-            updatedFlexComponent: {
+          this._boardManager.updateFlexComponents({
+            updatedFlexComponents: [{
               ...flexComponent,
               properties: {
                 ...flexComponent.properties,
                 zIndex: adjacentFlexComponent.properties.zIndex
               }
-            }
+            }]
           })
 
-          this._boardManager.updateFlexComponent({
-            updatedFlexComponent: {
+          this._boardManager.updateFlexComponents({
+            updatedFlexComponents: [{
               ...adjacentFlexComponent,
               properties: {
                 ...adjacentFlexComponent.properties,
                 zIndex: currentZ
               }
-            }
+            }]
           })
         }
       })
@@ -310,6 +310,6 @@ export class BoardController implements BoardControllerInterface {
   }
 
   onUpdateFlexComponent (params: OnUpdateFlexComponentParams): void {
-    this._boardManager.updateFlexComponent({ updatedFlexComponent: params.flexComponent })
+    this._boardManager.updateFlexComponents({ updatedFlexComponents: [params.flexComponent] })
   }
 }

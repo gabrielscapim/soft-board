@@ -2,7 +2,7 @@ import {
   AddFlexComponentsParams,
   BoardManagerI,
   DeleteFlexComponentsParams,
-  UpdateFlexComponentParams
+  UpdateFlexComponentsParams
 } from './board-manager-interface'
 import { BoardState } from '../board-state'
 export class BoardManager implements BoardManagerI {
@@ -30,15 +30,13 @@ export class BoardManager implements BoardManagerI {
     this._boardState.setSelectedFlexComponents(null)
   }
 
-  updateFlexComponent (params: UpdateFlexComponentParams) {
-    const { updatedFlexComponent } = params
+  updateFlexComponents (params: UpdateFlexComponentsParams) {
+    const { updatedFlexComponents } = params
 
     const newFlexComponents = this._boardState.flexComponents.map(flexComponent => {
-      if (flexComponent.id === updatedFlexComponent.id) {
-        return updatedFlexComponent
-      }
+      const updatedComponent = updatedFlexComponents.find(updated => updated.id === flexComponent.id)
 
-      return flexComponent
+      return updatedComponent ? updatedComponent : flexComponent
     })
 
     this._boardState.setFlexComponents(newFlexComponents)
