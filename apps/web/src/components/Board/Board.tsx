@@ -32,10 +32,10 @@ export function Board (props: BoardProps) {
   const boardTranslate = useBoardTranslate(boardState)
   const selectedFlexComponents = useSelectedFlexComponents(boardState)
 
-  useDraggableFlexBoard(boardState, flexBoardContainerRef.current)
-  useElementResizer(boardState, flexBoardContainerRef.current)
-  useZoomBoard(boardState, flexBoardContainerRef.current, flexBoardRef.current)
-  useSelectionBoard(boardState, flexBoardContainerRef.current, selectionBoxRef.current)
+  useDraggableFlexBoard(boardState, flexBoardContainerRef)
+  useElementResizer(boardState, flexBoardContainerRef)
+  useZoomBoard(boardState, flexBoardContainerRef, flexBoardRef)
+  useSelectionBoard(boardState, flexBoardContainerRef, selectionBoxRef)
   useKeyboardShortcuts(boardState, boardManager)
 
   return (

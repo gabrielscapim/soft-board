@@ -3,23 +3,25 @@ import { BoardState, DraggableBoard } from '../lib'
 
 export function useDraggableFlexBoard (
   boardState: BoardState,
-  flexBoardElement: HTMLDivElement | null
+  flexBoardRef: React.RefObject<HTMLDivElement>
 ) {
   useEffect(() => {
-    if (flexBoardElement) {
-      const draggableBoard = new DraggableBoard(boardState, flexBoardElement)
+    const element = flexBoardRef.current
 
-      flexBoardElement.addEventListener('mousedown', draggableBoard.startDrag)
-      flexBoardElement.addEventListener('mousemove', draggableBoard.onDragging)
-      flexBoardElement.addEventListener('mouseup', draggableBoard.endDrag)
-      flexBoardElement.addEventListener('mouseleave', draggableBoard.endDrag)
+    if (!element) return
 
-      return () => {
-        flexBoardElement.removeEventListener('mousedown', draggableBoard.startDrag)
-        flexBoardElement.removeEventListener('mousemove', draggableBoard.onDragging)
-        flexBoardElement.removeEventListener('mouseup', draggableBoard.endDrag)
-        flexBoardElement.removeEventListener('mouseleave', draggableBoard.endDrag)
-      }
+    const draggableBoard = new DraggableBoard(boardState, element)
+
+    element.addEventListener('mousedown', draggableBoard.startDrag)
+    element.addEventListener('mousemove', draggableBoard.onDragging)
+    element.addEventListener('mouseup', draggableBoard.endDrag)
+    element.addEventListener('mouseleave', draggableBoard.endDrag)
+
+    return () => {
+      element.removeEventListener('mousedown', draggableBoard.startDrag)
+      element.removeEventListener('mousemove', draggableBoard.onDragging)
+      element.removeEventListener('mouseup', draggableBoard.endDrag)
+      element.removeEventListener('mouseleave', draggableBoard.endDrag)
     }
-  }, [flexBoardElement, boardState])
+  }, [flexBoardRef, boardState])
 }
