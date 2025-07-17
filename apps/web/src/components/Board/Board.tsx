@@ -21,7 +21,7 @@ export type BoardProps = {
 }
 
 export function Board (props: BoardProps) {
-  const { boardState } = props
+  const { boardState, boardController } = props
 
   const flexBoardContainerRef = useRef<HTMLDivElement>(null)
   const flexBoardRef = useRef<HTMLDivElement>(null)
@@ -62,7 +62,7 @@ export function Board (props: BoardProps) {
             component: {
               ...flexComponent
             },
-            boardController: props.boardController
+            boardController
           })
         ))}
 
