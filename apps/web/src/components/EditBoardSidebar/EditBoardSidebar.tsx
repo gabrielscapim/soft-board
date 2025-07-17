@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Sidebar, useSidebar } from '../ui/sidebar'
 import { CollapsibleEditBoardSidebar, FixedEditBoardSidebar } from './components'
+import { useBoard } from '@/hooks'
 
 export type EditBoardSidebarSection =
   'Components' |
@@ -11,6 +12,7 @@ export function EditBoardSidebar () {
   const [selectedSection, setSelectedSection] = useState<EditBoardSidebarSection>('Components')
   const [search, setSearch] = useState('')
   const { setOpen } = useSidebar()
+  const { boardController } = useBoard()
 
   return (
     <Sidebar
@@ -25,6 +27,7 @@ export function EditBoardSidebar () {
         }}
       />
       <CollapsibleEditBoardSidebar
+        boardController={boardController}
         selectedSection={selectedSection}
         search={search}
         onSearchChange={setSearch}

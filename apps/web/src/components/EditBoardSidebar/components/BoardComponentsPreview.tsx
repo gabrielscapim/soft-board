@@ -3,16 +3,17 @@ import { useMemo } from 'react'
 import { BoardComponentCardPreview } from './BoardComponentCardPreview'
 import { FlexComponentType } from '@/types'
 import Fuse from 'fuse.js'
-import { useBoard, useScreenDimensions } from '@/hooks'
+import { useScreenDimensions } from '@/hooks'
+import { BoardController } from '@/lib'
 
 export type BoardComponentsPreviewProps = {
+  boardController: BoardController
   search: string
 }
 
 export function BoardComponentsPreview (props: BoardComponentsPreviewProps) {
-  const { search } = props
+  const { boardController, search } = props
 
-  const { boardController } = useBoard()
   const { width, height } = useScreenDimensions()
 
   const componentsPreview = useMemo(() => {

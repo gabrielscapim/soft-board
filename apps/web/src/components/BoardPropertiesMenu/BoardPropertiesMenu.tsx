@@ -4,17 +4,18 @@ import clsx, { ClassValue } from 'clsx'
 import { useState, useEffect } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { ActionsTabContent, LayoutTabContent, PropertiesTabContent } from './Tabs'
-import { useBoard } from '@/hooks'
+import { BoardController, BoardState } from '@/lib'
 
 export type BoardPropertiesMenuProps = {
+  boardState: BoardState
+  boardController: BoardController
   selectedFlexComponents: FlexComponent[]
   className?: ClassValue
 }
 
 export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
-  const { selectedFlexComponents, className } = props
+  const { boardState, boardController, selectedFlexComponents, className } = props
 
-  const { boardState, boardController } = useBoard()
   const [tab, setTab] = useState('properties')
   const [flexComponent, setFlexComponent] = useState<FlexComponent | null>(selectedFlexComponents.length === 1 ? selectedFlexComponents[0] : null)
 
@@ -64,7 +65,7 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
 
   return (
     <div
-      className={clsx('bg-sidebar absolute top-16 right-4 rounded-xl border w-80 shadow-md', className)}
+      className={clsx('bg-sidebar absolute top-20 right-6 rounded-xl border w-80 shadow-md', className)}
       style={{ zIndex: 100_000 }}
     >
       <Tabs value={tab} className="gap-0" onValueChange={setTab}>

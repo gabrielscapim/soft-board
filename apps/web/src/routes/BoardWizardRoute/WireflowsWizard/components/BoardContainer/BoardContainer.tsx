@@ -1,11 +1,9 @@
-import { BoardController, BoardState } from '@/lib'
 import { BoardContainerHeader } from './BoardContainerHeader'
 import { Board, BoardPropertiesMenu } from '@/components'
-import { useFlexComponents, useSelectedFlexComponents } from '@/hooks'
+import { useBoard, useFlexComponents, useSelectedFlexComponents } from '@/hooks'
 
 export function BoardContainer () {
-  const boardState = new BoardState()
-  const boardController = new BoardController(boardState)
+  const { boardState, boardController } = useBoard()
 
   const selected = useSelectedFlexComponents(boardState)
   const flexComponents = useFlexComponents(boardState)
@@ -16,10 +14,15 @@ export function BoardContainer () {
       <BoardContainerHeader />
       {selectedFlexComponents.length > 0 && (
         <BoardPropertiesMenu
+          boardState={boardState}
+          boardController={boardController}
           selectedFlexComponents={selectedFlexComponents}
         />
       )}
-      <Board boardState={boardState} boardController={boardController} />
+      <Board
+        boardState={boardState}
+        boardController={boardController}
+      />
     </>
   )
 }
