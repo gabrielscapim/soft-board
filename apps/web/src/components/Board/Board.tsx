@@ -32,7 +32,7 @@ export function Board (props: BoardProps) {
   const boardTranslate = useBoardTranslate(boardState)
   const selectedFlexComponents = useSelectedFlexComponents(boardState)
 
-  useDraggableFlexBoard(boardState, boardManager, flexBoardRef)
+  useDraggableFlexBoard(boardState, boardManager, flexBoardContainerRef)
   useElementResizer(boardState, flexBoardContainerRef)
   useZoomBoard(boardState, flexBoardContainerRef, flexBoardRef)
   useSelectionBoard(boardState, flexBoardContainerRef, selectionBoxRef)
