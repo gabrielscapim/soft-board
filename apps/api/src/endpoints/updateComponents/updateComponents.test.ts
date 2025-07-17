@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { DatabaseFactory, getPool } from '../../libs'
 import { createApp } from '../../setup'
-import * as updateComponent from './updateComponent'
+import * as updateComponents from './updateComponents'
 import request from 'supertest'
 
 describe('updateComponent', () => {
@@ -18,7 +18,7 @@ describe('updateComponent', () => {
     const newConnectionId = connectionComponent.id
 
     const app = createApp({
-      endpoints: { updateComponent },
+      endpoints: { updateComponents },
       tests: {
         auth: { userId: user.id },
         team: { teamId: team.id, memberRole: 'member' }
@@ -26,12 +26,14 @@ describe('updateComponent', () => {
     })
 
     await request(app)
-      .post('/updateComponent')
+      .post('/updateComponents')
       .send({
-        id: component.id,
         boardId: board.id,
-        name: newName,
-        connectionId: newConnectionId
+        components: [{
+          id: component.id,
+          name: newName,
+          connectionId: newConnectionId
+        }]
       })
 
     const check = await pool

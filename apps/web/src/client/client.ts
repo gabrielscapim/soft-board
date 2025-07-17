@@ -39,7 +39,7 @@ import type {
   DeleteComponentsCommand,
   GetComponentsQuery,
   GetComponentsResult,
-  UpdateComponentCommand
+  UpdateComponentsCommand
 } from 'types/endpoints'
 
 export type ClientOptions = {
@@ -194,8 +194,8 @@ export class Client {
     await this.axios.post('/updateBoardStep', data)
   }
 
-  async updateComponent (data: UpdateComponentCommand): Promise<void> {
-    await this.axios.post('/updateComponent', data)
+  async updateComponents (data: UpdateComponentsCommand): Promise<void> {
+    await this.axios.post('/updateComponents', data)
   }
 
   async updateMemberRole (data: UpdateMemberRoleCommand): Promise<void> {
