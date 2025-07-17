@@ -6,9 +6,4 @@ type BoardContextValue = {
   boardController: BoardController
 }
 
-const boardState = new BoardState()
-
-export const BoardContext = createContext<BoardContextValue>({
-  boardState,
-  boardController: new BoardController(boardState)
-})
+export const BoardContext = createContext<BoardContextValue | null>(null)

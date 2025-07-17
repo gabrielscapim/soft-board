@@ -31,6 +31,14 @@ const client = new Client()
 const queryClient = new QueryClient()
 
 function App () {
+  const WithBoardProviders = ({ children }: { children: React.ReactNode }) => (
+    <TeamProvider>
+      <AuthorizationProvider>
+        <BoardContextProvider>{children}</BoardContextProvider>
+      </AuthorizationProvider>
+    </TeamProvider>
+  )
+
   return (
     <QueryClientProvider client={queryClient}>
       <ClientProvider client={client}>
@@ -43,10 +51,6 @@ function App () {
               <Route path="/" element={<UnauthenticatedGuardLayout />}>
                 <Route index element={<SignInRoute />} />
                 <Route path="sign-in" element={<SignInRoute />} />
-              </Route>
-
-              <Route path="/board-test" element={<EditBoardLayout />}>
-                <Route index element={<EditBoardRoute />} />
               </Route>
 
               {/* Private Routes */}
@@ -69,16 +73,23 @@ function App () {
                 <Route
                   path="boards/:boardId"
                   element={
-                    <TeamProvider>
-                      <AuthorizationProvider>
-                        <BoardContextProvider>
-                          <BoardWizardLayout />
-                        </BoardContextProvider>
-                      </AuthorizationProvider>
-                    </TeamProvider>
+                    <WithBoardProviders>
+                      <BoardWizardLayout />
+                    </WithBoardProviders>
                   }
                 >
                   <Route index element={<BoardWizardRoute />} />
+                </Route>
+
+                <Route
+                  path="boards/:boardId/edit"
+                  element={
+                    <WithBoardProviders>
+                      <EditBoardLayout />
+                    </WithBoardProviders>
+                  }
+                >
+                  <Route index element={<EditBoardRoute />} />
                 </Route>
               </Route>
 

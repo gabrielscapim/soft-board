@@ -1,9 +1,12 @@
+import { FLEX_COMPONENTS_SCHEMAS } from '@/flex-components'
 import { BoardEvent, BoardEventListener, FlexComponent, Guide } from '../../../types'
 
-/**
- * The class which contains the flex components and board configs.
- */
+export type BoardStateOptions = {
+  id?: string
+}
+
 export class BoardState {
+  private _id: string
   private _boardListeners: Record<string, BoardEventListener[]>
   private _flexComponents: FlexComponent[]
   private _grid: number
@@ -15,9 +18,17 @@ export class BoardState {
   private _selectedFlexComponents: string[] | null
   private _translate: { x: number, y: number }
 
-  constructor () {
+  constructor (options: BoardStateOptions = {}) {
+    this._id = options.id || 'default-board-id'
     this._boardListeners = {}
-    this._flexComponents = []
+    this._flexComponents = [
+      {
+        id: '1',
+        type: 'button',
+        properties: FLEX_COMPONENTS_SCHEMAS.button.variations[0].properties,
+        name: FLEX_COMPONENTS_SCHEMAS.button.variations[0].name,
+      }
+    ]
     this._grid = 1
     this._guides = { vertical: [], horizontal: [] }
     this._isBoardMoving = false
@@ -26,6 +37,10 @@ export class BoardState {
     this._scale = 1
     this._selectedFlexComponents = null
     this._translate = { x: 0, y: 0 }
+  }
+
+  get id () {
+    return this._id
   }
 
   get flexComponents () {
