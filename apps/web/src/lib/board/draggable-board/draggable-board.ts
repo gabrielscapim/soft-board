@@ -24,47 +24,53 @@ export class DraggableBoard {
     this.endDrag = this.endDrag.bind(this)
   }
 
-  private onStartDragFlexComponent (params: OnStartDragFlexComponentParams) {
-    const currentSelection = this._boardState.selectedFlexComponents ?? []
-    let newSelection: string[] = []
+  private clickedInsideGroup (selectedComponents: FlexComponent[], clickPosition: Offset) {
+    const groupDimensions = this.getGroupDimensions(selectedComponents)
+    const scale = this._boardState.scale
+    const translate = this._boardState.translate
 
-    if (params.clickedInsideGroup && params.id) {
-      newSelection = currentSelection
+    return (
+      clickPosition.x >= groupDimensions.x * scale + translate.x &&
+      clickPosition.x <= (groupDimensions.x + groupDimensions.width) * scale + translate.x &&
+      clickPosition.y >= groupDimensions.y * scale + translate.y &&
+      clickPosition.y <= (groupDimensions.y + groupDimensions.height) * scale + translate.y
+    )
+  }
+
+  private getGroupDimensions (selectedComponents: FlexComponent[]) {
+    if (selectedComponents.length === 0) {
+      return { x: 0, y: 0, width: 0, height: 0 }
     }
 
-    if (params.clickedInsideGroup && !params.id) {
-      newSelection = currentSelection
+    let groupMinX = selectedComponents[0].properties.x
+    let groupMinY = selectedComponents[0].properties.y
+    let groupMaxX = selectedComponents[0].properties.x + selectedComponents[0].properties.width
+    let groupMaxY = selectedComponents[0].properties.y + selectedComponents[0].properties.height
+
+    selectedComponents.forEach(fc => {
+      const { x, y, width, height } = fc.properties
+
+      if (x < groupMinX) groupMinX = x
+      if (y < groupMinY) groupMinY = y
+      if (x + width > groupMaxX) groupMaxX = x + width
+      if (y + height > groupMaxY) groupMaxY = y + height
+    })
+
+    const groupWidth = groupMaxX - groupMinX
+    const groupHeight = groupMaxY - groupMinY
+
+    return {
+      x: groupMinX,
+      y: groupMinY,
+      width: groupWidth,
+      height: groupHeight
     }
+  }
 
-    if (params.clickedInsideGroup && params.id && params.event.shiftKey) {
-      newSelection = Array.from(new Set([...currentSelection, params.id]))
-    }
+  private getMousePosition (event: MouseEvent) {
+    const rect = this._boardElement.getBoundingClientRect()
 
-    if (!params.clickedInsideGroup && params.id && !params.event.shiftKey) {
-      newSelection = [params.id]
-    }
-
-    if (!params.clickedInsideGroup && params.id && params.event.shiftKey) {
-      newSelection = Array.from(new Set([...currentSelection, params.id]))
-    }
-
-    const initialProperties = new Map<string, Dimensions & Offset>()
-
-    for (const selectedId of newSelection) {
-      const component = this._boardState.flexComponents.find(flexComponent => flexComponent.id === selectedId)
-
-      if (component) {
-        initialProperties.set(selectedId, {
-          x: component.properties.x,
-          y: component.properties.y,
-          width: component.properties.width,
-          height: component.properties.height
-        })
-      }
-    }
-
-    this._initialFlexComponentProperties = initialProperties
-    this._boardState.setSelectedFlexComponents(newSelection)
+    return { x: event.clientX - rect.left, y: event.clientY - rect.top }
   }
 
   private onDraggingFlexComponent (params: OnDraggingFlexComponentParams) {
@@ -137,53 +143,47 @@ export class DraggableBoard {
     this._initialFlexComponentProperties = null
   }
 
-  private clickedInsideGroup (selectedComponents: FlexComponent[], clickPosition: Offset) {
-    const groupDimensions = this.getGroupDimensions(selectedComponents)
-    const scale = this._boardState.scale
-    const translate = this._boardState.translate
+  private onStartDragFlexComponent (params: OnStartDragFlexComponentParams) {
+    const currentSelection = this._boardState.selectedFlexComponents ?? []
+    let newSelection: string[] = []
 
-    return (
-      clickPosition.x >= groupDimensions.x * scale + translate.x &&
-      clickPosition.x <= (groupDimensions.x + groupDimensions.width) * scale + translate.x &&
-      clickPosition.y >= groupDimensions.y * scale + translate.y &&
-      clickPosition.y <= (groupDimensions.y + groupDimensions.height) * scale + translate.y
-    )
-  }
-
-  private getGroupDimensions (selectedComponents: FlexComponent[]) {
-    if (selectedComponents.length === 0) {
-      return { x: 0, y: 0, width: 0, height: 0 }
+    if (params.clickedInsideGroup && params.id) {
+      newSelection = currentSelection
     }
 
-    let groupMinX = selectedComponents[0].properties.x
-    let groupMinY = selectedComponents[0].properties.y
-    let groupMaxX = selectedComponents[0].properties.x + selectedComponents[0].properties.width
-    let groupMaxY = selectedComponents[0].properties.y + selectedComponents[0].properties.height
-
-    selectedComponents.forEach(fc => {
-      const { x, y, width, height } = fc.properties
-
-      if (x < groupMinX) groupMinX = x
-      if (y < groupMinY) groupMinY = y
-      if (x + width > groupMaxX) groupMaxX = x + width
-      if (y + height > groupMaxY) groupMaxY = y + height
-    })
-
-    const groupWidth = groupMaxX - groupMinX
-    const groupHeight = groupMaxY - groupMinY
-
-    return {
-      x: groupMinX,
-      y: groupMinY,
-      width: groupWidth,
-      height: groupHeight
+    if (params.clickedInsideGroup && !params.id) {
+      newSelection = currentSelection
     }
-  }
 
-  private getMousePosition (event: MouseEvent) {
-    const rect = this._boardElement.getBoundingClientRect()
+    if (params.clickedInsideGroup && params.id && params.event.shiftKey) {
+      newSelection = Array.from(new Set([...currentSelection, params.id]))
+    }
 
-    return { x: event.clientX - rect.left, y: event.clientY - rect.top }
+    if (!params.clickedInsideGroup && params.id && !params.event.shiftKey) {
+      newSelection = [params.id]
+    }
+
+    if (!params.clickedInsideGroup && params.id && params.event.shiftKey) {
+      newSelection = Array.from(new Set([...currentSelection, params.id]))
+    }
+
+    const initialProperties = new Map<string, Dimensions & Offset>()
+
+    for (const selectedId of newSelection) {
+      const component = this._boardState.flexComponents.find(flexComponent => flexComponent.id === selectedId)
+
+      if (component) {
+        initialProperties.set(selectedId, {
+          x: component.properties.x,
+          y: component.properties.y,
+          width: component.properties.width,
+          height: component.properties.height
+        })
+      }
+    }
+
+    this._initialFlexComponentProperties = initialProperties
+    this._boardState.setSelectedFlexComponents(newSelection)
   }
 
   public endDrag () {
