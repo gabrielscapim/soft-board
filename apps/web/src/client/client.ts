@@ -36,7 +36,7 @@ import type {
   GetRequirementsQuery,
   GetRequirementsResult,
   UpdateRequirementCommand,
-  DeleteComponentCommand,
+  DeleteComponentsCommand,
   GetComponentsQuery,
   GetComponentsResult,
   UpdateComponentCommand
@@ -118,8 +118,8 @@ export class Client {
     await this.axios.post('/deleteBoard', data)
   }
 
-  async deleteComponent (data: DeleteComponentCommand): Promise<void> {
-    await this.axios.post('/deleteComponent', data)
+  async deleteComponents (data: DeleteComponentsCommand): Promise<void> {
+    await this.axios.post('/deleteComponents', data)
   }
 
   async deleteMember (data: DeleteMemberCommand): Promise<void> {

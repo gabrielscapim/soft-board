@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import { DatabaseFactory, getPool } from '../../libs'
 import { createApp } from '../../setup'
 import request from 'supertest'
-import * as deleteComponent from './deleteComponent'
+import * as deleteComponents from './deleteComponents'
 
 describe('deleteComponent', () => {
   test('set deleted to true', async () => {
@@ -15,7 +15,7 @@ describe('deleteComponent', () => {
     const component = await factory.createComponent({ boardId: board.id, teamId: team.id })
 
     const app = createApp({
-      endpoints: { deleteComponent },
+      endpoints: { deleteComponents },
       tests: {
         auth: { userId: user.id },
         team: { teamId: team.id, memberRole: 'member' }
@@ -23,9 +23,9 @@ describe('deleteComponent', () => {
     })
 
     await request(app)
-      .post('/deleteComponent')
+      .post('/deleteComponents')
       .send({
-        id: component.id,
+        componentIds: [component.id],
         boardId: board.id
       })
 
