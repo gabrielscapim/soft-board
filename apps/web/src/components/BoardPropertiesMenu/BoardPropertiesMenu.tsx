@@ -31,7 +31,7 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
     boardController.onUpdateFlexComponent({
       flexComponent
     })
-  }, 200)
+  }, 350)
 
   // Update properties of the flex component
   const onUpdateProperties = (
