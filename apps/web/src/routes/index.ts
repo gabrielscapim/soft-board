@@ -1,6 +1,6 @@
-export * from './BoardRoute'
 export * from './BoardsRoute'
 export * from './BoardWizardRoute'
+export * from './EditBoardRoute'
 export * from './ErrorRoute'
 export * from './MembersRoute'
 export * from './SettingsRoute'
