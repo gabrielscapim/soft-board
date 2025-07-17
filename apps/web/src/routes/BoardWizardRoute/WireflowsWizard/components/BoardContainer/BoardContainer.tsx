@@ -17,6 +17,7 @@ export function BoardContainer () {
       />
       {selectedFlexComponents.length > 0 && (
         <BoardPropertiesMenu
+          className="top-30"
           boardState={boardState}
           boardController={boardController}
           selectedFlexComponents={selectedFlexComponents}
