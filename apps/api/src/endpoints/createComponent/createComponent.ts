@@ -8,6 +8,7 @@ type Handler = RequestHandler<unknown, unknown, CreateComponentCommand>
 
 const schema = yup.object({
   boardId: yup.string().required(),
+  name: yup.string().required().max(255),
   type: yup.string().required(),
   properties: yup.object().required(),
   id: yup.string().nullable().optional(),
@@ -20,6 +21,7 @@ export function handler (): Handler {
     const teamId = req.team!.teamId
     const {
       boardId,
+      name,
       type,
       properties,
       id = randomUUID(),
@@ -43,6 +45,7 @@ export function handler (): Handler {
         teamId,
         boardId,
         type,
+        name,
         properties,
         connectionId,
         screenId
