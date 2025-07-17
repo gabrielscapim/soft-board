@@ -1,4 +1,5 @@
 export * from './createBoard'
+export * from './createComponent'
 export * from './createMember'
 export * from './createRequirement'
 export * from './createTeam'
