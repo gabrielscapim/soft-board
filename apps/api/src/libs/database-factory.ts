@@ -37,8 +37,10 @@ export class DatabaseFactory {
     const now = new Date()
     const created: ComponentDatabase = {
       id: component.id ?? randomUUID(),
+      name: component.name ?? randomUUID(),
       teamId: component.teamId ?? randomUUID(),
       boardId: component.boardId ?? randomUUID(),
+      deleted: component.deleted ?? false,
       type: component.type ?? 'button',
       properties: component.properties ?? {},
       connectionId: component.connectionId ?? null,
