@@ -63,7 +63,7 @@ export function WireflowsWizard () {
       </div>
 
       <div className="w-7/12 flex flex-col h-full">
-        <div className="bg-background sticky top-0 shrink-0 p-3 flex justify-between items-center w-full">
+        <div className="bg-background sticky top-0 shrink-0 p-3 h-15 flex justify-between items-center w-full border-b-1">
           <MaximizeBoardButton />
           <BoardZoomController
             scale={scale}

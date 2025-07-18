@@ -11,7 +11,7 @@ export function ChatContainerHeader (props: ChatContainerHeaderProps) {
 
   return (
     <div
-      className="flex items-center gap-2 px-4 border-b"
+      className="flex items-center gap-2 px-4 border-b h-15"
       style={{ height: '60px' }}
     >
       <Avatar>
