@@ -1,8 +1,12 @@
 import { BoardContainerHeader } from './BoardContainerHeader'
-import { Board, BoardPropertiesMenu } from '@/components'
+import { Board, BoardPropertiesMenu, BoardProps } from '@/components'
 import { useBoardContext, useFlexComponents, useSelectedFlexComponents } from '@/hooks'
 
-export function BoardContainer () {
+export type BoardContainerProps = Partial<BoardProps> & {
+  enableFullScreen?: boolean
+}
+
+export function BoardContainer (props: BoardContainerProps) {
   const { boardState, boardController, boardManager } = useBoardContext()
 
   const selected = useSelectedFlexComponents(boardState)
@@ -12,10 +16,11 @@ export function BoardContainer () {
   return (
     <>
       <BoardContainerHeader
+        enableFullScreen={props.enableFullScreen}
         boardState={boardState}
         boardController={boardController}
       />
-      {selectedFlexComponents.length > 0 && (
+      {selectedFlexComponents.length > 0 && props.enableSelection &&  (
         <BoardPropertiesMenu
           className="top-30"
           boardState={boardState}
@@ -27,6 +32,7 @@ export function BoardContainer () {
         boardState={boardState}
         boardController={boardController}
         boardManager={boardManager}
+        {...props}
       />
     </>
   )
