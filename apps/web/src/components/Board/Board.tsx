@@ -57,14 +57,16 @@ export function Board (props: BoardProps) {
         className="w-0 h-0 absolute"
         style={{ transform: `translate(${boardTranslate.x}px, ${boardTranslate.y}px) scale(${scale})` }}
       >
-        {flexComponents.map(flexComponent => (
-          createElement(FLEX_COMPONENTS_ELEMENTS[flexComponent.type], {
-            key: flexComponent.id,
-            component: {
-              ...flexComponent
-            },
-            boardController
-          })
+        {flexComponents
+          .filter(flexComponent => Boolean(FLEX_COMPONENTS_ELEMENTS[flexComponent.type]))
+          .map(flexComponent => (
+            createElement(FLEX_COMPONENTS_ELEMENTS[flexComponent.type], {
+              key: flexComponent.id,
+              component: {
+                ...flexComponent
+              },
+              boardController
+            })
         ))}
 
         {selectedFlexComponents && <ResizeBox boardState={boardState} />}
