@@ -4,6 +4,7 @@ import { FlexComponent, FlexComponentProperties } from '../../types'
 export type FlexComponentProps = {
   component: FlexComponent
   boardController?: BoardController
+  editable?: boolean
   handleAction?: (flexComponent: FlexComponent, event: string) => void
 }
 

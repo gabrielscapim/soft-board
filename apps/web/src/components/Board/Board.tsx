@@ -79,7 +79,8 @@ export function Board (props: BoardProps) {
               component: {
                 ...flexComponent
               },
-              boardController
+              boardController,
+              editable: enableSelection
             })
         ))}
 
