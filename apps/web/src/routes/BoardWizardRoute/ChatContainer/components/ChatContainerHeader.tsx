@@ -10,7 +10,10 @@ export function ChatContainerHeader (props: ChatContainerHeaderProps) {
   const { board } = props
 
   return (
-    <div className="flex items-center gap-2 px-4 py-3 border-b">
+    <div
+      className="flex items-center gap-2 px-4 border-b"
+      style={{ height: '60px' }}
+    >
       <Avatar>
         <AvatarImage src={getRootImage(board?.image)} />
       </Avatar>
