@@ -31,7 +31,7 @@ export function WireflowsWizard () {
 
   return (
     <>
-      <div className="w-3/12 flex flex-col h-full border-r text-sm">
+      <div className="w-5/12 flex flex-col h-full border-r text-sm">
         {board && (
           <ChatContainer
             board={board}
@@ -57,7 +57,7 @@ export function WireflowsWizard () {
         )}
       </div>
 
-      <div className="w-9/12 flex flex-col h-full">
+      <div className="w-7/12 flex flex-col h-full">
         <BoardContainer />
       </div>
     </>
