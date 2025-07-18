@@ -3,9 +3,12 @@ import { BoardManager, BoardState, KeyboardShortcuts } from '../lib'
 
 export function useKeyboardShortcuts (
   boardState: BoardState,
-  boardManager: BoardManager
+  boardManager: BoardManager,
+  enable = true
 ) {
   useEffect(() => {
+    if (!enable) return
+
     const keyboardShortcuts = new KeyboardShortcuts({ boardState, boardManager })
 
     document.addEventListener('keydown', keyboardShortcuts.onKeyPressed)
@@ -17,5 +20,5 @@ export function useKeyboardShortcuts (
       document.removeEventListener('copy', keyboardShortcuts.onCopyPressed)
       document.removeEventListener('paste', keyboardShortcuts.onPastePressed)
     }
-  }, [boardState, boardManager])
+  }, [boardState, boardManager, enable])
 }

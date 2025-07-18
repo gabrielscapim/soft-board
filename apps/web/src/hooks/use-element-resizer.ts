@@ -3,9 +3,12 @@ import { BoardState, ElementResizer } from '../lib'
 
 export function useElementResizer (
   boardState: BoardState,
-  flexBoardContainerRef: React.RefObject<HTMLDivElement>
+  flexBoardContainerRef: React.RefObject<HTMLDivElement>,
+  enable = true
 ) {
   useEffect(() => {
+    if (!enable) return
+
     const element = flexBoardContainerRef.current
 
     if (!element) return
@@ -23,5 +26,5 @@ export function useElementResizer (
       element.removeEventListener('mouseup', elementResizer.endResize)
       element.removeEventListener('mouseleave', elementResizer.endResize)
     }
-  }, [flexBoardContainerRef, boardState])
+  }, [flexBoardContainerRef, boardState, enable])
 }

@@ -19,10 +19,24 @@ export type BoardProps = {
   boardState: BoardState
   boardController: BoardController
   boardManager: BoardManager
+  enableZoom?: boolean
+  enableSelection?: boolean
+  enableResizing?: boolean
+  enableDraggable?: boolean
+  enableKeyboardShortcuts?: boolean
 }
 
 export function Board (props: BoardProps) {
-  const { boardState, boardController, boardManager } = props
+  const {
+    boardState,
+    boardController,
+    boardManager,
+    enableZoom = true,
+    enableSelection = true,
+    enableResizing = true,
+    enableDraggable = true,
+    enableKeyboardShortcuts = true
+  } = props
 
   const flexBoardContainerRef = useRef<HTMLDivElement>(null)
   const flexBoardRef = useRef<HTMLDivElement>(null)
@@ -32,11 +46,11 @@ export function Board (props: BoardProps) {
   const boardTranslate = useBoardTranslate(boardState)
   const selectedFlexComponents = useSelectedFlexComponents(boardState)
 
-  useDraggableFlexBoard(boardState, boardManager, flexBoardContainerRef)
-  useElementResizer(boardState, flexBoardContainerRef)
-  useZoomBoard(boardState, flexBoardContainerRef, flexBoardRef)
-  useSelectionBoard(boardState, flexBoardContainerRef, selectionBoxRef)
-  useKeyboardShortcuts(boardState, boardManager)
+  useDraggableFlexBoard(boardState, boardManager, flexBoardContainerRef, enableDraggable)
+  useElementResizer(boardState, flexBoardContainerRef, enableResizing)
+  useZoomBoard(boardState, flexBoardContainerRef, flexBoardRef, enableZoom)
+  useSelectionBoard(boardState, flexBoardContainerRef, selectionBoxRef, enableSelection)
+  useKeyboardShortcuts(boardState, boardManager, enableKeyboardShortcuts)
 
   return (
     <div
@@ -72,7 +86,7 @@ export function Board (props: BoardProps) {
         {selectedFlexComponents && <ResizeBox boardState={boardState} />}
       </div>
 
-      {selectedFlexComponents && (
+      {selectedFlexComponents && (enableSelection || enableResizing) && (
         <AlignmentGuides
           boardState={boardState}
           boardTranslate={boardTranslate}
@@ -86,7 +100,11 @@ export function Board (props: BoardProps) {
         scale={scale}
       />
 
-      <SelectionBox ref={selectionBoxRef} />
+      {enableSelection && (
+        <SelectionBox
+          ref={selectionBoxRef}
+        />
+      )}
     </div>
   )
 }

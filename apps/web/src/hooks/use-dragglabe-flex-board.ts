@@ -4,9 +4,12 @@ import { BoardManager, BoardState, DraggableBoard } from '../lib'
 export function useDraggableFlexBoard (
   boardState: BoardState,
   boardManager: BoardManager,
-  flexBoardRef: React.RefObject<HTMLDivElement>
+  flexBoardRef: React.RefObject<HTMLDivElement>,
+  enable = true
 ) {
   useEffect(() => {
+    if (!enable) return
+
     const element = flexBoardRef.current
 
     if (!element) return
@@ -26,5 +29,5 @@ export function useDraggableFlexBoard (
       window.removeEventListener('mousemove', draggableBoard.onDragging)
       window.removeEventListener('mouseup', draggableBoard.endDrag)
     }
-  }, [flexBoardRef, boardState, boardManager])
+  }, [flexBoardRef, boardState, boardManager, enable])
 }

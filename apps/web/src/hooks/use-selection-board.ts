@@ -4,9 +4,12 @@ import { BoardState, SelectionBoard } from '../lib'
 export function useSelectionBoard (
   boardState: BoardState,
   boardRef: React.RefObject<HTMLDivElement>,
-  selectionBoxRef: React.RefObject<HTMLDivElement>
+  selectionBoxRef: React.RefObject<HTMLDivElement>,
+  enable = true
 ) {
   useEffect(() => {
+    if (!enable) return
+
     const boardElement = boardRef.current
     const selectionBoxElement = selectionBoxRef.current
 
@@ -25,5 +28,5 @@ export function useSelectionBoard (
       boardElement.removeEventListener('mouseup', selectionBoard.onMouseUp)
       boardElement.removeEventListener('mouseleave', selectionBoard.onMouseUp)
     }
-  }, [boardState, boardRef, selectionBoxRef])
+  }, [boardState, boardRef, selectionBoxRef, enable])
 }
