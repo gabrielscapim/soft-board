@@ -1,11 +1,11 @@
 import { useAuthentication, useClient, useMessages, useSelectedBoard } from '@/hooks'
 import { useParams } from 'react-router'
 import { ChatContainer } from '../ChatContainer'
-import { BoardContainer } from './components'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { GetMessagesResultData } from 'types/endpoints'
+import { BoardContainer } from '../BoardContainer'
 
 export function WireflowsWizard () {
   const params = useParams<{ boardId?: string }>()
@@ -57,7 +57,7 @@ export function WireflowsWizard () {
         )}
       </div>
 
-      <div className="w-9/12 bg-card flex flex-col h-full">
+      <div className="w-9/12 flex flex-col h-full">
         <BoardContainer />
       </div>
     </>
