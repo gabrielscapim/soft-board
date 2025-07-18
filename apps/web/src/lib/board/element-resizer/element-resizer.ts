@@ -1,15 +1,16 @@
-import { FlexComponent, Guide, Offset, ResizeDirection } from '../../../types'
-import { BoardManager } from '../board-manager'
-import { OnResizingFlexComponentParams } from '../board-manager/board-manager-interface'
+import { Dimensions, FlexComponent, Guide, Offset, ResizeDirection } from '../../../types'
 import { BoardState } from '../board-state'
 import { getAlignmentBoardGuides } from '../get-alignment-board-guides'
+import { OnResizingFlexComponentParams } from './types'
+
+const DISTANCE_TO_BREAK_SNAP = 5
 
 export class ElementResizer {
-  private _boardManager: BoardManager
-  private _boardState: BoardState
-  private _resizeDirection: ResizeDirection | undefined
   private _boardElement: HTMLElement
+  private _boardState: BoardState
+  private _initialFlexComponentProperties: Map<string, Dimensions & Offset> | null = null
   private _offset: Offset | undefined
+  private _resizeDirection: ResizeDirection | undefined
   private _selectedResizerElement: HTMLElement | undefined
   private _transform: DOMMatrix | undefined
 
@@ -17,7 +18,6 @@ export class ElementResizer {
     boardState: BoardState,
     boardElement: HTMLElement
   ) {
-    this._boardManager = new BoardManager(boardState)
     this._boardState = boardState
     this._boardElement = boardElement
 
@@ -223,12 +223,193 @@ export class ElementResizer {
     }
   }
 
+  private onEndResizeFlexComponent () {
+    this._boardState.setIsResizing(false)
+    this._initialFlexComponentProperties = null
+  }
+
+  private onResizingFlexComponent (params: OnResizingFlexComponentParams) {
+    const { dimension, position, snap, resizeDirection } = params
+    const selected = this._boardState.selectedFlexComponents
+
+    if (!selected || selected.length === 0 || !this._initialFlexComponentProperties) {
+      return
+    }
+
+    if (!this._boardState.isResizing) {
+      this._boardState.setIsResizing(true)
+    }
+
+    const newFlexComponents = this._boardState.flexComponents.map(flexComponent => {
+      if (selected.includes(flexComponent.id)) {
+        const initialProps = this._initialFlexComponentProperties?.get(flexComponent.id)
+
+        if (!initialProps) return flexComponent
+
+        let finalX = initialProps.x + position.roundedDeltaX
+        let finalY = initialProps.y + position.roundedDeltaY
+        let finalWidth = initialProps.width + dimension.roundedDeltaX
+        let finalHeight = initialProps.height + dimension.roundedDeltaY
+
+        switch (resizeDirection) {
+          case 'n': {
+            if (snap?.position?.y !== undefined) {
+              const snapDeltaY = snap.position.y - initialProps.y
+              if (Math.abs(finalY - snap.position.y) < DISTANCE_TO_BREAK_SNAP) {
+                finalY = snap.position.y
+                finalHeight = initialProps.height - snapDeltaY
+              }
+            }
+            break
+          }
+          case 'ne': {
+            if (snap?.position?.y !== undefined) {
+              const snapDeltaY = snap.position.y - initialProps.y
+              if (Math.abs(finalY - snap.position.y) < DISTANCE_TO_BREAK_SNAP) {
+                finalY = snap.position.y
+                finalHeight = initialProps.height - snapDeltaY
+              }
+            }
+
+            if (snap?.dimension?.x !== undefined) {
+              const snapWidth = snap.dimension.x - initialProps.x
+              if (Math.abs(finalWidth - snapWidth) < DISTANCE_TO_BREAK_SNAP) {
+                finalWidth = snapWidth
+              }
+            }
+            break
+          }
+          case 'e': {
+            if (snap?.dimension?.x !== undefined) {
+              const snapWidth = snap.dimension.x - initialProps.x
+              if (Math.abs(finalWidth - snapWidth) < DISTANCE_TO_BREAK_SNAP) {
+                finalWidth = snapWidth
+              }
+            }
+            break
+          }
+          case 'se': {
+            if (snap?.dimension?.x !== undefined) {
+              const snapWidth = snap.dimension.x - initialProps.x
+              if (Math.abs(finalWidth - snapWidth) < DISTANCE_TO_BREAK_SNAP) {
+                finalWidth = snapWidth
+              }
+            }
+
+            if (snap?.dimension?.y !== undefined) {
+              const snapHeight = snap.dimension.y - initialProps.y
+              if (Math.abs(finalHeight - snapHeight) < DISTANCE_TO_BREAK_SNAP) {
+                finalHeight = snapHeight
+              }
+            }
+            break
+          }
+          case 's': {
+            if (snap?.dimension?.y !== undefined) {
+              const snapHeight = snap.dimension.y - initialProps.y
+              if (Math.abs(finalHeight - snapHeight) < DISTANCE_TO_BREAK_SNAP) {
+                finalHeight = snapHeight
+              }
+            }
+            break
+          }
+          case 'sw': {
+            if (snap?.position?.x !== undefined) {
+              const snapDeltaX = snap.position.x - initialProps.x
+              if (Math.abs(finalX - snap.position.x) < DISTANCE_TO_BREAK_SNAP) {
+                finalX = snap.position.x
+                finalWidth = initialProps.width - snapDeltaX
+              }
+            }
+
+            if (snap?.dimension?.y !== undefined) {
+              const snapHeight = snap.dimension.y - initialProps.y
+              if (Math.abs(finalHeight - snapHeight) < DISTANCE_TO_BREAK_SNAP) {
+                finalHeight = snapHeight
+              }
+            }
+            break
+          }
+          case 'w': {
+            if (snap?.position?.x !== undefined) {
+              const snapDeltaX = snap.position.x - initialProps.x
+              if (Math.abs(finalX - snap.position.x) < DISTANCE_TO_BREAK_SNAP) {
+                finalX = snap.position.x
+                finalWidth = initialProps.width - snapDeltaX
+              }
+            }
+            break
+          }
+          case 'nw': {
+            if (snap?.position?.x !== undefined) {
+              const snapDeltaX = snap.position.x - initialProps.x
+              if (Math.abs(finalX - snap.position.x) < DISTANCE_TO_BREAK_SNAP) {
+                finalX = snap.position.x
+                finalWidth = initialProps.width - snapDeltaX
+              }
+            }
+
+            if (snap?.position?.y !== undefined) {
+              const snapDeltaY = snap.position.y - initialProps.y
+              if (Math.abs(finalY - snap.position.y) < DISTANCE_TO_BREAK_SNAP) {
+                finalY = snap.position.y
+                finalHeight = initialProps.height - snapDeltaY
+              }
+            }
+            break
+          }
+        }
+
+        return {
+          ...flexComponent,
+          properties: {
+            ...flexComponent.properties,
+            x: finalX,
+            y: finalY,
+            width: finalWidth,
+            height: finalHeight
+          }
+        }
+      }
+
+      return flexComponent
+    })
+
+    this._boardState.setFlexComponents(newFlexComponents)
+    this._boardState.setSelectedFlexComponents(selected)
+  }
+
+  private onStartResizeFlexComponent () {
+    const selected = this._boardState.selectedFlexComponents
+
+    if (!selected || selected.length === 0) {
+      return
+    }
+
+    const initialProperties = new Map<string, Dimensions & Offset>()
+
+    for (const id of selected) {
+      const selectedFlexComponent = this._boardState.flexComponents.find(flexComponent => flexComponent.id === id)
+
+      if (selectedFlexComponent) {
+        initialProperties.set(id, {
+          width: selectedFlexComponent.properties.width,
+          height: selectedFlexComponent.properties.height,
+          x: selectedFlexComponent.properties.x,
+          y: selectedFlexComponent.properties.y
+        })
+      }
+    }
+
+    this._initialFlexComponentProperties = initialProperties
+  }
+
   public endResize () {
     this._selectedResizerElement = undefined
     this._offset = undefined
     this._resizeDirection = undefined
     this._transform = undefined
-    this._boardManager.onEndResizeFlexComponent()
+    this.onEndResizeFlexComponent()
   }
 
   public onResizing (event: MouseEvent) {
@@ -260,11 +441,9 @@ export class ElementResizer {
       selectedFlexComponents: selected
     })
 
-    this._boardManager.onGuidesChanged({
-      guides: {
-        horizontal: guides.horizontal.filter(guide => guide.diff <= 1),
-        vertical: guides.vertical.filter(guide => guide.diff <= 1)
-      }
+    this._boardState.setGuides({
+      horizontal: guides.horizontal.filter(guide => guide.diff <= 1),
+      vertical: guides.vertical.filter(guide => guide.diff <= 1)
     })
 
     const grid = this._boardState.grid
@@ -349,7 +528,7 @@ export class ElementResizer {
         break
     }
 
-    this._boardManager.onResizingFlexComponent({
+    this.onResizingFlexComponent({
       ...params,
       resizeDirection: this._resizeDirection ?? '',
       snap: snap
@@ -363,7 +542,7 @@ export class ElementResizer {
     if (resizerElement) {
       this._selectedResizerElement = resizerElement
       this._offset = this.getMousePosition(event)
-      this._boardManager.onStartResizeFlexComponent()
+      this.onStartResizeFlexComponent()
       this._resizeDirection = resizerElement.id as ResizeDirection
 
       const transformStyle = window.getComputedStyle(resizerElement).transform

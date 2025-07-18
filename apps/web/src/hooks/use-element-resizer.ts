@@ -3,23 +3,25 @@ import { BoardState, ElementResizer } from '../lib'
 
 export function useElementResizer (
   boardState: BoardState,
-  flexBoardContainerElement: HTMLDivElement | null
+  flexBoardContainerRef: React.RefObject<HTMLDivElement>
 ) {
   useEffect(() => {
-    if (flexBoardContainerElement) {
-      const elementResizer = new ElementResizer(boardState, flexBoardContainerElement)
+    const element = flexBoardContainerRef.current
 
-      flexBoardContainerElement.addEventListener('mousedown', elementResizer.startResize)
-      flexBoardContainerElement.addEventListener('mousemove', elementResizer.onResizing)
-      flexBoardContainerElement.addEventListener('mouseup', elementResizer.endResize)
-      flexBoardContainerElement.addEventListener('mouseleave', elementResizer.endResize)
+    if (!element) return
 
-      return () => {
-        flexBoardContainerElement.removeEventListener('mousedown', elementResizer.startResize)
-        flexBoardContainerElement.removeEventListener('mousemove', elementResizer.onResizing)
-        flexBoardContainerElement.removeEventListener('mouseup', elementResizer.endResize)
-        flexBoardContainerElement.removeEventListener('mouseleave', elementResizer.endResize)
-      }
+    const elementResizer = new ElementResizer(boardState, element)
+
+    element.addEventListener('mousedown', elementResizer.startResize)
+    element.addEventListener('mousemove', elementResizer.onResizing)
+    element.addEventListener('mouseup', elementResizer.endResize)
+    element.addEventListener('mouseleave', elementResizer.endResize)
+
+    return () => {
+      element.removeEventListener('mousedown', elementResizer.startResize)
+      element.removeEventListener('mousemove', elementResizer.onResizing)
+      element.removeEventListener('mouseup', elementResizer.endResize)
+      element.removeEventListener('mouseleave', elementResizer.endResize)
     }
-  }, [flexBoardContainerElement, boardState])
+  }, [flexBoardContainerRef, boardState])
 }

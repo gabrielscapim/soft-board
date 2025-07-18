@@ -1,4 +1,3 @@
-export * from './ChatContainer'
 export * from './DeleteRequirementDialog'
 export * from './EditRequirementDialog'
 export * from './RequirementCard'

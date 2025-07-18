@@ -6,7 +6,17 @@ import * as yup from 'yup'
 import { DatabasePool } from 'pg-script'
 import { ChatCompletionMessageParam, ChatCompletionMessageToolCall } from 'openai/resources/index'
 import { BoardDatabase, MessageDatabase } from 'types/database'
-import { CreateRequirementTool, DeleteRequirementByIdTool, GetRequirementsTool, REQUIREMENTS_AGENT_PROMPT, StartFlowAgent, Tool, UpdateRequirementByIdTool } from './startflow-agent'
+import {
+  CreateRequirementTool,
+  CreateWireflowTool,
+  DeleteRequirementByIdTool,
+  GetRequirementsTool,
+  REQUIREMENTS_AGENT_PROMPT,
+  StartFlowAgent,
+  Tool,
+  UpdateRequirementByIdTool,
+  WIREFLOWS_AGENT_PROMPT
+} from './startflow-agent'
 
 type Handler = RequestHandler<unknown, SendMessageResult, SendMessageCommand>
 
@@ -200,6 +210,10 @@ function getTools (
       new GetRequirementsTool({ boardId: board.id, pool }),
       new UpdateRequirementByIdTool({ boardId: board.id, pool })
     ]
+  } else if (board.step === 'wireflows') {
+    return [
+      new CreateWireflowTool({ boardId: board.id, pool })
+    ]
   }
 
   return []
@@ -208,6 +222,8 @@ function getTools (
 function getPrompt (board: BoardRow): string {
   if (board.step === 'init') {
     return REQUIREMENTS_AGENT_PROMPT
+  } else if (board.step === 'wireflows') {
+    return WIREFLOWS_AGENT_PROMPT
   }
 
   return 'You are a helpful assistant.'

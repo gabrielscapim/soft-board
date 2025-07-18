@@ -1,10 +1,8 @@
 import { MAX_SCALE, MIN_SCALE, ZOOM_SPEED } from '../../../helpers'
 import Cursor from '/cursor.png'
-import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 
 export class ZoomBoard {
-  private _boardManager: BoardManager
   private _boardState: BoardState
   private _startX: number
   private _startY: number
@@ -14,7 +12,6 @@ export class ZoomBoard {
     boardState: BoardState,
     flexBoardContainer: HTMLElement
   ) {
-    this._boardManager = new BoardManager(boardState)
     this._boardState = boardState
     this._startX = 0
     this._startY = 0
@@ -41,20 +38,20 @@ export class ZoomBoard {
       const translateX = mouseX - (mouseX - this._boardState.translate.x) * scaleChange
       const translateY = mouseY - (mouseY - this._boardState.translate.y) * scaleChange
 
-      this._boardManager.onTranslateBoard({ translateX, translateY })
-      this._boardManager.onScaleChange({ scale: newScale })
+      this._boardState.setTranslate({ x: translateX, y: translateY })
+      this._boardState.setScale(newScale)
       return
     }
 
     const translateX = this._boardState.translate.x - event.deltaX
     const translateY = this._boardState.translate.y - event.deltaY
-    this._boardManager.onTranslateBoard({ translateX, translateY })
+    this._boardState.setTranslate({ x: translateX, y: translateY })
   }
 
   public endMove = () => {
     if (!this._flexBoardContainer) return
 
-    this._boardManager.onChangeBoardMoving({ isBoardMoving: false })
+    this._boardState.setIsBoardMoving(false)
     this._flexBoardContainer.style.cursor = `url(${Cursor}) 0 0, auto`
   }
 
@@ -68,7 +65,7 @@ export class ZoomBoard {
 
     this._startX = event.clientX
     this._startY = event.clientY
-    this._boardManager.onTranslateBoard({ translateX, translateY })
+    this._boardState.setTranslate({ x: translateX, y: translateY })
   }
 
   public startBoardMove = (event: MouseEvent) => {
@@ -77,7 +74,7 @@ export class ZoomBoard {
     if (!clickedElement?.id?.includes('grid')) return
 
     if (event.button === 1 && this._flexBoardContainer) {
-      this._boardManager.onChangeBoardMoving({ isBoardMoving: true })
+      this._boardState.setIsBoardMoving(true)
       this._startX = event.clientX
       this._startY = event.clientY
       this._flexBoardContainer.style.cursor = 'grabbing'

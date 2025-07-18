@@ -1,6 +1,6 @@
 import Cursor from '/cursor.png'
 import { createElement, useRef } from 'react'
-import { BoardController, BoardState } from '../../lib'
+import { BoardController, BoardManager, BoardState } from '../../lib'
 import { AlignmentGuides, ConnectionLines, ResizeBox, SelectionBox } from './subcomponents'
 import {
   useBoardTranslate,
@@ -18,10 +18,11 @@ import { FLEX_COMPONENTS_ELEMENTS } from '../../flex-components'
 export type BoardProps = {
   boardState: BoardState
   boardController: BoardController
+  boardManager: BoardManager
 }
 
 export function Board (props: BoardProps) {
-  const { boardState } = props
+  const { boardState, boardController, boardManager } = props
 
   const flexBoardContainerRef = useRef<HTMLDivElement>(null)
   const flexBoardRef = useRef<HTMLDivElement>(null)
@@ -31,11 +32,11 @@ export function Board (props: BoardProps) {
   const boardTranslate = useBoardTranslate(boardState)
   const selectedFlexComponents = useSelectedFlexComponents(boardState)
 
-  useDraggableFlexBoard(boardState, flexBoardContainerRef.current)
-  useElementResizer(boardState, flexBoardContainerRef.current)
-  useZoomBoard(boardState, flexBoardContainerRef.current, flexBoardRef.current)
-  useSelectionBoard(boardState, flexBoardContainerRef.current, selectionBoxRef.current)
-  useKeyboardShortcuts(boardState)
+  useDraggableFlexBoard(boardState, boardManager, flexBoardContainerRef)
+  useElementResizer(boardState, flexBoardContainerRef)
+  useZoomBoard(boardState, flexBoardContainerRef, flexBoardRef)
+  useSelectionBoard(boardState, flexBoardContainerRef, selectionBoxRef)
+  useKeyboardShortcuts(boardState, boardManager)
 
   return (
     <div
@@ -56,14 +57,16 @@ export function Board (props: BoardProps) {
         className="w-0 h-0 absolute"
         style={{ transform: `translate(${boardTranslate.x}px, ${boardTranslate.y}px) scale(${scale})` }}
       >
-        {flexComponents.map(flexComponent => (
-          createElement(FLEX_COMPONENTS_ELEMENTS[flexComponent.type], {
-            key: flexComponent.id,
-            component: {
-              ...flexComponent
-            },
-            boardController: props.boardController
-          })
+        {flexComponents
+          .filter(flexComponent => Boolean(FLEX_COMPONENTS_ELEMENTS[flexComponent.type]))
+          .map(flexComponent => (
+            createElement(FLEX_COMPONENTS_ELEMENTS[flexComponent.type], {
+              key: flexComponent.id,
+              component: {
+                ...flexComponent
+              },
+              boardController
+            })
         ))}
 
         {selectedFlexComponents && <ResizeBox boardState={boardState} />}

@@ -1,11 +1,12 @@
 import { useEffect } from 'react'
-import { BoardState, KeyboardShortcuts } from '../lib'
+import { BoardManager, BoardState, KeyboardShortcuts } from '../lib'
 
 export function useKeyboardShortcuts (
-  boardState: BoardState
+  boardState: BoardState,
+  boardManager: BoardManager
 ) {
   useEffect(() => {
-    const keyboardShortcuts = new KeyboardShortcuts(boardState)
+    const keyboardShortcuts = new KeyboardShortcuts({ boardState, boardManager })
 
     document.addEventListener('keydown', keyboardShortcuts.onKeyPressed)
     document.addEventListener('copy', keyboardShortcuts.onCopyPressed)
@@ -16,5 +17,5 @@ export function useKeyboardShortcuts (
       document.removeEventListener('copy', keyboardShortcuts.onCopyPressed)
       document.removeEventListener('paste', keyboardShortcuts.onPastePressed)
     }
-  }, [boardState])
+  }, [boardState, boardManager])
 }

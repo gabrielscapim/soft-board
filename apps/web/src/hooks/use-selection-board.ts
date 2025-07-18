@@ -3,24 +3,27 @@ import { BoardState, SelectionBoard } from '../lib'
 
 export function useSelectionBoard (
   boardState: BoardState,
-  boardElement: HTMLDivElement | null,
-  selectionBoxElement: HTMLDivElement | null
+  boardRef: React.RefObject<HTMLDivElement>,
+  selectionBoxRef: React.RefObject<HTMLDivElement>
 ) {
   useEffect(() => {
-    if (boardElement && selectionBoxElement) {
-      const selectionBoard = new SelectionBoard(boardState, boardElement, selectionBoxElement)
+    const boardElement = boardRef.current
+    const selectionBoxElement = selectionBoxRef.current
 
-      boardElement.addEventListener('mousedown', selectionBoard.onMouseDown)
-      boardElement.addEventListener('mousemove', selectionBoard.onMouseMove)
-      boardElement.addEventListener('mouseup', selectionBoard.onMouseUp)
-      boardElement.addEventListener('mouseleave', selectionBoard.onMouseUp)
+    if (!boardElement || !selectionBoxElement) return
 
-      return () => {
-        boardElement.removeEventListener('mousedown', selectionBoard.onMouseDown)
-        boardElement.removeEventListener('mousemove', selectionBoard.onMouseMove)
-        boardElement.removeEventListener('mouseup', selectionBoard.onMouseUp)
-        boardElement.removeEventListener('mouseleave', selectionBoard.onMouseUp)
-      }
+    const selectionBoard = new SelectionBoard(boardState, boardElement, selectionBoxElement)
+
+    boardElement.addEventListener('mousedown', selectionBoard.onMouseDown)
+    boardElement.addEventListener('mousemove', selectionBoard.onMouseMove)
+    boardElement.addEventListener('mouseup', selectionBoard.onMouseUp)
+    boardElement.addEventListener('mouseleave', selectionBoard.onMouseUp)
+
+    return () => {
+      boardElement.removeEventListener('mousedown', selectionBoard.onMouseDown)
+      boardElement.removeEventListener('mousemove', selectionBoard.onMouseMove)
+      boardElement.removeEventListener('mouseup', selectionBoard.onMouseUp)
+      boardElement.removeEventListener('mouseleave', selectionBoard.onMouseUp)
     }
-  }, [boardState, boardElement, selectionBoxElement])
+  }, [boardState, boardRef, selectionBoxRef])
 }
