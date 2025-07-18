@@ -1,4 +1,4 @@
-import { useAuthentication, useClient, useMessages, useSelectedBoard } from '@/hooks'
+import { useAuthentication, useBoardContext, useClient, useMessages, useScale, useSelectedBoard } from '@/hooks'
 import { useParams } from 'react-router'
 import { ChatContainer } from '../ChatContainer'
 import { useMutation } from '@tanstack/react-query'
@@ -6,6 +6,9 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import { GetMessagesResultData } from 'types/endpoints'
 import { BoardContainer } from '../BoardContainer'
+import { BoardZoomController } from '@/components'
+import { MaximizeBoardButton } from '../MaximizeBoardButton'
+import { MAX_SCALE, MIN_SCALE } from '@/helpers'
 
 export function WireflowsWizard () {
   const params = useParams<{ boardId?: string }>()
@@ -15,6 +18,8 @@ export function WireflowsWizard () {
   const { authenticatedUser } = useAuthentication()
   const getMessages = useMessages(boardId)
   const client = useClient()
+  const { boardController, boardState } = useBoardContext()
+  const scale = useScale(boardState)
 
   const sendMessage = useMutation({
     mutationFn: async (content: string) => {
@@ -58,6 +63,14 @@ export function WireflowsWizard () {
       </div>
 
       <div className="w-7/12 flex flex-col h-full">
+        <div className="bg-background sticky top-0 shrink-0 p-3 flex justify-between items-center w-full">
+          <MaximizeBoardButton />
+          <BoardZoomController
+            scale={scale}
+            onZoomIn={() => boardController.onChangeBoardScale({ scale: Math.min(scale + 0.25, MAX_SCALE) })}
+            onZoomOut={() => boardController.onChangeBoardScale({ scale: Math.max(scale - 0.25, MIN_SCALE) })}
+          />
+        </div>
         <BoardContainer />
       </div>
     </>
