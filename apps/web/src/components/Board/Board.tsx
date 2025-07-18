@@ -83,7 +83,7 @@ export function Board (props: BoardProps) {
             })
         ))}
 
-        {selectedFlexComponents && <ResizeBox boardState={boardState} />}
+        {selectedFlexComponents && (enableResizing || enableSelection) && <ResizeBox boardState={boardState} />}
       </div>
 
       {selectedFlexComponents && (enableSelection || enableResizing) && (
