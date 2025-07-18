@@ -56,7 +56,7 @@ export function Board (props: BoardProps) {
     <div
       id="flex-board-container"
       ref={flexBoardContainerRef}
-      className="relative w-full h-full overflow-hidden"
+      className="relative w-full h-full overflow-hidden bg-sidebar"
       style={{
         cursor: `url(${Cursor}) 0 0, auto`
       }}

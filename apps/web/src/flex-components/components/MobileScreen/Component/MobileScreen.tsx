@@ -8,7 +8,7 @@ export function MobileScreenFlexComponent (props: FlexComponentProps) {
   return (
     <div
       id={component.id}
-      className="draggable-group absolute rounded-[65px] grid place-items-center overflow-hidden bg-sidebar"
+      className="draggable-group absolute rounded-[65px] grid place-items-center overflow-hidden bg-white"
       style={{
         top: `${properties.y}px`,
         left: `${properties.x}px`,
