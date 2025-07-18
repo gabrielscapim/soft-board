@@ -95,7 +95,7 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
             </Command>
           </PopoverContent>
         </Popover>
-        {!isButton && (
+        {!isButton && !isText && (
           <p className="text-xs text-yellow-600 pt-2">
             Only buttons or text components can be connected to a screen.
           </p>
