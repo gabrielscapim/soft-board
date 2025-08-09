@@ -1,4 +1,3 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from '../ui/button'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
@@ -26,23 +25,21 @@ export function BoardWizardFooter () {
   const previousDisabled = currentStep === 'requirements'
 
   return (
-    <footer className="flex justify-between p-4">
-      {
-        <Button
-          variant="outline"
-          onClick={() => handlePrevious.mutate()}
-          disabled={handlePrevious.isPending || handleNext.isPending || previousDisabled}
-        >
-          <ChevronLeft />
-          Back
-        </Button>
-      }
+    <footer className="flex justify-between py-4 px-4">
       <Button
-        onClick={() => handleNext.mutate()}
+        size="lg"
+        variant="link"
+        disabled={handlePrevious.isPending || handleNext.isPending || previousDisabled}
+        onClick={() => handlePrevious.mutate()}
+      >
+        Back
+      </Button>
+      <Button
+      size="lg"
         disabled={handleNext.isPending || handlePrevious.isPending}
+        onClick={() => handleNext.mutate()}
       >
         Next
-        <ChevronRight />
       </Button>
     </footer>
   )

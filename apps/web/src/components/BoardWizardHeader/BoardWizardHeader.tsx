@@ -1,7 +1,7 @@
 import { useSelectedBoard } from '@/hooks'
 import { Link, useParams } from 'react-router'
 import { Button } from '../ui/button'
-import { SquareMousePointer } from 'lucide-react'
+import { ChevronLeftIcon } from 'lucide-react'
 import { Stepper } from '../Stepper'
 
 export function BoardWizardHeader () {
@@ -18,7 +18,7 @@ export function BoardWizardHeader () {
           className="flex items-center gap-2 font-medium"
         >
           <Button variant="outline">
-            <SquareMousePointer />
+            <ChevronLeftIcon />
             Boards
           </Button>
         </Link>

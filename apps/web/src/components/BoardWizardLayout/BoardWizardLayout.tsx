@@ -6,7 +6,7 @@ export function BoardWizardLayout () {
   return (
     <>
       <BoardWizardHeader />
-      <main className="flex grow h-[calc(100vh-136px)]">
+      <main className="flex grow h-[calc(100vh-140px)]">
         <Outlet />
       </main>
       <BoardWizardFooter />
