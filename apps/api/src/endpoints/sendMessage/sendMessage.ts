@@ -203,7 +203,7 @@ function getTools (
   board: BoardRow,
   pool: DatabasePool
 ): Tool[] {
-  if (board.step === 'init') {
+  if (board.step === 'requirements') {
     return [
       new CreateRequirementTool({ boardId: board.id, pool }),
       new DeleteRequirementByIdTool({ boardId: board.id, pool }),
