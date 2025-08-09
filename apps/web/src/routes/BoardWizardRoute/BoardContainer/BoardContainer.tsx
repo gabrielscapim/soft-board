@@ -1,5 +1,5 @@
-import { Board, BoardPropertiesMenu, BoardProps } from '@/components'
-import { useBoardContext, useFlexComponents, useSelectedFlexComponents } from '@/hooks'
+import { Board, BoardPropertiesMenu, BoardProps, useFlexComponents, useSelectedFlexComponents } from '@/components'
+import { useBoardContext } from '@/hooks'
 
 export type BoardContainerProps = Partial<BoardProps> & {
   enableFullScreen?: boolean

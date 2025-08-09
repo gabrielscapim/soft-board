@@ -17,9 +17,9 @@ import {
 } from '@/components/ui/popover'
 
 import { useMemo, useState } from 'react'
-import { useFlexComponents } from '@/hooks'
 import { FlexComponent } from '@/types'
 import { BoardState } from '@/lib'
+import { useFlexComponents } from '@/components/Board/hooks'
 
 export type ActionsTabContentProps = {
   flexComponent: FlexComponent

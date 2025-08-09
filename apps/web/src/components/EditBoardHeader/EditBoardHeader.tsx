@@ -4,8 +4,9 @@ import { useSidebar } from '../ui/sidebar'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 import { Minimize2, PanelRightClose, PanelRightOpen } from 'lucide-react'
 import { BoardZoomController } from '../BoardZoomController'
-import { useBoardContext, useScale } from '@/hooks'
+import { useBoardContext } from '@/hooks'
 import { MAX_SCALE, MIN_SCALE } from '@/helpers'
+import { useScale } from '../Board'
 
 export function EditBoardHeader () {
   const { open, toggleSidebar } = useSidebar()

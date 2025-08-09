@@ -12,7 +12,7 @@ import {
   useSelectedFlexComponents,
   useSelectionBoard,
   useZoomBoard
-} from '../../hooks'
+} from './hooks'
 import { FLEX_COMPONENTS_ELEMENTS } from '../../flex-components'
 
 export type BoardProps = {
