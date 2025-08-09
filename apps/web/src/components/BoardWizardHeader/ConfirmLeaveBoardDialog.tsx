@@ -1,13 +1,5 @@
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle
-} from '@/components/ui/alert-dialog'
+import { Button } from '../ui/button'
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../ui/dialog'
 
 export type ConfirmLeaveBoardDialogProps = {
   open?: boolean
@@ -19,29 +11,37 @@ export function ConfirmLeaveBoardDialog (props: ConfirmLeaveBoardDialogProps) {
   const { open, onCancel, onConfirm } = props
 
   return (
-    <AlertDialog
+    <Dialog
       open={open}
+      onOpenChange={onCancel}
     >
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>
             Are you sure you want to leave this board?
-          </AlertDialogTitle>
-          <AlertDialogDescription>
+          </DialogTitle>
+          <DialogDescription>
             You can rejoin the board later if you change your mind.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={onCancel}>
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction onClick={onConfirm}>
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button
+                variant="outline"
+                onClick={onCancel}
+              >
+                Cancel
+              </Button>
+            </DialogClose>
+            <Button
+              onClick={onConfirm}
+            >
               Leave
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+            </Button>
+          </DialogFooter>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
