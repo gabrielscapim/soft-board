@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import { BoardState } from '../lib'
+import { BoardState } from '../../../lib'
 
-export function useFlexComponents (boardState: BoardState) {
-  const [flexComponents, setFlexComponents] = useState(boardState.flexComponents)
+export function useGrid (boardState: BoardState) {
+  const [grid, setGrid] = useState(boardState.grid)
 
   useEffect(() => {
     const onChange = () => {
-      setFlexComponents(boardState.flexComponents)
+      setGrid(boardState.grid)
     }
 
     boardState.addListener('flexComponentsChanged', onChange)
@@ -16,5 +16,5 @@ export function useFlexComponents (boardState: BoardState) {
     }
   }, [boardState])
 
-  return flexComponents
+  return grid
 }

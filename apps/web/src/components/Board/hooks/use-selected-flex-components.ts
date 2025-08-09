@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { BoardState } from '../lib'
+import { BoardState } from '../../../lib'
 
 export function useSelectedFlexComponents (boardState: BoardState) {
   const [selectedFlexComponent, setSelectedFlexComponent] = useState(boardState.selectedFlexComponents)

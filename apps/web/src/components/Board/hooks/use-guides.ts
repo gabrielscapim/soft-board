@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { BoardState } from '../lib'
+import { BoardState } from '../../../lib'
 
 export function useGuides (boardState: BoardState) {
   const [guides, setGuides] = useState(boardState.guides)

@@ -1,5 +1,5 @@
+import { BoardState, ElementResizer } from '@/lib'
 import { useEffect } from 'react'
-import { BoardState, ElementResizer } from '../lib'
 
 export function useElementResizer (
   boardState: BoardState,

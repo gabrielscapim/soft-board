@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { BoardManager, BoardState, KeyboardShortcuts } from '../lib'
+import { BoardManager, BoardState, KeyboardShortcuts } from '../../../lib'
 
 export function useKeyboardShortcuts (
   boardState: BoardState,

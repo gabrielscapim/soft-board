@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { BoardState } from '../lib'
+import { BoardState } from '../../../lib'
 
 export function useIsResizing (boardState: BoardState) {
   const [isResizing, setIsResizing] = useState(boardState.isResizing)

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { BoardManager, BoardState, DraggableBoard } from '../lib'
+import { BoardManager, BoardState, DraggableBoard } from '../../../lib'
 
 export function useDraggableFlexBoard (
   boardState: BoardState,

@@ -1,6 +1,5 @@
 import { FLEX_COMPONENTS_SCHEMAS } from '../../../flex-components'
-import { useFlexComponents, useSelectedFlexComponents } from '../../../hooks'
-import { useGrid } from '../../../hooks/use-grid'
+import { useFlexComponents, useGrid, useSelectedFlexComponents } from '../hooks'
 import { BoardState } from '../../../lib'
 
 export type ResizeBoxProps = {

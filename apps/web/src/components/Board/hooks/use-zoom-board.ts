@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { BoardState, ZoomBoard } from '../lib'
+import { BoardState, ZoomBoard } from '@/lib'
 
 export function useZoomBoard (
   boardState: BoardState,

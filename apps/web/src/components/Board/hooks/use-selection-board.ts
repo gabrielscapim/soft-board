@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { BoardState, SelectionBoard } from '../lib'
+import { BoardState, SelectionBoard } from '@/lib'
 
 export function useSelectionBoard (
   boardState: BoardState,
