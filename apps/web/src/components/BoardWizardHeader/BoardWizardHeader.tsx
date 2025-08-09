@@ -1,10 +1,15 @@
-import { useSelectedBoard } from '@/hooks'
-import { Link, useParams } from 'react-router'
+import { useSelectedBoard, useTeam } from '@/hooks'
+import { useNavigate, useParams } from 'react-router'
 import { Button } from '../ui/button'
 import { ChevronLeftIcon } from 'lucide-react'
 import { Stepper } from '../Stepper'
+import { useState } from 'react'
+import { ConfirmLeaveBoardDialog } from './ConfirmLeaveBoardDialog'
 
 export function BoardWizardHeader () {
+  const [leaveBoardOpen, setLeaveBoardOpen] = useState(false)
+  const navigate = useNavigate()
+  const { team } = useTeam()
   const params = useParams<{ boardId?: string }>()
   const boardId = params.boardId
   const { board } = useSelectedBoard(boardId)
@@ -13,15 +18,13 @@ export function BoardWizardHeader () {
   return (
     <header className="flex flex-row items-center sticky top-0 shrink-0 p-4 z-50 bg-muted">
       <div className="w-1/5 flex justify-start">
-        <Link
-          to={`/${board?.team.slug ?? ''}/boards`}
-          className="flex items-center gap-2 font-medium"
+        <Button
+          variant="outline"
+          onClick={() => setLeaveBoardOpen(true)}
         >
-          <Button variant="outline">
-            <ChevronLeftIcon />
-            Boards
-          </Button>
-        </Link>
+          <ChevronLeftIcon />
+          Boards
+        </Button>
       </div>
 
       <div className="w-3/5 flex justify-center">
@@ -34,6 +37,15 @@ export function BoardWizardHeader () {
           currentStep={currentStep}
         />
       </div>
+
+      <ConfirmLeaveBoardDialog
+        open={leaveBoardOpen}
+        onCancel={() => setLeaveBoardOpen(false)}
+        onConfirm={() => {
+          setLeaveBoardOpen(false)
+          navigate(`/${team?.slug}/boards`, { replace: true })
+        }}
+      />
     </header>
   )
 }
