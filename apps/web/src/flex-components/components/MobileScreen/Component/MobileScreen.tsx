@@ -1,14 +1,24 @@
+import clsx from 'clsx'
 import { MobileScreenFlexComponentProperties } from '../../../../types'
 import { FlexComponentProps } from '../../../types'
 
 export function MobileScreenFlexComponent (props: FlexComponentProps) {
-  const { component } = props
+  const { component, className } = props
   const properties = component.properties as MobileScreenFlexComponentProperties
 
   return (
     <div
       id={component.id}
-      className="draggable-group absolute rounded-[65px] grid place-items-center overflow-hidden bg-white"
+      className={clsx(
+        'draggable-group',
+        'absolute',
+        'rounded-[65px]',
+        'grid',
+        'place-items-center',
+        'overflow-hidden',
+        'bg-white',
+        className
+      )}
       style={{
         top: `${properties.y}px`,
         left: `${properties.x}px`,

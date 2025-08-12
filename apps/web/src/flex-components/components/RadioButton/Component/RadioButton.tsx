@@ -3,7 +3,7 @@ import { RadioButtonFlexComponentProperties } from '../../../../types'
 import { FlexComponentProps } from '../../../types'
 
 export function RadioButtonFlexComponent (props: FlexComponentProps) {
-  const { component } = props
+  const { component, className } = props
   const properties = component.properties as RadioButtonFlexComponentProperties
 
   return (
@@ -11,7 +11,8 @@ export function RadioButtonFlexComponent (props: FlexComponentProps) {
       id={component.id}
       className={clsx(
         'draggable-group',
-        properties.absolute === false ? 'static' : 'absolute'
+        properties.absolute === false ? 'static' : 'absolute',
+        className
       )}
       style={{
         top: `${properties.y}px`,

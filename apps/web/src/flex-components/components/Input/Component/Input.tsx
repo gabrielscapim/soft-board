@@ -4,7 +4,7 @@ import { FlexComponentProps } from '../../../types'
 import { DynamicIcon, IconName } from 'lucide-react/dynamic'
 
 export function InputFlexComponent (props: FlexComponentProps) {
-  const { component } = props
+  const { component, className } = props
 
   const properties = component.properties as InputFlexComponentProperties
 
@@ -30,7 +30,8 @@ export function InputFlexComponent (props: FlexComponentProps) {
         secondary && 'border-2',
         secondary && 'border-flex-component-gray-light',
         tertiary && 'border-b-2',
-        tertiary && 'border-flex-component-gray-light'
+        tertiary && 'border-flex-component-gray-light',
+        className
       )}
       style={{
         top: `${properties.y}px`,

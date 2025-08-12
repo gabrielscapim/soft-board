@@ -3,7 +3,7 @@ import { DividerFlexComponentProperties } from '../../../../types'
 import { FlexComponentProps } from '../../../types'
 
 export function DividerFlexComponent (props: FlexComponentProps) {
-  const { component } = props
+  const { component, className } = props
   const properties = component.properties as DividerFlexComponentProperties
 
   const color = properties.color ?? 'primary'
@@ -16,7 +16,8 @@ export function DividerFlexComponent (props: FlexComponentProps) {
         properties.absolute === false ? 'static' : 'absolute',
         color === 'primary' && 'bg-flex-component-gray-medium',
         color === 'secondary' && 'bg-flex-component-gray-light',
-        color === 'tertiary' && 'bg-flex-component-black'
+        color === 'tertiary' && 'bg-flex-component-black',
+        className
       )}
       style={{
         top: `${properties.y}px`,
