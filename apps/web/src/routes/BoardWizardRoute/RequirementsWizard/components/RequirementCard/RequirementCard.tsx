@@ -41,7 +41,7 @@ export function RequirementCard (props: RequirementCardProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="size-7"
+            className="size-7 text-destructive focus:text-destructive hover:text-destructive"
             disabled={loading}
             onClick={handleDelete}
           >
