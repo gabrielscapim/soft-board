@@ -8,6 +8,17 @@ export type GetBoardResultTeam = {
   name: string
 }
 
+export type GetBoardResultComponent = {
+  id: string
+  name: string
+  type: string
+  properties: Record<string, any>
+  connectionId: string | null
+  screenId: string | null
+  createDate: string
+  updateDate: string
+}
+
 export type GetBoardResult = {
   id: string
   team: GetBoardResultTeam
@@ -16,4 +27,5 @@ export type GetBoardResult = {
   image: string | null
   createDate: string
   updateDate: string
+  components: GetBoardResultComponent[]
 }
