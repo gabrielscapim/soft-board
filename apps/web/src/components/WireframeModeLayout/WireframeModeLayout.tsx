@@ -5,7 +5,7 @@ export function WireframeModeLayout () {
   return (
     <>
       <WireframeModeHeader />
-      <main className="flex grow">
+      <main className="flex grow h-[calc(100vh-60px)]">
         <Outlet />
       </main>
     </>
