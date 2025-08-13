@@ -19,7 +19,8 @@ export function BoardContextProvider ({ children }: BoardContextProvider) {
   const getBoard = useQuery({
     queryKey: ['getBoard', boardId],
     queryFn: () => client.getBoard({ boardId: boardId! }),
-    enabled: Boolean(boardId)
+    enabled: Boolean(boardId),
+    retry: 1
   })
   const components = useMemo(() => {
     const result = getBoard.data?.components.map<FlexComponent>(component => ({
