@@ -10,7 +10,7 @@ export type AgentOptions = {
   tools?: Array<Tool>
 }
 
-const DEFAULT_MODEL = 'gpt-4.1'
+const DEFAULT_MODEL = 'gpt-5'
 const DEFAULT_PROMPT = 'You are a helpful assistant.'
 
 export abstract class Agent {
