@@ -47,7 +47,7 @@ export function RequirementsContainer (props: RequirementsContainerProps) {
 
           <p className="text-xs text-muted-foreground leading-relaxed">
             List and prioritize the main features and user needs for your MVP.
-            You can add, edit, and delete requirements by yourself or talking with your board with your board in the chat.
+            You can add, edit, and delete requirements by yourself or talking with your board with in the chat.
           </p>
         </div>
       </div>
