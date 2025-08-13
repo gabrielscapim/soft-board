@@ -37,8 +37,6 @@ import type {
   GetRequirementsResult,
   UpdateRequirementCommand,
   DeleteComponentsCommand,
-  GetComponentsQuery,
-  GetComponentsResult,
   UpdateComponentsCommand
 } from 'types/endpoints'
 
@@ -140,10 +138,6 @@ export class Client {
 
   async getBoards (data: GetBoardsQuery): Promise<GetBoardsResult> {
     return (await this.axios.post<GetBoardsResult>('/getBoards', data)).data
-  }
-
-  async getComponents (data: GetComponentsQuery): Promise<GetComponentsResult> {
-    return (await this.axios.post<GetComponentsResult>('/getComponents', data)).data
   }
 
   async getCurrentUserRole (): Promise<GetCurrentUserRoleResult> {
