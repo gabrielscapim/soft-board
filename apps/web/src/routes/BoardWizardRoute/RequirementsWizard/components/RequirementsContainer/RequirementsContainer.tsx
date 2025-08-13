@@ -25,7 +25,7 @@ export function RequirementsContainer (props: RequirementsContainerProps) {
     <>
       <div className="mb-4 flex flex-row justify-between items-center">
         <div>
-          <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center justify-between pb-2">
             <h1 className="text-md font-semibold">Requirements</h1>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -34,6 +34,7 @@ export function RequirementsContainer (props: RequirementsContainerProps) {
                   className="size-7"
                   size="icon"
                   disabled={loading}
+                  onClick={handleCreate}
                 >
                   <PlusIcon />
                 </Button>
