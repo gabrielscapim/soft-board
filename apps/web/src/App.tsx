@@ -6,7 +6,8 @@ import {
   BoardWizardLayout,
   EditBoardLayout,
   RootLayout,
-  UnauthenticatedGuardLayout
+  UnauthenticatedGuardLayout,
+  WireframeModeLayout
 } from './components'
 import {
   ErrorRoute,
@@ -15,7 +16,8 @@ import {
   MembersRoute,
   SettingsRoute,
   BoardWizardRoute,
-  EditBoardRoute
+  EditBoardRoute,
+  WireframeModeRoute
 } from './routes'
 import { Toaster } from 'sonner'
 import {
@@ -94,6 +96,17 @@ function App () {
                   }
                 >
                   <Route index element={<EditBoardRoute />} />
+                </Route>
+
+                <Route
+                  path="boards/:boardId/wireframe"
+                  element={
+                    <BoardProviders>
+                      <WireframeModeLayout />
+                    </BoardProviders>
+                  }
+                >
+                  <Route index element={<WireframeModeRoute />} />
                 </Route>
               </Route>
 
