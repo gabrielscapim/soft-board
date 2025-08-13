@@ -5,6 +5,9 @@ import { useParams } from 'react-router'
 import { useClient } from '@/hooks'
 import { useQuery } from '@tanstack/react-query'
 import { FlexComponent } from '@/types'
+import { FullScreenLoader } from '@/components'
+import { ErrorRoute } from '@/routes'
+import { Client } from '@/client'
 
 export type BoardContextProvider = PropsWithChildren
 
@@ -43,6 +46,8 @@ export function BoardContextProvider ({ children }: BoardContextProvider) {
     board.boardState.setFlexComponents(components)
   }, [components, board.boardState])
 
+  const error = Client.getError(getBoard.error)
+
   return (
     <BoardContext.Provider
       value={{
@@ -55,6 +60,16 @@ export function BoardContextProvider ({ children }: BoardContextProvider) {
         refetch: getBoard.refetch
       }}
     >
+      {getBoard.error && (
+        <ErrorRoute
+          status={error?.response?.status}
+          description={Client.isNotFound(error)
+            ? 'Board not found or you do not have permission to access it.'
+            : 'An error occurred while fetching the board.'
+          }
+        />
+      )}
+      {getBoard.isLoading && <FullScreenLoader />}
       {children}
     </BoardContext.Provider>
   )
