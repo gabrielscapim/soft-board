@@ -23,7 +23,7 @@ import { Toaster } from 'sonner'
 import {
   AuthenticationProvider,
   AuthorizationProvider,
-  BoardContextProvider,
+  BoardProvider,
   ClientProvider,
   TeamProvider
 } from './contexts'
@@ -43,7 +43,7 @@ function App () {
 
   const BoardProviders = ({ children }: { children: React.ReactNode }) => (
     <PrivateRoutesProviders>
-      <BoardContextProvider>{children}</BoardContextProvider>
+      <BoardProvider>{children}</BoardProvider>
     </PrivateRoutesProviders>
   )
 

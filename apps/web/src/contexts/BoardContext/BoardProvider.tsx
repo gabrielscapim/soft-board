@@ -9,9 +9,9 @@ import { FullScreenLoader } from '@/components'
 import { ErrorRoute } from '@/routes'
 import { Client } from '@/client'
 
-export type BoardContextProvider = PropsWithChildren
+export type BoardProviderProps = PropsWithChildren
 
-export function BoardContextProvider ({ children }: BoardContextProvider) {
+export function BoardProvider ({ children }: BoardProviderProps) {
   const params = useParams<{ boardId?: string }>()
   const boardId = params.boardId
   const client = useClient()
@@ -71,7 +71,7 @@ export function BoardContextProvider ({ children }: BoardContextProvider) {
         />
       )}
       {getBoard.isLoading && <FullScreenLoader />}
-      {children}
+      {getBoard.data && children}
     </BoardContext.Provider>
   )
 }

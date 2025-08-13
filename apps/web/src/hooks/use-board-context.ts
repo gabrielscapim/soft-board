@@ -5,7 +5,7 @@ export function useBoardContext () {
   const context = useContext(BoardContext)
 
   if (!context) {
-    throw new Error('useBoard must be used within a BoardContextProvider')
+    throw new Error('useBoard must be used within a BoardProvider')
   }
 
   return context
