@@ -13,13 +13,13 @@ export function BoardContextProvider ({ children }: BoardContextProvider) {
   const boardId = params.boardId
   const client = useClient()
 
-  const getComponents = useQuery({
-    queryKey: ['getComponents', boardId],
-    queryFn: () => client.getComponents({ boardId: boardId! }),
+  const getBoard = useQuery({
+    queryKey: ['getBoard', boardId],
+    queryFn: () => client.getBoard({ boardId: boardId! }),
     enabled: Boolean(boardId)
   })
   const components = useMemo(() => {
-    const result = getComponents.data?.data.map<FlexComponent>(component => ({
+    const result = getBoard.data?.components.map<FlexComponent>(component => ({
       id: component.id,
       name: component.name,
       type: component.type as FlexComponent['type'],
@@ -29,7 +29,7 @@ export function BoardContextProvider ({ children }: BoardContextProvider) {
     }))
 
     return result ?? []
-  }, [getComponents.data?.data])
+  }, [getBoard.data?.components])
 
   const [board] = useState(() => {
     const boardState = new BoardState({ id: boardId, components })
@@ -48,7 +48,11 @@ export function BoardContextProvider ({ children }: BoardContextProvider) {
       value={{
         boardState: board.boardState,
         boardController: board.boardController,
-        boardManager: board.boardManager
+        boardManager: board.boardManager,
+        board: getBoard.data,
+        error: getBoard.error,
+        loading: getBoard.isLoading,
+        refetch: getBoard.refetch
       }}
     >
       {children}

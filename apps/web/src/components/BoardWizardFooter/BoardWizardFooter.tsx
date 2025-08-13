@@ -2,12 +2,12 @@ import { Button } from '../ui/button'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useParams } from 'react-router'
-import { useClient, useSelectedBoard } from '@/hooks'
+import { useClient, useBoardContext } from '@/hooks'
 
 export function BoardWizardFooter () {
   const params = useParams<{ boardId?: string }>()
   const boardId = params.boardId
-  const { board, refetch } = useSelectedBoard(boardId)
+  const { board, refetch } = useBoardContext()
   const client = useClient()
   const currentStep = board?.step
 

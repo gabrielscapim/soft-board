@@ -1,5 +1,4 @@
-import { useAuthentication, useClient, useMessages, useRequirements, useSelectedBoard } from '@/hooks'
-import { useParams } from 'react-router'
+import { useAuthentication, useBoardContext, useClient, useMessages, useRequirements } from '@/hooks'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useState } from 'react'
@@ -8,9 +7,8 @@ import { RequirementsContainer, DeleteRequirementDialog, EditRequirementDialog }
 import { ChatContainer } from '../ChatContainer'
 
 export function RequirementsWizard () {
-  const params = useParams<{ boardId?: string }>()
-  const boardId = params.boardId
-  const { board } = useSelectedBoard(boardId)
+  const { board } = useBoardContext()
+  const boardId = board?.id
   const client = useClient()
   const { authenticatedUser } = useAuthentication()
   const getMessages = useMessages(boardId)

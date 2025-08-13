@@ -1,5 +1,5 @@
-import { useSelectedBoard, useTeam } from '@/hooks'
-import { useNavigate, useParams } from 'react-router'
+import { useBoardContext, useTeam } from '@/hooks'
+import { useNavigate } from 'react-router'
 import { Button } from '../ui/button'
 import { ChevronLeftIcon } from 'lucide-react'
 import { Stepper } from '../Stepper'
@@ -10,9 +10,7 @@ export function BoardWizardHeader () {
   const [leaveBoardOpen, setLeaveBoardOpen] = useState(false)
   const navigate = useNavigate()
   const { team } = useTeam()
-  const params = useParams<{ boardId?: string }>()
-  const boardId = params.boardId
-  const { board } = useSelectedBoard(boardId)
+  const { board } = useBoardContext()
   const currentStep = board?.step
 
   return (
