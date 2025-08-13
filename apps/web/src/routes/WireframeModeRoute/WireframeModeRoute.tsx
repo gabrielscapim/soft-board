@@ -1,11 +1,11 @@
 import { useFlexComponents } from '@/components'
-import { useBoardContext } from '@/hooks'
+import { useBoard } from '@/hooks'
 import { FlexComponent } from '@/types'
 import { useState } from 'react'
 import { MobileScreenContainer, NotFoundScreenContainer } from './components'
 
 export function WireframeModeRoute () {
-  const { boardState } = useBoardContext()
+  const { boardState } = useBoard()
 
   const flexComponents = useFlexComponents(boardState)
   const [currentScreen, setCurrentScreen] = useState<FlexComponent | null>(

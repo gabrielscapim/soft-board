@@ -1,5 +1,5 @@
 export * from './use-authentication'
-export * from './use-board-context'
+export * from './use-board'
 export * from './use-client'
 export * from './use-member-role'
 export * from './use-messages'

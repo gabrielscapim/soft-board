@@ -1,12 +1,12 @@
 import { Board, BoardPropertiesMenu, BoardProps, useFlexComponents, useSelectedFlexComponents } from '@/components'
-import { useBoardContext } from '@/hooks'
+import { useBoard } from '@/hooks'
 
 export type BoardContainerProps = Partial<BoardProps> & {
   enableFullScreen?: boolean
 }
 
 export function BoardContainer (props: BoardContainerProps) {
-  const { boardState, boardController, boardManager } = useBoardContext()
+  const { boardState, boardController, boardManager } = useBoard()
 
   const selected = useSelectedFlexComponents(boardState)
   const flexComponents = useFlexComponents(boardState)

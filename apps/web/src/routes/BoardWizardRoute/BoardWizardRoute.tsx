@@ -1,10 +1,10 @@
-import { useBoardContext } from '@/hooks'
+import { useBoard } from '@/hooks'
 import { RequirementsWizard } from './RequirementsWizard'
 import { WireflowsWizard } from './WireflowsWizard'
 import { ReviewWizard } from './ReviewWizard'
 
 export function BoardWizardRoute () {
-  const { board } = useBoardContext()
+  const { board } = useBoard()
 
   return (
     <div className="flex flex-col w-full py-0 px-4">

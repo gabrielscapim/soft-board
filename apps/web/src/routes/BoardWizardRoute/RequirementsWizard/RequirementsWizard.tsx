@@ -1,4 +1,4 @@
-import { useAuthentication, useBoardContext, useClient, useMessages, useRequirements } from '@/hooks'
+import { useAuthentication, useBoard, useClient, useMessages, useRequirements } from '@/hooks'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useState } from 'react'
@@ -7,7 +7,7 @@ import { RequirementsContainer, DeleteRequirementDialog, EditRequirementDialog }
 import { ChatContainer } from '../ChatContainer'
 
 export function RequirementsWizard () {
-  const { board } = useBoardContext()
+  const { board } = useBoard()
   const boardId = board?.id
   const client = useClient()
   const { authenticatedUser } = useAuthentication()

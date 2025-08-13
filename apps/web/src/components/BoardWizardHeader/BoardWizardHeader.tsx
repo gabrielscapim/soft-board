@@ -1,4 +1,4 @@
-import { useBoardContext, useTeam } from '@/hooks'
+import { useBoard, useTeam } from '@/hooks'
 import { useNavigate } from 'react-router'
 import { Button } from '../ui/button'
 import { ChevronLeftIcon } from 'lucide-react'
@@ -10,7 +10,7 @@ export function BoardWizardHeader () {
   const [leaveBoardOpen, setLeaveBoardOpen] = useState(false)
   const navigate = useNavigate()
   const { team } = useTeam()
-  const { board } = useBoardContext()
+  const { board } = useBoard()
   const currentStep = board?.step
 
   return (

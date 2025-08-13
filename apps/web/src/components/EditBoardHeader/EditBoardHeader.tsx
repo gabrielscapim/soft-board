@@ -3,7 +3,7 @@ import { useSidebar } from '../ui/sidebar'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 import { PanelLeftIcon, PanelRightIcon } from 'lucide-react'
 import { BoardZoomController } from '../BoardZoomController'
-import { useBoardContext } from '@/hooks'
+import { useBoard } from '@/hooks'
 import { MAX_SCALE, MIN_SCALE } from '@/helpers'
 import { useScale } from '../Board'
 import { BoardLink } from '../BoardLink'
@@ -11,7 +11,7 @@ import { WireframeModeLink } from '../WireframeModeLink'
 
 export function EditBoardHeader () {
   const { open, toggleSidebar } = useSidebar()
-  const { boardState, boardController } = useBoardContext()
+  const { boardState, boardController } = useBoard()
   const scale = useScale(boardState)
 
   return (

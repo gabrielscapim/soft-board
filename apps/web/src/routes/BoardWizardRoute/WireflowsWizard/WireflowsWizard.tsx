@@ -1,4 +1,4 @@
-import { useAuthentication, useBoardContext, useClient, useMessages } from '@/hooks'
+import { useAuthentication, useBoard, useClient, useMessages } from '@/hooks'
 import { ChatContainer } from '../ChatContainer'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -9,13 +9,13 @@ import { BoardZoomController, EditBoardLink, useScale, WireframeModeLink } from 
 import { MAX_SCALE, MIN_SCALE } from '@/helpers'
 
 export function WireflowsWizard () {
-  const { board } = useBoardContext()
+  const { board } = useBoard()
   const boardId = board?.id
   const [sendingMessage, setSendingMessage] = useState<string | null>(null)
   const { authenticatedUser } = useAuthentication()
   const getMessages = useMessages(boardId)
   const client = useClient()
-  const { boardController, boardState } = useBoardContext()
+  const { boardController, boardState } = useBoard()
   const scale = useScale(boardState)
 
   const sendMessage = useMutation({

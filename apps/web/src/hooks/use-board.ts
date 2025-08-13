@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { BoardContext } from '../contexts'
 
-export function useBoardContext () {
+export function useBoard () {
   const context = useContext(BoardContext)
 
   if (!context) {

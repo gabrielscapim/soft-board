@@ -4,10 +4,10 @@ import {
   useFlexComponents,
   useSelectedFlexComponents
 } from '../../components'
-import { useBoardContext } from '../../hooks'
+import { useBoard } from '../../hooks'
 
 export function EditBoardRoute () {
-  const { boardState, boardController, boardManager } = useBoardContext()
+  const { boardState, boardController, boardManager } = useBoard()
 
   const selected = useSelectedFlexComponents(boardState)
   const flexComponents = useFlexComponents(boardState)
