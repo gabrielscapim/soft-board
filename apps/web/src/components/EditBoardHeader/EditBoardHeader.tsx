@@ -7,6 +7,7 @@ import { useBoardContext } from '@/hooks'
 import { MAX_SCALE, MIN_SCALE } from '@/helpers'
 import { useScale } from '../Board'
 import { BoardLink } from '../BoardLink'
+import { WireframeModeLink } from '../WireframeModeLink'
 
 export function EditBoardHeader () {
   const { open, toggleSidebar } = useSidebar()
@@ -36,6 +37,7 @@ export function EditBoardHeader () {
           </Tooltip>
 
           <BoardLink to=".." />
+          <WireframeModeLink to="../wireframe" />
         </div>
 
         <div className="flex items-center gap-4">

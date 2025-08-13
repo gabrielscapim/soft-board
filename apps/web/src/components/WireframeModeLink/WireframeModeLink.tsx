@@ -13,7 +13,7 @@ export function WireframeModeLink (props: WireframeModeLinkProps) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Link to={to}>
+        <Link to={to} relative="path">
           <Button
             size="icon"
             className="size-7"
