@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { SquareMousePointerIcon } from 'lucide-react'
 import { Link } from 'react-router'
 
 export function NotFoundScreenContainer () {
@@ -10,9 +11,10 @@ export function NotFoundScreenContainer () {
       <p className="text-muted-foreground">
         Please add a screen to the board to enter wireframe mode.
       </p>
-      <Link to="../edit" relative="path">
+      <Link to=".." relative="path">
         <Button variant="outline">
-          Edit Board
+          <SquareMousePointerIcon />
+          Back to Board
         </Button>
       </Link>
     </div>
