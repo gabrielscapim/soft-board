@@ -6,8 +6,7 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import { GetMessagesResultData } from 'types/endpoints'
 import { BoardContainer } from '../BoardContainer'
-import { BoardZoomController, useScale } from '@/components'
-import { MaximizeBoardButton } from '../MaximizeBoardButton'
+import { BoardZoomController, EditBoardLink, useScale, WireframeModeLink } from '@/components'
 import { MAX_SCALE, MIN_SCALE } from '@/helpers'
 
 export function WireflowsWizard () {
@@ -36,7 +35,7 @@ export function WireflowsWizard () {
 
   return (
     <>
-      <div className="w-5/12 flex flex-col h-full border-r text-sm">
+      <div className="w-6/12 flex flex-col h-full border-r text-sm">
         {board && (
           <ChatContainer
             board={board}
@@ -62,9 +61,13 @@ export function WireflowsWizard () {
         )}
       </div>
 
-      <div className="w-7/12 flex flex-col h-full">
+      <div className="w-6/12 flex flex-col h-full">
         <div className="bg-background sticky top-0 shrink-0 p-3 h-15 flex justify-between items-center w-full border-b-1">
-          <MaximizeBoardButton />
+          <div className="flex flex-row gap-2">
+            <EditBoardLink to="edit" />
+            <WireframeModeLink to="wireframe" />
+          </div>
+
           <BoardZoomController
             scale={scale}
             onZoomIn={() => boardController.onChangeBoardScale({ scale: Math.min(scale + 0.25, MAX_SCALE) })}
