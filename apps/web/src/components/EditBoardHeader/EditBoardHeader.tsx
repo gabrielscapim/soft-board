@@ -1,12 +1,12 @@
-import { Link } from 'react-router'
 import { Button } from '../ui/button'
 import { useSidebar } from '../ui/sidebar'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
-import { Minimize2, PanelRightClose, PanelRightOpen } from 'lucide-react'
+import { PanelLeftIcon, PanelRightIcon } from 'lucide-react'
 import { BoardZoomController } from '../BoardZoomController'
 import { useBoardContext } from '@/hooks'
 import { MAX_SCALE, MIN_SCALE } from '@/helpers'
 import { useScale } from '../Board'
+import { BoardLink } from '../BoardLink'
 
 export function EditBoardHeader () {
   const { open, toggleSidebar } = useSidebar()
@@ -27,7 +27,7 @@ export function EditBoardHeader () {
                 className="size-7"
                 onClick={() => toggleSidebar()}
               >
-                {open ? <PanelRightOpen /> : <PanelRightClose />}
+                {open ? <PanelLeftIcon /> : <PanelRightIcon />}
               </Button>
             </TooltipTrigger>
             <TooltipContent>
@@ -35,22 +35,7 @@ export function EditBoardHeader () {
             </TooltipContent>
           </Tooltip>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link to=".." relative="path">
-                <Button
-                  size="icon"
-                  className="size-7"
-                  variant="outline"
-                >
-                  <Minimize2 />
-                </Button>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent>
-              Minimize Board
-            </TooltipContent>
-          </Tooltip>
+          <BoardLink to=".." />
         </div>
 
         <div className="flex items-center gap-4">
