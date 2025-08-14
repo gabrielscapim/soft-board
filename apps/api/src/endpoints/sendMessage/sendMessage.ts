@@ -8,11 +8,13 @@ import { ChatCompletionMessageParam, ChatCompletionMessageToolCall } from 'opena
 import { BoardDatabase, MessageDatabase } from 'types/database'
 import {
   AgentContext,
+  CaptureScreens,
   CreateRequirementTool,
   CreateWireflowTool,
   DeleteRequirementByIdTool,
   GetRequirementsTool,
   REQUIREMENTS_AGENT_PROMPT,
+  REVIEW_AGENT_PROMPT,
   StartFlowAgent,
   Tool,
   UpdateRequirementByIdTool,
@@ -236,6 +238,10 @@ function getTools (
     return [
       new CreateWireflowTool({ pool })
     ]
+  } else if (board.step === 'review') {
+    return [
+      new CaptureScreens({ pool })
+    ]
   }
 
   return []
@@ -246,6 +252,8 @@ function getPrompt (board: BoardRow): string {
     return REQUIREMENTS_AGENT_PROMPT
   } else if (board.step === 'wireflows') {
     return WIREFLOWS_AGENT_PROMPT
+  } else if (board.step === 'review') {
+    return REVIEW_AGENT_PROMPT
   }
 
   return 'You are a helpful assistant.'
