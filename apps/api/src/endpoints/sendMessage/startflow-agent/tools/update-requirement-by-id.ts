@@ -1,4 +1,4 @@
-import { AgentContext, Tool } from '../core'
+import { AgentContext, RunToolResult, Tool } from '../core'
 
 type Arguments = {
   id: string
@@ -22,7 +22,7 @@ export class UpdateRequirementByIdTool extends Tool {
     }
   }
 
-  async run (args: Arguments, context: AgentContext): Promise<string> {
+  async run (args: Arguments, context: AgentContext): Promise<RunToolResult> {
     const requirement = await this.pool
       .SELECT`id`
       .FROM`requirement`
@@ -51,6 +51,8 @@ export class UpdateRequirementByIdTool extends Tool {
       }
     )
 
-    return `Requirement with ID "${args.id}" updated successfully.`
+    return {
+      content: `Requirement with ID "${args.id}" updated successfully.`
+    }
   }
 }
