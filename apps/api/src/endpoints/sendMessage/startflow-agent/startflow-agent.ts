@@ -24,7 +24,8 @@ export class StartFlowAgent extends Agent {
         model: this.model,
         messages: [
           ...messages,
-          ...responseMessages
+          ...responseMessages,
+          ...accumulatedToolMessagesResult
         ],
         tools: this.tools.map(tool => tool.toChatCompletion()),
         parallel_tool_calls: true
@@ -42,7 +43,10 @@ export class StartFlowAgent extends Agent {
 
       // If there are no tool calls, we can return the messages
       if (!requestedTools?.length) {
-        return responseMessages
+        return [
+          ...responseMessages,
+          ...accumulatedToolMessagesResult
+        ]
       }
 
       // Process each requested tool

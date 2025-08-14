@@ -122,6 +122,12 @@ export function handler ({ openai }: Deps): Handler {
         })
 
       for (const message of responseMessages) {
+        /**
+         * Add 2ms delay to ensure messages are in the correct order
+         * TO-DO: Add "order" column to message table
+         */
+        await new Promise(resolve => setTimeout(resolve, 2))
+
         const { rows: [created] } = await pool
           .INSERT_INTO<{ id: string }>`message`
           .VALUES({
@@ -175,8 +181,9 @@ async function getHistory (
       message.tool_calls AS "toolCalls",
       "user".name as "userName"`
     .FROM`message`
-    .WHERE`board_id = ${boardId}`
     .LEFT_JOIN`"user" ON "user".id = message.author_id`
+    .WHERE`board_id = ${boardId}`
+    .AND`message.type = 'text'`
     .ORDER_BY`send_date ASC`
     .list()
 
