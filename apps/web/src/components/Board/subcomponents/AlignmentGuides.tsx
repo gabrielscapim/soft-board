@@ -1,5 +1,5 @@
 import { SECONDARY_GUIDE_DISTANCE_TO_SNAP } from '../../../helpers'
-import { useFlexComponents, useGuides, useIsDragging, useIsResizing, useSelectedFlexComponents } from '../../../hooks'
+import { useFlexComponents, useGuides, useIsDragging, useIsResizing, useSelectedFlexComponents } from '../hooks'
 import { BoardState } from '../../../lib'
 import { FlexComponent, Offset } from '../../../types'
 

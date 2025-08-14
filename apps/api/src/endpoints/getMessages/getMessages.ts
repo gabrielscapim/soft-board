@@ -43,6 +43,7 @@ export function handler (): Handler {
       .LEFT_JOIN`"user" ON "user".id = message.author_id`
       .WHERE`message.board_id = ${boardId}`
       .AND`message.team_id = ${teamId}`
+      .AND`message.type = 'text'`
       .ORDER_BY`message.send_date ASC`
       .list()
 

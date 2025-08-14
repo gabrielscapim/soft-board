@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { GetRequirementsResultData } from 'types/endpoints'
 import { RequirementCard } from '../RequirementCard'
 import { PlusIcon } from 'lucide-react'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 export type RequirementsContainerProps = {
   requirements?: GetRequirementsResultData[]
@@ -23,21 +24,32 @@ export function RequirementsContainer (props: RequirementsContainerProps) {
   return (
     <>
       <div className="mb-4 flex flex-row justify-between items-center">
-        <div className="space-y-0.5">
-          <h1 className="text-md font-semibold">Requirements</h1>
-          <p className="text-xs text-muted-foreground">
+        <div>
+          <div className="flex items-center justify-between pb-2">
+            <h1 className="text-md font-semibold">Requirements</h1>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="size-7"
+                  size="icon"
+                  disabled={loading}
+                  onClick={handleCreate}
+                >
+                  <PlusIcon />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                Add Requirement
+              </TooltipContent>
+            </Tooltip>
+          </div>
+
+          <p className="text-xs text-muted-foreground leading-relaxed">
             List and prioritize the main features and user needs for your MVP.
+            You can add, edit, and delete requirements by yourself or talking with your board with in the chat.
           </p>
         </div>
-        <Button
-          variant="outline"
-          className="size-7"
-          size="icon"
-          disabled={loading}
-          onClick={handleCreate}
-        >
-          <PlusIcon />
-        </Button>
       </div>
 
       <div className="gap-2 flex flex-col">

@@ -1,5 +1,7 @@
 import { GetAuthenticatedUserResult, GetBoardResult, GetMessagesResultData } from 'types/endpoints'
-import { ChatContainerHeader, ChatContainerInput, ChatMessagesList } from './components'
+import { ChatContainerHeader } from './ChatContainerHeader'
+import { ChatMessagesList } from './ChatContainerMessagesList'
+import { ChatContainerInput } from './ChatContainerInput'
 
 export type ChatContainerProps = {
   board: GetBoardResult
@@ -13,18 +15,20 @@ export function ChatContainer (props: ChatContainerProps) {
   const { board, authenticatedUser, loading, messages, onSendMessage } = props
 
   return (
-    <>
+    <div className="flex flex-col h-full">
       <ChatContainerHeader board={board} />
-      <ChatMessagesList
-        board={board}
-        loading={loading}
-        authenticatedUser={authenticatedUser}
-        messages={messages}
-      />
+      <div className="flex-1 overflow-y-auto">
+        <ChatMessagesList
+          board={board}
+          loading={loading}
+          authenticatedUser={authenticatedUser}
+          messages={messages}
+        />
+      </div>
       <ChatContainerInput
         loading={loading}
         onSendMessage={onSendMessage}
       />
-    </>
+    </div>
   )
 }

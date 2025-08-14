@@ -1,3 +1,4 @@
+export * from './capture-screens'
 export * from './create-requirement'
 export * from './create-wireflow'
 export * from './delete-requirement-by-id'

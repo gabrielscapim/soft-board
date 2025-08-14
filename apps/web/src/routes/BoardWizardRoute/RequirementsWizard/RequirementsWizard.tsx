@@ -1,5 +1,4 @@
-import { useAuthentication, useClient, useMessages, useRequirements, useSelectedBoard } from '@/hooks'
-import { useParams } from 'react-router'
+import { useAuthentication, useBoard, useClient, useMessages, useRequirements } from '@/hooks'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useState } from 'react'
@@ -8,9 +7,8 @@ import { RequirementsContainer, DeleteRequirementDialog, EditRequirementDialog }
 import { ChatContainer } from '../ChatContainer'
 
 export function RequirementsWizard () {
-  const params = useParams<{ boardId?: string }>()
-  const boardId = params.boardId
-  const { board } = useSelectedBoard(boardId)
+  const { board } = useBoard()
+  const boardId = board?.id
   const client = useClient()
   const { authenticatedUser } = useAuthentication()
   const getMessages = useMessages(boardId)
@@ -113,8 +111,9 @@ export function RequirementsWizard () {
       {requirementToDelete && (
         <DeleteRequirementDialog
           open={Boolean(requirementToDelete)}
-          onDelete={() => deleteRequirement.mutate(requirementToDelete.id)}
+          isMutating={deleteRequirement.isPending}
           onCancel={() => setRequiredToDelete(null)}
+          onConfirm={() => deleteRequirement.mutate(requirementToDelete.id)}
         />
       )}
 
@@ -122,8 +121,9 @@ export function RequirementsWizard () {
         <EditRequirementDialog
           requirement={requirementToEdit}
           open={Boolean(requirementToEdit)}
-          onOpenChange={open => setRequirementToEdit(open ? requirementToEdit : null)}
-          onSave={(title, description) => {
+          isMutating={updateRequirement.isPending}
+          onCancel={() => setRequirementToEdit(null)}
+          onConfirm={(title, description) => {
             updateRequirement.mutate({
               id: requirementToEdit.id,
               boardId: boardId!,
@@ -131,7 +131,6 @@ export function RequirementsWizard () {
               description
             })
           }}
-          onCancel={() => setRequirementToEdit(null)}
         />
       )}
     </>

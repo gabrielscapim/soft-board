@@ -17,9 +17,9 @@ import {
 } from '@/components/ui/popover'
 
 import { useMemo, useState } from 'react'
-import { useFlexComponents } from '@/hooks'
 import { FlexComponent } from '@/types'
 import { BoardState } from '@/lib'
+import { useFlexComponents } from '@/components/Board/hooks'
 
 export type ActionsTabContentProps = {
   flexComponent: FlexComponent
@@ -95,7 +95,7 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
             </Command>
           </PopoverContent>
         </Popover>
-        {!isButton && (
+        {!isButton && !isText && (
           <p className="text-xs text-yellow-600 pt-2">
             Only buttons or text components can be connected to a screen.
           </p>

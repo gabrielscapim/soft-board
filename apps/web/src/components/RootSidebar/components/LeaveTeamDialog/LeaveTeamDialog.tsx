@@ -1,15 +1,31 @@
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle
+} from '@/components/ui/alert-dialog'
 import { GetTeamResult } from 'types/endpoints'
 
 export type LeaveTeamDialogProps = {
   team?: GetTeamResult
   open?: boolean
-  onLeave?: () => void
+  isMutating?: boolean
   onCancel?: () => void
+  onConfirm?: () => void
 }
 
 export function LeaveTeamDialog (props: LeaveTeamDialogProps) {
-  const { team, open, onLeave, onCancel } = props
+  const {
+    team,
+    open,
+    isMutating,
+    onCancel,
+    onConfirm
+  } = props
 
   return (
     <AlertDialog
@@ -25,10 +41,16 @@ export function LeaveTeamDialog (props: LeaveTeamDialogProps) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onCancel}>
+          <AlertDialogCancel
+            disabled={isMutating}
+            onClick={onCancel}
+          >
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction onClick={onLeave}>
+          <AlertDialogAction
+            disabled={isMutating}
+            onClick={onConfirm}
+          >
             Leave Team
           </AlertDialogAction>
         </AlertDialogFooter>

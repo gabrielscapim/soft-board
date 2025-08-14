@@ -12,29 +12,41 @@ export class StartFlowAgent extends Agent {
       { role: 'user', content }
     ]
 
-    const responseMessages: Array<ChatCompletionMessageParam> = []
+    const responseMessages: Array<ChatCompletionMessageParam & { executionTimeMs?: number }> = []
+    const accumulatedToolMessagesResult: Array<ChatCompletionMessageParam> = []
 
     let completionCalls = 0
 
     while (completionCalls < MAX_COMPLETION_CALLS) {
+      const now = performance.now()
+
       const completion = await this.openai.chat.completions.create({
         model: this.model,
         messages: [
           ...messages,
-          ...responseMessages
+          ...responseMessages,
+          ...accumulatedToolMessagesResult
         ],
         tools: this.tools.map(tool => tool.toChatCompletion()),
         parallel_tool_calls: true
       })
 
+      const executionTimeMs = performance.now() - now
+
       const response = completion.choices[0].message
       const requestedTools = response.tool_calls
 
-      responseMessages.push(response)
+      responseMessages.push({
+        ...response,
+        executionTimeMs
+      })
 
       // If there are no tool calls, we can return the messages
       if (!requestedTools?.length) {
-        return responseMessages
+        return [
+          ...responseMessages,
+          ...accumulatedToolMessagesResult
+        ]
       }
 
       // Process each requested tool
@@ -51,22 +63,30 @@ export class StartFlowAgent extends Agent {
           continue
         }
 
+        const now = performance.now()
+
         try {
           const args = JSON.parse(requestedTool.function.arguments)
-          const result = await tool.run(args)
+          const result = await tool.run(args, this.context)
 
           responseMessages.push({
             role: 'tool',
             tool_call_id: requestedTool.id,
-            content: result
+            content: result.content,
+            executionTimeMs: performance.now() - now
           })
+
+          if (result.messages) {
+            accumulatedToolMessagesResult.push(...result.messages)
+          }
         } catch (error) {
           logger.error({ error }, `Error running tool ${requestedTool.function.name}`)
 
           responseMessages.push({
             role: 'tool',
             tool_call_id: requestedTool.id,
-            content: `Error running tool ${requestedTool.function.name}.`
+            content: `Error running tool ${requestedTool.function.name}.`,
+            executionTimeMs: performance.now() - now
           })
         }
       }
@@ -75,6 +95,9 @@ export class StartFlowAgent extends Agent {
       completionCalls += 1
     }
 
-    return responseMessages
+    return [
+      ...responseMessages,
+      ...accumulatedToolMessagesResult
+    ]
   }
 }

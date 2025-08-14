@@ -3,7 +3,7 @@ import { FlexComponentProps } from '../../../types'
 import { ButtonFlexComponentProperties } from '../../../../types'
 
 export function ButtonFlexComponent (props: FlexComponentProps) {
-  const { component, handleAction } = props
+  const { component, className, handleAction } = props
 
   const properties = component.properties as ButtonFlexComponentProperties
   const color = properties.color ?? 'primary'
@@ -24,6 +24,7 @@ export function ButtonFlexComponent (props: FlexComponentProps) {
         color === 'primary' && 'text-flex-component-white',
         color === 'secondary' && 'bg-flex-component-gray-light',
         color === 'secondary' && 'text-flex-component-black',
+        className
       )}
       style={{
         top: `${properties.y}px`,

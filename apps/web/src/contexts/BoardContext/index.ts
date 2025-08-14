@@ -1,2 +1,2 @@
 export * from './BoardContext'
-export * from './BoardContextProvider'
+export * from './BoardProvider'

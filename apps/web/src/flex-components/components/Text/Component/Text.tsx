@@ -3,7 +3,7 @@ import { TextFlexComponentProperties } from '../../../../types'
 import { FlexComponentProps } from '../../../types'
 
 export function TextFlexComponent (props: FlexComponentProps) {
-  const { component, boardController } = props
+  const { component, boardController, editable, className } = props
 
   const properties = component.properties as TextFlexComponentProperties
   const color = properties.color ?? 'primary'
@@ -11,7 +11,7 @@ export function TextFlexComponent (props: FlexComponentProps) {
   return (
     <span
       id={component.id}
-      contentEditable
+      contentEditable={editable}
       suppressContentEditableWarning
       spellCheck={false}
       className={clsx(
@@ -20,7 +20,8 @@ export function TextFlexComponent (props: FlexComponentProps) {
         'text-black',
         properties.absolute === false ? 'static' : 'absolute',
         color === 'primary' && 'text-flex-component-black',
-        color === 'secondary' && 'text-flex-component-gray-medium'
+        color === 'secondary' && 'text-flex-component-gray-medium',
+        className
       )}
       style={{
         userSelect: 'none',
@@ -39,7 +40,17 @@ export function TextFlexComponent (props: FlexComponentProps) {
         wordBreak: 'break-word'
       }}
       onBlur={event => {
-        boardController?.onUpdateFlexComponent({ flexComponent: {  ...component, properties: { ...properties, text: event.currentTarget.textContent } as TextFlexComponentProperties }})
+        if (!editable) return
+
+        boardController?.onUpdateFlexComponent({
+          flexComponent: {
+            ...component,
+            properties: {
+              ...properties,
+              text: event.currentTarget.textContent
+            } as TextFlexComponentProperties
+          }
+        })
       }}
     >
       {properties.text}

@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useFlexComponents } from '../../../hooks'
+import { useFlexComponents } from '../hooks'
 import { BoardState } from '../../../lib'
 import { FlexComponent, Offset } from '../../../types'
 

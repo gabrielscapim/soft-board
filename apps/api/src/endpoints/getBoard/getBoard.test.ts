@@ -38,7 +38,8 @@ describe('getBoard', () => {
           id: team.id,
           slug: team.slug,
           name: team.name
-        }
+        },
+        components: []
       })
     })
   })

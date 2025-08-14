@@ -129,17 +129,18 @@ export function MembersRoute () {
       {createMemberDialogOpen && (
         <CreateMemberDialog
           open={createMemberDialogOpen}
-          onOpenChange={setCreateMemberDialogOpen}
-          onCreate={(email, role) => createMember.mutate({ email, role })}
+          isMutating={createMember.isPending}
           onCancel={() => setCreateMemberDialogOpen(false)}
+          onConfirm={(email, role) => createMember.mutate({ email, role })}
         />
       )}
 
       {memberToDelete && (
         <DeleteMemberDialog
           open={Boolean(memberToDelete)}
-          onDelete={() => deleteMember.mutate()}
+          isMutating={deleteMember.isPending}
           onCancel={() => setMemberToDelete(null)}
+          onConfirm={() => deleteMember.mutate()}
         />
       )}
     </div>

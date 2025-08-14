@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { FlexComponentProps } from '../../../types'
 
 export function IconFlexComponent (props: FlexComponentProps) {
-  const { component } = props
+  const { component, className } = props
 
   const properties = component.properties as IconFlexComponentProperties
   const icon = (properties.icon ?? 'sparkle') as IconName
@@ -16,7 +16,8 @@ export function IconFlexComponent (props: FlexComponentProps) {
       className={clsx(
         'draggable-group',
         properties.absolute === false ? 'static' : 'absolute',
-        color === 'primary' ? 'text-flex-component-black' : 'text-flex-component-gray-medium'
+        color === 'primary' ? 'text-flex-component-black' : 'text-flex-component-gray-medium',
+        className
       )}
       style={{
         top: `${properties.y}px`,

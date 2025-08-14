@@ -83,7 +83,10 @@ export class DatabaseFactory {
       toolCalls: message.toolCalls ?? null,
       sendDate: message.sendDate ?? now,
       createDate: message.createDate ?? now,
-      updateDate: message.updateDate ?? now
+      updateDate: message.updateDate ?? now,
+      type: 'text',
+      error: null,
+      executionTimeMs: null
     }
 
     await this.pool.INSERT_INTO`message`.VALUES(created)

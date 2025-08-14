@@ -1,16 +1,13 @@
-import { Link } from 'react-router'
-import { Button } from '../ui/button'
-import { SquareMousePointer } from 'lucide-react'
+import { BoardLink } from '../BoardLink'
+import { EditBoardLink } from '../EditBoardLink'
 
 export function WireframeModeHeader () {
   return (
-    <header className="bg-background sticky top-0 shrink-0 border-b p-2 flex justify-end">
-      <Link to="/" className="flex items-center gap-2">
-        <Button size="sm" variant="outline" className="text-xs">
-          <SquareMousePointer size={16} />
-          Return to Board
-        </Button>
-      </Link>
+    <header className="bg-background sticky top-0 shrink-0 p-3 h-15 flex justify-between items-center w-full border-b-1">
+      <div className="flex flex-row gap-2">
+        <BoardLink to=".." />
+        <EditBoardLink to="../edit" />
+      </div>
     </header>
   )
 }

@@ -11,12 +11,13 @@ import {
 
 export type DeleteMemberDialogProps = {
   open?: boolean
-  onDelete?: () => void
+  isMutating?: boolean
   onCancel?: () => void
+  onConfirm?: () => void
 }
 
 export function DeleteMemberDialog (props: DeleteMemberDialogProps) {
-  const { open, onDelete, onCancel } = props
+  const { open, isMutating, onConfirm, onCancel } = props
 
   return (
     <AlertDialog
@@ -32,10 +33,16 @@ export function DeleteMemberDialog (props: DeleteMemberDialogProps) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onCancel}>
+          <AlertDialogCancel
+            disabled={isMutating}
+            onClick={onCancel}
+          >
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction onClick={onDelete}>
+          <AlertDialogAction
+            disabled={isMutating}
+            onClick={onConfirm}
+          >
             Delete
           </AlertDialogAction>
         </AlertDialogFooter>

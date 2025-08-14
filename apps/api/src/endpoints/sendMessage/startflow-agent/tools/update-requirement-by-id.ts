@@ -1,4 +1,4 @@
-import { Tool } from '../core'
+import { AgentContext, RunToolResult, Tool } from '../core'
 
 type Arguments = {
   id: string
@@ -22,22 +22,12 @@ export class UpdateRequirementByIdTool extends Tool {
     }
   }
 
-  async run (args: Arguments): Promise<string> {
-    const board = await this.pool
-      .SELECT`id`
-      .FROM`board`
-      .WHERE`id = ${this.boardId}`
-      .first()
-
-    if (!board) {
-      return `Board with ID "${this.boardId}" not found`
-    }
-
+  async run (args: Arguments, context: AgentContext): Promise<RunToolResult> {
     const requirement = await this.pool
       .SELECT`id`
       .FROM`requirement`
       .WHERE`id = ${args.id}`
-      .AND`board_id = ${board.id}`
+      .AND`board_id = ${context.board.id}`
       .first()
 
     await this.pool.transaction(async pool => {
@@ -57,10 +47,12 @@ export class UpdateRequirementByIdTool extends Tool {
         .SET({
           updateDate: now
         })
-        .WHERE`id = ${board.id}`
+        .WHERE`id = ${context.board.id}`
       }
     )
 
-    return `Requirement with ID "${args.id}" updated successfully.`
+    return {
+      content: `Requirement with ID "${args.id}" updated successfully.`
+    }
   }
 }

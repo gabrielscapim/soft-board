@@ -1,20 +1,22 @@
-import { useAuthentication, useClient, useMessages, useSelectedBoard } from '@/hooks'
-import { useParams } from 'react-router'
+import { useAuthentication, useBoard, useClient, useMessages } from '@/hooks'
 import { ChatContainer } from '../ChatContainer'
-import { BoardContainer } from './components'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { GetMessagesResultData } from 'types/endpoints'
+import { BoardContainer } from '../BoardContainer'
+import { BoardZoomController, EditBoardLink, useScale, WireframeModeLink } from '@/components'
+import { MAX_SCALE, MIN_SCALE } from '@/helpers'
 
 export function WireflowsWizard () {
-  const params = useParams<{ boardId?: string }>()
-  const boardId = params.boardId
-  const { board } = useSelectedBoard(boardId)
+  const { board } = useBoard()
+  const boardId = board?.id
   const [sendingMessage, setSendingMessage] = useState<string | null>(null)
   const { authenticatedUser } = useAuthentication()
   const getMessages = useMessages(boardId)
   const client = useClient()
+  const { boardController, boardState } = useBoard()
+  const scale = useScale(boardState)
 
   const sendMessage = useMutation({
     mutationFn: async (content: string) => {
@@ -31,7 +33,7 @@ export function WireflowsWizard () {
 
   return (
     <>
-      <div className="w-3/12 flex flex-col h-full border-r text-sm">
+      <div className="w-6/12 flex flex-col h-full border-r text-sm">
         {board && (
           <ChatContainer
             board={board}
@@ -57,7 +59,19 @@ export function WireflowsWizard () {
         )}
       </div>
 
-      <div className="w-9/12 bg-card flex flex-col h-full">
+      <div className="w-6/12 flex flex-col h-full">
+        <div className="bg-background sticky top-0 shrink-0 p-3 h-15 flex justify-between items-center w-full border-b-1">
+          <div className="flex flex-row gap-2">
+            <EditBoardLink to="edit" />
+            <WireframeModeLink to="wireframe" />
+          </div>
+
+          <BoardZoomController
+            scale={scale}
+            onZoomIn={() => boardController.onChangeBoardScale({ scale: Math.min(scale + 0.25, MAX_SCALE) })}
+            onZoomOut={() => boardController.onChangeBoardScale({ scale: Math.max(scale - 0.25, MIN_SCALE) })}
+          />
+        </div>
         <BoardContainer />
       </div>
     </>

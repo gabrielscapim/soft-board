@@ -12,7 +12,7 @@ import {
   SidebarMenuItem,
   SidebarRail
 } from '../ui/sidebar'
-import { CreateTeamDialog, LeaveTeamDialog, NavUser, TeamSwitcher } from './components'
+import { ConfirmLogOutDialog, CreateTeamDialog, LeaveTeamDialog, NavUser, TeamSwitcher } from './components'
 import { Link, useNavigate } from 'react-router'
 import { useAuthentication, useClient, useMemberRole, useTeam } from '@/hooks'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -40,6 +40,7 @@ const items = [
 export function RootSidebar () {
   const [createTeamDialogOpen, setCreateTeamDialogOpen] = useState(false)
   const [leaveTeamDialogOpen, setLeaveTeamDialogOpen] = useState(false)
+  const [logOutDialogOpen, setLogOutDialogOpen] = useState(false)
   const { authenticatedUser, setAuthenticatedUser } = useAuthentication()
   const client = useClient()
   const activeTeam = useTeam()
@@ -70,11 +71,10 @@ export function RootSidebar () {
   const leaveTeam = useMutation({
     mutationFn: () => client.leaveTeam(),
     onSuccess: () => {
-      const fallbackTeam = authenticatedUser?.fallbackTeam
       setLeaveTeamDialogOpen(false)
       toast.success('You have left the team')
-      navigate(`/${fallbackTeam?.slug ?? ''}`, { replace: true })
       getTeams.refetch()
+      window.location.reload()
     },
     onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to leave team')
   })
@@ -124,7 +124,7 @@ export function RootSidebar () {
               email: authenticatedUser.email
             }}
             isOwner={role === 'owner'}
-            handleSignOut={() => signOut.mutate()}
+            handleSignOut={() => setLogOutDialogOpen(true)}
             handleLeaveTeam={() => setLeaveTeamDialogOpen(true)}
           />
         </SidebarFooter>
@@ -133,9 +133,9 @@ export function RootSidebar () {
       {createTeamDialogOpen && (
         <CreateTeamDialog
           open={createTeamDialogOpen}
-          onOpenChange={setCreateTeamDialogOpen}
+          isMutating={createTeam.isPending}
           onCancel={() => setCreateTeamDialogOpen(false)}
-          onSave={(name) => createTeam.mutate(name)}
+          onConfirm={(name) => createTeam.mutate(name)}
         />
       )}
 
@@ -143,8 +143,17 @@ export function RootSidebar () {
         <LeaveTeamDialog
           team={activeTeam.team}
           open={leaveTeamDialogOpen}
-          onLeave={() => leaveTeam.mutate()}
+          isMutating={leaveTeam.isPending}
           onCancel={() => setLeaveTeamDialogOpen(false)}
+          onConfirm={() => leaveTeam.mutate()}
+        />
+      )}
+
+      {logOutDialogOpen && (
+        <ConfirmLogOutDialog
+          open={logOutDialogOpen}
+          onCancel={() => setLogOutDialogOpen(false)}
+          onConfirm={() => signOut.mutate()}
         />
       )}
       <SidebarRail />

@@ -3,7 +3,7 @@ import { ShapeFlexComponentProperties } from '../../../../types'
 import { FlexComponentProps } from '../../../types'
 
 export function ShapeFlexComponent (props: FlexComponentProps) {
-  const { component } = props
+  const { component, className } = props
 
   const properties = component.properties as ShapeFlexComponentProperties
   const color = properties.color ?? 'primary'
@@ -20,7 +20,8 @@ export function ShapeFlexComponent (props: FlexComponentProps) {
         color === 'primary' && 'border-flex-component-gray-light',
         color === 'secondary' && 'border-flex-component-gray-medium',
         color === 'primary' && fill && 'bg-flex-component-gray-light',
-        color === 'secondary' && fill && 'bg-flex-component-gray-medium'
+        color === 'secondary' && fill && 'bg-flex-component-gray-medium',
+        className
       )}
       style={{
         top: `${properties.y}px`,

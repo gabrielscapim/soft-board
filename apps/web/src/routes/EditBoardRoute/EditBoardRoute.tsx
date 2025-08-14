@@ -1,8 +1,13 @@
-import { Board, BoardPropertiesMenu } from '../../components'
-import { useBoardContext, useFlexComponents, useSelectedFlexComponents } from '../../hooks'
+import {
+  Board,
+  BoardPropertiesMenu,
+  useFlexComponents,
+  useSelectedFlexComponents
+} from '../../components'
+import { useBoard } from '../../hooks'
 
 export function EditBoardRoute () {
-  const { boardState, boardController, boardManager } = useBoardContext()
+  const { boardState, boardController, boardManager } = useBoard()
 
   const selected = useSelectedFlexComponents(boardState)
   const flexComponents = useFlexComponents(boardState)

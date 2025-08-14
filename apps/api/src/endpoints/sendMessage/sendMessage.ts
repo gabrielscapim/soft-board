@@ -7,11 +7,14 @@ import { DatabasePool } from 'pg-script'
 import { ChatCompletionMessageParam, ChatCompletionMessageToolCall } from 'openai/resources/index'
 import { BoardDatabase, MessageDatabase } from 'types/database'
 import {
+  AgentContext,
+  CaptureScreens,
   CreateRequirementTool,
   CreateWireflowTool,
   DeleteRequirementByIdTool,
   GetRequirementsTool,
   REQUIREMENTS_AGENT_PROMPT,
+  REVIEW_AGENT_PROMPT,
   StartFlowAgent,
   Tool,
   UpdateRequirementByIdTool,
@@ -43,6 +46,12 @@ export function handler ({ openai }: Deps): Handler {
 
     const pool = getPool()
 
+    const team = await pool
+      .SELECT<{ slug: string }>`slug`
+      .FROM`team`
+      .WHERE`id = ${teamId}`
+      .find({ error: `Team with id ${teamId} not found` })
+
     const board = await pool
       .SELECT<BoardRow>`id, step`
       .FROM`board`
@@ -54,14 +63,29 @@ export function handler ({ openai }: Deps): Handler {
     const tools = getTools(board, pool)
     const prompt = getPrompt(board)
 
+    const context: AgentContext = {
+      board: {
+        id: boardId,
+        step: board.step
+      },
+      team: {
+        id: teamId,
+        slug: team.slug
+      },
+      user: {
+        id: userId
+      }
+    }
+
     const agent = new StartFlowAgent({
+      context,
       openai,
       history,
       prompt,
       tools
     })
 
-    const responseMessages: Array<ChatCompletionMessageParam> = []
+    const responseMessages: Array<ChatCompletionMessageParam & { executionTimeMs?: number }> = []
     let agentError: { name: string; message: string; stack?: string } | null = null
 
     try {
@@ -98,17 +122,30 @@ export function handler ({ openai }: Deps): Handler {
         })
 
       for (const message of responseMessages) {
+        /**
+         * Add 2ms delay to ensure messages are in the correct order
+         * TO-DO: Add "order" column to message table
+         */
+        await new Promise(resolve => setTimeout(resolve, 2))
+
+        const isImage =
+          message.role === 'user'
+          && Array.isArray(message.content)
+          && message.content.map(content => content.type === 'image_url')
+
         const { rows: [created] } = await pool
           .INSERT_INTO<{ id: string }>`message`
           .VALUES({
             teamId,
             boardId,
-            content: message.content ?? null,
+            content: message.content ?? 'No content',
             role: message.role,
+            type: isImage ? 'image' : 'text',
             sendDate: new Date(),
             toolCalls: message.role === 'assistant' ? JSON.stringify(message.tool_calls) : null,
             toolCallId: message.role === 'tool' ? message.tool_call_id : null,
-            error: agentError
+            error: agentError,
+            executionTimeMs: message.executionTimeMs ? Math.round(message.executionTimeMs) : null
           })
           .RETURNING`id`
 
@@ -150,8 +187,9 @@ async function getHistory (
       message.tool_calls AS "toolCalls",
       "user".name as "userName"`
     .FROM`message`
-    .WHERE`board_id = ${boardId}`
     .LEFT_JOIN`"user" ON "user".id = message.author_id`
+    .WHERE`board_id = ${boardId}`
+    .AND`message.type = 'text'`
     .ORDER_BY`send_date ASC`
     .list()
 
@@ -203,16 +241,20 @@ function getTools (
   board: BoardRow,
   pool: DatabasePool
 ): Tool[] {
-  if (board.step === 'init') {
+  if (board.step === 'requirements') {
     return [
-      new CreateRequirementTool({ boardId: board.id, pool }),
-      new DeleteRequirementByIdTool({ boardId: board.id, pool }),
-      new GetRequirementsTool({ boardId: board.id, pool }),
-      new UpdateRequirementByIdTool({ boardId: board.id, pool })
+      new CreateRequirementTool({ pool }),
+      new DeleteRequirementByIdTool({ pool }),
+      new GetRequirementsTool({ pool }),
+      new UpdateRequirementByIdTool({  pool })
     ]
   } else if (board.step === 'wireflows') {
     return [
-      new CreateWireflowTool({ boardId: board.id, pool })
+      new CreateWireflowTool({ pool })
+    ]
+  } else if (board.step === 'review') {
+    return [
+      new CaptureScreens({ pool })
     ]
   }
 
@@ -224,6 +266,8 @@ function getPrompt (board: BoardRow): string {
     return REQUIREMENTS_AGENT_PROMPT
   } else if (board.step === 'wireflows') {
     return WIREFLOWS_AGENT_PROMPT
+  } else if (board.step === 'review') {
+    return REVIEW_AGENT_PROMPT
   }
 
   return 'You are a helpful assistant.'

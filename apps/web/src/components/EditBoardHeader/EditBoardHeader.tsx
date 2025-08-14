@@ -1,19 +1,21 @@
-import { Link } from 'react-router'
 import { Button } from '../ui/button'
 import { useSidebar } from '../ui/sidebar'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
-import { Minimize2, PanelRightClose, PanelRightOpen } from 'lucide-react'
+import { PanelLeftIcon, PanelRightIcon } from 'lucide-react'
 import { BoardZoomController } from '../BoardZoomController'
-import { useBoardContext, useScale } from '@/hooks'
+import { useBoard } from '@/hooks'
 import { MAX_SCALE, MIN_SCALE } from '@/helpers'
+import { useScale } from '../Board'
+import { BoardLink } from '../BoardLink'
+import { WireframeModeLink } from '../WireframeModeLink'
 
 export function EditBoardHeader () {
   const { open, toggleSidebar } = useSidebar()
-  const { boardState, boardController } = useBoardContext()
+  const { boardState, boardController } = useBoard()
   const scale = useScale(boardState)
 
   return (
-    <header className="bg-background sticky top-0 shrink-0 p-3">
+    <header className="bg-background sticky top-0 shrink-0 p-3 h-15 flex justify-between items-center w-full border-b-1">
       <div className="flex justify-between items-center w-full">
         <div className="flex items-center gap-2">
           <Tooltip>
@@ -26,7 +28,7 @@ export function EditBoardHeader () {
                 className="size-7"
                 onClick={() => toggleSidebar()}
               >
-                {open ? <PanelRightOpen /> : <PanelRightClose />}
+                {open ? <PanelLeftIcon /> : <PanelRightIcon />}
               </Button>
             </TooltipTrigger>
             <TooltipContent>
@@ -34,22 +36,8 @@ export function EditBoardHeader () {
             </TooltipContent>
           </Tooltip>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link to=".." relative="path">
-                <Button
-                  size="icon"
-                  className="size-7"
-                  variant="outline"
-                >
-                  <Minimize2 />
-                </Button>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent>
-              Minimize Board
-            </TooltipContent>
-          </Tooltip>
+          <BoardLink to=".." />
+          <WireframeModeLink to="../wireframe" />
         </div>
 
         <div className="flex items-center gap-4">

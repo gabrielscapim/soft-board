@@ -25,7 +25,8 @@ export function TeamProvider ({ children }: TeamProviderProps) {
 
       client.teamSlug = undefined
     },
-    enabled: !!teamSlug || !client.teamSlug // If teamSlug is provided in the URL, use it; otherwise, use the one set in the client
+    enabled: !!teamSlug || !client.teamSlug, // If teamSlug is provided in the URL, use it; otherwise, use the one set in the client,
+    retry: 1
   })
 
   const error = Client.getError(getTeam.error)

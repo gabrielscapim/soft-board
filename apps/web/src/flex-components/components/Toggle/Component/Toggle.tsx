@@ -3,7 +3,7 @@ import { ToggleFlexComponentProperties } from '../../../../types'
 import { FlexComponentProps } from '../../../types'
 
 export function ToggleFlexComponent (props: FlexComponentProps) {
-  const { component } = props
+  const { component, className } = props
 
   const properties = component.properties as ToggleFlexComponentProperties
 
@@ -12,7 +12,8 @@ export function ToggleFlexComponent (props: FlexComponentProps) {
       id={component.id}
       className={clsx(
         'draggable-group',
-        properties.absolute === false ? 'static' : 'absolute'
+        properties.absolute === false ? 'static' : 'absolute',
+        className
       )}
       style={{
         top: `${properties.y}px`,
