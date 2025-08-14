@@ -126,9 +126,9 @@ export function BoardsRoute () {
         <EditBoardDialog
           board={selectedBoard ?? null}
           open={selectedBoard?.to === 'edit'}
-          onOpenChange={open => setSelectedBoard(open ? selectedBoard : null)}
-          onSave={title => editBoard.mutate(title)}
+          isMutating={editBoard.isPending}
           onCancel={() => setSelectedBoard(null)}
+          onConfirm={title => editBoard.mutate(title)}
         />
       )}
     </div>

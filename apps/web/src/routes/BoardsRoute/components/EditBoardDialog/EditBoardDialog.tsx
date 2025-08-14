@@ -17,13 +17,19 @@ import * as yup from 'yup'
 export type EditBoardDialogProps = {
   board: GetBoardsResultData | null
   open?: boolean
-  onOpenChange?: (open: boolean) => void
-  onSave?: (title: string) => void
+  isMutating?: boolean
   onCancel?: () => void
+  onConfirm?: (title: string) => void
 }
 
 export function EditBoardDialog (props: EditBoardDialogProps) {
-  const { board, open, onOpenChange, onSave, onCancel } = props
+  const {
+    board,
+    open,
+    isMutating,
+    onCancel,
+    onConfirm
+  } = props
 
   const formik = useFormik({
     validationSchema: yup.object({
@@ -36,11 +42,19 @@ export function EditBoardDialog (props: EditBoardDialogProps) {
     initialValues: {
       name: board?.title ?? ''
     },
-    onSubmit: values => onSave?.(values.name)
+    onSubmit: values => onConfirm?.(values.name)
   })
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog
+      open={open}
+      onOpenChange={() => {
+        if (!isMutating) {
+          formik.resetForm()
+          onCancel?.()
+        }
+      }}
+    >
       <div>
         <DialogContent>
           <DialogHeader>
@@ -58,6 +72,7 @@ export function EditBoardDialog (props: EditBoardDialogProps) {
                 minLength={1}
                 maxLength={255}
                 required
+                disabled={isMutating}
                 value={formik.values.name}
                 onChange={formik.handleChange}
               />
@@ -67,7 +82,7 @@ export function EditBoardDialog (props: EditBoardDialogProps) {
                 <Button
                   type="button"
                   variant="outline"
-                  disabled={formik.isSubmitting}
+                  disabled={isMutating}
                   onClick={onCancel}
                 >
                   Cancel
@@ -75,7 +90,7 @@ export function EditBoardDialog (props: EditBoardDialogProps) {
               </DialogClose>
               <Button
                 type="submit"
-                disabled={formik.isSubmitting}
+                disabled={isMutating}
               >
                 Save changes
               </Button>
