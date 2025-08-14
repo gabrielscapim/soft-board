@@ -134,9 +134,9 @@ export function RootSidebar () {
       {createTeamDialogOpen && (
         <CreateTeamDialog
           open={createTeamDialogOpen}
-          onOpenChange={setCreateTeamDialogOpen}
+          isMutating={createTeam.isPending}
           onCancel={() => setCreateTeamDialogOpen(false)}
-          onSave={(name) => createTeam.mutate(name)}
+          onConfirm={(name) => createTeam.mutate(name)}
         />
       )}
 

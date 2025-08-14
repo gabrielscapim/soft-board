@@ -7,9 +7,9 @@ import * as yup from 'yup'
 
 export type CreateTeamDialogProps = {
   open: boolean
-  onOpenChange: (open: boolean) => void
-  onSave?: (name: string) => void
+  isMutating?: boolean
   onCancel?: () => void
+  onConfirm?: (name: string) => void
 }
 
 const schema = yup.object({
@@ -17,21 +17,31 @@ const schema = yup.object({
 })
 
 export function CreateTeamDialog (props: CreateTeamDialogProps) {
-  const { open, onOpenChange, onSave, onCancel } = props
+  const {
+    open,
+    isMutating,
+    onCancel,
+    onConfirm
+  } = props
 
   const formik = useFormik({
     validationSchema: schema,
     initialValues: {
       name: ''
     },
-    onSubmit: values => {
-      onSave?.(values.name)
-      formik.setSubmitting(false)
-    }
+    onSubmit: (values) => onConfirm?.(values.name)
   })
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog
+      open={open}
+      onOpenChange={() => {
+        if (!isMutating) {
+          formik.resetForm()
+          onCancel?.()
+        }
+      }}
+    >
       <div>
         <DialogContent>
           <DialogHeader>
@@ -58,7 +68,7 @@ export function CreateTeamDialog (props: CreateTeamDialogProps) {
                 <Button
                   type="button"
                   variant="outline"
-                  disabled={formik.isSubmitting}
+                  disabled={isMutating}
                   onClick={onCancel}
                 >
                   Cancel
@@ -66,7 +76,7 @@ export function CreateTeamDialog (props: CreateTeamDialogProps) {
               </DialogClose>
               <Button
                 type="submit"
-                disabled={formik.isSubmitting}
+                disabled={isMutating}
               >
                 Create
               </Button>
