@@ -1,4 +1,4 @@
-import { AgentContext, Tool } from '../core'
+import { AgentContext, RunToolResult, Tool } from '../core'
 
 type Arguments = {
   title: string
@@ -28,14 +28,16 @@ export class CreateRequirementTool extends Tool {
     }
   }
 
-  async run (args: Arguments, context: AgentContext): Promise<string> {
+  async run (args: Arguments, context: AgentContext): Promise<RunToolResult> {
     const { rows: [{ count }] } = await this.pool
       .SELECT<{ count: number }>`COUNT(*) AS count`
       .FROM`requirement`
       .WHERE`board_id = ${context.board.id}`
 
     if (count >= MAX_REQUIREMENTS_PER_BOARD) {
-      return `Maximum of ${MAX_REQUIREMENTS_PER_BOARD} requirements per board reached`
+      return {
+        content: `Maximum of ${MAX_REQUIREMENTS_PER_BOARD} requirements per board reached`
+      }
     }
 
     const { rows: [max] } = await this.pool
@@ -65,6 +67,8 @@ export class CreateRequirementTool extends Tool {
       return requirement
     })
 
-    return 'Requirement created successfully.'
+    return {
+      content: 'Requirement created successfully.'
+    }
   }
 }

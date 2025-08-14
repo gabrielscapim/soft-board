@@ -1,5 +1,5 @@
 import { RequirementDatabase } from 'types/database'
-import { AgentContext, Tool } from '../core'
+import { AgentContext, RunToolResult, Tool } from '../core'
 
 type RequirementRow = Pick<RequirementDatabase, 'id' | 'title' | 'description'>
 
@@ -14,7 +14,7 @@ export class GetRequirementsTool extends Tool {
     }
   }
 
-  async run (_args: Record<string, any>, context: AgentContext): Promise<string> {
+  async run (_args: Record<string, any>, context: AgentContext): Promise<RunToolResult> {
     const requirements = await this.pool
       .SELECT<RequirementRow>`id, title, description`
       .FROM`requirement`
@@ -22,13 +22,17 @@ export class GetRequirementsTool extends Tool {
       .list()
 
     if (requirements.length === 0) {
-      return 'No requirements found.'
+      return {
+        content: 'No requirements found.'
+      }
     }
 
     const response = requirements.reduce((acc, req) => {
       return acc + `### ${req.title ?? 'Unnamed'} (ID: ${req.id})\n${req.description ?? 'No description'}\n\n`
     }, '')
 
-    return response
+    return {
+      content: response
+    }
   }
 }

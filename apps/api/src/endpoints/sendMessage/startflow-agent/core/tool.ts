@@ -1,9 +1,14 @@
-import { ChatCompletionTool } from 'openai/resources/index'
+import { ChatCompletionMessageParam, ChatCompletionTool } from 'openai/resources/index'
 import { DatabasePool } from 'pg-script'
 import { AgentContext } from './agent'
 
 export type ToolOptions = {
   pool: DatabasePool
+}
+
+export type RunToolResult = {
+  content: string
+  messages?: Array<ChatCompletionMessageParam>
 }
 
 export abstract class Tool {
@@ -18,7 +23,7 @@ export abstract class Tool {
 
   abstract parametersSchema (): any
 
-  abstract run (args: Record<string, any>, context: AgentContext): Promise<string>
+  abstract run (args: Record<string, any>, context: AgentContext): Promise<RunToolResult>
 
   toChatCompletion (): ChatCompletionTool {
     return {

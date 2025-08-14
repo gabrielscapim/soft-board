@@ -1,4 +1,4 @@
-import { AgentContext, Tool } from '../core'
+import { AgentContext, RunToolResult, Tool } from '../core'
 
 type Arguments = {
   components: Array<{
@@ -258,7 +258,7 @@ export class CreateWireflowTool extends Tool {
     }
   }
 
-  async run (args: Arguments, context: AgentContext): Promise<string> {
+  async run (args: Arguments, context: AgentContext): Promise<RunToolResult> {
     await this.pool.transaction(async pool => {
       for (const component of args.components) {
         await pool
@@ -272,6 +272,9 @@ export class CreateWireflowTool extends Tool {
           })
       }
     })
-    return `Wireflows created with components ${JSON.stringify(args.components)}`
+
+    return {
+      content: `Wireflows created with components ${JSON.stringify(args.components)}`
+    }
   }
 }

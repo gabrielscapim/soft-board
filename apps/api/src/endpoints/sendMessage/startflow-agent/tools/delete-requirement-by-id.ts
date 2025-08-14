@@ -1,4 +1,4 @@
-import { AgentContext, Tool } from '../core'
+import { AgentContext, RunToolResult, Tool } from '../core'
 
 type Arguments = {
   id: string
@@ -18,7 +18,7 @@ export class DeleteRequirementByIdTool extends Tool {
     }
   }
 
-  async run (args: Arguments, context: AgentContext): Promise<string> {
+  async run (args: Arguments, context: AgentContext): Promise<RunToolResult> {
     const requirement = await this.pool
       .SELECT`id`
       .FROM`requirement`
@@ -27,7 +27,9 @@ export class DeleteRequirementByIdTool extends Tool {
       .first()
 
     if (!requirement) {
-      return `Requirement with ID "${args.id}" not found in board "${context.board.id}"`
+      return {
+        content: `Requirement with ID "${args.id}" not found in board "${context.board.id}"`
+      }
     }
 
     await this.pool.transaction(async pool => {
@@ -42,6 +44,8 @@ export class DeleteRequirementByIdTool extends Tool {
         .WHERE`id = ${context.board.id}`
     })
 
-    return `Requirement with ID "${args.id}" has been deleted successfully.`
+    return {
+      content: `Requirement with ID "${args.id}" has been deleted successfully.`
+    }
   }
 }

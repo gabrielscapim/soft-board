@@ -13,6 +13,7 @@ export class StartFlowAgent extends Agent {
     ]
 
     const responseMessages: Array<ChatCompletionMessageParam> = []
+    const accumulatedToolMessagesResult: Array<ChatCompletionMessageParam> = []
 
     let completionCalls = 0
 
@@ -58,8 +59,12 @@ export class StartFlowAgent extends Agent {
           responseMessages.push({
             role: 'tool',
             tool_call_id: requestedTool.id,
-            content: result
+            content: result.content
           })
+
+          if (result.messages) {
+            accumulatedToolMessagesResult.push(...result.messages)
+          }
         } catch (error) {
           logger.error({ error }, `Error running tool ${requestedTool.function.name}`)
 
@@ -75,6 +80,9 @@ export class StartFlowAgent extends Agent {
       completionCalls += 1
     }
 
-    return responseMessages
+    return [
+      ...responseMessages,
+      ...accumulatedToolMessagesResult
+    ]
   }
 }
