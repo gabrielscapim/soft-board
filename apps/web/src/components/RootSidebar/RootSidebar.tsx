@@ -12,7 +12,7 @@ import {
   SidebarMenuItem,
   SidebarRail
 } from '../ui/sidebar'
-import { CreateTeamDialog, LeaveTeamDialog, NavUser, TeamSwitcher } from './components'
+import { ConfirmLogOutDialog, CreateTeamDialog, LeaveTeamDialog, NavUser, TeamSwitcher } from './components'
 import { Link, useNavigate } from 'react-router'
 import { useAuthentication, useClient, useMemberRole, useTeam } from '@/hooks'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -40,6 +40,7 @@ const items = [
 export function RootSidebar () {
   const [createTeamDialogOpen, setCreateTeamDialogOpen] = useState(false)
   const [leaveTeamDialogOpen, setLeaveTeamDialogOpen] = useState(false)
+  const [logOutDialogOpen, setLogOutDialogOpen] = useState(false)
   const { authenticatedUser, setAuthenticatedUser } = useAuthentication()
   const client = useClient()
   const activeTeam = useTeam()
@@ -124,7 +125,7 @@ export function RootSidebar () {
               email: authenticatedUser.email
             }}
             isOwner={role === 'owner'}
-            handleSignOut={() => signOut.mutate()}
+            handleSignOut={() => setLogOutDialogOpen(true)}
             handleLeaveTeam={() => setLeaveTeamDialogOpen(true)}
           />
         </SidebarFooter>
@@ -145,6 +146,14 @@ export function RootSidebar () {
           open={leaveTeamDialogOpen}
           onLeave={() => leaveTeam.mutate()}
           onCancel={() => setLeaveTeamDialogOpen(false)}
+        />
+      )}
+
+      {logOutDialogOpen && (
+        <ConfirmLogOutDialog
+          open={logOutDialogOpen}
+          onCancel={() => setLogOutDialogOpen(false)}
+          onConfirm={() => signOut.mutate()}
         />
       )}
       <SidebarRail />
