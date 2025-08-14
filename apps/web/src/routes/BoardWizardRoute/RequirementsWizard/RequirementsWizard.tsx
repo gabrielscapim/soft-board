@@ -111,8 +111,9 @@ export function RequirementsWizard () {
       {requirementToDelete && (
         <DeleteRequirementDialog
           open={Boolean(requirementToDelete)}
-          onDelete={() => deleteRequirement.mutate(requirementToDelete.id)}
+          isMutating={deleteRequirement.isPending}
           onCancel={() => setRequiredToDelete(null)}
+          onConfirm={() => deleteRequirement.mutate(requirementToDelete.id)}
         />
       )}
 
