@@ -138,8 +138,9 @@ export function MembersRoute () {
       {memberToDelete && (
         <DeleteMemberDialog
           open={Boolean(memberToDelete)}
-          onDelete={() => deleteMember.mutate()}
+          isMutating={deleteMember.isPending}
           onCancel={() => setMemberToDelete(null)}
+          onConfirm={() => deleteMember.mutate()}
         />
       )}
     </div>
