@@ -129,9 +129,9 @@ export function MembersRoute () {
       {createMemberDialogOpen && (
         <CreateMemberDialog
           open={createMemberDialogOpen}
-          onOpenChange={setCreateMemberDialogOpen}
-          onCreate={(email, role) => createMember.mutate({ email, role })}
+          isMutating={createMember.isPending}
           onCancel={() => setCreateMemberDialogOpen(false)}
+          onConfirm={(email, role) => createMember.mutate({ email, role })}
         />
       )}
 

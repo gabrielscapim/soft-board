@@ -16,9 +16,9 @@ import { Button } from '@/components/ui/button'
 
 export type CreateMemberDialogProps = {
   open?: boolean
-  onOpenChange?: (open: boolean) => void
-  onCreate?: (email: string, role: 'admin' | 'member') => void
+  isMutating?: boolean
   onCancel?: () => void
+  onConfirm?: (email: string, role: 'admin' | 'member') => void
 }
 
 const schema = yup.object({
@@ -32,7 +32,7 @@ const ROLES = [
 ]
 
 export function CreateMemberDialog (props: CreateMemberDialogProps) {
-  const { open, onOpenChange, onCreate, onCancel } = props
+  const { open, isMutating, onCancel, onConfirm } = props
 
   const formik = useFormik({
     validationSchema: schema,
@@ -40,14 +40,19 @@ export function CreateMemberDialog (props: CreateMemberDialogProps) {
       email: '',
       role: 'member'
     },
-    onSubmit: values => {
-      onCreate?.(values.email, values.role as 'admin' | 'member')
-      formik.setSubmitting(false)
-    }
+    onSubmit: values => onConfirm?.(values.email, values.role as 'admin' | 'member')
   })
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog
+      open={open}
+      onOpenChange={() => {
+        if (!isMutating) {
+          formik.resetForm()
+          onCancel?.()
+        }
+      }}
+    >
       <div>
         <DialogContent>
           <DialogHeader>
@@ -63,6 +68,7 @@ export function CreateMemberDialog (props: CreateMemberDialogProps) {
                 id="email"
                 type="email"
                 required
+                disabled={isMutating}
                 value={formik.values.email}
                 onChange={formik.handleChange}
               />
@@ -90,7 +96,7 @@ export function CreateMemberDialog (props: CreateMemberDialogProps) {
                 <Button
                   type="button"
                   variant="outline"
-                  disabled={formik.isSubmitting}
+                  disabled={isMutating}
                   onClick={onCancel}
                 >
                   Cancel
@@ -98,7 +104,7 @@ export function CreateMemberDialog (props: CreateMemberDialogProps) {
               </DialogClose>
               <Button
                 type="submit"
-                disabled={formik.isSubmitting}
+                disabled={isMutating}
               >
                 Create member
               </Button>
