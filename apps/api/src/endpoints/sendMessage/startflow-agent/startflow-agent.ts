@@ -53,7 +53,7 @@ export class StartFlowAgent extends Agent {
 
         try {
           const args = JSON.parse(requestedTool.function.arguments)
-          const result = await tool.run(args)
+          const result = await tool.run(args, this.context)
 
           responseMessages.push({
             role: 'tool',

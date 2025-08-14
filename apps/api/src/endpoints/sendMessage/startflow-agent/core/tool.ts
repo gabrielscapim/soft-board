@@ -1,26 +1,24 @@
 import { ChatCompletionTool } from 'openai/resources/index'
 import { DatabasePool } from 'pg-script'
+import { AgentContext } from './agent'
 
-export type ToolOtions = {
-  boardId: string
+export type ToolOptions = {
   pool: DatabasePool
 }
 
 export abstract class Tool {
-  protected boardId: string
   protected pool: DatabasePool
 
   abstract name: string
   abstract description: string
 
-  constructor ({ boardId, pool }: ToolOtions) {
-    this.boardId = boardId
+  constructor ({ pool }: ToolOptions) {
     this.pool = pool
   }
 
   abstract parametersSchema (): any
 
-  abstract run (args: Record<string, any>): Promise<string>
+  abstract run (args: Record<string, any>, context: AgentContext): Promise<string>
 
   toChatCompletion (): ChatCompletionTool {
     return {

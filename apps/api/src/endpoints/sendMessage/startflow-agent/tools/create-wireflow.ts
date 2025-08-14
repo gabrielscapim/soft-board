@@ -1,4 +1,4 @@
-import { Tool } from '../core'
+import { AgentContext, Tool } from '../core'
 
 type Arguments = {
   components: Array<{
@@ -258,24 +258,14 @@ export class CreateWireflowTool extends Tool {
     }
   }
 
-  async run (args: Arguments): Promise<string> {
-    const board = await this.pool
-      .SELECT<{ teamId: string }>`team_id`
-      .FROM`board`
-      .WHERE`id = ${this.boardId}`
-      .first()
-
-    if (!board) {
-      return 'Board not found'
-    }
-
+  async run (args: Arguments, context: AgentContext): Promise<string> {
     await this.pool.transaction(async pool => {
       for (const component of args.components) {
         await pool
           .INSERT_INTO`component`
           .VALUES({
-            teamId: board.teamId,
-            boardId: this.boardId,
+            teamId: context.team.id,
+            boardId: context.board.id,
             name: component.name,
             type: component.type,
             properties: JSON.stringify(component.properties)

@@ -7,6 +7,7 @@ import { DatabasePool } from 'pg-script'
 import { ChatCompletionMessageParam, ChatCompletionMessageToolCall } from 'openai/resources/index'
 import { BoardDatabase, MessageDatabase } from 'types/database'
 import {
+  AgentContext,
   CreateRequirementTool,
   CreateWireflowTool,
   DeleteRequirementByIdTool,
@@ -43,6 +44,12 @@ export function handler ({ openai }: Deps): Handler {
 
     const pool = getPool()
 
+    const team = await pool
+      .SELECT<{ slug: string }>`slug`
+      .FROM`team`
+      .WHERE`id = ${teamId}`
+      .find({ error: `Team with id ${teamId} not found` })
+
     const board = await pool
       .SELECT<BoardRow>`id, step`
       .FROM`board`
@@ -54,7 +61,22 @@ export function handler ({ openai }: Deps): Handler {
     const tools = getTools(board, pool)
     const prompt = getPrompt(board)
 
+    const context: AgentContext = {
+      board: {
+        id: boardId,
+        step: board.step
+      },
+      team: {
+        id: teamId,
+        slug: team.slug
+      },
+      user: {
+        id: userId
+      }
+    }
+
     const agent = new StartFlowAgent({
+      context,
       openai,
       history,
       prompt,
@@ -205,14 +227,14 @@ function getTools (
 ): Tool[] {
   if (board.step === 'requirements') {
     return [
-      new CreateRequirementTool({ boardId: board.id, pool }),
-      new DeleteRequirementByIdTool({ boardId: board.id, pool }),
-      new GetRequirementsTool({ boardId: board.id, pool }),
-      new UpdateRequirementByIdTool({ boardId: board.id, pool })
+      new CreateRequirementTool({ pool }),
+      new DeleteRequirementByIdTool({ pool }),
+      new GetRequirementsTool({ pool }),
+      new UpdateRequirementByIdTool({  pool })
     ]
   } else if (board.step === 'wireflows') {
     return [
-      new CreateWireflowTool({ boardId: board.id, pool })
+      new CreateWireflowTool({ pool })
     ]
   }
 

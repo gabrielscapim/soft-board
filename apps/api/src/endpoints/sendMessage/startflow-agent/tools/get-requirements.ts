@@ -1,5 +1,5 @@
 import { RequirementDatabase } from 'types/database'
-import { Tool } from '../core'
+import { AgentContext, Tool } from '../core'
 
 type RequirementRow = Pick<RequirementDatabase, 'id' | 'title' | 'description'>
 
@@ -14,11 +14,11 @@ export class GetRequirementsTool extends Tool {
     }
   }
 
-  async run (): Promise<string> {
+  async run (_args: Record<string, any>, context: AgentContext): Promise<string> {
     const requirements = await this.pool
       .SELECT<RequirementRow>`id, title, description`
       .FROM`requirement`
-      .WHERE`board_id = ${this.boardId}`
+      .WHERE`board_id = ${context.board.id}`
       .list()
 
     if (requirements.length === 0) {

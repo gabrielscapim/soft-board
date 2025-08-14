@@ -1,12 +1,9 @@
-import { BoardDatabase } from 'types/database'
-import { Tool } from '../core'
+import { AgentContext, Tool } from '../core'
 
 type Arguments = {
   title: string
   description?: string | null
 }
-
-type BoardRow = Pick<BoardDatabase, 'id' | 'teamId'>
 
 const MAX_REQUIREMENTS_PER_BOARD = 15
 
@@ -31,21 +28,11 @@ export class CreateRequirementTool extends Tool {
     }
   }
 
-  async run (args: Arguments): Promise<string> {
-    const board = await this.pool
-      .SELECT<BoardRow>`id, team_id`
-      .FROM`board`
-      .WHERE`id = ${this.boardId}`
-      .first()
-
-    if (!board) {
-      return `Board with ID "${this.boardId}" not found`
-    }
-
+  async run (args: Arguments, context: AgentContext): Promise<string> {
     const { rows: [{ count }] } = await this.pool
       .SELECT<{ count: number }>`COUNT(*) AS count`
       .FROM`requirement`
-      .WHERE`board_id = ${this.boardId}`
+      .WHERE`board_id = ${context.board.id}`
 
     if (count >= MAX_REQUIREMENTS_PER_BOARD) {
       return `Maximum of ${MAX_REQUIREMENTS_PER_BOARD} requirements per board reached`
@@ -54,7 +41,7 @@ export class CreateRequirementTool extends Tool {
     const { rows: [max] } = await this.pool
       .SELECT<{ order: number }>`MAX("order") AS order`
       .FROM`requirement`
-      .WHERE`board_id = ${this.boardId}`
+      .WHERE`board_id = ${context.board.id}`
 
     const order = max?.order ? max.order + 1 : 0
 
@@ -62,8 +49,8 @@ export class CreateRequirementTool extends Tool {
       const { rows: [requirement] } = await pool
         .INSERT_INTO`requirement`
         .VALUES({
-          teamId: board.teamId,
-          boardId: board.id,
+          teamId: context.team.id,
+          boardId: context.board.id,
           title: args.title,
           description: args.description ?? null,
           order
@@ -73,7 +60,7 @@ export class CreateRequirementTool extends Tool {
       await pool
         .UPDATE`board`
         .SET({ updateDate: new Date() })
-        .WHERE`id = ${board.id}`
+        .WHERE`id = ${context.board.id}`
 
       return requirement
     })
