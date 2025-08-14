@@ -18,9 +18,9 @@ import * as yup from 'yup'
 export type EditRequirementDialogProps = {
   requirement: GetRequirementsResultData
   open?: boolean
-  onOpenChange?: (open: boolean) => void
-  onSave?: (title: string, description: string) => void
+  isMutating?: boolean
   onCancel?: () => void
+  onConfirm?: (title: string, description: string) => void
 }
 
 const schema = yup.object({
@@ -32,9 +32,9 @@ export function EditRequirementDialog (props: EditRequirementDialogProps) {
   const {
     requirement,
     open,
-    onOpenChange,
-    onSave,
-    onCancel
+    isMutating,
+    onCancel,
+    onConfirm
   } = props
 
   const formik = useFormik({
@@ -43,11 +43,19 @@ export function EditRequirementDialog (props: EditRequirementDialogProps) {
       title: requirement.title ?? '',
       description: requirement.description ?? ''
     },
-    onSubmit: values => onSave?.(values.title, values.description)
+    onSubmit: values => onConfirm?.(values.title, values.description)
   })
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog
+      open={open}
+      onOpenChange={() => {
+        if (!isMutating) {
+          formik.resetForm()
+          onCancel?.()
+        }
+      }}
+    >
       <div>
         <DialogContent>
           <DialogHeader>
@@ -65,6 +73,7 @@ export function EditRequirementDialog (props: EditRequirementDialogProps) {
                 minLength={1}
                 maxLength={100}
                 required
+                disabled={isMutating}
                 value={formik.values.title}
                 onChange={formik.handleChange}
               />
@@ -77,6 +86,7 @@ export function EditRequirementDialog (props: EditRequirementDialogProps) {
                 maxLength={500}
                 placeholder="Describe the requirement in detail (optional)"
                 className="resize-none"
+                disabled={isMutating}
                 value={formik.values.description}
                 onChange={formik.handleChange}
               />
@@ -86,7 +96,7 @@ export function EditRequirementDialog (props: EditRequirementDialogProps) {
                 <Button
                   type="button"
                   variant="outline"
-                  disabled={formik.isSubmitting}
+                  disabled={isMutating}
                   onClick={onCancel}
                 >
                   Cancel
@@ -94,7 +104,7 @@ export function EditRequirementDialog (props: EditRequirementDialogProps) {
               </DialogClose>
               <Button
                 type="submit"
-                disabled={formik.isSubmitting}
+                disabled={isMutating}
               >
                 Save changes
               </Button>

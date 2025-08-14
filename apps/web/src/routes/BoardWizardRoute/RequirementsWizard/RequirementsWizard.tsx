@@ -120,8 +120,9 @@ export function RequirementsWizard () {
         <EditRequirementDialog
           requirement={requirementToEdit}
           open={Boolean(requirementToEdit)}
-          onOpenChange={open => setRequirementToEdit(open ? requirementToEdit : null)}
-          onSave={(title, description) => {
+          isMutating={updateRequirement.isPending}
+          onCancel={() => setRequirementToEdit(null)}
+          onConfirm={(title, description) => {
             updateRequirement.mutate({
               id: requirementToEdit.id,
               boardId: boardId!,
@@ -129,7 +130,6 @@ export function RequirementsWizard () {
               description
             })
           }}
-          onCancel={() => setRequirementToEdit(null)}
         />
       )}
     </>
