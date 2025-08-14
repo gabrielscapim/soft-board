@@ -116,8 +116,9 @@ export function BoardsRoute () {
       {selectedBoard?.to === 'delete' && (
         <DeleteBoardDialog
           open={selectedBoard?.to === 'delete'}
-          onDelete={() => deleteBoard.mutate()}
+          isMutating={deleteBoard.isPending}
           onCancel={() => setSelectedBoard(null)}
+          onConfirm={() => deleteBoard.mutate()}
         />
       )}
 
