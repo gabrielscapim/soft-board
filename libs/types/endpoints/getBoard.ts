@@ -23,7 +23,7 @@ export type GetBoardResult = {
   id: string
   team: GetBoardResultTeam
   title: string | null
-  step: 'init' | 'requirements' | 'wireflows' | 'review'
+  step: 'init' | 'requirements' | 'wireflows' | 'review' | 'end'
   image: string | null
   createDate: string
   updateDate: string

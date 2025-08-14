@@ -11,7 +11,7 @@ const schema = yup.object({
   step: yup.string().oneOf(['next', 'previous']).required()
 })
 
-const STEPS_ORDER = ['init', 'requirements', 'wireflows', 'review']
+const STEPS_ORDER = ['init', 'requirements', 'wireflows', 'review', 'end']
 
 export function handler (): Handler {
   return async (req, res) => {
