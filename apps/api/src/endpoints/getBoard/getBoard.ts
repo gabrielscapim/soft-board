@@ -55,6 +55,7 @@ export function handler (): Handler {
       .FROM`component`
       .WHERE`component.board_id = ${boardId}`
       .AND`component.team_id = ${teamId}`
+      .AND`component.deleted IS FALSE`
       .ORDER_BY`component.update_date DESC`
       .list()
 
