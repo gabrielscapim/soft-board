@@ -12,12 +12,14 @@ export class StartFlowAgent extends Agent {
       { role: 'user', content }
     ]
 
-    const responseMessages: Array<ChatCompletionMessageParam> = []
+    const responseMessages: Array<ChatCompletionMessageParam & { executionTimeMs?: number }> = []
     const accumulatedToolMessagesResult: Array<ChatCompletionMessageParam> = []
 
     let completionCalls = 0
 
     while (completionCalls < MAX_COMPLETION_CALLS) {
+      const now = performance.now()
+
       const completion = await this.openai.chat.completions.create({
         model: this.model,
         messages: [
@@ -28,10 +30,15 @@ export class StartFlowAgent extends Agent {
         parallel_tool_calls: true
       })
 
+      const executionTimeMs = performance.now() - now
+
       const response = completion.choices[0].message
       const requestedTools = response.tool_calls
 
-      responseMessages.push(response)
+      responseMessages.push({
+        ...response,
+        executionTimeMs
+      })
 
       // If there are no tool calls, we can return the messages
       if (!requestedTools?.length) {
@@ -52,6 +59,8 @@ export class StartFlowAgent extends Agent {
           continue
         }
 
+        const now = performance.now()
+
         try {
           const args = JSON.parse(requestedTool.function.arguments)
           const result = await tool.run(args, this.context)
@@ -59,7 +68,8 @@ export class StartFlowAgent extends Agent {
           responseMessages.push({
             role: 'tool',
             tool_call_id: requestedTool.id,
-            content: result.content
+            content: result.content,
+            executionTimeMs: performance.now() - now
           })
 
           if (result.messages) {
@@ -71,7 +81,8 @@ export class StartFlowAgent extends Agent {
           responseMessages.push({
             role: 'tool',
             tool_call_id: requestedTool.id,
-            content: `Error running tool ${requestedTool.function.name}.`
+            content: `Error running tool ${requestedTool.function.name}.`,
+            executionTimeMs: performance.now() - now
           })
         }
       }

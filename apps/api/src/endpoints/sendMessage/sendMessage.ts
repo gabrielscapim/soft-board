@@ -85,7 +85,7 @@ export function handler ({ openai }: Deps): Handler {
       tools
     })
 
-    const responseMessages: Array<ChatCompletionMessageParam> = []
+    const responseMessages: Array<ChatCompletionMessageParam & { executionTimeMs?: number }> = []
     let agentError: { name: string; message: string; stack?: string } | null = null
 
     try {
@@ -132,7 +132,8 @@ export function handler ({ openai }: Deps): Handler {
             sendDate: new Date(),
             toolCalls: message.role === 'assistant' ? JSON.stringify(message.tool_calls) : null,
             toolCallId: message.role === 'tool' ? message.tool_call_id : null,
-            error: agentError
+            error: agentError,
+            executionTimeMs: message.executionTimeMs ? Math.round(message.executionTimeMs) : null
           })
           .RETURNING`id`
 
