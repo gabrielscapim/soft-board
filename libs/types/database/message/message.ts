@@ -6,6 +6,7 @@ export type MessageDatabase = {
   boardId: UUID
   authorId: UUID | null
   content: TEXT | null
+  type: 'text' | 'image'
   role: 'assistant' | 'user' | 'tool' | 'system'
   toolCallId: UUID | null
   toolCalls: JSONB[] | null
