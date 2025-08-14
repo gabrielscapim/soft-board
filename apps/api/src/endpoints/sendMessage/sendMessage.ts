@@ -128,13 +128,19 @@ export function handler ({ openai }: Deps): Handler {
          */
         await new Promise(resolve => setTimeout(resolve, 2))
 
+        const isImage =
+          message.role === 'user'
+          && Array.isArray(message.content)
+          && message.content.map(content => content.type === 'image_url')
+
         const { rows: [created] } = await pool
           .INSERT_INTO<{ id: string }>`message`
           .VALUES({
             teamId,
             boardId,
-            content: message.content ?? null,
+            content: message.content ?? 'No content',
             role: message.role,
+            type: isImage ? 'image' : 'text',
             sendDate: new Date(),
             toolCalls: message.role === 'assistant' ? JSON.stringify(message.tool_calls) : null,
             toolCallId: message.role === 'tool' ? message.tool_call_id : null,
