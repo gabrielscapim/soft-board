@@ -71,11 +71,10 @@ export function RootSidebar () {
   const leaveTeam = useMutation({
     mutationFn: () => client.leaveTeam(),
     onSuccess: () => {
-      const fallbackTeam = authenticatedUser?.fallbackTeam
       setLeaveTeamDialogOpen(false)
       toast.success('You have left the team')
-      navigate(`/${fallbackTeam?.slug ?? ''}`, { replace: true })
       getTeams.refetch()
+      window.location.reload()
     },
     onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to leave team')
   })
@@ -144,8 +143,9 @@ export function RootSidebar () {
         <LeaveTeamDialog
           team={activeTeam.team}
           open={leaveTeamDialogOpen}
-          onLeave={() => leaveTeam.mutate()}
+          isMutating={leaveTeam.isPending}
           onCancel={() => setLeaveTeamDialogOpen(false)}
+          onConfirm={() => leaveTeam.mutate()}
         />
       )}
 
