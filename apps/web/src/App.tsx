@@ -10,6 +10,7 @@ import {
   WireframeModeLayout
 } from './components'
 import {
+  BoardReviewRoute,
   ErrorRoute,
   SignInRoute,
   BoardsRoute,
@@ -103,6 +104,17 @@ function App () {
                   element={
                     <BoardProviders>
                       <WireframeModeLayout />
+                    </BoardProviders>
+                  }
+                >
+                  <Route index element={<WireframeModeRoute />} />
+                </Route>
+
+                <Route
+                  path="boards/:boardId/review"
+                  element={
+                    <BoardProviders>
+                      <BoardReviewRoute />
                     </BoardProviders>
                   }
                 >

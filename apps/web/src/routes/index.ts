@@ -1,3 +1,4 @@
+export * from './BoardReviewRoute'
 export * from './BoardsRoute'
 export * from './BoardWizardRoute'
 export * from './EditBoardRoute'
