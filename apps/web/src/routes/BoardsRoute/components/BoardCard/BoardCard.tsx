@@ -3,10 +3,9 @@ import { AspectRatio } from '@radix-ui/react-aspect-ratio'
 import { GetBoardsResultData } from 'types/endpoints'
 import { FormattedDate } from '@/components'
 import clsx from 'clsx'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { EllipsisVerticalIcon, PencilIcon, TrashIcon } from 'lucide-react'
 import { getRootImage } from '@/helpers'
 import { Link } from 'react-router'
+import { BoardCardDropdown } from './BoardCardDropdown'
 
 export type BoardCardProps = {
   board: GetBoardsResultData
@@ -41,38 +40,11 @@ export function BoardCard (props: BoardCardProps) {
             {board.title ?? 'Untitled'}
           </CardTitle>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger className="cursor-pointer">
-              <EllipsisVerticalIcon size={16} />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuGroup>
-                <DropdownMenuItem
-                  disabled={!hasPermission}
-                  onClick={event => {
-                    event.stopPropagation()
-                    handleEdit?.(board)
-                  }}
-                >
-                  <PencilIcon />
-                  Edit
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  disabled={!hasPermission}
-                  className="text-destructive focus:text-destructive"
-                  onClick={event => {
-                    event.stopPropagation()
-                    handleDelete?.(board)
-                  }}
-                >
-                  <TrashIcon />
-                  Delete
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
+          <BoardCardDropdown
+            hasPermission={hasPermission}
+            onEdit={() => handleEdit?.(board)}
+            onDelete={() => handleDelete?.(board)}
+          />
         </CardHeader>
         <CardContent className="px-3 pb-3">
           <span className="text-xs text-muted-foreground">
