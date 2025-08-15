@@ -5,6 +5,7 @@ export type StepperProps = {
   steps: {
     label: string
     state: string
+    visible: boolean
   }[]
   currentStep?: string
   className?: ClassValue
@@ -14,13 +15,15 @@ export function Stepper (props: StepperProps) {
   const { steps, currentStep, className } = props
 
   const currentStepIndex = steps.findIndex(step => step.state === currentStep)
+  const visibleSteps = steps.filter(step => step.visible)
 
   return (
     <div className={clsx('flex gap-2 flex-row items-center justify-between w-full', className)}>
-      {steps.map((step, index) => {
+      {visibleSteps.map((step, index) => {
+        const stepIndex = steps.findIndex(s => s.state === step.state)
         const isActive = step.state === currentStep
-        const isComplete = index < currentStepIndex
-        const isLast = index === steps.length - 1
+        const isComplete = stepIndex < currentStepIndex
+        const isLast = step === visibleSteps[visibleSteps.length - 1]
 
         return (
           <Fragment key={step.state}>

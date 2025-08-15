@@ -28,9 +28,11 @@ export function BoardWizardHeader () {
       <div className="w-3/5 flex justify-center">
         <Stepper
           steps={[
-            { label: 'Requirements', state: 'requirements' },
-            { label: 'Wireflows', state: 'wireflows' },
-            { label: 'Review', state: 'review' }
+            { label: 'Init', state: 'init', visible: false },
+            { label: 'Requirements', state: 'requirements', visible: true },
+            { label: 'Wireflows', state: 'wireflows', visible: true },
+            { label: 'Review', state: 'review', visible: true },
+            { label: 'End', state: 'end', visible: false }
           ]}
           currentStep={currentStep}
         />

@@ -22,25 +22,34 @@ export function BoardWizardFooter () {
     onError: () => toast.error('Failed to update board step')
   })
 
-  const previousDisabled = currentStep === 'requirements'
-
   return (
     <footer className="flex justify-between py-4 px-4">
-      <Button
-        size="lg"
-        variant="link"
-        disabled={handlePrevious.isPending || handleNext.isPending || previousDisabled}
-        onClick={() => handlePrevious.mutate()}
-      >
-        Back
-      </Button>
-      <Button
-      size="lg"
-        disabled={handleNext.isPending || handlePrevious.isPending}
-        onClick={() => handleNext.mutate()}
-      >
-        Next
-      </Button>
+      {currentStep && currentStep !== 'init' && (
+        <Button
+          size="lg"
+          variant="link"
+          disabled={handlePrevious.isPending || handleNext.isPending}
+          onClick={() => handlePrevious.mutate()}
+        >
+          {currentStep === 'requirements' && 'Back'}
+          {currentStep === 'wireflows' && 'Back'}
+          {currentStep === 'review' && 'Back'}
+          {currentStep === 'end' && 'Back'}
+        </Button>
+      )}
+      {currentStep && currentStep !== 'end' && (
+        <Button
+          size="lg"
+          className="ml-auto"
+          disabled={handleNext.isPending || handlePrevious.isPending}
+          onClick={() => handleNext.mutate()}
+        >
+          {currentStep === 'init' && 'Start'}
+          {currentStep === 'requirements' && 'Next'}
+          {currentStep === 'wireflows' && 'Next'}
+          {currentStep === 'review' && 'Complete'}
+        </Button>
+      )}
     </footer>
   )
 }
