@@ -47,12 +47,12 @@ export function MobileScreenContainer (props: MobileScreenContainerProps) {
       {isOverScreen && <TouchCursor />}
 
       <div
-        className="w-[391px] h-[828px] border-8 border-[#6b6b6b] rounded-[65px] overflow-hidden"
+        className="w-[391px] h-[828px] border-8 border-[#6b6b6b] bg-white rounded-[65px] overflow-hidden"
         onMouseEnter={() => setIsOverScreen(true)}
         onMouseLeave={() => setIsOverScreen(false)}
       >
         <div
-          className="relative h-full overflow-y-scroll scrollbar"
+          className="relative h-full overflow-y-scroll scrollbar overflow-x-hidden"
           onClick={handleClickScreen}
         >
           <div style={{ height: currentScreen.properties.height + 'px' }}>
