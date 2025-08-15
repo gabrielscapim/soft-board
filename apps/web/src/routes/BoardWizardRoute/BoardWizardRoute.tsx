@@ -3,6 +3,7 @@ import { InitWizard } from './InitWizard'
 import { RequirementsWizard } from './RequirementsWizard'
 import { WireflowsWizard } from './WireflowsWizard'
 import { ReviewWizard } from './ReviewWizard'
+import { EndWizard } from './EndWizard'
 
 export function BoardWizardRoute () {
   const { board } = useBoard()
@@ -14,6 +15,7 @@ export function BoardWizardRoute () {
         {board?.step === 'requirements' && <RequirementsWizard />}
         {board?.step === 'wireflows' && <WireflowsWizard />}
         {board?.step === 'review' && <ReviewWizard />}
+        {board?.step === 'end' && <EndWizard />}
       </div>
     </div>
   )
