@@ -48,8 +48,7 @@ export function BoardCard (props: BoardCardProps) {
         </CardHeader>
         <CardContent className="px-3 pb-3">
           <span className="text-xs text-muted-foreground">
-            Updated{' '}
-            <FormattedDate date={board.updateDate} format="dd/MM/yyyy HH:mm" />
+            Updated <FormattedDate date={board.updateDate} format="dd/MM/yyyy HH:mm" />
           </span>
         </CardContent>
       </Link>
