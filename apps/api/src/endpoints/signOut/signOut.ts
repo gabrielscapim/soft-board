@@ -11,8 +11,6 @@ type Deps = {
 
 export function handler (deps: Deps): RequestHandler {
   return async (req, res) => {
-    console.log('deps', deps)
-
     const cookieOptions: CookieOptions = {
       signed: true,
       httpOnly: true,
