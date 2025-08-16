@@ -7,7 +7,7 @@ import { getPool } from '../../libs'
 import { Unauthorized } from 'http-errors'
 import { AuthenticationData, IPublisher } from '../../types'
 import { AUTHENTICATION_COOKIE_NAME, NODE_ENV } from '../../constants'
-import { UserSignInEvent } from 'event-types'
+import { UserSignedInEvent } from 'event-types'
 
 const schema = yup.object({
   email: yup.string().email().required(),
@@ -23,7 +23,7 @@ type Handler = RequestHandler<unknown, SignInResult, SignInCommand>
 type UserRow = Pick<UserDatabase, 'id' | 'name' | 'passwordHash'>
 
 type Deps = {
-  userSignIn: IPublisher<UserSignInEvent>
+  userSignedIn: IPublisher<UserSignedInEvent>
 }
 
 export function handler (deps: Deps): Handler {
@@ -76,7 +76,7 @@ export function handler (deps: Deps): Handler {
       maxAge: EIGHT_HOURS_IN_MS,
     }
 
-    deps.userSignIn.publish({
+    deps.userSignedIn.publish({
       userId: user.id,
       eventDate: new Date().toISOString()
     })

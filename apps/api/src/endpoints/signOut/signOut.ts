@@ -1,12 +1,12 @@
 import { CookieOptions, RequestHandler } from 'express'
 import { AUTHENTICATION_COOKIE_NAME, NODE_ENV } from '../../constants'
-import { UserSignOutEvent } from 'event-types'
+import { UserSignedOutEvent } from 'event-types'
 import { IPublisher } from '../../types'
 
 export const auth = false
 
 type Deps = {
-  userSignOut: IPublisher<UserSignOutEvent>
+  userSignedOut: IPublisher<UserSignedOutEvent>
 }
 
 export function handler (deps: Deps): RequestHandler {
@@ -19,7 +19,7 @@ export function handler (deps: Deps): RequestHandler {
       sameSite: NODE_ENV === 'production' ? 'none' : 'lax'
     }
 
-    deps.userSignOut.publish({
+    deps.userSignedOut.publish({
       userId: req.auth?.userId ?? '',
       eventDate: new Date().toISOString()
     })
