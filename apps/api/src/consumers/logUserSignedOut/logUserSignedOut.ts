@@ -1,7 +1,7 @@
 import { logger } from '../../libs'
 import { UserSignedOutEvent } from 'event-types'
 
-export const exchange = 'userSignedOut'
+export const exchange = 'user.signedOut'
 
 export function consumer () {
   return (event: UserSignedOutEvent) => {
