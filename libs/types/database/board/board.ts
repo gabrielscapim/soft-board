@@ -7,6 +7,7 @@ export type BoardDatabase = {
   authorId: UUID | null
   image: VARCHAR_255 | null
   step: VARCHAR_50
+  loading: boolean
   createDate: TIMESTAMPTZ
   updateDate: TIMESTAMPTZ
 }
