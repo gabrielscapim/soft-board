@@ -12,7 +12,7 @@ import { loadPublishers } from '../load-publishers'
 
 export type CreateAppOptions = {
   endpoints?: Endpoint[] | Record<string, Omit<Endpoint, 'path'>>
-  publishers?: ReturnType<typeof loadPublishers>
+  publishers?: Partial<ReturnType<typeof loadPublishers>>
   openai?: OpenAI
   tests?: {
     auth?: AuthenticationData

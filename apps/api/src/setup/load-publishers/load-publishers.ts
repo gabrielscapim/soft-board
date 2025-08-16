@@ -1,11 +1,11 @@
 import { Channel } from 'amqplib'
 import { IPublisher } from '../../types'
-import { UserSignInEvent, UserSignOutEvent } from 'event-types'
+import { UserSignedInEvent, UserSignedOutEvent } from 'event-types'
 
 export function loadPublishers (channel: Channel) {
   return {
-    userSignIn: publisher<UserSignInEvent>('userSignIn', channel),
-    userSignOut: publisher<UserSignOutEvent>('userSignOut', channel)
+    userSignedIn: publisher<UserSignedInEvent>('userSignedIn', channel),
+    userSignedOut: publisher<UserSignedOutEvent>('userSignedOut', channel)
   }
 }
 

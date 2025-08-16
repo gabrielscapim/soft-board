@@ -4,11 +4,11 @@ import { Consumer, Exchange } from '../../types'
 
 const EXCHANGES = [
   {
-    name: 'userSignIn',
+    name: 'userSignedIn',
     type: 'fanout'
   },
   {
-    name: 'userSignOut',
+    name: 'userSignedOut',
     type: 'fanout'
   }
 ]

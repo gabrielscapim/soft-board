@@ -1,4 +1,4 @@
-export type UserSignOutEvent = {
+export type UserSignedInEvent = {
   userId: string
   eventDate: string
 }
