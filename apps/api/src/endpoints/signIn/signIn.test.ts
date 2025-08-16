@@ -1,15 +1,24 @@
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import { DatabaseFactory, getPool } from '../../libs'
 import { createApp } from '../../setup'
 import * as signIn from './signIn'
 import request from 'supertest'
 import * as bcrypt from 'bcrypt'
+import { mock } from 'vitest-mock-extended'
 import { PASSWORD_SALT_ROUNDS } from '../../constants'
+import { IPublisher } from '../../types'
+import { UserSignedOutEvent } from 'event-types'
 
 describe('signIn', () => {
   describe('when user is not found or credentials are invalid', () => {
     test('throws Unauthorized error', async () => {
-      const app = createApp({ endpoints: { signIn } })
+      const userSignedOut = mock<IPublisher<UserSignedOutEvent>>({
+        publish: vi.fn()
+      })
+      const app = createApp({
+        publishers: { userSignedOut },
+        endpoints: { signIn }
+      })
 
       const response = await request(app)
         .post('/signIn')

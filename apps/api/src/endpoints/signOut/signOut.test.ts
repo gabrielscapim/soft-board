@@ -1,11 +1,20 @@
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import { createApp } from '../../setup'
 import * as signOut from './signOut'
 import request from 'supertest'
+import { mock } from 'vitest-mock-extended'
+import { IPublisher } from '../../types'
+import { UserSignedOutEvent } from 'event-types'
 
 describe('signOut', () => {
   test('clears the session cookie', async () => {
-    const app = createApp({ endpoints: { signOut }})
+    const userSignedOut = mock<IPublisher<UserSignedOutEvent>>({
+      publish: vi.fn()
+    })
+    const app = createApp({
+      publishers: { userSignedOut },
+      endpoints: { signOut }
+    })
 
     const response = await request(app)
       .post('/signOut')
