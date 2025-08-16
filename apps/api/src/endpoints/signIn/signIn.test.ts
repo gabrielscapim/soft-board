@@ -7,16 +7,16 @@ import * as bcrypt from 'bcrypt'
 import { mock } from 'vitest-mock-extended'
 import { PASSWORD_SALT_ROUNDS } from '../../constants'
 import { IPublisher } from '../../types'
-import { UserSignedOutEvent } from 'event-types'
+import { UserSignedInEvent } from 'event-types'
 
 describe('signIn', () => {
   describe('when user is not found or credentials are invalid', () => {
     test('throws Unauthorized error', async () => {
-      const userSignedOut = mock<IPublisher<UserSignedOutEvent>>({
+      const userSignedIn = mock<IPublisher<UserSignedInEvent>>({
         publish: vi.fn()
       })
       const app = createApp({
-        publishers: { userSignedOut },
+        publishers: { userSignedIn },
         endpoints: { signIn }
       })
 
@@ -33,7 +33,13 @@ describe('signIn', () => {
 
   describe('when credentials are valid', () => {
     test('returns user data and sets authentication cookie', async () => {
-      const app = createApp({ endpoints: { signIn } })
+      const userSignedIn = mock<IPublisher<UserSignedInEvent>>({
+        publish: vi.fn()
+      })
+      const app = createApp({
+        publishers: { userSignedIn },
+        endpoints: { signIn }
+      })
       const pool = getPool()
       const factory = new DatabaseFactory({ pool })
       const password = 'password123'
