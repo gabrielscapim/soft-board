@@ -8,9 +8,11 @@ import { errorHandler, setAuth, setTeam } from '../../middlewares'
 import { requireAuth } from '../../middlewares/require-auth'
 import OpenAI from 'openai'
 import { getOpenai } from '../../libs'
+import { loadPublishers } from '../load-publishers'
 
 export type CreateAppOptions = {
   endpoints?: Endpoint[] | Record<string, Omit<Endpoint, 'path'>>
+  publishers?: ReturnType<typeof loadPublishers>
   openai?: OpenAI
   tests?: {
     auth?: AuthenticationData
@@ -24,6 +26,11 @@ export function createApp (options: CreateAppOptions = {}): Express {
   container.register({
     openai: asValue(options.openai ?? getOpenai())
   })
+
+  // Register publishers
+  for (const [key, value] of Object.entries(options.publishers ?? {})) {
+    container.register({ [key]: asValue(value) })
+  }
 
   const app = express()
 

@@ -1,3 +1,6 @@
 export * from './authentication-data'
+export * from './consumer'
 export * from './endpoint'
+export * from './exchange'
+export * from './publisher'
 export * from './team-data'

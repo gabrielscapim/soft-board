@@ -1,2 +1,6 @@
 export * from './create-app'
+export * from './create-consumers'
+export * from './get-rabbitmq'
 export * from './load-endpoints'
+export * from './load-exchanges'
+export * from './load-publishers'

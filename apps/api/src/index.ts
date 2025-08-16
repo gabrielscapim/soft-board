@@ -1,5 +1,5 @@
-import { createApp, loadEndpoints } from './setup'
-import { ENDPOINTS_DIR, PORT } from './constants'
+import { createApp, createConsumers, getRabbitMQ, loadEndpoints, loadExchanges, loadPublishers } from './setup'
+import { CONSUMERS_DIR, ENDPOINTS_DIR, PORT } from './constants'
 import { logger } from './libs'
 
 /**
@@ -8,11 +8,22 @@ import { logger } from './libs'
 async function main () {
   logger.info('Starting server')
 
+  const { channel } = await getRabbitMQ()
+
   const endpoints = await loadEndpoints(ENDPOINTS_DIR)
+  const exchanges = await loadExchanges(CONSUMERS_DIR)
+  const publishers = loadPublishers(channel)
+
+  for (const exchange of exchanges) {
+    channel.assertExchange(exchange.name, exchange.type)
+    logger.info('Declared exchange "%s" of type "%s"', exchange.name, exchange.type)
+  }
 
   logger.info('Loaded %d endpoints', endpoints.length)
 
-  const app = createApp({ endpoints })
+  const app = createApp({ endpoints, publishers })
+
+  await createConsumers(channel, exchanges)
 
   app.listen(PORT, (error) => {
     if (error) {
