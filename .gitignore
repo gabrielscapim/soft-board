@@ -9,6 +9,7 @@ lerna-debug.log*
 
 node_modules
 postgres
+rabbitmq
 dist
 dist-ssr
 *.local
