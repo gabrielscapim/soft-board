@@ -78,7 +78,7 @@ export function createApp (options: CreateAppOptions = {}): Express {
     if (auth){
       app[method](path, requireAuth, handler(container.cradle))
     } else {
-      app[method](path, handler())
+      app[method](path, handler(container.cradle))
     }
   }
 

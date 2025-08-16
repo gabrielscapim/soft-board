@@ -1,9 +1,11 @@
 import { Channel } from 'amqplib'
 import { IPublisher } from '../../types'
+import { UserSignInEvent, UserSignOutEvent } from 'event-types'
 
 export function loadPublishers (channel: Channel) {
   return {
-    publishLogger: publisher<LoggerEvent>('logger', channel)
+    userSignIn: publisher<UserSignInEvent>('userSignIn', channel),
+    userSignOut: publisher<UserSignOutEvent>('userSignOut', channel)
   }
 }
 
@@ -46,8 +48,4 @@ function publisher<T> (name: string, channel?: Channel): IPublisher<T> {
   } else {
     return new NullPublisher<T>(name)
   }
-}
-
-export type LoggerEvent = {
-  message: string
 }

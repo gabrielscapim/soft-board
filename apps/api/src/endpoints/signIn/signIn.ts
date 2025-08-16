@@ -5,8 +5,9 @@ import * as yup from 'yup'
 import * as bcrypt from 'bcrypt'
 import { getPool } from '../../libs'
 import { Unauthorized } from 'http-errors'
-import { AuthenticationData } from '../../types'
+import { AuthenticationData, IPublisher } from '../../types'
 import { AUTHENTICATION_COOKIE_NAME, NODE_ENV } from '../../constants'
+import { UserSignInEvent } from 'event-types'
 
 const schema = yup.object({
   email: yup.string().email().required(),
@@ -21,7 +22,11 @@ type Handler = RequestHandler<unknown, SignInResult, SignInCommand>
 
 type UserRow = Pick<UserDatabase, 'id' | 'name' | 'passwordHash'>
 
-export function handler (): Handler {
+type Deps = {
+  userSignIn: IPublisher<UserSignInEvent>
+}
+
+export function handler (deps: Deps): Handler {
   return async (req, res) => {
     const { email, password } = schema.validateSync(req.body, { abortEarly: false })
 
@@ -70,6 +75,11 @@ export function handler (): Handler {
       sameSite: NODE_ENV === 'production' ? 'none' : 'lax', // SameSite is set to 'none' for cross-site requests in production, 'lax' otherwise. Lax is more secure for same-site requests
       maxAge: EIGHT_HOURS_IN_MS,
     }
+
+    deps.userSignIn.publish({
+      userId: user.id,
+      eventDate: new Date().toISOString()
+    })
 
     res
       .status(200)
