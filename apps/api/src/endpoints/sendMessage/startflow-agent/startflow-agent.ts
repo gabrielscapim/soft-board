@@ -1,14 +1,59 @@
-import { ChatCompletionMessageParam } from 'openai/resources/index'
+import { ChatCompletionMessageParam, ChatCompletionMessageToolCall } from 'openai/resources/index'
 import { Agent } from './core'
 import { logger } from '../../../libs'
 
 const MAX_COMPLETION_CALLS = 5
 
 export class StartFlowAgent extends Agent {
+  protected parseHistory (): Array<ChatCompletionMessageParam> {
+    const history = this.history.map<ChatCompletionMessageParam>(message => {
+      if (message.role === 'user') {
+        const result: ChatCompletionMessageParam = {
+          role: 'user',
+          content: message.content ?? '',
+          name: message.userName ?? undefined
+        }
+
+        return result
+      }
+
+      if (message.role === 'assistant') {
+        const result: ChatCompletionMessageParam = {
+          role: 'assistant',
+          content: message.content ?? '',
+          tool_calls: (message.toolCalls as Array<ChatCompletionMessageToolCall>)?.map(toolCall => ({
+            id: toolCall.id,
+            type: 'function',
+            function: {
+              name: toolCall.function.name,
+              arguments: JSON.stringify(toolCall.function.arguments)
+            }
+          }))
+        }
+
+        return result
+      }
+
+      if (message.role === 'tool') {
+        const result: ChatCompletionMessageParam = {
+          role: 'tool',
+          content: message.content ?? '',
+          tool_call_id: message.toolCallId!
+        }
+
+        return result
+      }
+
+      throw new Error(`Unknown message role: ${message.role}`)
+    })
+
+    return history
+  }
+
   async run (content: string) {
     const messages: Array<ChatCompletionMessageParam> = [
       { role: 'system', content: this.prompt },
-      ...this.history,
+      ...this.parseHistory(),
       { role: 'user', content }
     ]
 
