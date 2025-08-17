@@ -5,7 +5,7 @@ import { logger } from '../libs'
 const MAX_COMPLETION_CALLS = 5
 
 export class StartFlowAgent extends Agent {
-  protected parseHistory (): Array<ChatCompletionMessageParam> {
+  protected parseHistory () {
     const history = this.history.map<ChatCompletionMessageParam>(message => {
       if (message.role === 'user') {
         const result: ChatCompletionMessageParam = {
@@ -73,7 +73,8 @@ export class StartFlowAgent extends Agent {
           ...accumulatedToolMessagesResult
         ],
         tools: this.tools.map(tool => tool.toChatCompletion()),
-        parallel_tool_calls: true
+        parallel_tool_calls: true,
+        response_format: this.responseFormat
       })
 
       const executionTimeMs = performance.now() - now

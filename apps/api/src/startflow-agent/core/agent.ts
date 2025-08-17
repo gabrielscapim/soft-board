@@ -1,5 +1,11 @@
 import OpenAI from 'openai'
-import { ChatCompletionMessageParam, ChatCompletionRole } from 'openai/resources/index'
+import {
+  ChatCompletionMessageParam,
+  ChatCompletionRole,
+  ResponseFormatJSONObject,
+  ResponseFormatJSONSchema,
+  ResponseFormatText
+} from 'openai/resources/index'
 import { Tool } from './tool'
 
 export type AgentOptions = {
@@ -9,6 +15,7 @@ export type AgentOptions = {
   model?: string
   prompt?: string
   tools?: Array<Tool>
+  responseFormat?: ResponseFormat
 }
 
 export type AgentContext = {
@@ -31,7 +38,13 @@ export type MessageHistory = {
   toolCalls?: Record<string, any>[] | null
   toolCallId?: string | null
   userName?: string | null
+  responseFormat?: ResponseFormat
 }
+
+export type ResponseFormat =
+  | ResponseFormatText
+  | ResponseFormatJSONSchema
+  | ResponseFormatJSONObject
 
 const DEFAULT_MODEL = 'gpt-5'
 const DEFAULT_PROMPT = 'You are a helpful assistant.'
@@ -43,14 +56,16 @@ export abstract class Agent {
   protected model: string
   protected prompt: string
   protected tools: Array<Tool>
+  protected responseFormat: ResponseFormat
 
-  constructor ({ context, openai, history, model, prompt, tools }: AgentOptions) {
+  constructor ({ context, openai, history, model, prompt, tools, responseFormat }: AgentOptions) {
     this.context = context
     this.openai = openai
     this.history = history ?? []
     this.model = model ?? DEFAULT_MODEL
     this.prompt = prompt ?? DEFAULT_PROMPT
     this.tools = tools ?? []
+    this.responseFormat = responseFormat ?? { type: 'text' }
   }
 
   protected abstract parseHistory (): Array<ChatCompletionMessageParam>
