@@ -1,4 +1,4 @@
-import { AgentContext, RunToolResult, Tool } from '../core'
+import { AgentContext, RunToolResult, Tool } from '../../../startflow-agent'
 
 type Arguments = {
   components: Array<{
@@ -10,7 +10,7 @@ type Arguments = {
 
 export class CreateWireflowTool extends Tool {
   name = 'create_wireflows'
-  description = 'Creates a new wireflow.'
+  description = 'Create wireflows'
 
   parametersSchema () {
     return {

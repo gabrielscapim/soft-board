@@ -1,4 +1,4 @@
-import { AgentContext, RunToolResult, Tool } from '../core'
+import { AgentContext, RunToolResult, Tool } from '../../../startflow-agent'
 
 type Arguments = {
   title: string

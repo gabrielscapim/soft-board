@@ -1,6 +1,6 @@
 import { ChatCompletionMessageParam, ChatCompletionMessageToolCall } from 'openai/resources/index'
 import { Agent } from './core'
-import { logger } from '../../../libs'
+import { logger } from '../libs'
 
 const MAX_COMPLETION_CALLS = 5
 

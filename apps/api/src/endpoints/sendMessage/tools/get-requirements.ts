@@ -1,5 +1,5 @@
 import { RequirementDatabase } from 'types/database'
-import { AgentContext, RunToolResult, Tool } from '../core'
+import { AgentContext, RunToolResult, Tool } from '../../../startflow-agent'
 
 type RequirementRow = Pick<RequirementDatabase, 'id' | 'title' | 'description'>
 

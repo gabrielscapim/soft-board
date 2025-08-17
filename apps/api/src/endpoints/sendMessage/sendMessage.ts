@@ -4,22 +4,18 @@ import { getPool, logger } from '../../libs'
 import OpenAI, { OpenAIError } from 'openai'
 import * as yup from 'yup'
 import { DatabasePool } from 'pg-script'
-import { ChatCompletionMessageParam, ChatCompletionMessageToolCall } from 'openai/resources/index'
+import { ChatCompletionMessageParam } from 'openai/resources/index'
 import { BoardDatabase, MessageDatabase } from 'types/database'
+import { AgentContext, StartFlowAgent, Tool } from '../../startflow-agent'
+import { REQUIREMENTS_AGENT_PROMPT, WIREFLOWS_AGENT_PROMPT, REVIEW_AGENT_PROMPT } from './prompts'
 import {
-  AgentContext,
-  CaptureScreens,
   CreateRequirementTool,
-  CreateWireflowTool,
   DeleteRequirementByIdTool,
   GetRequirementsTool,
-  REQUIREMENTS_AGENT_PROMPT,
-  REVIEW_AGENT_PROMPT,
-  StartFlowAgent,
-  Tool,
   UpdateRequirementByIdTool,
-  WIREFLOWS_AGENT_PROMPT
-} from './startflow-agent'
+  CreateWireflowTool,
+  CaptureScreens
+} from './tools'
 
 type Handler = RequestHandler<unknown, SendMessageResult, SendMessageCommand>
 
@@ -59,7 +55,20 @@ export function handler ({ openai }: Deps): Handler {
       .AND`team_id = ${teamId}`
       .find({ error: `Board with id ${boardId} not found` })
 
-    const history = await getHistory(pool, boardId)
+    const history = await pool
+      .SELECT<MessageRow>`
+        message.role,
+        message.content,
+        message.tool_call_id AS "toolCallId",
+        message.tool_calls AS "toolCalls",
+        "user".name as "userName"`
+      .FROM`message`
+      .LEFT_JOIN`"user" ON "user".id = message.author_id`
+      .WHERE`board_id = ${boardId}`
+      .AND`message.type = 'text'`
+      .ORDER_BY`send_date ASC`
+      .list()
+
     const tools = getTools(board, pool)
     const prompt = getPrompt(board)
 
@@ -173,68 +182,6 @@ export function handler ({ openai }: Deps): Handler {
 
     res.status(200).json({ messages: result })
   }
-}
-
-async function getHistory (
-  pool: DatabasePool,
-  boardId: string
-): Promise<Array<ChatCompletionMessageParam>> {
-  const messages = await pool
-    .SELECT<MessageRow>`
-      message.role,
-      message.content,
-      message.tool_call_id AS "toolCallId",
-      message.tool_calls AS "toolCalls",
-      "user".name as "userName"`
-    .FROM`message`
-    .LEFT_JOIN`"user" ON "user".id = message.author_id`
-    .WHERE`board_id = ${boardId}`
-    .AND`message.type = 'text'`
-    .ORDER_BY`send_date ASC`
-    .list()
-
-  const history = messages.map<ChatCompletionMessageParam>(message => {
-    if (message.role === 'user') {
-      const result: ChatCompletionMessageParam = {
-        role: 'user',
-        content: message.content ?? '',
-        name: message.userName ?? undefined
-      }
-
-      return result
-    }
-
-    if (message.role === 'assistant') {
-      const result: ChatCompletionMessageParam = {
-        role: 'assistant',
-        content: message.content ?? '',
-        tool_calls: (message.toolCalls as Array<ChatCompletionMessageToolCall>)?.map(toolCall => ({
-          id: toolCall.id,
-          type: 'function',
-          function: {
-            name: toolCall.function.name,
-            arguments: JSON.stringify(toolCall.function.arguments)
-          }
-        }))
-      }
-
-      return result
-    }
-
-    if (message.role === 'tool') {
-      const result: ChatCompletionMessageParam = {
-        role: 'tool',
-        content: message.content ?? '',
-        tool_call_id: message.toolCallId!
-      }
-
-      return result
-    }
-
-    throw new Error(`Unknown message role: ${message.role}`)
-  })
-
-  return history
 }
 
 function getTools (

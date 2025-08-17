@@ -1,10 +1,10 @@
 import { ComponentDatabase } from 'types/database'
-import { AgentContext, RunToolResult, Tool } from '../core'
 import { chromium } from '@playwright/test'
-import { COOKIE_PARSER_SECRET, AUTHENTICATION_COOKIE_NAME, NODE_ENV, FRONTEND_BASE_URL } from '../../../../constants'
+import { COOKIE_PARSER_SECRET, AUTHENTICATION_COOKIE_NAME, NODE_ENV, FRONTEND_BASE_URL } from '../../../constants'
 import signature from 'cookie-signature'
-import { AuthenticationData } from '../../../../types'
+import { AuthenticationData } from '../../../types'
 import { ChatCompletionContentPartImage } from 'openai/resources/index'
+import { Tool, AgentContext, RunToolResult } from '../../../startflow-agent'
 
 export class CaptureScreens extends Tool {
   name = 'capture_screens'
