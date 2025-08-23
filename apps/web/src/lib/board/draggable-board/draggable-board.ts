@@ -225,19 +225,20 @@ export class DraggableBoard {
       }
 
       // Verify if the composite dragging is inside some screen
-      let screenId: string | undefined = undefined
+      let screenId: string | null = null
+
       const screens = this._boardState.flexComponents.filter(component => component.type === 'mobileScreen')
 
       for (const screen of screens) {
-        const screenProperties = screen.properties
-        const isInsideScreen = (
-          compositeDragging.properties.x >= screenProperties.x &&
-          compositeDragging.properties.x + compositeDragging.properties.width <= screenProperties.x + screenProperties.width &&
-          compositeDragging.properties.y >= screenProperties.y &&
-          compositeDragging.properties.y + compositeDragging.properties.height <= screenProperties.y + screenProperties.height
-        )
+        const TOLERANCE = -25
 
-        if (isInsideScreen) {
+        const outside =
+          compositeDragging.properties.x + compositeDragging.properties.width  < screen.properties.x - TOLERANCE
+          || compositeDragging.properties.x > screen.properties.x + screen.properties.width + TOLERANCE
+          || compositeDragging.properties.y + compositeDragging.properties.height < screen.properties.y - TOLERANCE
+          || compositeDragging.properties.y > screen.properties.y + screen.properties.height + TOLERANCE
+
+        if (!outside) {
           screenId = screen.id
           break
         }

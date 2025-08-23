@@ -240,7 +240,7 @@ export class ElementResizer {
       this._boardState.setIsResizing(true)
     }
 
-    const newFlexComponents = this._boardState.flexComponents.map(flexComponent => {
+    const newFlexComponents = this._boardState.flexComponents.map<FlexComponent>(flexComponent => {
       if (selected.includes(flexComponent.id)) {
         const initialProps = this._initialFlexComponentProperties?.get(flexComponent.id)
 
@@ -362,6 +362,7 @@ export class ElementResizer {
 
         return {
           ...flexComponent,
+          screenId: params.screenId,
           properties: {
             ...flexComponent.properties,
             x: finalX,
@@ -528,10 +529,37 @@ export class ElementResizer {
         break
     }
 
+    const futureGroup = {
+      x: groupDimensions.x + params.position.roundedDeltaX,
+      y: groupDimensions.y + params.position.roundedDeltaY,
+      width: groupDimensions.width + params.dimension.roundedDeltaX,
+      height: groupDimensions.height + params.dimension.roundedDeltaY
+    }
+
+    let screenId: string | null = null
+
+    const screens = this._boardState.flexComponents.filter(component => component.type === 'mobileScreen')
+
+    const TOLERANCE = -25
+
+    for (const screen of screens) {
+      const outside =
+        futureGroup.x + futureGroup.width  < screen.properties.x - TOLERANCE ||
+        futureGroup.x > screen.properties.x + screen.properties.width + TOLERANCE ||
+        futureGroup.y + futureGroup.height < screen.properties.y - TOLERANCE ||
+        futureGroup.y > screen.properties.y + screen.properties.height + TOLERANCE
+
+      if (!outside) {
+        screenId = screen.id
+        break
+      }
+    }
+
     this.onResizingFlexComponent({
       ...params,
       resizeDirection: this._resizeDirection ?? '',
-      snap: snap
+      snap: snap,
+      screenId
     })
   }
 

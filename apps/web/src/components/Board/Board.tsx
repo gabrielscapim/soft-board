@@ -1,5 +1,5 @@
 import Cursor from '/cursor.png'
-import { createElement, useRef } from 'react'
+import { createElement, useMemo, useRef } from 'react'
 import { BoardController, BoardManager, BoardState } from '../../lib'
 import { AlignmentGuides, ConnectionLines, ResizeBox, SelectionBox } from './subcomponents'
 import {
@@ -13,7 +13,7 @@ import {
   useSelectionBoard,
   useZoomBoard
 } from './hooks'
-import { FLEX_COMPONENTS_ELEMENTS } from '../../flex-components'
+import { FLEX_COMPONENTS_ELEMENTS, MobileScreenFlexComponent } from '../../flex-components'
 
 export type BoardProps = {
   boardState: BoardState
@@ -52,6 +52,16 @@ export function Board (props: BoardProps) {
   useSelectionBoard(boardState, flexBoardContainerRef, selectionBoxRef, enableSelection)
   useKeyboardShortcuts(boardState, boardManager, enableKeyboardShortcuts)
 
+  const screensWithChildren = useMemo(() => {
+    const screens = flexComponents.filter(component => component.type === 'mobileScreen')
+
+    return screens.map(screen => {
+      const children = flexComponents.filter(c => c.screenId === screen.id)
+
+      return { ...screen, children }
+    })
+  }, [flexComponents])
+
   return (
     <div
       id="flex-board-container"
@@ -61,30 +71,58 @@ export function Board (props: BoardProps) {
         cursor: `url(${Cursor}) 0 0, auto`
       }}
     >
-      <div
-        id="grid"
-        className="absolute w-screen h-screen"
-      />
+      <div id="grid" className="absolute w-screen h-screen" />
       <div
         id="flex-board"
         ref={flexBoardRef}
-        className="w-0 h-0 absolute"
+        className="w-0 h-0 absolute z-0"
         style={{ transform: `translate(${boardTranslate.x}px, ${boardTranslate.y}px) scale(${scale})` }}
       >
-        {flexComponents
+        {screensWithChildren.map(screen => {
+          const children = screen.children
+
+          return (
+            <MobileScreenFlexComponent
+              key={screen.id}
+              component={screen}
+              boardController={boardController}
+              editable={enableSelection}
+            >
+              {children
+                .filter(child => Boolean(FLEX_COMPONENTS_ELEMENTS[child.type]))
+                .map(child => {
+                  const relX = child.properties.x - screen.properties.x
+                  const relY = child.properties.y - screen.properties.y
+
+                  return createElement(FLEX_COMPONENTS_ELEMENTS[child.type], {
+                    key: child.id,
+                    component: {
+                      ...child,
+                      properties: { ...child.properties, x: relX, y: relY }
+                    },
+                    boardController,
+                    editable: enableSelection
+                  })
+                })}
+            </MobileScreenFlexComponent>
+          )
+        })}
+
+        {screensWithChildren
+          .flatMap(screen => screen.children)
           .filter(flexComponent => Boolean(FLEX_COMPONENTS_ELEMENTS[flexComponent.type]))
-          .map(flexComponent => (
+          .map(flexComponent =>
             createElement(FLEX_COMPONENTS_ELEMENTS[flexComponent.type], {
               key: flexComponent.id,
-              component: {
-                ...flexComponent
-              },
+              component: { ...flexComponent },
               boardController,
               editable: enableSelection
             })
-        ))}
+        )}
 
-        {selectedFlexComponents && (enableResizing || enableSelection) && <ResizeBox boardState={boardState} />}
+        {selectedFlexComponents && (enableResizing || enableSelection) && (
+          <ResizeBox boardState={boardState} />
+        )}
       </div>
 
       {selectedFlexComponents && (enableSelection || enableResizing) && (
@@ -101,11 +139,7 @@ export function Board (props: BoardProps) {
         scale={scale}
       />
 
-      {enableSelection && (
-        <SelectionBox
-          ref={selectionBoxRef}
-        />
-      )}
+      {enableSelection && <SelectionBox ref={selectionBoxRef} />}
     </div>
   )
 }
