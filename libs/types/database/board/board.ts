@@ -7,7 +7,7 @@ export type BoardDatabase = {
   authorId: UUID | null
   image: VARCHAR_255 | null
   step: VARCHAR_50
-  loading: boolean
+  status: 'idle' | 'error' | 'pending'
   createDate: TIMESTAMPTZ
   updateDate: TIMESTAMPTZ
 }
