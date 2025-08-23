@@ -9,10 +9,10 @@ const schema = yup.object({
   boardId: yup.string().required(),
   components: yup.array().of(yup.object({
     id: yup.string().required(),
-    name: yup.string().nullable().optional().max(255),
+    name: yup.string().nullable().optional().max(255).default(null),
     properties: yup.object().nullable().optional().default({}),
-    connectionId: yup.string().nullable().optional(),
-    screenId: yup.string().nullable().optional()
+    connectionId: yup.string().nullable().optional().default(null),
+    screenId: yup.string().nullable().optional().default(null)
   })).required()
 })
 
@@ -29,13 +29,12 @@ export function handler (): Handler {
         const { id, name, properties, connectionId, screenId } = component
 
         const values: Record<string, any> = {
-          updateDate: now
+          updateDate: now,
+          name,
+          properties,
+          connectionId,
+          screenId
         }
-
-        if (name !== undefined) values.name = name
-        if (properties !== undefined) values.properties = properties
-        if (connectionId !== undefined) values.connectionId = connectionId
-        if (screenId !== undefined) values.screenId = screenId
 
         await pool
           .UPDATE`component`

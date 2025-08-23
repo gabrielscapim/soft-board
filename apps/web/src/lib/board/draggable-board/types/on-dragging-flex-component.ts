@@ -1,5 +1,6 @@
 export type OnDraggingFlexComponentParams = {
   id: string
+  screenId: string | null
   properties: {
     roundedDeltaX: number
     roundedDeltaY: number
@@ -10,5 +11,4 @@ export type OnDraggingFlexComponentParams = {
     x?: number
     y?: number
   }
-  screenId?: string
 }

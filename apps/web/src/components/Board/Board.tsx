@@ -1,5 +1,5 @@
 import Cursor from '/cursor.png'
-import { createElement, useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { BoardController, BoardManager, BoardState } from '../../lib'
 import { AlignmentGuides, ConnectionLines, ResizeBox, SelectionBox } from './subcomponents'
 import {
@@ -13,7 +13,7 @@ import {
   useSelectionBoard,
   useZoomBoard
 } from './hooks'
-import { FLEX_COMPONENTS_ELEMENTS } from '../../flex-components'
+import { FLEX_COMPONENTS_ELEMENTS, MobileScreenFlexComponent } from '../../flex-components'
 
 export type BoardProps = {
   boardState: BoardState
@@ -52,6 +52,28 @@ export function Board (props: BoardProps) {
   useSelectionBoard(boardState, flexBoardContainerRef, selectionBoxRef, enableSelection)
   useKeyboardShortcuts(boardState, boardManager, enableKeyboardShortcuts)
 
+  const { screens, componentsByScreenId, rootComponents } = useMemo(() => {
+    const screens = []
+    const componentsByScreenId: Record<string, typeof flexComponents> = {}
+    const rootComponents = []
+
+    for (const component of flexComponents) {
+      if (component.type === 'mobileScreen') {
+        screens.push(component)
+      } else if (component.screenId) {
+        if (!componentsByScreenId[component.screenId]) {
+          componentsByScreenId[component.screenId] = []
+        }
+
+        componentsByScreenId[component.screenId].push(component)
+      } else {
+        rootComponents.push(component)
+      }
+    }
+
+    return { screens, componentsByScreenId, rootComponents }
+  }, [flexComponents])
+
   return (
     <div
       id="flex-board-container"
@@ -61,30 +83,62 @@ export function Board (props: BoardProps) {
         cursor: `url(${Cursor}) 0 0, auto`
       }}
     >
-      <div
-        id="grid"
-        className="absolute w-screen h-screen"
-      />
+      <div id="grid" className="absolute w-screen h-screen" />
       <div
         id="flex-board"
         ref={flexBoardRef}
-        className="w-0 h-0 absolute"
+        className="w-0 h-0 absolute z-0"
         style={{ transform: `translate(${boardTranslate.x}px, ${boardTranslate.y}px) scale(${scale})` }}
       >
-        {flexComponents
-          .filter(flexComponent => Boolean(FLEX_COMPONENTS_ELEMENTS[flexComponent.type]))
-          .map(flexComponent => (
-            createElement(FLEX_COMPONENTS_ELEMENTS[flexComponent.type], {
-              key: flexComponent.id,
-              component: {
-                ...flexComponent
-              },
-              boardController,
-              editable: enableSelection
-            })
-        ))}
+        {screens.map(screen => {
+          const children = componentsByScreenId[screen.id] ?? []
 
-        {selectedFlexComponents && (enableResizing || enableSelection) && <ResizeBox boardState={boardState} />}
+          return (
+            <MobileScreenFlexComponent
+              key={screen.id}
+              component={screen}
+              boardController={boardController}
+              editable={enableSelection}
+            >
+              {children.map(child => {
+                const Element = FLEX_COMPONENTS_ELEMENTS[child.type]
+
+                if (!Element) return null
+
+                const relX = child.properties.x - screen.properties.x
+                const relY = child.properties.y - screen.properties.y
+
+                return (
+                  <Element
+                    key={child.id}
+                    component={{ ...child, properties: { ...child.properties, x: relX, y: relY } }}
+                    boardController={boardController}
+                    editable={enableSelection}
+                  />
+                )
+              })}
+            </MobileScreenFlexComponent>
+          )
+        })}
+
+        {rootComponents.map(child => {
+          const Element = FLEX_COMPONENTS_ELEMENTS[child.type]
+
+          if (!Element) return null
+
+          return (
+            <Element
+              key={child.id}
+              component={child}
+              boardController={boardController}
+              editable={enableSelection}
+            />
+          )
+        })}
+
+        {selectedFlexComponents && (enableResizing || enableSelection) && (
+          <ResizeBox boardState={boardState} />
+        )}
       </div>
 
       {selectedFlexComponents && (enableSelection || enableResizing) && (
@@ -101,11 +155,7 @@ export function Board (props: BoardProps) {
         scale={scale}
       />
 
-      {enableSelection && (
-        <SelectionBox
-          ref={selectionBoxRef}
-        />
-      )}
+      {enableSelection && <SelectionBox ref={selectionBoxRef} />}
     </div>
   )
 }

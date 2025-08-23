@@ -8,6 +8,7 @@ export type OnResizingFlexComponentParams = {
     roundedDeltaX: number
     roundedDeltaY: number
   }
+  screenId: string | null
   snap?: {
     type?: string
     distance?: 'primary' | 'secondary'

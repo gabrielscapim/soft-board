@@ -1,6 +1,7 @@
 import { Exchange } from '../../types'
-import { logger } from '../../libs'
+import { getOpenai, logger } from '../../libs'
 import { Channel } from 'amqplib'
+import { asValue, createContainer } from 'awilix'
 
 export async function createConsumers (
   channel: Channel,
@@ -14,8 +15,13 @@ export async function createConsumers (
 
       await channel.bindQueue(queue.queue, exchange.name, binding.key)
 
-      // Add awilix container as deps
-      const consumer = binding.consumer({})
+      // Create a new Awilix container for dependency injection
+      const container = createContainer({ strict: true })
+      container.register({
+        openai: asValue(getOpenai())
+      })
+
+      const consumer = binding.consumer(container.cradle)
 
       channel.consume(queue.queue, async (message) => {
         if (message) {

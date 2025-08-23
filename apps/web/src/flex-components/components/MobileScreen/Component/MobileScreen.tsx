@@ -1,9 +1,13 @@
 import clsx from 'clsx'
 import { MobileScreenFlexComponentProperties } from '../../../../types'
 import { FlexComponentProps } from '../../../types'
+import { PropsWithChildren } from 'react'
 
-export function MobileScreenFlexComponent (props: FlexComponentProps) {
-  const { component, className } = props
+export type MobileScreenFlexComponentProps = FlexComponentProps & PropsWithChildren
+
+export function MobileScreenFlexComponent (props: MobileScreenFlexComponentProps) {
+  const { component, className, children } = props
+
   const properties = component.properties as MobileScreenFlexComponentProperties
 
   return (
@@ -27,6 +31,8 @@ export function MobileScreenFlexComponent (props: FlexComponentProps) {
         zIndex: properties.zIndex,
         boxShadow: '0 0 0 8px #6b6b6b'
       }}
-    />
+    >
+      {children}
+    </div>
   )
 }

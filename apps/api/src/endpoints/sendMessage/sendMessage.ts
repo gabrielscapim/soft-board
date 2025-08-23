@@ -4,31 +4,30 @@ import { getPool, logger } from '../../libs'
 import OpenAI, { OpenAIError } from 'openai'
 import * as yup from 'yup'
 import { DatabasePool } from 'pg-script'
-import { ChatCompletionMessageParam, ChatCompletionMessageToolCall } from 'openai/resources/index'
+import { ChatCompletionMessageFunctionToolCall, ChatCompletionMessageParam } from 'openai/resources/index'
 import { BoardDatabase, MessageDatabase } from 'types/database'
+import { AgentContext, StartFlowAgent, Tool } from '../../startflow-agent'
+import { REQUIREMENTS_AGENT_PROMPT, WIREFLOWS_AGENT_PROMPT, REVIEW_AGENT_PROMPT } from './prompts'
 import {
-  AgentContext,
-  CaptureScreens,
   CreateRequirementTool,
-  CreateWireflowTool,
   DeleteRequirementByIdTool,
   GetRequirementsTool,
-  REQUIREMENTS_AGENT_PROMPT,
-  REVIEW_AGENT_PROMPT,
-  StartFlowAgent,
-  Tool,
   UpdateRequirementByIdTool,
-  WIREFLOWS_AGENT_PROMPT
-} from './startflow-agent'
+  CreateWireflowTool,
+  CaptureScreens
+} from './tools'
+import { AgentCalledFunctionEvent } from 'event-types'
+import { IPublisher } from '../../types'
 
 type Handler = RequestHandler<unknown, SendMessageResult, SendMessageCommand>
 
 type MessageRow = Pick<MessageDatabase, 'role' | 'content' | 'toolCallId' | 'toolCalls'> & { userName: string | null }
 
-type BoardRow = Pick<BoardDatabase, 'id' | 'step'>
+type BoardRow = Pick<BoardDatabase, 'id' | 'step' | 'status'>
 
 type Deps = {
   openai: OpenAI
+  agentCalledFunction: IPublisher<AgentCalledFunctionEvent>
 }
 
 const schema = yup.object({
@@ -38,7 +37,7 @@ const schema = yup.object({
 
 const DEFAULT_ERROR_MESSAGE = 'An error occurred while processing your message.'
 
-export function handler ({ openai }: Deps): Handler {
+export function handler ({ openai, agentCalledFunction }: Deps): Handler {
   return async (req, res) => {
     const { content, boardId } = await schema.validate(req.body, { abortEarly: false })
     const teamId = req.team!.teamId
@@ -53,20 +52,37 @@ export function handler ({ openai }: Deps): Handler {
       .find({ error: `Team with id ${teamId} not found` })
 
     const board = await pool
-      .SELECT<BoardRow>`id, step`
+      .SELECT<BoardRow>`id, step, status`
       .FROM`board`
       .WHERE`id = ${boardId}`
       .AND`team_id = ${teamId}`
       .find({ error: `Board with id ${boardId} not found` })
 
-    const history = await getHistory(pool, boardId)
-    const tools = getTools(board, pool)
+    const history = await pool
+      .SELECT<MessageRow>`
+        message.role,
+        message.content,
+        message.tool_call_id AS "toolCallId",
+        message.tool_calls AS "toolCalls",
+        "user".name as "userName"`
+      .FROM`message`
+      .LEFT_JOIN`"user" ON "user".id = message.author_id`
+      .WHERE`board_id = ${boardId}`
+      .AND`message.type = 'text'`
+      .ORDER_BY`send_date ASC`
+      .list()
+
+    const publishers: Record<string, IPublisher<any>> = {
+      agentCalledFunction
+    }
+    const tools = getTools(board, pool, publishers)
     const prompt = getPrompt(board)
 
     const context: AgentContext = {
       board: {
         id: boardId,
-        step: board.step
+        step: board.step,
+        status: board.status
       },
       team: {
         id: teamId,
@@ -82,7 +98,8 @@ export function handler ({ openai }: Deps): Handler {
       openai,
       history,
       prompt,
-      tools
+      tools,
+      model: 'gpt-4o'
     })
 
     const responseMessages: Array<ChatCompletionMessageParam & { executionTimeMs?: number }> = []
@@ -150,7 +167,7 @@ export function handler ({ openai }: Deps): Handler {
           .RETURNING`id`
 
         const toolCalls = message.role === 'assistant'
-          ? message.tool_calls?.map(toolCall => ({
+          ? (message.tool_calls as ChatCompletionMessageFunctionToolCall[] | undefined)?.map(toolCall => ({
             id: toolCall.id,
             type: toolCall.type,
             function: {
@@ -175,86 +192,25 @@ export function handler ({ openai }: Deps): Handler {
   }
 }
 
-async function getHistory (
-  pool: DatabasePool,
-  boardId: string
-): Promise<Array<ChatCompletionMessageParam>> {
-  const messages = await pool
-    .SELECT<MessageRow>`
-      message.role,
-      message.content,
-      message.tool_call_id AS "toolCallId",
-      message.tool_calls AS "toolCalls",
-      "user".name as "userName"`
-    .FROM`message`
-    .LEFT_JOIN`"user" ON "user".id = message.author_id`
-    .WHERE`board_id = ${boardId}`
-    .AND`message.type = 'text'`
-    .ORDER_BY`send_date ASC`
-    .list()
-
-  const history = messages.map<ChatCompletionMessageParam>(message => {
-    if (message.role === 'user') {
-      const result: ChatCompletionMessageParam = {
-        role: 'user',
-        content: message.content ?? '',
-        name: message.userName ?? undefined
-      }
-
-      return result
-    }
-
-    if (message.role === 'assistant') {
-      const result: ChatCompletionMessageParam = {
-        role: 'assistant',
-        content: message.content ?? '',
-        tool_calls: (message.toolCalls as Array<ChatCompletionMessageToolCall>)?.map(toolCall => ({
-          id: toolCall.id,
-          type: 'function',
-          function: {
-            name: toolCall.function.name,
-            arguments: JSON.stringify(toolCall.function.arguments)
-          }
-        }))
-      }
-
-      return result
-    }
-
-    if (message.role === 'tool') {
-      const result: ChatCompletionMessageParam = {
-        role: 'tool',
-        content: message.content ?? '',
-        tool_call_id: message.toolCallId!
-      }
-
-      return result
-    }
-
-    throw new Error(`Unknown message role: ${message.role}`)
-  })
-
-  return history
-}
-
 function getTools (
   board: BoardRow,
-  pool: DatabasePool
+  pool: DatabasePool,
+  publishers: Record<string, IPublisher<any>>
 ): Tool[] {
   if (board.step === 'requirements') {
     return [
-      new CreateRequirementTool({ pool }),
-      new DeleteRequirementByIdTool({ pool }),
-      new GetRequirementsTool({ pool }),
-      new UpdateRequirementByIdTool({  pool })
+      new CreateRequirementTool({ pool, publishers }),
+      new DeleteRequirementByIdTool({ pool, publishers }),
+      new GetRequirementsTool({ pool, publishers }),
+      new UpdateRequirementByIdTool({ pool, publishers })
     ]
   } else if (board.step === 'wireflows') {
     return [
-      new CreateWireflowTool({ pool })
+      new CreateWireflowTool({ pool, publishers })
     ]
   } else if (board.step === 'review') {
     return [
-      new CaptureScreens({ pool })
+      new CaptureScreens({ pool, publishers })
     ]
   }
 

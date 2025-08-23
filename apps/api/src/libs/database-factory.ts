@@ -23,7 +23,7 @@ export class DatabaseFactory {
       teamId: board.teamId ?? randomUUID(),
       title: board.title ?? randomUUID(),
       step: board.step ?? 'init',
-      loading: board.loading ?? false,
+      status: board.status ?? 'idle',
       authorId: board.authorId ?? null,
       createDate: board.createDate ?? now,
       updateDate: board.updateDate ?? now
