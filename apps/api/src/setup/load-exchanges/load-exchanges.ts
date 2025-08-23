@@ -4,6 +4,10 @@ import { Consumer, Exchange } from '../../types'
 
 const EXCHANGES = [
   {
+    name: 'agentCalledFunction',
+    type: 'topic'
+  },
+  {
     name: 'user.signedIn',
     type: 'fanout'
   },
