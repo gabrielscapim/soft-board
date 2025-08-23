@@ -34,7 +34,7 @@ export function BoardCard (props: BoardCardProps) {
           <CardTitle
             className={clsx(
               !board.title && 'opacity-20',
-              'font-normal truncate overflow-hidden text-ellipsis whitespace-nowrap'
+              'font-normal truncate overflow-hidden text-ellipsis whitespace-nowrap pb-1'
             )}
           >
             {board.title ?? 'Untitled'}
