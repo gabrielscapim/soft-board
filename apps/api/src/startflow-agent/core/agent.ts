@@ -13,7 +13,7 @@ export type AgentOptions = {
   openai: OpenAI
   history?: Array<MessageHistory>
   model?: string
-  prompt?: string
+  prompt?: string | Array<string>
   tools?: Array<Tool>
   responseFormat?: ResponseFormat
 }
@@ -54,7 +54,7 @@ export abstract class Agent {
   protected openai: OpenAI
   protected history: Array<MessageHistory>
   protected model: string
-  protected prompt: string
+  protected prompt: string | Array<string>
   protected tools: Array<Tool>
   protected responseFormat: ResponseFormat
 
