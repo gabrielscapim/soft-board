@@ -37,6 +37,11 @@ export function consumer (deps: Deps) {
       user
     }
 
+    if (board.status === 'pending') {
+      logger.info({ event }, 'Board is already pending, skipping create wireflows')
+      return
+    }
+
     /**
      * Agent 1: Analyze the board requirements, messages, and context to answer
      * how many screens are needed for the wireflows and describe them.
@@ -71,6 +76,11 @@ export function consumer (deps: Deps) {
       xSpace = xSpace + 500
     }
 
-    logger.info('Wireflows created successfully')
+    await pool
+      .UPDATE`board`
+      .SET({ status: 'idle' })
+      .WHERE`id = ${board.id}`
+
+    logger.info({ event }, 'Wireflows created successfully')
   }
 }

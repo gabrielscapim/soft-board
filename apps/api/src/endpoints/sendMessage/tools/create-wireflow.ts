@@ -21,6 +21,11 @@ export class CreateWireflowTool extends Tool {
 
     this.publishers.agentCalledFunction.publish(event, 'createWireflows')
 
+    await this.pool
+      .UPDATE`board`
+      .SET({ status: 'pending' })
+      .WHERE`id = ${context.board.id}`
+
     return {
       content: 'Create wireflows requested successfully. In few moments you will see the changes reflected in your board.'
     }
