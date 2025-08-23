@@ -4,7 +4,7 @@ import { getPool, logger } from '../../libs'
 import OpenAI, { OpenAIError } from 'openai'
 import * as yup from 'yup'
 import { DatabasePool } from 'pg-script'
-import { ChatCompletionMessageParam } from 'openai/resources/index'
+import { ChatCompletionMessageFunctionToolCall, ChatCompletionMessageParam } from 'openai/resources/index'
 import { BoardDatabase, MessageDatabase } from 'types/database'
 import { AgentContext, StartFlowAgent, Tool } from '../../startflow-agent'
 import { REQUIREMENTS_AGENT_PROMPT, WIREFLOWS_AGENT_PROMPT, REVIEW_AGENT_PROMPT } from './prompts'
@@ -16,6 +16,8 @@ import {
   CreateWireflowTool,
   CaptureScreens
 } from './tools'
+import { AgentCalledFunctionEvent } from 'event-types'
+import { IPublisher } from '../../types'
 
 type Handler = RequestHandler<unknown, SendMessageResult, SendMessageCommand>
 
@@ -25,6 +27,7 @@ type BoardRow = Pick<BoardDatabase, 'id' | 'step'>
 
 type Deps = {
   openai: OpenAI
+  agentCalledFunction: IPublisher<AgentCalledFunctionEvent>
 }
 
 const schema = yup.object({
@@ -34,7 +37,7 @@ const schema = yup.object({
 
 const DEFAULT_ERROR_MESSAGE = 'An error occurred while processing your message.'
 
-export function handler ({ openai }: Deps): Handler {
+export function handler ({ openai, agentCalledFunction }: Deps): Handler {
   return async (req, res) => {
     const { content, boardId } = await schema.validate(req.body, { abortEarly: false })
     const teamId = req.team!.teamId
@@ -69,7 +72,10 @@ export function handler ({ openai }: Deps): Handler {
       .ORDER_BY`send_date ASC`
       .list()
 
-    const tools = getTools(board, pool)
+    const publishers: Record<string, IPublisher<any>> = {
+      agentCalledFunction
+    }
+    const tools = getTools(board, pool, publishers)
     const prompt = getPrompt(board)
 
     const context: AgentContext = {
@@ -91,7 +97,8 @@ export function handler ({ openai }: Deps): Handler {
       openai,
       history,
       prompt,
-      tools
+      tools,
+      model: 'gpt-4o'
     })
 
     const responseMessages: Array<ChatCompletionMessageParam & { executionTimeMs?: number }> = []
@@ -159,7 +166,7 @@ export function handler ({ openai }: Deps): Handler {
           .RETURNING`id`
 
         const toolCalls = message.role === 'assistant'
-          ? message.tool_calls?.map(toolCall => ({
+          ? (message.tool_calls as ChatCompletionMessageFunctionToolCall[] | undefined)?.map(toolCall => ({
             id: toolCall.id,
             type: toolCall.type,
             function: {
@@ -186,22 +193,23 @@ export function handler ({ openai }: Deps): Handler {
 
 function getTools (
   board: BoardRow,
-  pool: DatabasePool
+  pool: DatabasePool,
+  publishers: Record<string, IPublisher<any>>
 ): Tool[] {
   if (board.step === 'requirements') {
     return [
-      new CreateRequirementTool({ pool }),
-      new DeleteRequirementByIdTool({ pool }),
-      new GetRequirementsTool({ pool }),
-      new UpdateRequirementByIdTool({  pool })
+      new CreateRequirementTool({ pool, publishers }),
+      new DeleteRequirementByIdTool({ pool, publishers }),
+      new GetRequirementsTool({ pool, publishers }),
+      new UpdateRequirementByIdTool({ pool, publishers })
     ]
   } else if (board.step === 'wireflows') {
     return [
-      new CreateWireflowTool({ pool })
+      new CreateWireflowTool({ pool, publishers })
     ]
   } else if (board.step === 'review') {
     return [
-      new CaptureScreens({ pool })
+      new CaptureScreens({ pool, publishers })
     ]
   }
 
