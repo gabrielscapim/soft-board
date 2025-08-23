@@ -24,6 +24,7 @@ export type GetBoardResult = {
   team: GetBoardResultTeam
   title: string | null
   step: 'init' | 'requirements' | 'wireflows' | 'review' | 'end'
+  status: 'idle' | 'pending' | 'error'
   image: string | null
   createDate: string
   updateDate: string
