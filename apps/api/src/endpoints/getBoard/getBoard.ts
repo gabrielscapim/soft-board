@@ -6,8 +6,7 @@ import { getPool } from '../../libs'
 
 type Handler = RequestHandler<unknown, GetBoardResult, GetBoardQuery>
 
-type BoardRow =
-  Pick<BoardDatabase, 'id' | 'title' | 'createDate' | 'updateDate' | 'step' | 'image'>
+type BoardRow = Pick<BoardDatabase, 'id' | 'title' | 'createDate' | 'updateDate' | 'step' | 'image' | 'status'>
   & { team: Pick<TeamDatabase, 'id' | 'slug' | 'name'> }
 
 type ComponentRow = Pick<ComponentDatabase, 'id' | 'name' | 'type' | 'properties' | 'connectionId' | 'screenId' | 'createDate' | 'updateDate'>
@@ -30,6 +29,7 @@ export function handler (): Handler {
         board.create_date,
         board.update_date,
         board.step,
+        board.status,
         board.image,
         JSON_BUILD_OBJECT(
           'id', team.id,
@@ -63,6 +63,7 @@ export function handler (): Handler {
       id: board.id,
       title: board.title,
       step: board.step as GetBoardResult['step'],
+      status: board.status,
       image: board.image,
       createDate: board.createDate.toISOString(),
       updateDate: board.updateDate.toISOString(),

@@ -5,7 +5,7 @@ import { useParams } from 'react-router'
 import { useClient } from '@/hooks'
 import { useQuery } from '@tanstack/react-query'
 import { FlexComponent } from '@/types'
-import { FullScreenLoader } from '@/components'
+import { BoardPendingContainer, FullScreenLoader } from '@/components'
 import { ErrorRoute } from '@/routes'
 import { Client } from '@/client'
 
@@ -71,7 +71,8 @@ export function BoardProvider ({ children }: BoardProviderProps) {
         />
       )}
       {getBoard.isLoading && <FullScreenLoader />}
-      {getBoard.data && children}
+      {getBoard.data && getBoard.data.status === 'pending' && <BoardPendingContainer />}
+      {getBoard.data && getBoard.data.status !== 'pending' && children}
     </BoardContext.Provider>
   )
 }
