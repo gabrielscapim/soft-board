@@ -27,7 +27,7 @@ export function BoardPendingContainer () {
   return (
     <div className="min-h-svh w-screen flex flex-col gap-8 items-center justify-center">
       <div className="flex flex-col gap-4 items-center">
-        <Spinner variant="circle" size="32" />
+        <Spinner variant="ring" size="32" />
         <span className="animate-pulse font-medium text-md">
           {message}
         </span>
