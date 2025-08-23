@@ -1,4 +1,4 @@
-import { ChatCompletionMessageParam, ChatCompletionMessageToolCall } from 'openai/resources/index'
+import { ChatCompletionMessageFunctionToolCall, ChatCompletionMessageParam, ChatCompletionSystemMessageParam } from 'openai/resources/index'
 import { Agent } from './core'
 import { logger } from '../libs'
 
@@ -21,7 +21,7 @@ export class StartFlowAgent extends Agent {
         const result: ChatCompletionMessageParam = {
           role: 'assistant',
           content: message.content ?? '',
-          tool_calls: (message.toolCalls as Array<ChatCompletionMessageToolCall>)?.map(toolCall => ({
+          tool_calls: (message.toolCalls as Array<ChatCompletionMessageFunctionToolCall>)?.map(toolCall => ({
             id: toolCall.id,
             type: 'function',
             function: {
@@ -51,11 +51,15 @@ export class StartFlowAgent extends Agent {
   }
 
   async run (content: string) {
-    const messages: Array<ChatCompletionMessageParam> = [
-      { role: 'system', content: this.prompt },
-      ...this.parseHistory(),
-      { role: 'user', content }
-    ]
+    const messages: Array<ChatCompletionMessageParam> = []
+
+    if (typeof this.prompt === 'string') {
+      messages.push({ role: 'system', content: this.prompt })
+    } else {
+      messages.push(...this.prompt.map<ChatCompletionSystemMessageParam>(text => ({ role: 'system', content: text })))
+    }
+
+    messages.push(...this.parseHistory(), { role: 'user', content })
 
     const responseMessages: Array<ChatCompletionMessageParam & { executionTimeMs?: number }> = []
     const accumulatedToolMessagesResult: Array<ChatCompletionMessageParam> = []
@@ -66,6 +70,7 @@ export class StartFlowAgent extends Agent {
       const now = performance.now()
 
       const completion = await this.openai.chat.completions.create({
+        ...(this.model === 'gpt-5' ? { reasoning_effort: 'low' } : {}),
         model: this.model,
         messages: [
           ...messages,
@@ -80,7 +85,7 @@ export class StartFlowAgent extends Agent {
       const executionTimeMs = performance.now() - now
 
       const response = completion.choices[0].message
-      const requestedTools = response.tool_calls
+      const requestedTools = response.tool_calls as ChatCompletionMessageFunctionToolCall[]
 
       responseMessages.push({
         ...response,
