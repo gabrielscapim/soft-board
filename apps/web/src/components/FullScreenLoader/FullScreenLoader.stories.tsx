@@ -5,9 +5,9 @@ const meta = {
   title: 'Components/Full Screen Loader',
   component: FullScreenLoader,
   parameters: {
-    layout: 'centered',
+    layout: 'centered'
   },
-  tags: ['autodocs'],
+  tags: ['autodocs']
 } satisfies Meta<typeof FullScreenLoader>
 
 export default meta
@@ -15,5 +15,5 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Example: Story = {
-  args: {},
+  args: {}
 }

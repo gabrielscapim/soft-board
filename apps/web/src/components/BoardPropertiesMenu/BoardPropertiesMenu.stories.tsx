@@ -5,14 +5,14 @@ const meta = {
   title: 'Board route/Board Properties Menu',
   component: BoardPropertiesMenu,
   parameters: {
-    layout: 'centered',
+    layout: 'centered'
   },
   tags: ['autodocs'],
   argTypes: {
     component: {
-      properties: {},
-    },
-  },
+      properties: {}
+    }
+  }
 }
 
 export default meta

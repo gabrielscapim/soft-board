@@ -8,7 +8,7 @@ const meta = {
   title: 'Routes/Team Boards',
   component: BoardsRoute,
   parameters: {
-    layout: 'fullscreen',
+    layout: 'fullscreen'
   },
   decorators: [
     (Story, context) => {
@@ -33,16 +33,16 @@ const meta = {
                   title: 'Board 1',
                   updateDate: new Date().toISOString(),
                   createDate: new Date().toISOString(),
-                  teamId: 'team-1',
+                  teamId: 'team-1'
                 },
                 {
                   id: 'board-2',
                   title: 'Board 2',
                   updateDate: new Date().toISOString(),
                   createDate: new Date().toISOString(),
-                  teamId: 'team-1',
-                },
-              ],
+                  teamId: 'team-1'
+                }
+              ]
             })
         }
       }
@@ -54,7 +54,7 @@ const meta = {
           </ClientProvider>
         </QueryClientProvider>
       )
-    },
+    }
   ],
   tags: ['autodocs']
 } satisfies Meta<typeof BoardsRoute>

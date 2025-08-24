@@ -11,7 +11,7 @@ type MessageRow =
   & { author: { userId: string; name: string } | null }
 
 const schema = yup.object({
-  boardId: yup.string().trim().required(),
+  boardId: yup.string().trim().required()
 })
 
 export function handler (): Handler {

@@ -73,7 +73,7 @@ export function handler (deps: Deps): Handler {
       secure: NODE_ENV === 'production', // Secure is used to ensure the cookie is sent over HTTPS only
       partitioned: NODE_ENV === 'production', // Partitioned is used to prevent cross-site tracking
       sameSite: NODE_ENV === 'production' ? 'none' : 'lax', // SameSite is set to 'none' for cross-site requests in production, 'lax' otherwise. Lax is more secure for same-site requests
-      maxAge: EIGHT_HOURS_IN_MS,
+      maxAge: EIGHT_HOURS_IN_MS
     }
 
     deps.userSignedIn.publish({

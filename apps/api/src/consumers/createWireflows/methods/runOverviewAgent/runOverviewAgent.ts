@@ -18,7 +18,7 @@ const responseFormat: ResponseFormat = {
           items: {
             type: 'object',
             properties: {
-              title: { type: 'string' },
+              title: { type: 'string' }
             },
             required: ['title'],
             additionalProperties: false

@@ -6,14 +6,14 @@ const meta = {
   title: 'Flex components/Primitive/Icon',
   component: IconFlexComponent,
   parameters: {
-    layout: 'centered',
+    layout: 'centered'
   },
   tags: ['autodocs'],
   argTypes: {
     component: {
-      properties: {},
-    },
-  },
+      properties: {}
+    }
+  }
 } satisfies Meta<typeof IconFlexComponent>
 
 export default meta

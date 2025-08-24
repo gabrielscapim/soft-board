@@ -6,7 +6,7 @@ const meta = {
   title: 'Flex components/Primitive/Input',
   component: InputFlexComponent,
   parameters: {
-    layout: 'centered',
+    layout: 'centered'
   },
   tags: ['autodocs'],
   argTypes: {
@@ -14,7 +14,7 @@ const meta = {
       properties: {
       }
     }
-  },
+  }
 } satisfies Meta<typeof InputFlexComponent>
 
 export default meta

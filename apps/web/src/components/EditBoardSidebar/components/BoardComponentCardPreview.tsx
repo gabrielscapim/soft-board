@@ -28,7 +28,7 @@ export function BoardComponentCardPreview (props: BoardComponentCardPreviewProps
           style={{
             width: PREVIEW_WIDTH,
             height: PREVIEW_HEIGHT,
-            overflow: 'hidden',
+            overflow: 'hidden'
           }}
         >
           <div
@@ -39,7 +39,7 @@ export function BoardComponentCardPreview (props: BoardComponentCardPreviewProps
               height: `${properties.height}px`,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
+              justifyContent: 'center'
             }}
           >
             {createElement(FLEX_COMPONENTS_ELEMENTS[type as FlexComponentType], {
@@ -51,9 +51,9 @@ export function BoardComponentCardPreview (props: BoardComponentCardPreviewProps
                   ...properties,
                   x: 0,
                   y: 0,
-                  absolute: false,
-                },
-              },
+                  absolute: false
+                }
+              }
             })}
           </div>
         </div>

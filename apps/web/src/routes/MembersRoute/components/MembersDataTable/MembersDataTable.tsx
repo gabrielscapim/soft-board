@@ -150,8 +150,8 @@ export function MembersDataTable (props: MembersDataTableProps) {
             </DropdownMenuContent>
           </DropdownMenu>
         )
-      },
-    },
+      }
+    }
   ]
 
   return (

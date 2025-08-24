@@ -12,7 +12,7 @@ export function AuthenticationProvider ({ children }: AuthenticationProviderProp
   const client = useClient()
   const getAuthenticatedUser = useQuery({
     queryKey: ['getAuthenticatedUser'],
-    queryFn: async () => client.getAuthenticatedUser(),
+    queryFn: async () => client.getAuthenticatedUser()
   })
 
   useEffect(() => {

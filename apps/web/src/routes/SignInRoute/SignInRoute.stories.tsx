@@ -6,16 +6,16 @@ const meta = {
   title: 'Routes/Sign In',
   component: SignInRoute,
   parameters: {
-    layout: 'fullscreen',
+    layout: 'fullscreen'
   },
   decorators: [
     (Story) => (
       <MemoryRouter>
         <Story />
       </MemoryRouter>
-    ),
+    )
   ],
-  tags: ['autodocs'],
+  tags: ['autodocs']
 } satisfies Meta<typeof SignInRoute>
 
 export default meta

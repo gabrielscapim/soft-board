@@ -17,7 +17,7 @@ const meta = {
       >
         <Story />
       </div>
-    ),
+    )
   ],
   tags: ['autodocs'],
   argTypes: {
@@ -25,7 +25,7 @@ const meta = {
       properties: {
       }
     }
-  },
+  }
 } satisfies Meta<typeof ButtonFlexComponent>
 
 export default meta

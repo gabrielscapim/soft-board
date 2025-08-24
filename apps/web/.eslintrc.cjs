@@ -16,11 +16,14 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     'react/react-in-jsx-scope': 'off',
     'semi': ['error', 'never'],
+    'space-before-function-paren': ['error', 'always'],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-dynamic-delete": "off",
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     'space-before-function-paren': ['error', 'always'],
-    'quotes': ['error', 'single']
+    'quotes': ['error', 'single'],
+    'object-curly-spacing': ['error', 'always'],
+      'comma-dangle': ['error', 'never']
   }
 };

@@ -7,7 +7,7 @@ import { RequirementDatabase } from 'types/database'
 type Handler = RequestHandler<unknown, GetRequirementsResult, GetRequirementsQuery>
 
 const schema = yup.object({
-  boardId: yup.string().trim().required('Board ID is required'),
+  boardId: yup.string().trim().required('Board ID is required')
 })
 
 type RequirementRow = Pick<RequirementDatabase, 'id' | 'teamId' | 'boardId' | 'authorId' | 'title' | 'description' | 'order' | 'createDate' | 'updateDate'>

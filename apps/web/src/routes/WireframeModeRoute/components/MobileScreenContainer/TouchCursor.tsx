@@ -37,7 +37,7 @@ export function TouchCursor () {
         className="touch-cursor"
         style={{
           '--x': position.x + 'px',
-          '--y': position.y + 'px',
+          '--y': position.y + 'px'
         } as React.CSSProperties & Record<string, string>}
       />
     </>

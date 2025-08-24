@@ -23,7 +23,7 @@ export function DataTable<TData, TValue> ({
       loading
         ? columns.map((column) => ({
             ...column,
-            cell: () => <Skeleton className="w-2/4 h-4" />,
+            cell: () => <Skeleton className="w-2/4 h-4" />
           }))
         : columns,
     [loading, columns]

@@ -2,7 +2,7 @@ import {
   LoaderCircleIcon,
   LoaderIcon,
   LoaderPinwheelIcon,
-  type LucideProps,
+  type LucideProps
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -224,7 +224,7 @@ const Infinite = ({ size = 24, ...props }: SpinnerVariantProps) => (
       strokeWidth="10"
       style={{
         transform: 'scale(0.8)',
-        transformOrigin: '50px 50px',
+        transformOrigin: '50px 50px'
       }}
     >
       <animate

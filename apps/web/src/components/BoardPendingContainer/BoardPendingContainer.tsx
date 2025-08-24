@@ -9,12 +9,12 @@ const messagesByStep: Record<'wireflows' | 'review' | string, string[]> = {
   wireflows: [
     'The board is generating your wireflows...',
     'Please hold on while we fetch your wireflows...',
-    'Your wireflows are being prepared...',
+    'Your wireflows are being prepared...'
   ],
   review: [
     'The board is generating your review...',
     'Please hold on while we fetch your review...',
-    'Your review is being prepared...',
+    'Your review is being prepared...'
   ]
 }
 

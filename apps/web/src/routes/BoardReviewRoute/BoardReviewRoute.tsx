@@ -71,8 +71,8 @@ export function BoardReviewRoute () {
                     properties: {
                       ...flexComponent.properties,
                       x: flexComponent.properties.x - currentScreen.properties.x,
-                      y: flexComponent.properties.y - currentScreen.properties.y,
-                    },
+                      y: flexComponent.properties.y - currentScreen.properties.y
+                    }
                   }
                 })
               ))

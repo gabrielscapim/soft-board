@@ -283,7 +283,7 @@ export class DraggableBoard {
           id: this._selectedElement?.id,
           properties: {
             roundedDeltaX: deltaX,
-            roundedDeltaY: deltaY,
+            roundedDeltaY: deltaY
           },
           snap,
           screenId

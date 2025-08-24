@@ -18,7 +18,7 @@ export function RequirementsContainer (props: RequirementsContainerProps) {
     loading,
     handleCreate,
     handleDelete,
-    handleEdit,
+    handleEdit
   } = props
 
   return (

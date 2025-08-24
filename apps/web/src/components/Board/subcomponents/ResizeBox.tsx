@@ -64,7 +64,7 @@ export function ResizeBox (props: ResizeBoxProps) {
     { left: adjustedX + adjustedWidth / 2 - RESIZER_SIZE / 2, top: adjustedY + adjustedHeight - RESIZER_SIZE / 2, id: 's', cursor: 's-resize' },
     { left: adjustedX - RESIZER_SIZE / 2, top: adjustedY + adjustedHeight - RESIZER_SIZE / 2, id: 'sw', cursor: 'sw-resize' },
     { left: adjustedX - RESIZER_SIZE / 2, top: adjustedY + adjustedHeight / 2 - RESIZER_SIZE / 2, id: 'w', cursor: 'w-resize' },
-    { left: adjustedX - RESIZER_SIZE / 2, top: adjustedY - RESIZER_SIZE / 2, id: 'nw', cursor: 'nw-resize' },
+    { left: adjustedX - RESIZER_SIZE / 2, top: adjustedY - RESIZER_SIZE / 2, id: 'nw', cursor: 'nw-resize' }
   ]
 
   const notHorizontalResizable = selectedFlexComponents.some(flexComponent => FLEX_COMPONENTS_SCHEMAS[flexComponent.type]?.resizable?.horizontal === false)

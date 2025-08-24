@@ -120,7 +120,7 @@ export class ElementResizer {
         return {
           type: closestVertical?.snap,
           position: {
-            y: closestHorizontal ? closestHorizontal.lineGuide + closestHorizontal.offset : undefined,
+            y: closestHorizontal ? closestHorizontal.lineGuide + closestHorizontal.offset : undefined
           },
           dimension: {
             x: closestVertical?.lineGuide,

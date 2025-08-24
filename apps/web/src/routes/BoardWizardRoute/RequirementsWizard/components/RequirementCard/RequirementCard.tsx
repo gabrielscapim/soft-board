@@ -4,7 +4,7 @@ import {
   CardAction,
   CardDescription,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from '@/components/ui/card'
 import { PencilIcon, TrashIcon } from 'lucide-react'
 import { GetRequirementsResultData } from 'types/endpoints'

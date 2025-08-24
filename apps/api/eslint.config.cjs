@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 const {
     defineConfig,
-    globalIgnores,
+    globalIgnores
 } = require('eslint/config')
 
 const globals = require('globals')
@@ -10,7 +10,7 @@ const typescriptEslint = require('@typescript-eslint/eslint-plugin')
 const js = require('@eslint/js')
 
 const {
-    FlatCompat,
+    FlatCompat
 } = require('@eslint/eslintrc')
 
 const compat = new FlatCompat({
@@ -22,16 +22,16 @@ const compat = new FlatCompat({
 module.exports = defineConfig([{
     languageOptions: {
         globals: {
-            ...globals.node,
+            ...globals.node
         },
 
-        parser: tsParser,
+        parser: tsParser
     },
 
     extends: compat.extends('eslint:recommended', 'plugin:@typescript-eslint/recommended'),
 
     plugins: {
-        '@typescript-eslint': typescriptEslint,
+        '@typescript-eslint': typescriptEslint
     },
 
     rules: {
@@ -50,5 +50,7 @@ module.exports = defineConfig([{
         '@typescript-eslint/no-non-null-assertion': 'off',
         'space-before-function-paren': ['error', 'always'],
         'quotes': ['error', 'single'],
-    },
-}, globalIgnores(['**/dist', '**/.eslintrc.cjs'])])
+        'object-curly-spacing': ['error', 'always'],
+        'comma-dangle': ['error', 'never']
+    }
+}, globalIgnores(['**/build', '**/.eslintrc.cjs'])])

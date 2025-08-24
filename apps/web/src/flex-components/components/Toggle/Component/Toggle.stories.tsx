@@ -14,7 +14,7 @@ const meta = {
       properties: {
       }
     }
-  },
+  }
 } satisfies Meta<typeof ToggleFlexComponent>
 
 

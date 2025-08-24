@@ -21,7 +21,7 @@ export function SettingsForm (props: SettingsFormProps) {
   const formik = useFormik({
     validationSchema: schema,
     initialValues: {
-      name: team?.name ?? '',
+      name: team?.name ?? ''
     },
     onSubmit: values => {
       handleSubmit?.(values.name)

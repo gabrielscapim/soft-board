@@ -28,7 +28,7 @@ const items = [
   {
     title: 'Members',
     url: 'members',
-    icon: UsersRound,
+    icon: UsersRound
   },
   {
     title: 'Settings',

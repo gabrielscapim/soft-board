@@ -46,7 +46,7 @@ export function FixedEditBoardSidebar (props: FixedEditBoardSidebarProps) {
                   <SidebarMenuButton
                     tooltip={{
                     children: item.title,
-                      hidden: false,
+                      hidden: false
                     }}
                     className="px-2.5 md:px-2 cursor-pointer"
                     onClick={() => onSectionClick?.(item.title)}

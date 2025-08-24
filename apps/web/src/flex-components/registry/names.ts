@@ -9,5 +9,5 @@ export const FLEX_COMPONENT_NAMES: Record<FlexComponentType, FlexComponentName> 
   radioButton: 'Radio Button',
   shape: 'Shape',
   text: 'Text',
-  toggle: 'Toggle',
+  toggle: 'Toggle'
 }
