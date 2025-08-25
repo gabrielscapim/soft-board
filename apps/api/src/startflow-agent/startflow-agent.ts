@@ -77,6 +77,7 @@ export class StartFlowAgent extends Agent {
           ...responseMessages,
           ...accumulatedToolMessagesResult
         ],
+        tool_choice: this.toolChoice,
         tools: this.tools.map(tool => tool.toChatCompletion()),
         parallel_tool_calls: true,
         response_format: this.responseFormat
