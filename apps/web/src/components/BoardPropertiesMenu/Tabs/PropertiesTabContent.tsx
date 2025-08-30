@@ -33,6 +33,7 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
             W
             <Input
               type="number"
+              disabled={flexComponent.type === 'mobileScreen'}
               value={flexComponent.properties.width}
               onChange={event => onUpdateProperties('width', Number(event.target.value))}
             />
