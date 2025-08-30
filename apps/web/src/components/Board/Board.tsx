@@ -1,4 +1,3 @@
-import Cursor from '/cursor.png'
 import { useMemo, useRef } from 'react'
 import { BoardController, BoardManager, BoardState } from '../../lib'
 import { AlignmentGuides, ConnectionLines, ResizeBox, SelectionBox } from './subcomponents'
@@ -79,9 +78,6 @@ export function Board (props: BoardProps) {
       id="flex-board-container"
       ref={flexBoardContainerRef}
       className="relative w-full h-full overflow-hidden bg-sidebar"
-      style={{
-        cursor: `url(${Cursor}) 0 0, auto`
-      }}
     >
       <div id="grid" className="absolute w-screen h-screen" />
       <div

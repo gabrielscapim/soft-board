@@ -1,5 +1,4 @@
 import { MAX_SCALE, MIN_SCALE, ZOOM_SPEED } from '../../../helpers'
-import Cursor from '/cursor.png'
 import { BoardState } from '../board-state'
 
 export class ZoomBoard {
@@ -52,7 +51,7 @@ export class ZoomBoard {
     if (!this._flexBoardContainer) return
 
     this._boardState.setIsBoardMoving(false)
-    this._flexBoardContainer.style.cursor = `url(${Cursor}) 0 0, auto`
+    this._flexBoardContainer.style.cursor = 'default'
   }
 
   public moveBoard = (event: MouseEvent) => {
