@@ -125,6 +125,7 @@ export class DraggableBoard {
       }
 
       const initialProps = this._initialFlexComponentProperties?.get(flexComponent.id)
+
       if (!initialProps) return flexComponent
 
       const newX = initialProps.x + groupDeltaX
@@ -137,7 +138,7 @@ export class DraggableBoard {
           x: newX,
           y: newY
         },
-        screenId
+        screenId: flexComponent.type !== 'mobileScreen' ? screenId : null
       }
     })
 
