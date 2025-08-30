@@ -146,6 +146,7 @@ export class DraggableBoard {
 
   private onStartDragFlexComponent (params: OnStartDragFlexComponentParams) {
     const currentSelection = this._boardState.selectedFlexComponents ?? []
+
     let newSelection: string[] = []
 
     if (params.clickedInsideGroup && params.id) {
@@ -173,13 +174,30 @@ export class DraggableBoard {
     for (const selectedId of newSelection) {
       const component = this._boardState.flexComponents.find(flexComponent => flexComponent.id === selectedId)
 
-      if (component) {
-        initialProperties.set(selectedId, {
-          x: component.properties.x,
-          y: component.properties.y,
-          width: component.properties.width,
-          height: component.properties.height
-        })
+      if (!component) {
+        continue
+      }
+
+      initialProperties.set(selectedId, {
+        x: component.properties.x,
+        y: component.properties.y,
+        width: component.properties.width,
+        height: component.properties.height
+      })
+
+      if (component.type === 'mobileScreen') {
+        const childComponents = this._boardState.flexComponents.filter(c => c.screenId === component.id)
+
+        for (const child of childComponents) {
+          initialProperties.set(child.id, {
+            x: child.properties.x,
+            y: child.properties.y,
+            width: child.properties.width,
+            height: child.properties.height
+          })
+        }
+
+        newSelection = Array.from(new Set([...newSelection, ...childComponents.map(c => c.id)]))
       }
     }
 

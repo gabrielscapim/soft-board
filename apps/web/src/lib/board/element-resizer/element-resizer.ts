@@ -230,9 +230,10 @@ export class ElementResizer {
 
   private onResizingFlexComponent (params: OnResizingFlexComponentParams) {
     const { dimension, position, snap, resizeDirection } = params
-    const selected = this._boardState.selectedFlexComponents
 
-    if (!selected || selected.length === 0 || !this._initialFlexComponentProperties) {
+    const selected = new Set(this._boardState.selectedFlexComponents)
+
+    if (!selected || selected.size === 0 || !this._initialFlexComponentProperties) {
       return
     }
 
@@ -240,8 +241,16 @@ export class ElementResizer {
       this._boardState.setIsResizing(true)
     }
 
+    const selectedFlexComponents = this._boardState.flexComponents.filter(flexComponent => selected.has(flexComponent.id))
+    const isResizingMobileScreen = selectedFlexComponents.some(component => component.type === 'mobileScreen')
+
     const newFlexComponents = this._boardState.flexComponents.map<FlexComponent>(flexComponent => {
-      if (selected.includes(flexComponent.id)) {
+      // When a mobile screen is being resized, only resize the mobile screen
+      if (isResizingMobileScreen && flexComponent.type !== 'mobileScreen') {
+        return flexComponent
+      }
+
+      if (selected.has(flexComponent.id)) {
         const initialProps = this._initialFlexComponentProperties?.get(flexComponent.id)
 
         if (!initialProps) return flexComponent
@@ -377,7 +386,7 @@ export class ElementResizer {
     })
 
     this._boardState.setFlexComponents(newFlexComponents)
-    this._boardState.setSelectedFlexComponents(selected)
+    this._boardState.setSelectedFlexComponents(Array.from(selected))
   }
 
   private onStartResizeFlexComponent () {
