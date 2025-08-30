@@ -323,10 +323,11 @@ export class DraggableBoard {
     // Clicked in a flex component
     if (draggableGroupElement) {
       const clickedInsideGroup = Boolean(selectedFlexComponents && selectedFlexComponents?.length > 1)
+      const isSameGroup = Boolean(selectedFlexComponents && selectedFlexComponents.includes(draggableGroupElement.id))
 
       this._selectedElement = draggableGroupElement
       this._offset = this.getMousePosition(event)
-      this.onStartDragFlexComponent({ id: draggableGroupElement.id, event, clickedInsideGroup })
+      this.onStartDragFlexComponent({ id: draggableGroupElement.id, event, clickedInsideGroup: clickedInsideGroup && isSameGroup })
 
       return
     }
