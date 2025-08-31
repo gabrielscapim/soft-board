@@ -14,7 +14,7 @@ export function MobileScreenFlexComponent (props: MobileScreenFlexComponentProps
     <div
       id={component.id}
       className={clsx(
-        'draggable-group',
+        'mobile-screen',
         'absolute',
         'rounded-[65px]',
         'grid',

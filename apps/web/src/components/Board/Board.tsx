@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react'
 import { BoardController, BoardManager, BoardState } from '../../lib'
-import { AlignmentGuides, ConnectionLines, ResizeBox, SelectionBox } from './subcomponents'
+import { AlignmentGuides, ConnectionLines, MobileScreenBar, ResizeBox, SelectionBox } from './Components'
 import {
   useBoardTranslate,
   useDraggableFlexBoard,
@@ -90,30 +90,33 @@ export function Board (props: BoardProps) {
           const children = componentsByScreenId[screen.id] ?? []
 
           return (
-            <MobileScreenFlexComponent
-              key={screen.id}
-              component={screen}
-              boardController={boardController}
-              editable={enableSelection}
-            >
-              {children.map(child => {
-                const Element = FLEX_COMPONENTS_ELEMENTS[child.type]
+            <>
+              <MobileScreenBar screen={screen} />
+              <MobileScreenFlexComponent
+                key={screen.id}
+                component={screen}
+                boardController={boardController}
+                editable={enableSelection}
+              >
+                {children.map(child => {
+                  const Element = FLEX_COMPONENTS_ELEMENTS[child.type]
 
-                if (!Element) return null
+                  if (!Element) return null
 
-                const relX = child.properties.x - screen.properties.x
-                const relY = child.properties.y - screen.properties.y
+                  const relX = child.properties.x - screen.properties.x
+                  const relY = child.properties.y - screen.properties.y
 
-                return (
-                  <Element
-                    key={child.id}
-                    component={{ ...child, properties: { ...child.properties, x: relX, y: relY } }}
-                    boardController={boardController}
-                    editable={enableSelection}
-                  />
-                )
-              })}
-            </MobileScreenFlexComponent>
+                  return (
+                    <Element
+                      key={child.id}
+                      component={{ ...child, properties: { ...child.properties, x: relX, y: relY } }}
+                      boardController={boardController}
+                      editable={enableSelection}
+                    />
+                  )
+                })}
+              </MobileScreenFlexComponent>
+            </>
           )
         })}
 
