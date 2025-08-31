@@ -19,6 +19,7 @@ export function EditBoardRoute () {
         <BoardPropertiesMenu
           boardState={boardState}
           boardController={boardController}
+          flexComponents={flexComponents}
           selectedFlexComponents={selectedFlexComponents}
         />
       )}

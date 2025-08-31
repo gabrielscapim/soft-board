@@ -9,12 +9,21 @@ import { BoardController, BoardState } from '@/lib'
 export type BoardPropertiesMenuProps = {
   boardState: BoardState
   boardController: BoardController
+  flexComponents: FlexComponent[]
   selectedFlexComponents: FlexComponent[]
   className?: ClassValue
 }
 
 export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
-  const { boardState, boardController, selectedFlexComponents, className } = props
+  const {
+    boardState,
+    boardController,
+    flexComponents,
+    selectedFlexComponents,
+    className
+  } = props
+
+  console.log(flexComponents)
 
   const [tab, setTab] = useState('properties')
   const [flexComponent, setFlexComponent] = useState<FlexComponent | null>(() => {
@@ -115,6 +124,7 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
           {flexComponent && (
             <PropertiesTabContent
               flexComponent={flexComponent}
+              screen={flexComponents?.find(component => component.id === flexComponent.screenId) ?? null}
               onUpdateProperties={onUpdateProperties}
               onUpdateName={value => onUpdateFlexComponent('name', value)}
             />

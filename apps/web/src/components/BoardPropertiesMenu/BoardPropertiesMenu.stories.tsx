@@ -23,6 +23,19 @@ export const Example: Story = {
   args: {
     boardState: {} as any,
     boardController: {} as any,
+    flexComponents: [
+      {
+        id: '1',
+        type: 'button',
+        name: 'Button 1',
+        properties: {
+          x: 0,
+          y: 0,
+          width: 800,
+          height: 600
+        }
+      }
+    ],
     className: 'static',
     selectedFlexComponents: [
       {

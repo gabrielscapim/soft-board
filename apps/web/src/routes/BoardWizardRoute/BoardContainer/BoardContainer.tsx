@@ -19,6 +19,7 @@ export function BoardContainer (props: BoardContainerProps) {
           className="top-30"
           boardState={boardState}
           boardController={boardController}
+          flexComponents={flexComponents}
           selectedFlexComponents={selectedFlexComponents}
         />
       )}

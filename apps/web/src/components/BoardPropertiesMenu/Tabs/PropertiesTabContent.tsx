@@ -5,14 +5,18 @@ import { FlexComponent } from '@/types'
 
 export type PropertiesTabContentProps = {
   flexComponent: FlexComponent
+  screen: FlexComponent | null
   onUpdateProperties (key: string, value: unknown): void
   onUpdateName (value: string): void
 }
 
 export function PropertiesTabContent (props: PropertiesTabContentProps) {
-  const { flexComponent, onUpdateProperties, onUpdateName } = props
+  const { flexComponent, screen, onUpdateProperties, onUpdateName } = props
 
   const Menu = FLEX_COMPONENTS_PROPERTIES_MENU[flexComponent.type]
+
+  const relX = screen ? flexComponent.properties.x - screen.properties.x : flexComponent.properties.x
+  const relY = screen ? flexComponent.properties.y - screen.properties.y : flexComponent.properties.y
 
   return (
     <>
@@ -58,7 +62,7 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
             X
             <Input
               type="number"
-              value={flexComponent.properties.x}
+              value={relX}
               onChange={event => onUpdateProperties('x', Number(event.target.value))}
             />
           </Label>
@@ -66,7 +70,7 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
             Y
             <Input
               type="number"
-              value={flexComponent.properties.y}
+              value={relY}
               onChange={event => onUpdateProperties('y', Number(event.target.value))}
             />
           </Label>
