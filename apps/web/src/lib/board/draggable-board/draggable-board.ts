@@ -139,7 +139,7 @@ export class DraggableBoard {
     const clickedComponent = this._boardState.flexComponents.find(component => component.id === params.id)
     const clickedScreenId = clickedComponent?.screenId
 
-    let newSelection: string[] = []
+    let newSelection = [params.id]
 
     if (currentScreenId === clickedScreenId && clickedComponent?.type !== 'mobileScreen') {
       if (params.event.shiftKey) {
@@ -153,8 +153,6 @@ export class DraggableBoard {
       if (!params.event.shiftKey && currentSelection.length === 1) {
         newSelection = [params.id]
       }
-    } else {
-      newSelection = [params.id]
     }
 
     const initialProperties = new Map<string, Dimensions & Offset>()
