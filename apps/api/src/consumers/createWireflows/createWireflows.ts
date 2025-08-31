@@ -58,29 +58,31 @@ export function consumer (deps: Deps) {
 
       let xSpace = 0
 
-      for (const screen of screensAgentResponse) {
-        for (const component of screen.components) {
-          await pool
-            .INSERT_INTO`component`
-            .VALUES({
-              teamId: context.team.id,
-              boardId: context.board.id,
-              name: component.name,
-              type: component.type,
-              properties: JSON.stringify({
-                ...component.properties,
-                x: component.properties.x + xSpace
+      await pool.transaction(async pool => {
+        for (const screen of screensAgentResponse) {
+          for (const component of screen.components) {
+            await pool
+              .INSERT_INTO`component`
+              .VALUES({
+                teamId: context.team.id,
+                boardId: context.board.id,
+                name: component.name,
+                type: component.type,
+                properties: JSON.stringify({
+                  ...component.properties,
+                  x: component.properties.x + xSpace
+                })
               })
-            })
+          }
+
+          xSpace = xSpace + 500
         }
 
-        xSpace = xSpace + 500
-      }
-
-      await pool
-        .UPDATE`board`
-        .SET({ status: 'idle' })
-        .WHERE`id = ${board.id}`
+        await pool
+          .UPDATE`board`
+          .SET({ status: 'idle' })
+          .WHERE`id = ${board.id}`
+      })
 
       logger.info({ event }, 'Wireflows created successfully')
     } catch (error) {
