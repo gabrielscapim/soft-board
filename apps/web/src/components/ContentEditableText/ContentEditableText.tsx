@@ -72,6 +72,12 @@ export function ContentEditableText (props: ContentEditableTextProps) {
       return
     }
 
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      event.currentTarget.blur()
+      return
+    }
+
     if (!event.metaKey) return
     if (event.key === 'i' || event.key === 'b' || event.key === 'u') {
       event.preventDefault()
