@@ -36,6 +36,7 @@ export class SelectionBoard {
     const scale = this.boardState.scale
 
     const selected = this.boardState.flexComponents
+      .filter(flexComponent => flexComponent.type !== 'mobileScreen')
       .filter(flexComponent => {
         const { x, y, width, height } = flexComponent.properties
 
@@ -48,7 +49,13 @@ export class SelectionBoard {
       })
       .map(flexComponent => flexComponent.id)
 
-    this.boardState.setSelectedFlexComponents(selected)
+    const screenIds = selected.map(id => this.boardState.flexComponents.find(fc => fc.id === id)?.screenId)
+
+    if (new Set(screenIds).size !== 1) {
+      this.boardState.setSelectedFlexComponents([])
+    } else {
+      this.boardState.setSelectedFlexComponents(selected)
+    }
   }
 
   onMouseDown (event: MouseEvent) {
@@ -58,6 +65,7 @@ export class SelectionBoard {
     if (
       target.closest('.draggable-group') ||
       target.closest('.resizer') ||
+      target.closest('.mobile-screen-bar') ||
       selected.length !== 0 ||
       event.button === 1
     ) {
