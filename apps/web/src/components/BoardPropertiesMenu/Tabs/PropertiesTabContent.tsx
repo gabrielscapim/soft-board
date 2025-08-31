@@ -37,8 +37,9 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
             W
             <Input
               type="number"
+              step="1"
               disabled={flexComponent.type === 'mobileScreen'}
-              value={flexComponent.properties.width}
+              value={Math.round(flexComponent.properties.width)}
               onChange={event => onUpdateProperties('width', Number(event.target.value))}
             />
           </Label>
@@ -46,7 +47,8 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
             H
             <Input
               type="number"
-              value={flexComponent.properties.height}
+              step="1"
+              value={Math.round(flexComponent.properties.height)}
               onChange={event => onUpdateProperties('height', Number(event.target.value))}
             />
           </Label>
@@ -62,7 +64,8 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
             X
             <Input
               type="number"
-              value={relX}
+              step="1"
+              value={Math.round(relX)}
               onChange={event => onUpdateProperties('x', Number(event.target.value))}
             />
           </Label>
@@ -70,7 +73,8 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
             Y
             <Input
               type="number"
-              value={relY}
+              step="1"
+              value={Math.round(relY)}
               onChange={event => onUpdateProperties('y', Number(event.target.value))}
             />
           </Label>

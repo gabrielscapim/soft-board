@@ -7,6 +7,7 @@ import {
 import { BoardState } from '../board-state'
 import { PromiseQueue } from '../promise-queue'
 import { Client } from '@/client'
+import { FlexComponent } from '@/types'
 
 export type BoardManagerOptions = {
   client: Client
@@ -36,7 +37,13 @@ export class BoardManager implements BoardManagerI {
     const data = flexComponents.map(flexComponent => ({
       name: flexComponent.name,
       type: flexComponent.type,
-      properties: flexComponent.properties,
+      properties: {
+        ...flexComponent.properties,
+        x: Math.round(flexComponent.properties.x),
+        y: Math.round(flexComponent.properties.y),
+        width: Math.round(flexComponent.properties.width),
+        height: Math.round(flexComponent.properties.height)
+      },
       id: flexComponent.id,
       connectionId: flexComponent.connectionId,
       screenId: flexComponent.screenId
@@ -60,15 +67,28 @@ export class BoardManager implements BoardManagerI {
   updateFlexComponents (params: UpdateFlexComponentsParams) {
     const { updatedFlexComponents } = params
 
+    const roundedComponents = updatedFlexComponents.map<FlexComponent>(updatedComponent => {
+      return {
+        ...updatedComponent,
+        properties: {
+          ...updatedComponent.properties,
+          x: Math.round(updatedComponent.properties.x),
+          y: Math.round(updatedComponent.properties.y),
+          width: Math.round(updatedComponent.properties.width),
+          height: Math.round(updatedComponent.properties.height)
+        }
+      }
+    })
+
     const newFlexComponents = this._boardState.flexComponents.map(flexComponent => {
-      const updatedComponent = updatedFlexComponents.find(updated => updated.id === flexComponent.id)
+      const updatedComponent = roundedComponents.find(updated => updated.id === flexComponent.id)
 
       return updatedComponent ? updatedComponent : flexComponent
     })
 
     this._boardState.setFlexComponents(newFlexComponents)
 
-    const action = this._client.updateComponents({ boardId: this._boardState.id, components: updatedFlexComponents })
+    const action = this._client.updateComponents({ boardId: this._boardState.id, components: roundedComponents })
     this.runAction(() => action)
   }
 

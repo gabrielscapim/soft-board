@@ -23,8 +23,6 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
     className
   } = props
 
-  console.log(flexComponents)
-
   const [tab, setTab] = useState('properties')
   const [flexComponent, setFlexComponent] = useState<FlexComponent | null>(() => {
     const mobileScreen = selectedFlexComponents.find(c => c.type === 'mobileScreen')
