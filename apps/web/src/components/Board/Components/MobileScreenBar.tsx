@@ -1,5 +1,4 @@
 import { MobileScreenFlexComponent } from '@/types'
-import { SmartphoneIcon } from 'lucide-react'
 
 export type MobileScreenBarProps = {
   screen: MobileScreenFlexComponent
@@ -21,8 +20,7 @@ export function MobileScreenBar (props: MobileScreenBarProps) {
         zIndex: 10
       }}
     >
-      <SmartphoneIcon size={16} />
-      {screen.name}
+      <span className="truncate block w-full text-center">{screen.name}</span>
     </div>
   )
 }
