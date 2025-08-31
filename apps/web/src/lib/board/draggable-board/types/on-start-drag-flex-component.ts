@@ -1,5 +1,4 @@
 export type OnStartDragFlexComponentParams = {
+  id: string
   event: MouseEvent
-  id?: string | null
-  clickedInsideGroup?: boolean
 }

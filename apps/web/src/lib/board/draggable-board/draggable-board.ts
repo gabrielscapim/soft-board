@@ -30,19 +30,6 @@ export class DraggableBoard {
     this.endDrag = this.endDrag.bind(this)
   }
 
-  private clickedInsideGroup (selectedComponents: FlexComponent[], clickPosition: Offset) {
-    const groupDimensions = this.getGroupDimensions(selectedComponents)
-    const scale = this._boardState.scale
-    const translate = this._boardState.translate
-
-    return (
-      clickPosition.x >= groupDimensions.x * scale + translate.x &&
-      clickPosition.x <= (groupDimensions.x + groupDimensions.width) * scale + translate.x &&
-      clickPosition.y >= groupDimensions.y * scale + translate.y &&
-      clickPosition.y <= (groupDimensions.y + groupDimensions.height) * scale + translate.y
-    )
-  }
-
   private getGroupDimensions (selectedComponents: FlexComponent[]) {
     if (selectedComponents.length === 0) {
       return { x: 0, y: 0, width: 0, height: 0 }
@@ -147,27 +134,27 @@ export class DraggableBoard {
 
   private onStartDragFlexComponent (params: OnStartDragFlexComponentParams) {
     const currentSelection = this._boardState.selectedFlexComponents ?? []
+    const currentScreenId = this._boardState.flexComponents.find(component => currentSelection[0] === component.id)?.screenId
+
+    const clickedComponent = this._boardState.flexComponents.find(component => component.id === params.id)
+    const clickedScreenId = clickedComponent?.screenId
 
     let newSelection: string[] = []
 
-    if (params.clickedInsideGroup && params.id) {
-      newSelection = currentSelection
-    }
+    if (currentScreenId === clickedScreenId && clickedComponent?.type !== 'mobileScreen') {
+      if (params.event.shiftKey) {
+        newSelection = Array.from(new Set([...currentSelection, params.id]))
+      }
 
-    if (params.clickedInsideGroup && !params.id) {
-      newSelection = currentSelection
-    }
+      if (!params.event.shiftKey && currentSelection.length > 1) {
+        newSelection = Array.from(new Set([...currentSelection, params.id]))
+      }
 
-    if (params.clickedInsideGroup && params.id && params.event.shiftKey) {
-      newSelection = Array.from(new Set([...currentSelection, params.id]))
-    }
-
-    if (!params.clickedInsideGroup && params.id && !params.event.shiftKey) {
+      if (!params.event.shiftKey && currentSelection.length === 1) {
+        newSelection = [params.id]
+      }
+    } else {
       newSelection = [params.id]
-    }
-
-    if (!params.clickedInsideGroup && params.id && params.event.shiftKey) {
-      newSelection = Array.from(new Set([...currentSelection, params.id]))
     }
 
     const initialProperties = new Map<string, Dimensions & Offset>()
@@ -317,43 +304,36 @@ export class DraggableBoard {
     }
 
     const target = event.target as HTMLDivElement
+
     const draggableGroupElement = target.closest('.draggable-group') as HTMLDivElement | null
     const resizerElement = target.closest('.resizer') as HTMLDivElement | null
-    const selectedFlexComponents = this._boardState.selectedFlexComponents
+    const mobileScreenBarElement = target.closest('.mobile-screen-bar') as HTMLDivElement | null
 
-    // Clicked in a flex component
+    if (resizerElement) {
+      return
+    }
+
     if (draggableGroupElement) {
-      const clickedInsideGroup = Boolean(selectedFlexComponents && selectedFlexComponents?.length > 1)
-      const isSameGroup = Boolean(selectedFlexComponents && selectedFlexComponents.includes(draggableGroupElement.id))
-
       this._selectedElement = draggableGroupElement
       this._offset = this.getMousePosition(event)
-      this.onStartDragFlexComponent({ id: draggableGroupElement.id, event, clickedInsideGroup: clickedInsideGroup && isSameGroup })
+      this.onStartDragFlexComponent({ id: draggableGroupElement.id, event })
 
       return
     }
 
-    // Clicked outside a flex component
-    if (!draggableGroupElement && !resizerElement) {
-      // If there is only one flex component selected or none, deselect it
-      if (selectedFlexComponents?.length === 1 || selectedFlexComponents?.length === 0) {
-        this._boardState.setSelectedFlexComponents(null)
-        return
-      }
+    if (mobileScreenBarElement) {
+      const screenId = mobileScreenBarElement.getAttribute('data-screen-id') as string
+      const mobileScreenElement = document.getElementById(screenId) as HTMLDivElement
 
-      // Check if the click was inside a group
-      const flexComponents = this._boardState.flexComponents.filter(flexComponent => selectedFlexComponents?.includes(flexComponent.id))
-      const clickPosition = this.getMousePosition(event)
-      const clickedInsideGroup = this.clickedInsideGroup(flexComponents, clickPosition)
+      this._selectedElement = mobileScreenElement
+      this._offset = this.getMousePosition(event)
+      this.onStartDragFlexComponent({ id: mobileScreenElement.id, event })
 
-      if (clickedInsideGroup) {
-        this._offset = clickPosition
-        this.onStartDragFlexComponent({ event, clickedInsideGroup: true })
-      }
+      return
+    }
 
-      if (!clickedInsideGroup) {
-        this._boardState.setSelectedFlexComponents(null)
-      }
+    if (!mobileScreenBarElement && !draggableGroupElement) {
+      this._boardState.setSelectedFlexComponents([])
     }
   }
 }
