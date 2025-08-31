@@ -17,13 +17,30 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
   const { boardState, boardController, selectedFlexComponents, className } = props
 
   const [tab, setTab] = useState('properties')
-  const [flexComponent, setFlexComponent] = useState<FlexComponent | null>(selectedFlexComponents.length === 1 ? selectedFlexComponents[0] : null)
+  const [flexComponent, setFlexComponent] = useState<FlexComponent | null>(() => {
+    const mobileScreen = selectedFlexComponents.find(c => c.type === 'mobileScreen')
+
+    if (mobileScreen) {
+      return mobileScreen
+    } else {
+      return selectedFlexComponents.length === 1 ? selectedFlexComponents[0] : null
+    }
+  })
 
   useEffect(() => {
-    if (selectedFlexComponents.length > 1) {
+    const mobileScreen = selectedFlexComponents.find(c => c.type === 'mobileScreen')
+
+    if (selectedFlexComponents.length > 1 && !mobileScreen) {
       setTab('layout')
     }
-    setFlexComponent(selectedFlexComponents.length === 1 ? selectedFlexComponents[0] : null)
+
+    setFlexComponent(() => {
+      if (mobileScreen) {
+        return mobileScreen
+      } else {
+        return selectedFlexComponents.length === 1 ? selectedFlexComponents[0] : null
+      }
+    })
   }, [selectedFlexComponents])
 
   // Debounced commit function to update the flex component
@@ -71,9 +88,24 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
       <Tabs value={tab} className="gap-0" onValueChange={setTab}>
         <div className="mx-3 mb-0 mt-3">
           <TabsList className="w-full">
-            <TabsTrigger value="properties" disabled={!flexComponent}>Properties</TabsTrigger>
-            <TabsTrigger value="layout">Layout</TabsTrigger>
-            <TabsTrigger value="actions" disabled={!flexComponent}>Actions</TabsTrigger>
+            <TabsTrigger
+              value="properties"
+              disabled={!flexComponent}
+            >
+              Properties
+            </TabsTrigger>
+            <TabsTrigger
+              value="layout"
+              disabled={!flexComponent}
+            >
+              Layout
+            </TabsTrigger>
+            <TabsTrigger
+              value="actions"
+              disabled={!flexComponent}
+            >
+              Actions
+            </TabsTrigger>
           </TabsList>
         </div>
         <TabsContent
@@ -82,7 +114,7 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
         >
           {flexComponent && (
             <PropertiesTabContent
-              flexComponent={flexComponent!}
+              flexComponent={flexComponent}
               onUpdateProperties={onUpdateProperties}
               onUpdateName={value => onUpdateFlexComponent('name', value)}
             />
@@ -102,7 +134,7 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
         >
           {flexComponent && (
             <ActionsTabContent
-              flexComponent={flexComponent!}
+              flexComponent={flexComponent}
               boardState={boardState}
               onUpdateConnection={value => onUpdateFlexComponent('connectionId', value)}
             />
