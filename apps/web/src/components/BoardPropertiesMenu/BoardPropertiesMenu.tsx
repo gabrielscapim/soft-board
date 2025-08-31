@@ -89,7 +89,7 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
 
   return (
     <div
-      className={clsx('bg-sidebar absolute top-16 right-6 rounded-xl border w-80 shadow-md', className)}
+      className={clsx('bg-sidebar absolute top-24 right-8 rounded-xl border w-80 shadow-md', className)}
       style={{ zIndex: 100_000 }}
     >
       <Tabs value={tab} className="gap-0" onValueChange={setTab}>
