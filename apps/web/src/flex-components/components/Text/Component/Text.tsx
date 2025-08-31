@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { TextFlexComponentProperties } from '../../../../types'
+import { FlexComponentProperties, TextFlexComponentProperties } from '../../../../types'
 import { FlexComponentProps } from '../../../types'
 
 export function TextFlexComponent (props: FlexComponentProps) {
@@ -42,14 +42,10 @@ export function TextFlexComponent (props: FlexComponentProps) {
       onBlur={event => {
         if (!editable) return
 
-        boardController?.onUpdateFlexComponent({
-          flexComponent: {
-            ...component,
-            properties: {
-              ...properties,
-              text: event.currentTarget.textContent
-            } as TextFlexComponentProperties
-          }
+        boardController?.onUpdateFlexComponentProperty({
+          id: component.id,
+          property: 'text' as keyof FlexComponentProperties,
+          value: event.currentTarget.textContent
         })
       }}
     >

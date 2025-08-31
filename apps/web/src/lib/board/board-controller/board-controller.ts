@@ -8,7 +8,8 @@ import {
   OnAlignFlexComponentsParams,
   OnChangeBoardScaleParams,
   OnOrderFlexComponentsParams,
-  OnUpdateFlexComponentParams
+  OnUpdateFlexComponentParams,
+  OnUpdateFlexComponentPropertyParams
 } from './board-controller-interface.ts'
 
 export type BoardControllerOptions = {
@@ -314,5 +315,23 @@ export class BoardController implements BoardControllerInterface {
 
   onUpdateFlexComponent (params: OnUpdateFlexComponentParams): void {
     this._boardManager.updateFlexComponents({ updatedFlexComponents: [params.flexComponent] })
+  }
+
+  onUpdateFlexComponentProperty (params: OnUpdateFlexComponentPropertyParams): void {
+      const { id, property, value } = params
+
+      const flexComponent = this._boardState.flexComponents.find(flexComponent => flexComponent.id === id)
+
+      if (!flexComponent) return
+
+      this._boardManager.updateFlexComponents({
+        updatedFlexComponents: [{
+          ...flexComponent,
+          properties: {
+            ...flexComponent.properties,
+            [property]: value
+          }
+        }]
+      })
   }
 }

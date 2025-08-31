@@ -28,10 +28,17 @@ export type OnUpdateFlexComponentParams = {
   flexComponent: FlexComponent
 }
 
+export type OnUpdateFlexComponentPropertyParams = {
+  id: string
+  property: keyof FlexComponentProperties
+  value: any
+}
+
 export interface BoardControllerInterface {
   onAddFlexComponent(params: OnAddFlexComponentParams): void
   onAlignFlexComponents(params: OnAlignFlexComponentsParams): void
   onChangeBoardScale(params: OnChangeBoardScaleParams): void
   onOrderFlexComponents(params: OnOrderFlexComponentsParams): void
   onUpdateFlexComponent(params: OnUpdateFlexComponentParams): void
+  onUpdateFlexComponentProperty(params: OnUpdateFlexComponentPropertyParams): void
 }
