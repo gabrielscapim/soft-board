@@ -41,7 +41,7 @@ export function TextFlexComponent (props: FlexComponentProps) {
       <ContentEditableText
         text={properties.text ?? ''}
         editable={editable && !isDragging && !isResizing}
-        inline
+        inline={false}
         className="w-full outline-none"
         onBlur={text => {
           boardController?.onUpdateFlexComponentProperty({
