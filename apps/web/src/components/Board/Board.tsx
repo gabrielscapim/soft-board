@@ -50,7 +50,7 @@ export function Board (props: BoardProps) {
   const isResizing = useIsResizing(boardState)
 
   useDraggableFlexBoard(boardState, boardManager, flexBoardContainerRef, enableDraggable)
-  useElementResizer(boardState, flexBoardContainerRef, enableResizing)
+  useElementResizer(boardState, boardManager, flexBoardContainerRef, enableResizing)
   useZoomBoard(boardState, flexBoardContainerRef, flexBoardRef, enableZoom)
   useSelectionBoard(boardState, flexBoardContainerRef, selectionBoxRef, enableSelection)
   useKeyboardShortcuts(boardState, boardManager, enableKeyboardShortcuts)

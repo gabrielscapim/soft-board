@@ -1,25 +1,33 @@
 import { Dimensions, FlexComponent, Guide, Offset, ResizeDirection } from '../../../types'
+import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import { getAlignmentBoardGuides } from '../get-alignment-board-guides'
 import { OnResizingFlexComponentParams } from './types'
 
 const DISTANCE_TO_BREAK_SNAP = 5
+const MIN_DISTANCE_TO_RESIZE = 0.5
+
+export type ElementResizerOptions = {
+  boardElement: HTMLElement
+  boardState: BoardState
+  boardManager: BoardManager
+}
 
 export class ElementResizer {
   private _boardElement: HTMLElement
   private _boardState: BoardState
+  private _boardManager: BoardManager
+  private _hasDragged: boolean = false
   private _initialFlexComponentProperties: Map<string, Dimensions & Offset> | null = null
   private _offset: Offset | undefined
   private _resizeDirection: ResizeDirection | undefined
   private _selectedResizerElement: HTMLElement | undefined
   private _transform: DOMMatrix | undefined
 
-  constructor (
-    boardState: BoardState,
-    boardElement: HTMLElement
-  ) {
-    this._boardState = boardState
-    this._boardElement = boardElement
+  constructor (options: ElementResizerOptions) {
+    this._boardState = options.boardState
+    this._boardElement = options.boardElement
+    this._boardManager = options.boardManager
 
     this.startResize = this.startResize.bind(this)
     this.onResizing = this.onResizing.bind(this)
@@ -224,6 +232,13 @@ export class ElementResizer {
   }
 
   private onEndResizeFlexComponent () {
+    const selectedIds = this._boardState.selectedFlexComponents ?? []
+    const selectedComponents = this._boardState.flexComponents.filter(flexComponent => selectedIds.includes(flexComponent.id))
+
+    if (selectedComponents.length && this._hasDragged) {
+      this._boardManager.updateFlexComponents({ updatedFlexComponents: selectedComponents })
+    }
+
     this._boardState.setIsResizing(false)
     this._initialFlexComponentProperties = null
   }
@@ -463,6 +478,10 @@ export class ElementResizer {
     const roundedDeltaX = Math.round(deltaX / grid) * grid
     const roundedDeltaY = Math.round(deltaY / grid) * grid
 
+    if (Math.abs(deltaX) > MIN_DISTANCE_TO_RESIZE || Math.abs(deltaY) > MIN_DISTANCE_TO_RESIZE) {
+      this._hasDragged = true
+    }
+
     const params = {
       dimension: {
         roundedDeltaX: 0,
@@ -575,6 +594,8 @@ export class ElementResizer {
   public startResize (event: MouseEvent) {
     const target = event.target as HTMLElement
     const resizerElement = target.closest('.resizer') as HTMLElement | null
+
+    this._hasDragged = false
 
     if (resizerElement) {
       this._selectedResizerElement = resizerElement
