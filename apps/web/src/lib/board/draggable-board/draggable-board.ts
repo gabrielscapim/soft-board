@@ -5,7 +5,7 @@ import { getAlignmentBoardGuides } from '../get-alignment-board-guides'
 import { OnStartDragFlexComponentParams, OnDraggingFlexComponentParams } from './types'
 
 const DISTANCE_TO_BREAK_SNAP = 5
-const DISTANCE_TO_TRIGGER_DRAG = 1.5
+const DISTANCE_TO_TRIGGER_DRAG = 0.5
 
 export type DraggableBoardOptions = {
   boardElement: HTMLElement
