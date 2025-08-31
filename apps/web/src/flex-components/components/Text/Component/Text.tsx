@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { FlexComponentProperties, TextFlexComponentProperties } from '../../../../types'
 import { FlexComponentProps } from '../../../types'
+import { ContentEditableText } from '@/components'
 
 export function TextFlexComponent (props: FlexComponentProps) {
   const { component, boardController, editable, className } = props
@@ -8,12 +9,9 @@ export function TextFlexComponent (props: FlexComponentProps) {
   const properties = component.properties as TextFlexComponentProperties
   const color = properties.color ?? 'primary'
 
-  return (
+   return (
     <span
       id={component.id}
-      contentEditable={editable}
-      suppressContentEditableWarning
-      spellCheck={false}
       className={clsx(
         'draggable-group',
         'outline-none',
@@ -39,17 +37,20 @@ export function TextFlexComponent (props: FlexComponentProps) {
         whiteSpace: 'normal',
         wordBreak: 'break-word'
       }}
-      onBlur={event => {
-        if (!editable) return
-
-        boardController?.onUpdateFlexComponentProperty({
-          id: component.id,
-          property: 'text' as keyof FlexComponentProperties,
-          value: event.currentTarget.textContent
-        })
-      }}
     >
-      {properties.text}
+      <ContentEditableText
+        text={properties.text ?? ''}
+        editable={editable}
+        inline
+        className="w-full outline-none"
+        onBlur={text => {
+          boardController?.onUpdateFlexComponentProperty({
+            id: component.id,
+            property: 'text' as keyof FlexComponentProperties,
+            value: text
+          })
+        }}
+      />
     </span>
   )
 }
