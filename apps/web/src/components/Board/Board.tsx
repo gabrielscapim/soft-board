@@ -6,6 +6,8 @@ import {
   useDraggableFlexBoard,
   useElementResizer,
   useFlexComponents,
+  useIsDragging,
+  useIsResizing,
   useKeyboardShortcuts,
   useScale,
   useSelectedFlexComponents,
@@ -44,6 +46,8 @@ export function Board (props: BoardProps) {
   const scale = useScale(boardState)
   const boardTranslate = useBoardTranslate(boardState)
   const selectedFlexComponents = useSelectedFlexComponents(boardState)
+  const isDragging = useIsDragging(boardState)
+  const isResizing = useIsResizing(boardState)
 
   useDraggableFlexBoard(boardState, boardManager, flexBoardContainerRef, enableDraggable)
   useElementResizer(boardState, flexBoardContainerRef, enableResizing)
@@ -97,6 +101,8 @@ export function Board (props: BoardProps) {
                 component={screen}
                 boardController={boardController}
                 editable={enableSelection}
+                isDragging={isDragging}
+                isResizing={isResizing}
               >
                 {children.map(child => {
                   const Element = FLEX_COMPONENTS_ELEMENTS[child.type]
@@ -112,6 +118,8 @@ export function Board (props: BoardProps) {
                       component={{ ...child, properties: { ...child.properties, x: relX, y: relY } }}
                       boardController={boardController}
                       editable={enableSelection}
+                      isDragging={isDragging}
+                      isResizing={isResizing}
                     />
                   )
                 })}
@@ -131,6 +139,8 @@ export function Board (props: BoardProps) {
               component={child}
               boardController={boardController}
               editable={enableSelection}
+              isDragging={isDragging}
+              isResizing={isResizing}
             />
           )
         })}

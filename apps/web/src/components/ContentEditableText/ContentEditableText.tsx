@@ -39,6 +39,12 @@ export function ContentEditableText (props: ContentEditableTextProps) {
     }
   }, [text])
 
+  useEffect(() => {
+    if (!editable) {
+      setIsEditing(false)
+    }
+  }, [editable])
+
   const handleDoubleClick = () => {
     if (isEditing) return
     setIsEditing(editable)

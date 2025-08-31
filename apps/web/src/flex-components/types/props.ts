@@ -7,6 +7,8 @@ export type FlexComponentProps = {
   boardController?: BoardController
   editable?: boolean
   className?: ClassValue
+  isDragging?: boolean
+  isResizing?: boolean
   handleAction?: (flexComponent: FlexComponent, event: string) => void
 }
 

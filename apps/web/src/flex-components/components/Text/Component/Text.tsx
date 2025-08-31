@@ -4,7 +4,7 @@ import { FlexComponentProps } from '../../../types'
 import { ContentEditableText } from '@/components'
 
 export function TextFlexComponent (props: FlexComponentProps) {
-  const { component, boardController, editable, className } = props
+  const { component, boardController, editable, className, isDragging, isResizing } = props
 
   const properties = component.properties as TextFlexComponentProperties
   const color = properties.color ?? 'primary'
@@ -40,7 +40,7 @@ export function TextFlexComponent (props: FlexComponentProps) {
     >
       <ContentEditableText
         text={properties.text ?? ''}
-        editable={editable}
+        editable={editable && !isDragging && !isResizing}
         inline
         className="w-full outline-none"
         onBlur={text => {

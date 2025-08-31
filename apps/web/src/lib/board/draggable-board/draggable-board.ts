@@ -5,6 +5,7 @@ import { getAlignmentBoardGuides } from '../get-alignment-board-guides'
 import { OnStartDragFlexComponentParams, OnDraggingFlexComponentParams } from './types'
 
 const DISTANCE_TO_BREAK_SNAP = 5
+const DISTANCE_TO_TRIGGER_DRAG = 1.5
 
 export type DraggableBoardOptions = {
   boardElement: HTMLElement
@@ -16,6 +17,7 @@ export class DraggableBoard {
   private _boardElement: HTMLElement
   private _boardState: BoardState
   private _boardManager: BoardManager
+  private _hasDragged: boolean = false
   private _offset: Offset | undefined
   private _selectedElement: HTMLDivElement | undefined
   private _initialFlexComponentProperties: Map<string, Dimensions & Offset> | null = null
@@ -195,7 +197,7 @@ export class DraggableBoard {
     const selectedIds = this._boardState.selectedFlexComponents ?? []
     const selectedComponents = this._boardState.flexComponents.filter(flexComponent => selectedIds.includes(flexComponent.id))
 
-    if (selectedComponents.length) {
+    if (selectedComponents.length && this._hasDragged) {
       this._boardManager.updateFlexComponents({ updatedFlexComponents: selectedComponents })
     }
 
@@ -265,6 +267,10 @@ export class DraggableBoard {
       const deltaX = Math.round((coord.x - (this._offset.x ?? 0)) / this._boardState.scale)
       const deltaY = Math.round((coord.y - (this._offset.y ?? 0)) / this._boardState.scale)
 
+      if (deltaX > DISTANCE_TO_TRIGGER_DRAG || deltaY > DISTANCE_TO_TRIGGER_DRAG) {
+        this._hasDragged = true
+      }
+
       // Calculate the snap
       const sortedVertical = guides.vertical.slice().sort((a, b) => a.diff - b.diff)
       const sortedHorizontal = guides.horizontal.slice().sort((a, b) => a.diff - b.diff)
@@ -301,8 +307,9 @@ export class DraggableBoard {
       return
     }
 
-    const target = event.target as HTMLDivElement
+    this._hasDragged = false
 
+    const target = event.target as HTMLDivElement
     const draggableGroupElement = target.closest('.draggable-group') as HTMLDivElement | null
     const resizerElement = target.closest('.resizer') as HTMLDivElement | null
     const mobileScreenBarElement = target.closest('.mobile-screen-bar') as HTMLDivElement | null
