@@ -71,7 +71,7 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
             x2={5000}
             y2={yPos}
             stroke="rgba(30,144,255,0.8)"
-            strokeWidth={2}
+            strokeWidth={1}
           />
         )
       })}
@@ -86,7 +86,7 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
             x2={xPos}
             y2={5000}
             stroke="rgba(30,144,255,0.8)"
-            strokeWidth={2}
+            strokeWidth={1}
           />
         )
       })}
@@ -138,7 +138,7 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
             height={transform(SECONDARY_GUIDE_DISTANCE_TO_SNAP)}
             fill="rgba(173,216,230,0.3)"
             stroke="rgba(30,144,255,0.8)"
-            strokeWidth={2}
+            strokeWidth={1}
             strokeDasharray="4"
           />
         )
@@ -191,7 +191,7 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
             height={10000}
             fill="rgba(173,216,230,0.3)"
             stroke="rgba(30,144,255,0.8)"
-            strokeWidth={2}
+            strokeWidth={1}
             strokeDasharray="4"
           />
         )
