@@ -267,7 +267,7 @@ export class DraggableBoard {
       const deltaX = Math.round((coord.x - (this._offset.x ?? 0)) / this._boardState.scale)
       const deltaY = Math.round((coord.y - (this._offset.y ?? 0)) / this._boardState.scale)
 
-      if (deltaX > DISTANCE_TO_TRIGGER_DRAG || deltaY > DISTANCE_TO_TRIGGER_DRAG) {
+      if (Math.abs(deltaX) > DISTANCE_TO_TRIGGER_DRAG || Math.abs(deltaY) > DISTANCE_TO_TRIGGER_DRAG) {
         this._hasDragged = true
       }
 
