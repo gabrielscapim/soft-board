@@ -1,5 +1,5 @@
 import { IconFlexComponentProperties } from '../../../../types'
-import { DynamicIcon, IconName } from 'lucide-react/dynamic'
+import { DynamicIcon, IconName, iconNames } from 'lucide-react/dynamic'
 import clsx from 'clsx'
 import { FlexComponentProps } from '../../../types'
 
@@ -28,7 +28,7 @@ export function IconFlexComponent (props: FlexComponentProps) {
       }}
     >
       <DynamicIcon
-        name={icon}
+        name={iconNames.includes(icon) ? icon : 'sparkle'}
         style={{
           top: `${properties.y}px`,
           left: `${properties.x}px`,
