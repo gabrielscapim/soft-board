@@ -16,16 +16,16 @@ export function ButtonFlexComponent (props: FlexComponentProps) {
         'draggable-group',
         'font-semibold',
         'flex',
-        'items-center', // garante alinhamento vertical
+        'items-center',
         'justify-center',
-        'gap-2',        // adiciona espaço entre ícone e label
+        'gap-2',
         'select-none',
         'overflow-hidden',
         properties.absolute === false ? 'static' : 'absolute',
-        color === 'primary' && 'bg-flex-component-black',
-        color === 'primary' && 'text-flex-component-white',
-        color === 'secondary' && 'bg-flex-component-gray-light',
-        color === 'secondary' && 'text-flex-component-black',
+        color === 'primary' && 'bg-flex-component-gray-light',
+        color === 'primary' && 'text-flex-component-black',
+        color === 'secondary' && 'bg-flex-component-black',
+        color === 'secondary' && 'text-flex-component-white',
         className
       )}
       style={{
@@ -50,7 +50,7 @@ export function ButtonFlexComponent (props: FlexComponentProps) {
         />
       )}
       {properties.label && (
-        <span className="w-full">{properties.label}</span>
+        <span>{properties.label}</span>
       )}
     </div>
   )
