@@ -22,10 +22,10 @@ export function ButtonFlexComponent (props: FlexComponentProps) {
         'select-none',
         'overflow-hidden',
         properties.absolute === false ? 'static' : 'absolute',
-        color === 'primary' && 'bg-flex-component-gray-light',
-        color === 'primary' && 'text-flex-component-black',
-        color === 'secondary' && 'bg-flex-component-black',
-        color === 'secondary' && 'text-flex-component-white',
+        color === 'secondary' && 'bg-flex-component-gray-light',
+        color === 'secondary' && 'text-flex-component-black',
+        color === 'primary' && 'bg-flex-component-black',
+        color === 'primary' && 'text-flex-component-white',
         className
       )}
       style={{
