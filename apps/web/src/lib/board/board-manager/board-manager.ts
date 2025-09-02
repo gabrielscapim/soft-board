@@ -65,7 +65,6 @@ export class BoardManager implements BoardManagerI {
   }
 
   updateFlexComponents (params: UpdateFlexComponentsParams) {
-    console.log('updateFlexComponents', params)
     const { updatedFlexComponents } = params
 
     const roundedComponents = updatedFlexComponents.map<FlexComponent>(updatedComponent => {

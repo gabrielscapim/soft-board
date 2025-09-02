@@ -24,8 +24,6 @@ const COLORS = [
 export function ButtonPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
   const properties = props.properties as ButtonFlexComponentProperties
 
-  console.log(properties.icon)
-
   return (
     <>
       <Label className="flex flex-col items-start">
