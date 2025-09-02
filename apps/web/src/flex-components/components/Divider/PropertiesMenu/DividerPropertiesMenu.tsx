@@ -32,7 +32,7 @@ export function DividerPropertiesMenu (props: FlexComponentPropertiesMenuProps) 
       <Label className="grid gap-2">
         Color
         <Select
-          value={properties.color}
+          value={properties.color ?? 'primary'}
           onValueChange={value => props.onUpdateProperties('color', value)}
         >
           <SelectTrigger className="w-full">

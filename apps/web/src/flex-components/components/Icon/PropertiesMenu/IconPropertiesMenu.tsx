@@ -1,3 +1,4 @@
+import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
   Select,
@@ -28,7 +29,7 @@ export function IconPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
       <Label className="grid gap-2">
         Color
         <Select
-          value={properties.color}
+          value={properties.color ?? 'primary'}
           onValueChange={value => props.onUpdateProperties('color', value)}
         >
           <SelectTrigger className="w-full">
@@ -42,6 +43,15 @@ export function IconPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
             ))}
           </SelectContent>
         </Select>
+      </Label>
+
+      <Label className="flex flex-col items-start">
+        Icon
+        <Input
+          type="text"
+          value={properties.icon ?? ''}
+          onChange={event => props.onUpdateProperties('icon', event.target.value)}
+        />
       </Label>
     </>
   )

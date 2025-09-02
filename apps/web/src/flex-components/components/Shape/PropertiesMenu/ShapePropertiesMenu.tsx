@@ -30,7 +30,7 @@ export function ShapePropertiesMenu (props: FlexComponentPropertiesMenuProps) {
       <Label className="grid gap-2">
         Color
         <Select
-          value={properties.color}
+          value={properties.color ?? 'primary'}
           onValueChange={value => props.onUpdateProperties('color', value)}
         >
           <SelectTrigger className="w-full">
@@ -50,7 +50,7 @@ export function ShapePropertiesMenu (props: FlexComponentPropertiesMenuProps) {
         Border radius
         <Input
           type="number"
-          value={properties.borderRadius}
+          value={properties.borderRadius ?? 0}
           onChange={event => props.onUpdateProperties('borderRadius', Number(event.target.value))}
         />
       </Label>
@@ -59,7 +59,7 @@ export function ShapePropertiesMenu (props: FlexComponentPropertiesMenuProps) {
         Border width
         <Input
           type="number"
-          value={properties.borderWidth}
+          value={properties.borderWidth ?? 0}
           onChange={event => props.onUpdateProperties('borderWidth', Number(event.target.value))}
         />
       </Label>
@@ -73,7 +73,7 @@ export function ShapePropertiesMenu (props: FlexComponentPropertiesMenuProps) {
         </div>
         <Switch
           id="shape-fill"
-          checked={properties.fill}
+          checked={properties.fill ?? false}
           onCheckedChange={value => props.onUpdateProperties('fill', value)}
         />
       </Label>

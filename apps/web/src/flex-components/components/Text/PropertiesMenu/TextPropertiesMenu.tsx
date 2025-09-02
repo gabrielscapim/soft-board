@@ -67,7 +67,7 @@ export function TextPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
       <Label className="grid gap-2">
         Color
         <Select
-          value={properties.color}
+          value={properties.color ?? 'primary'}
           onValueChange={value => props.onUpdateProperties('color', value)}
         >
           <SelectTrigger className="w-full">
@@ -87,7 +87,7 @@ export function TextPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
         Font size
         <Input
           type="number"
-          value={properties.fontSize}
+          value={properties.fontSize ?? 0}
           onChange={event => props.onUpdateProperties('fontSize', Number(event.target.value))}
         />
       </Label>
@@ -96,7 +96,7 @@ export function TextPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
         Font weight
         <Input
           type="number"
-          value={properties.fontWeight}
+          value={properties.fontWeight ?? 0}
           onChange={event => props.onUpdateProperties('fontWeight', Number(event.target.value))}
         />
       </Label>
@@ -105,7 +105,7 @@ export function TextPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
         Line weight
         <Input
           type="number"
-          value={properties.lineHeight}
+          value={properties.lineHeight ?? 0}
           onChange={event => props.onUpdateProperties('lineHeight', Number(event.target.value))}
         />
       </Label>
@@ -113,7 +113,7 @@ export function TextPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
       <Label className="grid gap-2">
         Align
         <Select
-          value={properties.align}
+          value={properties.align ?? 'left'}
           onValueChange={value => props.onUpdateProperties('align', value)}
         >
           <SelectTrigger className="w-full">

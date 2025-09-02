@@ -17,7 +17,7 @@ export function RadioButtonPropertiesMenu (props: FlexComponentPropertiesMenuPro
         </div>
         <Switch
           id="shape-fill"
-          checked={properties.activated}
+          checked={properties.activated ?? false}
           onCheckedChange={value => props.onUpdateProperties('activated', value)}
         />
       </Label>

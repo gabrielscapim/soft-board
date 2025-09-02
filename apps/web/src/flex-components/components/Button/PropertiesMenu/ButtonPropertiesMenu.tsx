@@ -24,13 +24,15 @@ const COLORS = [
 export function ButtonPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
   const properties = props.properties as ButtonFlexComponentProperties
 
+  console.log(properties.icon)
+
   return (
     <>
       <Label className="flex flex-col items-start">
         Border radius
         <Input
           type="number"
-          value={properties.borderRadius}
+          value={properties.borderRadius ?? 0}
           onChange={event => props.onUpdateProperties('borderRadius', Number(event.target.value))}
         />
       </Label>
@@ -38,7 +40,7 @@ export function ButtonPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
       <Label className="grid gap-2">
         Color
         <Select
-          value={properties.color}
+          value={properties.color ?? 'primary'}
           onValueChange={value => props.onUpdateProperties('color', value)}
         >
           <SelectTrigger className="w-full">
@@ -58,7 +60,7 @@ export function ButtonPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
         Label
         <Input
           type="text"
-          value={properties.label}
+          value={properties.label ?? ''}
           onChange={event => props.onUpdateProperties('label', event.target.value)}
         />
       </Label>
@@ -67,8 +69,17 @@ export function ButtonPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
         Font size
         <Input
           type="number"
-          value={properties.fontSize}
+          value={properties.fontSize ?? 0}
           onChange={event => props.onUpdateProperties('fontSize', Number(event.target.value))}
+        />
+      </Label>
+
+      <Label className="flex flex-col items-start">
+        Icon
+        <Input
+          type="text"
+          value={properties.icon ?? ''}
+          onChange={event => props.onUpdateProperties('icon', event.target.value)}
         />
       </Label>
 
@@ -82,7 +93,7 @@ export function ButtonPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
             <Input
               type="number"
               className="w-full"
-              value={properties.paddingLeft}
+              value={properties.paddingLeft ?? 0}
               onChange={event => props.onUpdateProperties('paddingLeft', Number(event.target.value))}
             />
           </Label>
@@ -91,7 +102,7 @@ export function ButtonPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
             <Input
               type="number"
               className="w-full"
-              value={properties.paddingRight}
+              value={properties.paddingRight ?? 0}
               onChange={event => props.onUpdateProperties('paddingRight', Number(event.target.value))}
             />
           </Label>
@@ -100,7 +111,7 @@ export function ButtonPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
             <Input
               type="number"
               className="w-full"
-              value={properties.paddingTop}
+              value={properties.paddingTop ?? 0}
               onChange={event => props.onUpdateProperties('paddingTop', Number(event.target.value))}
             />
           </Label>
@@ -109,7 +120,7 @@ export function ButtonPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
             <Input
               type="number"
               className="w-full"
-              value={properties.paddingBottom}
+              value={properties.paddingBottom ?? 0}
               onChange={event => props.onUpdateProperties('paddingBottom', Number(event.target.value))}
             />
           </Label>
