@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { FlexComponentProps } from '../../../types'
 import { ButtonFlexComponentProperties } from '../../../../types'
+import { DynamicIcon, IconName } from 'lucide-react/dynamic'
 
 export function ButtonFlexComponent (props: FlexComponentProps) {
   const { component, className, handleAction } = props
@@ -14,9 +15,10 @@ export function ButtonFlexComponent (props: FlexComponentProps) {
       className={clsx(
         'draggable-group',
         'font-semibold',
-        'inline-flex',
-        'items-center',
+        'flex',
+        'items-center', // garante alinhamento vertical
         'justify-center',
+        'gap-2',        // adiciona espaço entre ícone e label
         'select-none',
         'overflow-hidden',
         properties.absolute === false ? 'static' : 'absolute',
@@ -41,7 +43,15 @@ export function ButtonFlexComponent (props: FlexComponentProps) {
       }}
       onClick={() => handleAction?.(component, 'onClick')}
     >
-      {properties.label}
+      {properties.icon && (
+        <DynamicIcon
+          name={properties.icon as IconName}
+          className="w-5 h-5 shrink-0"
+        />
+      )}
+      {properties.label && (
+        <span className="w-full">{properties.label}</span>
+      )}
     </div>
   )
 }

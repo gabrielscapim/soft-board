@@ -35,6 +35,7 @@ export type ButtonFlexComponentProperties = BaseProperties & {
   paddingTop?: number
   paddingBottom?: number
   label?: string
+  icon?: string
 }
 
 /** Divider */
