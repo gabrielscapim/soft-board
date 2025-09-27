@@ -1,7 +1,8 @@
 {
   "exclude": [
     "tests-setup.ts",
-    "vitest.config.ts"
+    "vitest.config.ts",
+    "**/*.test.ts"
   ],
   "compilerOptions": {
     "target": "es2016",
