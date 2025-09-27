@@ -10,6 +10,7 @@ export type ComponentDatabase = {
   deleted: BOOLEAN
   connectionId: UUID | null
   screenId: UUID | null
+  boardGenerationId: UUID | null
   createDate: TIMESTAMPTZ
   updateDate: TIMESTAMPTZ
 }
