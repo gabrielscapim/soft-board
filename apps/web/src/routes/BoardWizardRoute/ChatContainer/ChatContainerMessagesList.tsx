@@ -3,6 +3,7 @@ import { ChatMessageList } from '@/components/ui/chat/chat-message-list'
 import { getAvatarFallbackName, getRootImage } from '@/helpers'
 import { GetAuthenticatedUserResult, GetBoardResult, GetMessagesResultData } from 'types/endpoints'
 import removeMd from 'remove-markdown'
+import clsx from 'clsx'
 
 export type ChatMessagesListProps = {
   board: GetBoardResult
@@ -34,8 +35,23 @@ export function ChatMessagesList (props: ChatMessagesListProps) {
                 fallback={getAvatarFallbackName(message.author?.name)}
                 src={message.author ? undefined : getRootImage(board.image)}
               />
-              <ChatBubbleMessage variant={message.author?.userId === authenticatedUser?.userId ? 'sent' : 'received'}>
-                {message.content ? removeMd(message.content) : ''}
+              <ChatBubbleMessage
+                variant={message.author?.userId === authenticatedUser?.userId ? 'sent' : 'received'}
+                className={clsx(
+                  message.boardGeneration && 'rounded-lg cursor-pointer hover:opacity-60'
+                )}
+              >
+                {message.boardGeneration && (
+                  <>
+                    {message.boardGeneration.status === 'completed' && 'Wireframe created'}
+                    {message.boardGeneration.status === 'error' && 'Error when generating wireframe'}
+                    {message.boardGeneration.status === 'pending' && 'Creating wireframe'}
+                  </>
+                )}
+
+                {!message.boardGeneration && (
+                  removeMd(message.content ?? '')
+                )}
               </ChatBubbleMessage>
             </ChatBubble>
         ))}
