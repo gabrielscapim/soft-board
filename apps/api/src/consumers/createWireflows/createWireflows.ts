@@ -1,9 +1,10 @@
 import { AgentCalledFunctionEvent } from 'event-types'
 import OpenAI from 'openai'
 import { getPool, logger } from '../../libs'
-import { RequirementDatabase } from 'types/database'
+import { MessageDatabase, RequirementDatabase } from 'types/database'
 import { AgentContext } from '../../startflow-agent'
-import { runOverviewAgent, runScreenAgent } from './methods'
+import { runSummaryAgent } from './methods/runSummaryAgent'
+import { runWireflowsAgent } from './methods'
 
 export const exchange = 'agentCalledFunction'
 
@@ -13,16 +14,23 @@ type Deps = {
   openai: OpenAI
 }
 
-type RequirementRow = Pick<RequirementDatabase, 'title' | 'description'>
-
 export function consumer (deps: Deps) {
   return async (event: AgentCalledFunctionEvent) => {
     const { board, team, user } = event
 
     const pool = getPool()
 
+    const history = await pool
+      .SELECT<Pick<MessageDatabase, 'role' | 'content'>>`role, content`
+      .FROM`message`
+      .WHERE`board_id = ${board.id}`
+      .AND`team_id = ${team.id}`
+      .AND`role IN ('user', 'assistant')`
+      .ORDER_BY`send_date DESC`
+      .list()
+
     const requirements = await pool
-      .SELECT<RequirementRow>`title, description`
+      .SELECT<Pick<RequirementDatabase, 'title' | 'description'>>`title, description`
       .FROM`requirement`
       .WHERE`board_id = ${board.id}`
       .AND`team_id = ${team.id}`
@@ -44,44 +52,28 @@ export function consumer (deps: Deps) {
 
     try {
       /**
-       * Agent 1: Analyze the board requirements, messages, and context to answer
-       * how many screens are needed for the wireflows and describe them.
+       * Agent 1: Analyze the board requirements, messages, and context to create an overview of the wireflows.
        */
-      const overviewAgentResponse = await runOverviewAgent(openai, context, requirements)
+      const summaryAgentResponse = await runSummaryAgent({
+        openai,
+        context,
+        history,
+        requirements
+      })
+
+      if (!summaryAgentResponse) {
+        logger.info({ event }, 'No summary generated, skipping wireflows creation')
+        return
+      }
 
       /**
-       * Agent 2: Create the wireflows based on the overview agent's response.
+       * Agent 2: Create the wireflows based on the summary provided by Agent 1.
        */
-      const screensAgentResponse = await Promise.all(overviewAgentResponse.screens.map(
-        screen => runScreenAgent(openai, context, screen)
-      ))
-
-      let xSpace = 0
-
-      await pool.transaction(async pool => {
-        for (const screen of screensAgentResponse) {
-          for (const component of screen.components) {
-            await pool
-              .INSERT_INTO`component`
-              .VALUES({
-                teamId: context.team.id,
-                boardId: context.board.id,
-                name: component.name,
-                type: component.type,
-                properties: JSON.stringify({
-                  ...component.properties,
-                  x: component.properties.x + xSpace
-                })
-              })
-          }
-
-          xSpace = xSpace + 500
-        }
-
-        await pool
-          .UPDATE`board`
-          .SET({ status: 'idle' })
-          .WHERE`id = ${board.id}`
+      await runWireflowsAgent({
+        openai,
+        context,
+        boardSummary: summaryAgentResponse,
+        pool
       })
 
       logger.info({ event }, 'Wireflows created successfully')
