@@ -70,7 +70,7 @@ export class StartFlowAgent extends Agent {
       const now = performance.now()
 
       const completion = await this.openai.chat.completions.create({
-        ...(this.model === 'gpt-5' ? { reasoning_effort: 'low' } : {}),
+        ...(this.model === 'gpt-5' ? { reasoning_effort: 'minimal' } : {}),
         model: this.model,
         messages: [
           ...messages,
@@ -130,6 +130,13 @@ export class StartFlowAgent extends Agent {
 
           if (result.messages) {
             accumulatedToolMessagesResult.push(...result.messages)
+          }
+
+          if (tool.generateCompletion === false) {
+            return [
+              ...responseMessages,
+              ...accumulatedToolMessagesResult
+            ]
           }
         } catch (error) {
           logger.error({ error }, `Error running tool ${requestedTool.function.name}`)

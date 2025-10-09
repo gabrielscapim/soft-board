@@ -19,6 +19,7 @@ export abstract class Tool {
 
   abstract name: string
   abstract description: string
+  abstract generateCompletion: boolean
 
   constructor ({ pool, publishers }: ToolOptions) {
     this.pool = pool
