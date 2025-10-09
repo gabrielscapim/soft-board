@@ -87,7 +87,7 @@ export function RequirementsWizard () {
                       author: authenticatedUser,
                       role: 'user',
                       toolCallId: null,
-                      toolCalls: null
+                      toolCalled: false
                     } as GetMessagesResultData
                   ]
                 : messages

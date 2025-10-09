@@ -23,7 +23,7 @@ export function ChatMessagesList (props: ChatMessagesListProps) {
             message.content &&
             message.role !== 'system' &&
             message.role !== 'tool' &&
-            message.toolCalls === null &&
+            message.toolCalled === false &&
             message.toolCallId === null
           )
           .map(message => (

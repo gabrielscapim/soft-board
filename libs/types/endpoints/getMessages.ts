@@ -7,15 +7,6 @@ export type GetMessagesResultAuthor = {
   name: string
 }
 
-export type GetMessagesResultToolCall = {
-  id: string
-  type: 'function'
-  function: {
-    name: string
-    arguments: string
-  }
-}
-
 export type GetMessagesResultBoardGeneration = {
   id: string
   status: 'pending' | 'error' | 'completed'
@@ -31,7 +22,7 @@ export type GetMessagesResultData = {
   content: string | null
   role: 'assistant' | 'user' | 'tool' | 'system'
   toolCallId: string | null
-  toolCalls: GetMessagesResultToolCall[] | null
+  toolCalled: boolean
   boardGeneration: GetMessagesResultBoardGeneration | null
   sendDate: string
   createDate: string
