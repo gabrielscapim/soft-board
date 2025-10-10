@@ -7,7 +7,6 @@ export type RunToolResult = {
   content: string
   messages?: Array<ChatCompletionMessageParam>
 }
-
 export abstract class Tool {
   protected data?: ToolData
 
@@ -21,7 +20,7 @@ export abstract class Tool {
 
   abstract parametersSchema (): any
 
-  abstract run (args: Record<string, any>, context: AgentContext): Promise<RunToolResult>
+  abstract run (args: Record<string, any>, context: AgentContext, id: string): Promise<RunToolResult>
 
   toChatCompletion (): ChatCompletionTool {
     return {
