@@ -1,9 +1,12 @@
 import { AgentCalledFunctionEvent } from 'event-types'
 import { AgentContext, RunToolResult, Tool } from '../../../startflow-agent'
+import { IPublisher } from '../../../types'
+import { DatabasePool } from 'pg-script'
 
 export class CreateWireflowTool extends Tool {
   name = 'create_wireflows'
   description = 'Create wireflows'
+  generateCompletion = true
 
   parametersSchema () {
     return {
@@ -13,15 +16,17 @@ export class CreateWireflowTool extends Tool {
   }
 
   async run (_args: Record<string, any>, context: AgentContext): Promise<RunToolResult> {
+    const { pool, publishers } = this.data as { pool: DatabasePool, publishers: Record<string, IPublisher<any>> }
+
     const event: AgentCalledFunctionEvent = {
       board: context.board,
       team: context.team,
       user: context.user
     }
 
-    this.publishers.agentCalledFunction.publish(event, 'createWireflows')
+    publishers.agentCalledFunction.publish(event, 'createWireflows')
 
-    await this.pool
+    await pool
       .UPDATE`board`
       .SET({ status: 'pending' })
       .WHERE`id = ${context.board.id}`

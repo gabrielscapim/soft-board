@@ -1,11 +1,13 @@
 import { RequirementDatabase } from 'types/database'
 import { AgentContext, RunToolResult, Tool } from '../../../startflow-agent'
+import { DatabasePool } from 'pg-script'
 
 type RequirementRow = Pick<RequirementDatabase, 'id' | 'title' | 'description'>
 
 export class GetRequirementsTool extends Tool {
   name = 'get_requirements'
   description = 'Retrieves current requirements. Including id, title, and description.'
+  generateCompletion = true
 
   parametersSchema () {
     return {
@@ -15,7 +17,9 @@ export class GetRequirementsTool extends Tool {
   }
 
   async run (_args: Record<string, any>, context: AgentContext): Promise<RunToolResult> {
-    const requirements = await this.pool
+    const { pool } = this.data as { pool: DatabasePool }
+
+    const requirements = await pool
       .SELECT<RequirementRow>`id, title, description`
       .FROM`requirement`
       .WHERE`board_id = ${context.board.id}`

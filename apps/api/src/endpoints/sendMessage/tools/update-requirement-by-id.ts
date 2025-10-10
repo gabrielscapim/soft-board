@@ -1,3 +1,4 @@
+import { DatabasePool } from 'pg-script'
 import { AgentContext, RunToolResult, Tool } from '../../../startflow-agent'
 
 type Arguments = {
@@ -9,6 +10,7 @@ type Arguments = {
 export class UpdateRequirementByIdTool extends Tool {
   name = 'update_requirement_by_id'
   description = 'Updates a requirement by its ID.'
+  generateCompletion = true
 
   parametersSchema () {
     return {
@@ -23,14 +25,16 @@ export class UpdateRequirementByIdTool extends Tool {
   }
 
   async run (args: Arguments, context: AgentContext): Promise<RunToolResult> {
-    const requirement = await this.pool
+    const { pool } = this.data as { pool: DatabasePool }
+
+    const requirement = await pool
       .SELECT`id`
       .FROM`requirement`
       .WHERE`id = ${args.id}`
       .AND`board_id = ${context.board.id}`
       .first()
 
-    await this.pool.transaction(async pool => {
+    await pool.transaction(async pool => {
       const now = new Date()
 
       await pool

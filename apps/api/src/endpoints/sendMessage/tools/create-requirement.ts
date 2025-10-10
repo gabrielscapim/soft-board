@@ -1,3 +1,4 @@
+import { DatabasePool } from 'pg-script'
 import { AgentContext, RunToolResult, Tool } from '../../../startflow-agent'
 
 type Arguments = {
@@ -10,6 +11,7 @@ const MAX_REQUIREMENTS_PER_BOARD = 15
 export class CreateRequirementTool extends Tool {
   name = 'create_requirement'
   description = 'Creates a new requirement.'
+  generateCompletion = true
 
   parametersSchema () {
     return {
@@ -29,7 +31,9 @@ export class CreateRequirementTool extends Tool {
   }
 
   async run (args: Arguments, context: AgentContext): Promise<RunToolResult> {
-    const { rows: [{ count }] } = await this.pool
+    const { pool } = this.data as { pool: DatabasePool }
+
+    const { rows: [{ count }] } = await pool
       .SELECT<{ count: number }>`COUNT(*) AS count`
       .FROM`requirement`
       .WHERE`board_id = ${context.board.id}`
@@ -40,14 +44,14 @@ export class CreateRequirementTool extends Tool {
       }
     }
 
-    const { rows: [max] } = await this.pool
+    const { rows: [max] } = await pool
       .SELECT<{ order: number }>`MAX("order") AS order`
       .FROM`requirement`
       .WHERE`board_id = ${context.board.id}`
 
     const order = max?.order ? max.order + 1 : 0
 
-    await this.pool.transaction(async pool => {
+    await pool.transaction(async pool => {
       const { rows: [requirement] } = await pool
         .INSERT_INTO`requirement`
         .VALUES({

@@ -1,12 +1,7 @@
 import { ChatCompletionMessageParam, ChatCompletionTool } from 'openai/resources/index'
-import { DatabasePool } from 'pg-script'
 import { AgentContext } from './agent'
-import { IPublisher } from '../../types'
 
-export type ToolOptions = {
-  pool: DatabasePool
-  publishers: Record<string, IPublisher<any>>
-}
+export type ToolData = object
 
 export type RunToolResult = {
   content: string
@@ -14,16 +9,14 @@ export type RunToolResult = {
 }
 
 export abstract class Tool {
-  protected pool: DatabasePool
-  protected publishers: Record<string, IPublisher<any>>
+  protected data?: ToolData
 
   abstract name: string
   abstract description: string
   abstract generateCompletion: boolean
 
-  constructor ({ pool, publishers }: ToolOptions) {
-    this.pool = pool
-    this.publishers = publishers
+  constructor (data?: ToolData) {
+    this.data = data
   }
 
   abstract parametersSchema (): any
