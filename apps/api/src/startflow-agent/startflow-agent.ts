@@ -79,8 +79,7 @@ export class StartFlowAgent extends Agent {
         ],
         tool_choice: this.toolChoice,
         tools: this.tools.map(tool => tool.toChatCompletion()),
-        parallel_tool_calls: true,
-        response_format: this.responseFormat
+        parallel_tool_calls: true
       })
 
       const executionTimeMs = performance.now() - now
