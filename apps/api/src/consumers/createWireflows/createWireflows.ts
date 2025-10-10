@@ -45,11 +45,6 @@ export function consumer (deps: Deps) {
       user
     }
 
-    if (board.status === 'pending') {
-      logger.info({ event }, 'Board is already pending, skipping create wireflows')
-      return
-    }
-
     try {
       /**
        * Agent 1: Analyze the board requirements, messages, and context to create an overview of the wireflows.
@@ -61,8 +56,20 @@ export function consumer (deps: Deps) {
         requirements
       })
 
+      logger.info({ event, summaryAgentResponse }, 'Summary agent completed')
+
       if (!summaryAgentResponse) {
         logger.info({ event }, 'No summary generated, skipping wireflows creation')
+
+        await pool
+          .UPDATE`board_generation`
+          .SET({
+            status: 'error',
+            updateDate: new Date(),
+            error: parseError(new Error('No summary generated'))
+          })
+          .WHERE`tool_call_id = ${event.toolCall.id}`
+
         return
       }
 
@@ -82,9 +89,36 @@ export function consumer (deps: Deps) {
       logger.error({ error, event }, 'Error creating wireflows')
 
       await pool
-        .UPDATE`board`
-        .SET({ status: 'error' })
-        .WHERE`id = ${board.id}`
+        .UPDATE`board_generation`
+        .SET({
+          status: 'error',
+          updateDate: new Date(),
+          error: parseError(error)
+        })
+        .WHERE`tool_call_id = ${event.toolCall.id}`
     }
+  }
+}
+
+function parseError (error: unknown) {
+  if (error instanceof OpenAI.OpenAIError) {
+    return {
+      name: error.name,
+      message: error.message,
+      stack: error.stack
+    }
+  }
+
+  if (error instanceof Error) {
+    return {
+      name: error.name,
+      message: error.message,
+      stack: error.stack
+    }
+  }
+
+  return {
+    name: 'UnknownError',
+    message: 'An unknown error occurred'
   }
 }

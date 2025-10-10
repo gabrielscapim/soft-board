@@ -46,7 +46,7 @@ export class CreateWireflowTool extends Tool {
       screenId: null,
       connectionId: null,
       name: screen.name,
-      type: 'screen',
+      type: 'mobileScreen',
       properties: {
         x: index * 375 + index * 60,
         y: 0,
@@ -72,9 +72,15 @@ export class CreateWireflowTool extends Tool {
     const flexComponents = [...screens, ...components]
 
     await pool.transaction(async pool => {
+      const boardGeneration = await pool
+        .SELECT`id`
+        .FROM`board_generation`
+        .WHERE`tool_call_id = ${boardGenerationToolCallId}`
+        .find()
+
       for (const component of flexComponents) {
         await pool
-          .INSERT_INTO`flex_component`
+          .INSERT_INTO`component`
           .VALUES({
             id: component.id,
             boardId: context.board.id,
@@ -83,13 +89,18 @@ export class CreateWireflowTool extends Tool {
             connectionId: component.connectionId,
             name: component.name,
             type: component.type,
-            properties: component.properties
+            properties: component.properties,
+            boardGenerationId: boardGeneration.id
           })
       }
 
       await pool
         .UPDATE`board_generation`
-        .SET({ status: 'completed' })
+        .SET({
+          status: 'completed',
+          generationDate: new Date(),
+          updateDate: new Date()
+        })
         .WHERE`tool_call_id = ${boardGenerationToolCallId}`
     })
 

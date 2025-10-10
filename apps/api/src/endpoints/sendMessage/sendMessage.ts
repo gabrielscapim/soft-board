@@ -179,21 +179,6 @@ export function handler ({ openai, agentCalledFunction }: Deps): Handler {
           }))
           : null
 
-        const createWireflowsCalls = toolCalls?.filter(call => call.function.name === 'create_wireflows') ?? []
-
-        for (const call of createWireflowsCalls) {
-          await pool
-            .INSERT_INTO`board_generation`
-            .VALUES({
-              teamId: context.team.id,
-              boardId: context.board.id,
-              status: 'pending',
-              generationDate: new Date(),
-              messageId: created.id,
-              toolCallId: call.id
-            })
-        }
-
         result.push({
           id: created.id,
           role: message.role as SendMessageResultMessage['role'],

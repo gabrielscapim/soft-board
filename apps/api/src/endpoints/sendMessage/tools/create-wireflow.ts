@@ -28,9 +28,13 @@ export class CreateWireflowTool extends Tool {
     publishers.agentCalledFunction.publish(event, 'createWireflows')
 
     await pool
-      .UPDATE`board`
-      .SET({ status: 'pending' })
-      .WHERE`id = ${context.board.id}`
+      .INSERT_INTO`board_generation`
+      .VALUES({
+        teamId: context.team.id,
+        boardId: context.board.id,
+        status: 'pending',
+        toolCallId: id
+      })
 
     return {
       content: 'Create wireflows requested successfully. In few moments you will have the wireflows ready.'
