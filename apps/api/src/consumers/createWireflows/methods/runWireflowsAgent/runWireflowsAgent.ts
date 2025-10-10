@@ -10,6 +10,7 @@ type RunWireflowsAgentCommand = {
   context: AgentContext
   boardSummary: string
   pool: DatabasePool
+  boardGenerationToolCallId: string
 }
 
 export async function runWireflowsAgent (
@@ -19,7 +20,8 @@ export async function runWireflowsAgent (
     openai,
     context,
     boardSummary,
-    pool
+    pool,
+    boardGenerationToolCallId
   } = command
 
   const prompt = fs.readFileSync(
@@ -31,7 +33,7 @@ export async function runWireflowsAgent (
     context,
     openai,
     tools: [
-      new CreateWireflowTool({ pool, publishers: {} })
+      new CreateWireflowTool({ pool, boardGenerationToolCallId })
     ],
     prompt,
     model: 'gpt-4o',

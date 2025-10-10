@@ -70,10 +70,11 @@ export function consumer (deps: Deps) {
        * Agent 2: Create the wireflows based on the summary provided by Agent 1.
        */
       await runWireflowsAgent({
+        pool,
         openai,
         context,
         boardSummary: summaryAgentResponse,
-        pool
+        boardGenerationToolCallId: event.toolCall.id
       })
 
       logger.info({ event }, 'Wireflows created successfully')

@@ -15,10 +15,11 @@ export class CreateWireflowTool extends Tool {
     }
   }
 
-  async run (_args: Record<string, any>, context: AgentContext): Promise<RunToolResult> {
+  async run (_args: Record<string, any>, context: AgentContext, id: string): Promise<RunToolResult> {
     const { pool, publishers } = this.data as { pool: DatabasePool, publishers: Record<string, IPublisher<any>> }
 
     const event: AgentCalledFunctionEvent = {
+      toolCall: { id },
       board: context.board,
       team: context.team,
       user: context.user
@@ -32,7 +33,7 @@ export class CreateWireflowTool extends Tool {
       .WHERE`id = ${context.board.id}`
 
     return {
-      content: 'Create wireflows requested successfully. In few moments you will see the changes reflected in your board.'
+      content: 'Create wireflows requested successfully. In few moments you will have the wireflows ready.'
     }
   }
 }
