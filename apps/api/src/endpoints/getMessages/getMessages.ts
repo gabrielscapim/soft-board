@@ -10,7 +10,7 @@ type MessageRow =
   Pick<MessageDatabase, 'id' | 'boardId' | 'content' | 'role' | 'toolCallId' | 'toolCalls' | 'sendDate' | 'createDate' | 'updateDate'>
   & { author: { userId: string; name: string } | null }
 
-type BoardGenerationRow = Pick<BoardGenerationDatabase, 'id' | 'messageId' | 'status' | 'generationDate' | 'createDate' | 'updateDate'>
+type BoardGenerationRow = Pick<BoardGenerationDatabase, 'id' | 'toolCallId' | 'status' | 'generationDate' | 'createDate' | 'updateDate'>
 
 const schema = yup.object({
   boardId: yup.string().trim().required()
@@ -52,7 +52,7 @@ export function handler (): Handler {
     const boardGenerations = await pool
       .SELECT<BoardGenerationRow>`
         id,
-        message_id,
+        tool_call_id,
         status,
         generation_date,
         create_date,
@@ -62,12 +62,12 @@ export function handler (): Handler {
       .ORDER_BY`create_date`
       .list()
 
-    const boardGenerationsByMessageId = new Map<string, BoardGenerationRow>(
-      boardGenerations.map(boardGeneration => [boardGeneration.messageId, boardGeneration])
+    const boardGenerationsByToolCallId = new Map<string, BoardGenerationRow>(
+      boardGenerations.map(boardGeneration => [boardGeneration.toolCallId, boardGeneration])
     )
 
     const data = messages.map<GetMessagesResultData>(message => {
-      const boardGeneration = boardGenerationsByMessageId.get(message.id)
+      const boardGeneration = message.toolCallId ? boardGenerationsByToolCallId.get(message.toolCallId) : null
 
       return {
         id: message.id,
