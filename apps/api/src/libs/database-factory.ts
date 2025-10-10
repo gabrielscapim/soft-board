@@ -40,6 +40,7 @@ export class DatabaseFactory {
       id: boardGeneration.id ?? randomUUID(),
       teamId: boardGeneration.teamId ?? randomUUID(),
       boardId: boardGeneration.boardId ?? randomUUID(),
+      toolCallId: boardGeneration.toolCallId ?? null,
       messageId: boardGeneration.messageId ?? randomUUID(),
       status: boardGeneration.status ?? 'pending',
       error: boardGeneration.error ?? null,
