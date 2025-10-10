@@ -10,6 +10,7 @@ CREATE TABLE board_generation (
   board_id UUID NOT NULL REFERENCES board(id) ON DELETE CASCADE,
   message_id UUID NOT NULL REFERENCES message(id) ON DELETE CASCADE,
   status board_generation_status NOT NULL DEFAULT 'pending',
+  tool_call_id TEXT,
   error JSONB,
   prompt_tokens INTEGER,
   completion_tokens INTEGER,
@@ -21,3 +22,4 @@ CREATE TABLE board_generation (
 );
 
 CREATE INDEX ON board_generation (board_id);
+CREATE INDEX ON board_generation (tool_call_id);

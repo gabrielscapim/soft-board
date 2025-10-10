@@ -6,6 +6,7 @@ export type BoardGenerationDatabase = {
   boardId: UUID
   messageId: UUID
   status: 'pending' | 'error' | 'completed'
+  toolCallId: string | null
   error: JSONB | null
   promptTokens: INTEGER | null
   completionTokens: INTEGER | null
