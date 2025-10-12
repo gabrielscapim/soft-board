@@ -1,5 +1,5 @@
 import { SidebarHeader, SidebarContent, SidebarGroup, SidebarGroupContent, Sidebar } from '@/components/ui/sidebar'
-import { BoardComponentsPreview, BoardScreensPreview, SearchInput } from '.'
+import { BoardComponentsPreview, SearchInput } from '.'
 import { EditBoardSidebarSection } from '../EditBoardSidebar'
 import { BoardController } from '@/lib'
 
@@ -30,7 +30,6 @@ export function CollapsibleEditBoardSidebar (props: CollapsibleEditBoardSidebarP
             <div className="grid grid-cols-1 gap-2 p-4">
               {selectedSection === 'Components' && <BoardComponentsPreview search={search} boardController={boardController} />}
               {selectedSection === 'Templates' && <span className="opacity-40">No templates found</span>}
-              {selectedSection === 'Screens' && <BoardScreensPreview search={search} boardController={boardController} />}
             </div>
           </SidebarGroupContent>
         </SidebarGroup>

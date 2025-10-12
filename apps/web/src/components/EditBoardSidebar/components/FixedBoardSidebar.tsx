@@ -7,7 +7,7 @@ import {
   SidebarGroup,
   SidebarGroupContent
 } from '@/components/ui/sidebar'
-import { Component, LayoutPanelTop, Smartphone } from 'lucide-react'
+import { Component, LayoutPanelTop } from 'lucide-react'
 import { EditBoardSidebarSection } from '../EditBoardSidebar'
 
 const sections = [
@@ -18,10 +18,6 @@ const sections = [
   {
     title: 'Templates',
     icon: LayoutPanelTop
-  },
-  {
-    title: 'Screens',
-    icon: Smartphone
   }
 ] as const
 
