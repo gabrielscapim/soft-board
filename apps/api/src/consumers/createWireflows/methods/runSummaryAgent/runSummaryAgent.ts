@@ -37,6 +37,7 @@ export async function runSummaryAgent (
   const agent = new StartFlowAgent({
     context,
     openai,
+    model: 'gpt-4o',
     prompt: [
       basePrompt,
       historyPrompt,

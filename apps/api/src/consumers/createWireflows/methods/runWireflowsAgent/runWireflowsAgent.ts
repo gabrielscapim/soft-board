@@ -36,7 +36,6 @@ export async function runWireflowsAgent (
       new CreateWireflowTool({ pool, boardGenerationToolCallId })
     ],
     prompt,
-    model: 'gpt-4o',
     toolChoice: 'required'
   })
 
