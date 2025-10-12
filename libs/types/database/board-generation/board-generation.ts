@@ -10,7 +10,7 @@ export type BoardGenerationDatabase = {
   promptTokens: INTEGER | null
   completionTokens: INTEGER | null
   totalTokens: INTEGER | null
-  exectionTimeMs: INTEGER | null
+  executionTimeMs: INTEGER | null
   generationDate: Date | null
   createDate: Date
   updateDate: Date
