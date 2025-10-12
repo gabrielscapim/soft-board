@@ -3,7 +3,7 @@ import { ChatMessageList } from '@/components/ui/chat/chat-message-list'
 import { getAvatarFallbackName, getRootImage } from '@/helpers'
 import { GetAuthenticatedUserResult, GetBoardResult, GetMessagesResultData } from 'types/endpoints'
 import removeMd from 'remove-markdown'
-import clsx from 'clsx'
+import { BoardGenerationItem } from './BoardGenerationItem'
 
 export type ChatMessagesListProps = {
   board: GetBoardResult
@@ -22,9 +22,9 @@ export function ChatMessagesList (props: ChatMessagesListProps) {
           .filter(message =>
             message.content &&
             message.role !== 'system' &&
-            message.role !== 'tool' &&
+            (message.role !== 'tool' || message.boardGeneration) &&
             message.toolCalled === false &&
-            message.toolCallId === null
+            (message.toolCallId === null || message.boardGeneration)
           )
           .map(message => (
             <ChatBubble
@@ -37,16 +37,9 @@ export function ChatMessagesList (props: ChatMessagesListProps) {
               />
               <ChatBubbleMessage
                 variant={message.author?.userId === authenticatedUser?.userId ? 'sent' : 'received'}
-                className={clsx(
-                  message.boardGeneration && 'rounded-lg cursor-pointer hover:opacity-60'
-                )}
               >
                 {message.boardGeneration && (
-                  <>
-                    {message.boardGeneration.status === 'completed' && 'Wireframe created'}
-                    {message.boardGeneration.status === 'error' && 'Error when generating wireframe'}
-                    {message.boardGeneration.status === 'pending' && 'Creating wireframe'}
-                  </>
+                  <BoardGenerationItem boardGeneration={message.boardGeneration} />
                 )}
 
                 {!message.boardGeneration && (
