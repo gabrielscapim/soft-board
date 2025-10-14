@@ -1,7 +1,9 @@
-import { SidebarHeader, SidebarContent, SidebarGroup, SidebarGroupContent, Sidebar } from '@/components/ui/sidebar'
+import { SidebarHeader, SidebarContent, SidebarGroup, SidebarGroupContent, Sidebar, useSidebar } from '@/components/ui/sidebar'
 import { BoardComponentsPreview, SearchInput } from '.'
 import { EditBoardSidebarSection } from '../EditBoardSidebar'
 import { BoardController } from '@/lib'
+import { Button } from '@/components/ui/button'
+import { XIcon } from 'lucide-react'
 
 export type CollapsibleEditBoardSidebarProps = {
   boardController: BoardController
@@ -13,11 +15,23 @@ export type CollapsibleEditBoardSidebarProps = {
 export function CollapsibleEditBoardSidebar (props: CollapsibleEditBoardSidebarProps) {
   const { boardController, selectedSection, search, onSearchChange } = props
 
+  const { toggleSidebar } = useSidebar()
+
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
       <SidebarHeader className="gap-3.5 border-b p-4">
-        <div className="text-foreground text-base font-medium">
-          {selectedSection}
+        <div className="flex justify-between items-center w-full">
+          <div className="text-foreground text-base font-medium">
+            {selectedSection}
+          </div>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="size-7"
+            onClick={toggleSidebar}
+          >
+            <XIcon />
+          </Button>
         </div>
         <SearchInput
           search={search}
