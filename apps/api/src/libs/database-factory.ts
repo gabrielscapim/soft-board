@@ -46,7 +46,7 @@ export class DatabaseFactory {
       promptTokens: boardGeneration.promptTokens ?? null,
       completionTokens: boardGeneration.completionTokens ?? null,
       totalTokens: boardGeneration.totalTokens ?? null,
-      exectionTimeMs: boardGeneration.exectionTimeMs ?? null,
+      executionTimeMs: boardGeneration.executionTimeMs ?? null,
       generationDate: boardGeneration.generationDate ?? null,
       createDate: boardGeneration.createDate ?? now,
       updateDate: boardGeneration.updateDate ?? now
