@@ -1,5 +1,6 @@
 import axios, { AxiosError, type AxiosInstance } from 'axios'
 import type {
+  AddGenerationToBoardCommand,
   CreateBoardCommand,
   CreateBoardResult,
   CreateComponentsCommand,
@@ -91,6 +92,10 @@ export class Client {
   }
 
   /** Endpoints */
+
+  async addGenerationToBoard (data: AddGenerationToBoardCommand): Promise<void> {
+    await this.axios.post('/addGenerationToBoard', data)
+  }
 
   async createBoard (data: CreateBoardCommand): Promise<CreateBoardResult> {
     return (await this.axios.post<CreateBoardResult>('/createBoard', data)).data

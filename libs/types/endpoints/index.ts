@@ -1,3 +1,4 @@
+export * from './addGenerationToBoard'
 export * from './createBoard'
 export * from './createComponents'
 export * from './createMember'
