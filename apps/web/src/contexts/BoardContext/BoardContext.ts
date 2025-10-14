@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 import { BoardController, BoardManager, BoardState } from '../../lib'
-import { GetBoardResult } from 'types/endpoints'
+import { GetBoardQuery, GetBoardResult } from 'types/endpoints'
 
 type BoardContextValue = {
   boardState: BoardState
@@ -9,7 +9,8 @@ type BoardContextValue = {
   error: unknown
   loading: boolean
   board?: GetBoardResult
-  refetch: () => void
+  boardGenerationId?: string | null
+  refetch: (newQuery: GetBoardQuery) => void
 }
 
 export const BoardContext = createContext<BoardContextValue | null>(null)
