@@ -6,7 +6,7 @@ import { DatabasePool } from 'pg-script'
 export class CreateWireflowTool extends Tool {
   name = 'create_wireflows'
   description = 'Create wireflows'
-  generateCompletion = true
+  generateCompletion = false
 
   parametersSchema () {
     return {
