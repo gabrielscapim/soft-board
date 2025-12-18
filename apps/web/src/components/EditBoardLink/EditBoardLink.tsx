@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { SquarePenIcon } from 'lucide-react'
+import { PencilIcon } from 'lucide-react'
 import { Link } from 'react-router'
 
 export type EditBoardLinkProps = {
@@ -15,7 +15,7 @@ export function EditBoardLink (props: EditBoardLinkProps) {
         size="sm"
         variant="outline"
       >
-        <SquarePenIcon />
+        <PencilIcon />
         Edit
       </Button>
     </Link>

@@ -7,17 +7,13 @@ import {
   SidebarGroup,
   SidebarGroupContent
 } from '@/components/ui/sidebar'
-import { Component, LayoutPanelTop } from 'lucide-react'
+import { Component } from 'lucide-react'
 import { EditBoardSidebarSection } from '../EditBoardSidebar'
 
 const sections = [
   {
     title: 'Components',
     icon: Component
-  },
-  {
-    title: 'Templates',
-    icon: LayoutPanelTop
   }
 ] as const
 
