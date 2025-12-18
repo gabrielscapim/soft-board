@@ -39,7 +39,7 @@ export type MessageHistory = {
   userName?: string | null
 }
 
-const DEFAULT_MODEL = 'gpt-5'
+const DEFAULT_MODEL = 'gpt-5.2'
 const DEFAULT_PROMPT = 'You are a helpful assistant.'
 
 export abstract class Agent {
