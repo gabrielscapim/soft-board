@@ -220,7 +220,7 @@ function getTools (
 }
 
 function getPrompt (board: BoardRow): string {
-  if (board.step === 'init') {
+  if (board.step === 'requirements') {
     return REQUIREMENTS_AGENT_PROMPT
   } else if (board.step === 'wireflows') {
     return WIREFLOWS_AGENT_PROMPT
