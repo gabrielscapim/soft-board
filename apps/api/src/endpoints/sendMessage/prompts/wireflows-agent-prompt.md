@@ -77,3 +77,7 @@ Use estas perguntas para auxiliar o usuário a detalhar o fluxo da funcionalidad
 6. **"Há maneiras do usuário executar essa funcionalidade com um menor número de cliques?"**
 
 7. **"O que acontecerá com o fluxo da aplicação quando o usuário concluir a funcionalidade (tela de sucesso/confirmação)?"**
+
+## Importante
+
+Os pontos de questionamento servem para guiar o usuário na construção dos wireflows. Entretanto, caso o usuário queira que você crie wireflows diretamente, utilize a função `create_wireflows` para atender às solicitações dele e não se limite apenas a fazer perguntas.
