@@ -10,7 +10,8 @@ type BoardContextValue = {
   loading: boolean
   board?: GetBoardResult
   boardGenerationId?: string | null
-  refetch: (newQuery: GetBoardQuery) => void
+  refetch: () => void
+  refetchWithQuery: (newQuery: GetBoardQuery) => void
 }
 
 export const BoardContext = createContext<BoardContextValue | null>(null)

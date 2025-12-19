@@ -1,9 +1,11 @@
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react'
+import { useParams } from 'react-router'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
+
 import { BoardController, BoardManager, BoardState } from '../../lib'
 import { BoardContext } from './BoardContext'
-import { useParams } from 'react-router'
 import { useClient } from '@/hooks'
-import { keepPreviousData, QueryClient, useQuery } from '@tanstack/react-query'
+
 import { FlexComponent } from '@/types'
 import { BoardPendingContainer, FullScreenLoader } from '@/components'
 import { ErrorRoute } from '@/routes'
@@ -14,31 +16,34 @@ export type BoardProviderProps = PropsWithChildren
 
 export function BoardProvider ({ children }: BoardProviderProps) {
   const params = useParams<{ boardId?: string }>()
-  const [query, setQuery] = useState<GetBoardQuery>({ boardId: params.boardId! })
-  const boardId = params.boardId
-  const client = useClient()
-  const queryClient = new QueryClient()
+  const boardId = params.boardId!
 
-  queryClient.prefetchQuery
+  const client = useClient()
+
+  const [query, setQuery] = useState<GetBoardQuery>(() => ({
+    boardId,
+    boardGenerationId: null
+  }))
 
   const getBoard = useQuery({
     queryKey: ['getBoard', query],
     queryFn: () => client.getBoard(query),
-    enabled: Boolean(boardId),
+    enabled: Boolean(query.boardId),
     retry: 1,
     placeholderData: keepPreviousData
   })
-  const components = useMemo(() => {
-    const result = getBoard.data?.components.map<FlexComponent>(component => ({
-      id: component.id,
-      name: component.name,
-      type: component.type as FlexComponent['type'],
-      properties: component.properties as FlexComponent['properties'],
-      connectionId: component.connectionId,
-      screenId: component.screenId
-    }))
 
-    return result ?? []
+  const components = useMemo(() => {
+    return (
+      getBoard.data?.components.map<FlexComponent>(component => ({
+        id: component.id,
+        name: component.name,
+        type: component.type as FlexComponent['type'],
+        properties: component.properties as FlexComponent['properties'],
+        connectionId: component.connectionId,
+        screenId: component.screenId
+      })) ?? []
+    )
   }, [getBoard.data?.components])
 
   const [board] = useState(() => {
@@ -46,7 +51,7 @@ export function BoardProvider ({ children }: BoardProviderProps) {
     const boardManager = new BoardManager({ client, boardState })
     const boardController = new BoardController({ boardState, boardManager })
 
-    return { boardState, boardController, boardManager }
+    return { boardState, boardManager, boardController }
   })
 
   useEffect(() => {
@@ -65,26 +70,34 @@ export function BoardProvider ({ children }: BoardProviderProps) {
         boardGenerationId: query.boardGenerationId,
         error: getBoard.error,
         loading: getBoard.isLoading,
-        refetch: (newQuery) => {
-          if (newQuery) {
-            setQuery(newQuery)
-          } else {
-            getBoard.refetch()
-          }
+        refetch: () => {
+          getBoard.refetch()
+        },
+        refetchWithQuery: (newQuery: GetBoardQuery) => {
+          setQuery(prev => {
+            if (newQuery) return newQuery
+            return { ...prev }
+          })
         }
       }}
     >
       {getBoard.error && (
         <ErrorRoute
           status={error?.response?.status}
-          description={Client.isNotFound(error)
-            ? 'Board not found or you do not have permission to access it.'
-            : 'An error occurred while fetching the board.'
+          description={
+            Client.isNotFound(error)
+              ? 'Board not found or you do not have permission to access it.'
+              : 'An error occurred while fetching the board.'
           }
         />
       )}
+
       {getBoard.isLoading && <FullScreenLoader />}
-      {getBoard.data && getBoard.data.status === 'pending' && <BoardPendingContainer />}
+
+      {getBoard.data && getBoard.data.status === 'pending' && (
+        <BoardPendingContainer />
+      )}
+
       {getBoard.data && getBoard.data.status !== 'pending' && children}
     </BoardContext.Provider>
   )

@@ -7,7 +7,7 @@ import { GetMessagesResultData } from 'types/endpoints'
 import { BoardContainer } from '../BoardContainer'
 
 export function WireflowsWizard () {
-  const { board, refetch: refetchBoard } = useBoard()
+  const { board, refetchWithQuery } = useBoard()
   const boardId = board?.id
   const [sendingMessage, setSendingMessage] = useState<string | null>(null)
   const { authenticatedUser } = useAuthentication()
@@ -52,7 +52,7 @@ export function WireflowsWizard () {
                 : messages
             }
             onSendMessage={content => sendMessage.mutate(content)}
-            onSelectBoardGeneration={boardGenerationId => refetchBoard({ boardId: boardId!, boardGenerationId })}
+            onSelectBoardGeneration={boardGenerationId => refetchWithQuery({ boardId: boardId!, boardGenerationId })}
           />
         )}
       </div>
@@ -63,7 +63,7 @@ export function WireflowsWizard () {
           boardState={boardState}
           boardController={boardController}
           boardManager={boardManager}
-          onReturnToBoard={() => refetchBoard({ boardId: boardId! })}
+          onReturnToBoard={() => refetchWithQuery({ boardId: boardId! })}
         />
       </div>
     </>

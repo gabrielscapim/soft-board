@@ -7,20 +7,28 @@ import { useClient, useBoard } from '@/hooks'
 export function BoardWizardFooter () {
   const params = useParams<{ boardId?: string }>()
   const boardId = params.boardId
-  const { board, refetch } = useBoard()
+  const { board, refetch, refetchWithQuery } = useBoard()
   const client = useClient()
   const currentStep = board?.step
 
   const handleNext = useMutation({
     mutationFn: async () => client.updateBoardStep({ id: boardId!, step: 'next' }),
-    onSuccess: () => refetch(),
+    onSuccess: () => onHandleStep(),
     onError: () => toast.error('Failed to update board step')
   })
   const handlePrevious = useMutation({
     mutationFn: async () => client.updateBoardStep({ id: boardId!, step: 'previous' }),
-    onSuccess: () => refetch(),
+    onSuccess: () => onHandleStep(),
     onError: () => toast.error('Failed to update board step')
   })
+
+  const onHandleStep = () => {
+    if (board?.generation?.id) {
+      refetchWithQuery({ boardId: boardId!, boardGenerationId: null })
+    } else {
+      refetch()
+    }
+  }
 
   return (
     <footer className="flex justify-between py-4 px-4">
