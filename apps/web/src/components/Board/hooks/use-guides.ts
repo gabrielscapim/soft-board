@@ -1,20 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
 import { BoardState } from '../../../lib'
 
 export function useGuides (boardState: BoardState) {
-  const [guides, setGuides] = useState(boardState.guides)
+  return useSyncExternalStore(
+    (callback) => {
+      boardState.addListener('guidesChanged', callback)
 
-  useEffect(() => {
-    const onChange = () => {
-      setGuides(boardState.guides)
-    }
-
-    boardState.addListener('guidesChanged', onChange)
-
-    return () => {
-      boardState.removeListener('guidesChanged', onChange)
-    }
-  }, [boardState])
-
-  return guides
+      return () => {
+        boardState.removeListener('guidesChanged', callback)
+      }
+    },
+    () => boardState.guides,
+    () => boardState.guides
+  )
 }
