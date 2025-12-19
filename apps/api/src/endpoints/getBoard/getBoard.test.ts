@@ -40,7 +40,8 @@ describe('getBoard', () => {
           slug: team.slug,
           name: team.name
         },
-        components: []
+        components: [],
+        generation: null
       })
     })
   })

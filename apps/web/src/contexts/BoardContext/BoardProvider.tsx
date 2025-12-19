@@ -3,24 +3,30 @@ import { BoardController, BoardManager, BoardState } from '../../lib'
 import { BoardContext } from './BoardContext'
 import { useParams } from 'react-router'
 import { useClient } from '@/hooks'
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, QueryClient, useQuery } from '@tanstack/react-query'
 import { FlexComponent } from '@/types'
 import { BoardPendingContainer, FullScreenLoader } from '@/components'
 import { ErrorRoute } from '@/routes'
 import { Client } from '@/client'
+import { GetBoardQuery } from 'types/endpoints'
 
 export type BoardProviderProps = PropsWithChildren
 
 export function BoardProvider ({ children }: BoardProviderProps) {
   const params = useParams<{ boardId?: string }>()
+  const [query, setQuery] = useState<GetBoardQuery>({ boardId: params.boardId! })
   const boardId = params.boardId
   const client = useClient()
+  const queryClient = new QueryClient()
+
+  queryClient.prefetchQuery
 
   const getBoard = useQuery({
-    queryKey: ['getBoard', boardId],
-    queryFn: () => client.getBoard({ boardId: boardId! }),
+    queryKey: ['getBoard', query],
+    queryFn: () => client.getBoard(query),
     enabled: Boolean(boardId),
-    retry: 1
+    retry: 1,
+    placeholderData: keepPreviousData
   })
   const components = useMemo(() => {
     const result = getBoard.data?.components.map<FlexComponent>(component => ({
@@ -56,9 +62,16 @@ export function BoardProvider ({ children }: BoardProviderProps) {
         boardController: board.boardController,
         boardManager: board.boardManager,
         board: getBoard.data,
+        boardGenerationId: query.boardGenerationId,
         error: getBoard.error,
         loading: getBoard.isLoading,
-        refetch: getBoard.refetch
+        refetch: (newQuery) => {
+          if (newQuery) {
+            setQuery(newQuery)
+          } else {
+            getBoard.refetch()
+          }
+        }
       }}
     >
       {getBoard.error && (

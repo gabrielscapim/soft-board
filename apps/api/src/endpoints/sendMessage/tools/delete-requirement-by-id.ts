@@ -1,3 +1,4 @@
+import { DatabasePool } from 'pg-script'
 import { AgentContext, RunToolResult, Tool } from '../../../startflow-agent'
 
 type Arguments = {
@@ -7,6 +8,7 @@ type Arguments = {
 export class DeleteRequirementByIdTool extends Tool {
   name = 'delete_requirement_by_id'
   description = 'Deletes a requirement by its ID.'
+  generateCompletion = true
 
   parametersSchema () {
     return {
@@ -19,7 +21,9 @@ export class DeleteRequirementByIdTool extends Tool {
   }
 
   async run (args: Arguments, context: AgentContext): Promise<RunToolResult> {
-    const requirement = await this.pool
+    const { pool } = this.data as { pool: DatabasePool }
+
+    const requirement = await pool
       .SELECT`id`
       .FROM`requirement`
       .WHERE`id = ${args.id}`
@@ -32,7 +36,7 @@ export class DeleteRequirementByIdTool extends Tool {
       }
     }
 
-    await this.pool.transaction(async pool => {
+    await pool.transaction(async pool => {
       await pool
         .DELETE_FROM`requirement`
         .WHERE`id = ${requirement.id}`

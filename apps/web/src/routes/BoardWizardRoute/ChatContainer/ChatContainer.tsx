@@ -9,10 +9,18 @@ export type ChatContainerProps = {
   loading?: boolean
   messages?: GetMessagesResultData[]
   onSendMessage?: (content: string) => void
+  onSelectBoardGeneration?: (boardGenerationId: string) => void
 }
 
 export function ChatContainer (props: ChatContainerProps) {
-  const { board, authenticatedUser, loading, messages, onSendMessage } = props
+  const {
+    board,
+    authenticatedUser,
+    loading,
+    messages,
+    onSendMessage,
+    onSelectBoardGeneration
+  } = props
 
   return (
     <div className="flex flex-col h-full">
@@ -23,6 +31,7 @@ export function ChatContainer (props: ChatContainerProps) {
           loading={loading}
           authenticatedUser={authenticatedUser}
           messages={messages}
+          onSelectBoardGeneration={onSelectBoardGeneration}
         />
       </div>
       <ChatContainerInput

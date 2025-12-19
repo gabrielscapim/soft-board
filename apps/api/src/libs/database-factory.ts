@@ -1,6 +1,6 @@
 import { DatabasePool } from 'pg-script'
 import { getPool } from './get-pool'
-import { MemberDatabase, UserDatabase, TeamDatabase, BoardDatabase, MessageDatabase, RequirementDatabase, ComponentDatabase } from 'types/database'
+import { MemberDatabase, UserDatabase, TeamDatabase, BoardDatabase, MessageDatabase, RequirementDatabase, ComponentDatabase, BoardGenerationDatabase } from 'types/database'
 import { randomUUID } from 'crypto'
 import slugify from 'slugify'
 
@@ -34,6 +34,29 @@ export class DatabaseFactory {
     return created
   }
 
+  async createBoardGeneration (boardGeneration: Partial<BoardGenerationDatabase> = {}): Promise<BoardGenerationDatabase> {
+    const now = new Date()
+    const created: BoardGenerationDatabase = {
+      id: boardGeneration.id ?? randomUUID(),
+      teamId: boardGeneration.teamId ?? randomUUID(),
+      boardId: boardGeneration.boardId ?? randomUUID(),
+      toolCallId: boardGeneration.toolCallId ?? randomUUID(),
+      status: boardGeneration.status ?? 'pending',
+      error: boardGeneration.error ?? null,
+      promptTokens: boardGeneration.promptTokens ?? null,
+      completionTokens: boardGeneration.completionTokens ?? null,
+      totalTokens: boardGeneration.totalTokens ?? null,
+      executionTimeMs: boardGeneration.executionTimeMs ?? null,
+      generationDate: boardGeneration.generationDate ?? null,
+      createDate: boardGeneration.createDate ?? now,
+      updateDate: boardGeneration.updateDate ?? now
+    }
+
+    await this.pool.INSERT_INTO`board_generation`.VALUES(created)
+
+    return created
+  }
+
   async createComponent (component: Partial<ComponentDatabase> = {}): Promise<ComponentDatabase> {
     const now = new Date()
     const created: ComponentDatabase = {
@@ -46,6 +69,7 @@ export class DatabaseFactory {
       properties: component.properties ?? {},
       connectionId: component.connectionId ?? null,
       screenId: component.screenId ?? null,
+      boardGenerationId: component.boardGenerationId ?? null,
       createDate: component.createDate ?? now,
       updateDate: component.updateDate ?? now
     }

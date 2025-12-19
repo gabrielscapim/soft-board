@@ -3,16 +3,25 @@ import { ChatMessageList } from '@/components/ui/chat/chat-message-list'
 import { getAvatarFallbackName, getRootImage } from '@/helpers'
 import { GetAuthenticatedUserResult, GetBoardResult, GetMessagesResultData } from 'types/endpoints'
 import removeMd from 'remove-markdown'
+import { BoardGenerationItem } from './BoardGenerationItem'
+import clsx from 'clsx'
 
 export type ChatMessagesListProps = {
   board: GetBoardResult
   loading?: boolean
   authenticatedUser?: GetAuthenticatedUserResult
   messages?: GetMessagesResultData[]
+  onSelectBoardGeneration?: (boardGenerationId: string) => void
 }
 
 export function ChatMessagesList (props: ChatMessagesListProps) {
-  const { board, loading, authenticatedUser, messages = [] } = props
+  const {
+    board,
+    loading,
+    authenticatedUser,
+    messages = [],
+    onSelectBoardGeneration
+  } = props
 
   return (
     <div className="w-full overflow-y-hidden h-full flex flex-col">
@@ -21,24 +30,48 @@ export function ChatMessagesList (props: ChatMessagesListProps) {
           .filter(message =>
             message.content &&
             message.role !== 'system' &&
-            message.role !== 'tool' &&
-            message.toolCalls === null &&
-            message.toolCallId === null
+            (message.role !== 'tool' || message.boardGeneration) &&
+            message.toolCalled === false &&
+            (message.toolCallId === null || message.boardGeneration)
           )
-          .map(message => (
-            <ChatBubble
-              key={message.id}
-              variant={message.author?.userId === authenticatedUser?.userId ? 'sent' : 'received'}
-            >
-              <ChatBubbleAvatar
-                fallback={getAvatarFallbackName(message.author?.name)}
-                src={message.author ? undefined : getRootImage(board.image)}
-              />
-              <ChatBubbleMessage variant={message.author?.userId === authenticatedUser?.userId ? 'sent' : 'received'}>
-                {message.content ? removeMd(message.content) : ''}
-              </ChatBubbleMessage>
-            </ChatBubble>
-        ))}
+          .map(message => {
+            const isGenerationCompleted = message.boardGeneration?.status === 'completed'
+            const isGenerationSelected = message.boardGeneration && board.generation?.id === message.boardGeneration?.id
+
+            return (
+              <ChatBubble
+                key={message.id}
+                variant={message.author?.userId === authenticatedUser?.userId ? 'sent' : 'received'}
+              >
+                <ChatBubbleAvatar
+                  fallback={getAvatarFallbackName(message.author?.name)}
+                  src={message.author ? undefined : getRootImage(board.image)}
+                />
+                <ChatBubbleMessage
+                  variant={message.author?.userId === authenticatedUser?.userId ? 'sent' : 'received'}
+                  className={clsx(
+                    !isGenerationSelected && isGenerationCompleted && 'cursor-pointer hover:bg-accent/50',
+                    isGenerationSelected && 'border-1'
+                  )}
+                  onClick={() => {
+                    if (isGenerationCompleted) {
+                      onSelectBoardGeneration?.(message.boardGeneration!.id)
+                    }
+                  }}
+                >
+                  {message.boardGeneration && (
+                    <BoardGenerationItem
+                      boardGeneration={message.boardGeneration}
+                    />
+                  )}
+
+                  {!message.boardGeneration && (
+                    removeMd(message.content ?? '')
+                  )}
+                </ChatBubbleMessage>
+              </ChatBubble>
+            )
+          })}
 
         {loading && (
           <ChatBubble variant="received">

@@ -1,5 +1,6 @@
 export type GetBoardQuery = {
   boardId: string
+  boardGenerationId?: string | null
 }
 
 export type GetBoardResultTeam = {
@@ -14,9 +15,15 @@ export type GetBoardResultComponent = {
   type: string
   properties: Record<string, any>
   connectionId: string | null
+  boardGenerationId: string | null
   screenId: string | null
   createDate: string
   updateDate: string
+}
+
+export type GetBoardResultGeneration = {
+  id: string
+  generationDate: string
 }
 
 export type GetBoardResult = {
@@ -29,4 +36,5 @@ export type GetBoardResult = {
   createDate: string
   updateDate: string
   components: GetBoardResultComponent[]
+  generation: GetBoardResultGeneration | null
 }

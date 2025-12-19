@@ -21,7 +21,7 @@ import { IPublisher } from '../../types'
 
 type Handler = RequestHandler<unknown, SendMessageResult, SendMessageCommand>
 
-type MessageRow = Pick<MessageDatabase, 'role' | 'content' | 'toolCallId' | 'toolCalls'> & { userName: string | null }
+type MessageRow = Pick<MessageDatabase, 'id' | 'role' | 'content' | 'toolCallId' | 'toolCalls'> & { userName: string | null }
 
 type BoardRow = Pick<BoardDatabase, 'id' | 'step' | 'status'>
 
@@ -60,6 +60,7 @@ export function handler ({ openai, agentCalledFunction }: Deps): Handler {
 
     const history = await pool
       .SELECT<MessageRow>`
+        message.id,
         message.role,
         message.content,
         message.tool_call_id AS "toolCallId",
@@ -103,6 +104,7 @@ export function handler ({ openai, agentCalledFunction }: Deps): Handler {
     })
 
     const responseMessages: Array<ChatCompletionMessageParam & { executionTimeMs?: number }> = []
+
     let agentError: { name: string; message: string; stack?: string } | null = null
 
     try {
@@ -168,12 +170,12 @@ export function handler ({ openai, agentCalledFunction }: Deps): Handler {
 
         const toolCalls = message.role === 'assistant'
           ? (message.tool_calls as ChatCompletionMessageFunctionToolCall[] | undefined)?.map(toolCall => ({
-            id: toolCall.id,
-            type: toolCall.type,
-            function: {
-              name: toolCall.function.name,
-              arguments: JSON.parse(toolCall.function.arguments)
-            }
+              id: toolCall.id,
+              type: toolCall.type,
+              function: {
+                name: toolCall.function.name,
+                arguments: JSON.parse(toolCall.function.arguments)
+              }
           }))
           : null
 
@@ -218,7 +220,7 @@ function getTools (
 }
 
 function getPrompt (board: BoardRow): string {
-  if (board.step === 'init') {
+  if (board.step === 'requirements') {
     return REQUIREMENTS_AGENT_PROMPT
   } else if (board.step === 'wireflows') {
     return WIREFLOWS_AGENT_PROMPT

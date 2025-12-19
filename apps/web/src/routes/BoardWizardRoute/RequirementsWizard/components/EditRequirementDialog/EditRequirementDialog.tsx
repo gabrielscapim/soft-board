@@ -79,7 +79,7 @@ export function EditRequirementDialog (props: EditRequirementDialogProps) {
               />
             </div>
             <div className="grid gap-3 mb-4">
-              <Label htmlFor="name">Title</Label>
+              <Label htmlFor="name">Description</Label>
               <Textarea
                 id="description"
                 minLength={0}

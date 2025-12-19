@@ -23,10 +23,9 @@ export function ChatContainerInput (props: ChatContainerInputProps) {
       <Textarea
         placeholder="Talk with your board..."
         className="shadow-none flex-1 resize-none bg-transparent placeholder:text-muted-foreground h-full outline-none border-none p-3 focus-visible:border-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 rounded-none rounded-b-xl"
-        disabled={loading}
         value={content}
         onKeyDown={event => {
-          if (event.key === 'Enter' && !event.shiftKey) {
+          if (event.key === 'Enter' && !event.shiftKey && !loading && content.trim()) {
             event.preventDefault()
             handleSendMessage()
           }
@@ -39,7 +38,11 @@ export function ChatContainerInput (props: ChatContainerInputProps) {
         size="icon"
         className="size-9 mx-4"
         disabled={loading || !content.trim()}
-        onClick={() => handleSendMessage()}
+        onClick={() => {
+          if (!loading && content.trim()) {
+            handleSendMessage()
+          }
+        }}
       >
         <ArrowUpIcon />
       </Button>

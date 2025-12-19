@@ -70,7 +70,7 @@ export class StartFlowAgent extends Agent {
       const now = performance.now()
 
       const completion = await this.openai.chat.completions.create({
-        ...(this.model === 'gpt-5' ? { reasoning_effort: 'low' } : {}),
+        ...(this.model === 'gpt-5' ? { reasoning_effort: 'minimal' } : {}),
         model: this.model,
         messages: [
           ...messages,
@@ -79,8 +79,7 @@ export class StartFlowAgent extends Agent {
         ],
         tool_choice: this.toolChoice,
         tools: this.tools.map(tool => tool.toChatCompletion()),
-        parallel_tool_calls: true,
-        response_format: this.responseFormat
+        parallel_tool_calls: true
       })
 
       const executionTimeMs = performance.now() - now
@@ -119,7 +118,7 @@ export class StartFlowAgent extends Agent {
 
         try {
           const args = JSON.parse(requestedTool.function.arguments)
-          const result = await tool.run(args, this.context)
+          const result = await tool.run(args, this.context, requestedTool.id)
 
           responseMessages.push({
             role: 'tool',
@@ -130,6 +129,13 @@ export class StartFlowAgent extends Agent {
 
           if (result.messages) {
             accumulatedToolMessagesResult.push(...result.messages)
+          }
+
+          if (tool.generateCompletion === false) {
+            return [
+              ...responseMessages,
+              ...accumulatedToolMessagesResult
+            ]
           }
         } catch (error) {
           logger.error({ error }, `Error running tool ${requestedTool.function.name}`)

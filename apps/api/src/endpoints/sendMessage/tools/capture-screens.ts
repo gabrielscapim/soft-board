@@ -5,10 +5,12 @@ import signature from 'cookie-signature'
 import { AuthenticationData } from '../../../types'
 import { ChatCompletionContentPartImage } from 'openai/resources/index'
 import { Tool, AgentContext, RunToolResult } from '../../../startflow-agent'
+import { DatabasePool } from 'pg-script'
 
 export class CaptureScreens extends Tool {
   name = 'capture_screens'
   description = 'Capture the screens of the board'
+  generateCompletion = true
 
   parametersSchema () {
     return {
@@ -18,7 +20,9 @@ export class CaptureScreens extends Tool {
   }
 
   async run (_args: Record<string, any>, context: AgentContext): Promise<RunToolResult> {
-    const screens = await this.pool
+    const { pool } = this.data as { pool: DatabasePool }
+
+    const screens = await pool
       .SELECT<Pick<ComponentDatabase, 'id'>>`id`
       .FROM`component`
       .WHERE`component.board_id = ${context.board.id}`
