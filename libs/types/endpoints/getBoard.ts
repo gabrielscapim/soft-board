@@ -15,6 +15,7 @@ export type GetBoardResultComponent = {
   type: string
   properties: Record<string, any>
   connectionId: string | null
+  boardGenerationId: string | null
   screenId: string | null
   createDate: string
   updateDate: string

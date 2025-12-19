@@ -6,10 +6,29 @@ import { getPool } from '../../libs'
 
 type Handler = RequestHandler<unknown, GetBoardResult, GetBoardQuery>
 
-type BoardRow = Pick<BoardDatabase, 'id' | 'title' | 'createDate' | 'updateDate' | 'step' | 'image' | 'status'>
-  & { team: Pick<TeamDatabase, 'id' | 'slug' | 'name'> }
+type BoardRow = Pick<
+  BoardDatabase,
+  | 'id'
+  | 'title'
+  | 'createDate'
+  | 'updateDate'
+  | 'step'
+  | 'image'
+  | 'status'
+> & { team: Pick<TeamDatabase, 'id' | 'slug' | 'name'> }
 
-type ComponentRow = Pick<ComponentDatabase, 'id' | 'name' | 'type' | 'properties' | 'connectionId' | 'screenId' | 'createDate' | 'updateDate'>
+type ComponentRow = Pick<
+  ComponentDatabase,
+  | 'id'
+  | 'name'
+  | 'type'
+  | 'properties'
+  | 'connectionId'
+  | 'screenId'
+  | 'createDate'
+  | 'updateDate'
+  | 'boardGenerationId'
+>
 
 type BoardGenerationRow = Pick<BoardGenerationDatabase, 'id' | 'generationDate'>
 
@@ -54,7 +73,8 @@ export function handler (): Handler {
         connection_id,
         screen_id,
         create_date,
-        update_date`
+        update_date,
+        board_generation_id`
       .FROM`component`
       .WHERE`component.board_id = ${boardId}`
       .AND`component.team_id = ${teamId}`
@@ -99,6 +119,7 @@ export function handler (): Handler {
         type: component.type,
         properties: component.properties,
         connectionId: component.connectionId,
+        boardGenerationId: component.boardGenerationId,
         screenId: component.screenId,
         createDate: component.createDate.toISOString(),
         updateDate: component.updateDate.toISOString()
