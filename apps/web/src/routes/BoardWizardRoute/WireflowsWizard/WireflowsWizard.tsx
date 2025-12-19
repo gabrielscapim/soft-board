@@ -5,18 +5,15 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import { GetMessagesResultData } from 'types/endpoints'
 import { BoardContainer } from '../BoardContainer'
-import { BoardZoomController, EditBoardLink, useScale, WireframeModeLink } from '@/components'
-import { MAX_SCALE, MIN_SCALE } from '@/helpers'
 
 export function WireflowsWizard () {
-  const { board } = useBoard()
+  const { board, refetch: refetchBoard } = useBoard()
   const boardId = board?.id
   const [sendingMessage, setSendingMessage] = useState<string | null>(null)
   const { authenticatedUser } = useAuthentication()
   const getMessages = useMessages(boardId)
   const client = useClient()
-  const { boardController, boardState } = useBoard()
-  const scale = useScale(boardState)
+  const { boardController, boardState, boardManager } = useBoard()
 
   const sendMessage = useMutation({
     mutationFn: async (content: string) => {
@@ -33,7 +30,7 @@ export function WireflowsWizard () {
 
   return (
     <>
-      <div className="w-6/12 flex flex-col h-full border-r text-sm">
+      <div className="w-4/12 flex flex-col h-full border-r text-sm">
         {board && (
           <ChatContainer
             board={board}
@@ -55,24 +52,19 @@ export function WireflowsWizard () {
                 : messages
             }
             onSendMessage={content => sendMessage.mutate(content)}
+            onSelectBoardGeneration={boardGenerationId => refetchBoard({ boardId: boardId!, boardGenerationId })}
           />
         )}
       </div>
 
-      <div className="w-6/12 flex flex-col h-full">
-        <div className="bg-background sticky top-0 shrink-0 p-3 h-15 flex justify-between items-center w-full border-b-1">
-          <div className="flex flex-row gap-2">
-            <EditBoardLink to="edit" />
-            <WireframeModeLink to="wireframe" />
-          </div>
-
-          <BoardZoomController
-            scale={scale}
-            onZoomIn={() => boardController.onChangeBoardScale({ scale: Math.min(scale + 0.25, MAX_SCALE) })}
-            onZoomOut={() => boardController.onChangeBoardScale({ scale: Math.max(scale - 0.25, MIN_SCALE) })}
-          />
-        </div>
-        <BoardContainer />
+      <div className="w-8/12 flex flex-col h-full">
+        <BoardContainer
+          board={board}
+          boardState={boardState}
+          boardController={boardController}
+          boardManager={boardManager}
+          onReturnToBoard={() => refetchBoard({ boardId: boardId! })}
+        />
       </div>
     </>
   )
