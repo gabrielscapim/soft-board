@@ -16,7 +16,7 @@ type Deps = {
 
 export function consumer (deps: Deps) {
   return async (event: AgentCalledFunctionEvent) => {
-    const { board, team, user } = event
+    const { board, team, user, toolCall } = event
 
     const pool = getPool()
 
@@ -68,7 +68,16 @@ export function consumer (deps: Deps) {
             updateDate: new Date(),
             error: parseError(new Error('No summary generated'))
           })
-          .WHERE`tool_call_id = ${event.toolCall.id}`
+          .WHERE`tool_call_id = ${toolCall.id}`
+
+        await pool
+          .UPDATE`message`
+          .SET({
+            content: 'An error occurred while generating the wireflows.',
+            updateDate: new Date()
+          })
+          .WHERE`board_id = ${board.id}`
+          .AND`tool_call_id = ${toolCall.id}`
 
         return
       }
@@ -84,6 +93,15 @@ export function consumer (deps: Deps) {
         boardGenerationToolCallId: event.toolCall.id
       })
 
+      await pool
+        .UPDATE`message`
+        .SET({
+          content: 'Wireflows have been successfully generated.',
+          updateDate: new Date()
+        })
+        .WHERE`board_id = ${board.id}`
+        .AND`tool_call_id = ${event.toolCall.id}`
+
       logger.info({ event }, 'Wireflows created successfully')
     } catch (error) {
       logger.error({ error, event }, 'Error creating wireflows')
@@ -96,6 +114,15 @@ export function consumer (deps: Deps) {
           error: parseError(error)
         })
         .WHERE`tool_call_id = ${event.toolCall.id}`
+
+      await pool
+        .UPDATE`message`
+        .SET({
+          content: 'An error occurred while generating the wireflows.',
+          updateDate: new Date()
+        })
+        .WHERE`board_id = ${board.id}`
+        .AND`tool_call_id = ${event.toolCall.id}`
     }
   }
 }
