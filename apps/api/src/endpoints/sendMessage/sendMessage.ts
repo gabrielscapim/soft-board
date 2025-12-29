@@ -14,7 +14,7 @@ import {
   GetRequirementsTool,
   UpdateRequirementByIdTool,
   CreateWireflowTool,
-  CaptureScreens
+  ReviewWireflowsTool
 } from './tools'
 import { AgentCalledFunctionEvent } from 'event-types'
 import { IPublisher } from '../../types'
@@ -212,7 +212,7 @@ function getTools (
     ]
   } else if (board.step === 'review') {
     return [
-      new CaptureScreens({ pool, publishers })
+      new ReviewWireflowsTool({ pool, publishers })
     ]
   }
 
