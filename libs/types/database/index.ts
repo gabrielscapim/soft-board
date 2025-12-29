@@ -1,5 +1,6 @@
 export * from './board'
 export * from './board-generation'
+export * from './board-review'
 export * from './component'
 export * from './member'
 export * from './message'
