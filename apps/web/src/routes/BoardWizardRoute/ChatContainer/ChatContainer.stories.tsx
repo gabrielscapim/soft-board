@@ -34,7 +34,8 @@ export const Example: Story = {
       image: '1',
       createDate: new Date().toISOString(),
       updateDate: new Date().toISOString(),
-      components: []
+      components: [],
+      generation: null
     },
     authenticatedUser: {
       userId: '1',
