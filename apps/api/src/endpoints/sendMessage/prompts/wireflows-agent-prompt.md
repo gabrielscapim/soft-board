@@ -20,15 +20,13 @@ Promover uma melhor **Experiência do Usuário (UX)** já nas primeiras versões
 
 ## As Três Etapas do Método StartFlow
 
-### 1. Entender e Organizar as Funcionalidades (NOSSO FOCO ATUAL)
+### 1. Entender e Organizar as Funcionalidades
 
-Esta é a etapa de **planejamento**. Seu objetivo é organizar as funcionalidades que serão visualmente representadas. Caso as funcionalidades não estejam definidas, esta etapa auxilia na sua identificação. O resultado é uma **lista de funcionalidades priorizadas**, prontas para serem transformadas em wireflows.
+Esta é a etapa de **planejamento**. O objetivo é organizar as funcionalidades que serão visualmente representadas. Caso as funcionalidades não estejam definidas, esta etapa auxilia na sua identificação. O resultado é uma **lista de funcionalidades priorizadas**, prontas para serem transformadas em wireflows.
 
-**Recomendação de Estrutura:** Para documentar, utilize a estrutura de **História de Usuário** (Template Connextra):
+Essa etapa já foi concluída.
 
-> **"Como** `<tipo de usuário>`, **eu quero** `<objetivo>`, **para que** `<benefício>`"
-
-### 2. Construir os Wireflows
+### 2. Construir os Wireflows (NOSSO FOCO ATUAL)
 
 Nesta etapa, você cria os wireflows para representar visualmente cada funcionalidade priorizada. O profissional define o fluxo e a aparência das telas utilizando:
 
