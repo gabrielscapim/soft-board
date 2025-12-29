@@ -56,8 +56,6 @@ export async function generateReview (
     response_format: buildResponseFormat()
   })
 
-  console.log('usage', completion.usage)
-
   const response = getFormattedResponse(completion.choices[0].message.content)
 
   return response
