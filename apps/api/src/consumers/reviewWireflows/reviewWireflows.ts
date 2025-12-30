@@ -4,7 +4,6 @@ import { getPool, logger } from '../../libs'
 import { captureScreens, generateReview } from './methods'
 
 export const exchange = 'agentCalledFunction'
-
 export const key = 'reviewWireflows'
 
 type Deps = {
@@ -27,7 +26,10 @@ export function consumer ({ openai }: Deps) {
         team
       })
 
-      logger.info({ event, screenBuffersLength: screenBuffers?.length }, 'Captured screens for review wireflows')
+      logger.info(
+        { event, screenBuffersLength: screenBuffers?.length },
+        'Captured screens for review wireflows'
+      )
 
       if (!screenBuffers) {
         return
@@ -40,7 +42,7 @@ export function consumer ({ openai }: Deps) {
 
       logger.info({ event, review }, 'Review wireflows completed')
 
-      const score = review.reduce((acc, item) => {
+      const totalScore = review.reduce((acc, item) => {
         if (item.score) {
           return acc + item.score
         }
@@ -48,13 +50,14 @@ export function consumer ({ openai }: Deps) {
         return acc
       }, 0)
 
+      const score = Math.round((totalScore / review.length) * 100) / 100
       const now = new Date()
 
       await pool
         .UPDATE`board_review`
         .SET({
           status: 'completed',
-          review,
+          review: JSON.stringify(review),
           score,
           reviewDate: now,
           updateDate: now
