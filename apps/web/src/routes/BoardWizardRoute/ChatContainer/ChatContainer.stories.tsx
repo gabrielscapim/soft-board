@@ -53,6 +53,7 @@ export const Example: Story = {
         toolCallId: null,
         toolCalled: false,
         boardGeneration: null,
+        boardReview: null,
         sendDate: new Date().toISOString(),
         createDate: new Date().toISOString(),
         updateDate: new Date().toISOString()
@@ -69,6 +70,7 @@ export const Example: Story = {
         toolCallId: null,
         toolCalled: false,
         boardGeneration: null,
+        boardReview: null,
         sendDate: new Date().toISOString(),
         createDate: new Date().toISOString(),
         updateDate: new Date().toISOString()
@@ -82,6 +84,7 @@ export const Example: Story = {
         toolCallId: null,
         toolCalled: false,
         boardGeneration: null,
+        boardReview: null,
         sendDate: new Date().toISOString(),
         createDate: new Date().toISOString(),
         updateDate: new Date().toISOString()
