@@ -142,7 +142,7 @@ export function handler (): Handler {
           id: boardReview.id,
           status: boardReview.status,
           review: boardReview.review,
-          score: boardReview.score,
+          score: Number(boardReview.score ?? 0),
           reviewDate: boardReview.reviewDate ? boardReview.reviewDate.toISOString() : null,
           createDate: boardReview.createDate.toISOString(),
           updateDate: boardReview.updateDate.toISOString()
