@@ -1,4 +1,5 @@
 export * from './BoardGenerationItem'
+export * from './BoardReviewItem'
 export * from './ChatContainerHeader'
 export * from './ChatContainerInput'
 export * from './ChatContainerMessagesList'

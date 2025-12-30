@@ -1,16 +1,47 @@
 import { RequestHandler } from 'express'
-import { BoardGenerationDatabase, MessageDatabase } from 'types/database'
-import { GetMessagesQuery, GetMessagesResult, GetMessagesResultData } from 'types/endpoints'
+import { BoardGenerationDatabase, BoardReviewDatabase, MessageDatabase } from 'types/database'
+import { GetMessagesQuery, GetMessagesResult, GetMessagesResultBoardReview, GetMessagesResultData } from 'types/endpoints'
 import * as yup from 'yup'
 import { getPool } from '../../libs'
 
 type Handler = RequestHandler<unknown, GetMessagesResult, GetMessagesQuery>
 
 type MessageRow =
-  Pick<MessageDatabase, 'id' | 'boardId' | 'content' | 'role' | 'toolCallId' | 'toolCalls' | 'sendDate' | 'createDate' | 'updateDate'>
+  Pick<MessageDatabase,
+  | 'id'
+  | 'boardId'
+  | 'content'
+  | 'role'
+  | 'toolCallId'
+  | 'toolCalls'
+  | 'sendDate'
+  | 'createDate'
+  | 'updateDate'
+  >
   & { author: { userId: string; name: string } | null }
 
-type BoardGenerationRow = Pick<BoardGenerationDatabase, 'id' | 'toolCallId' | 'status' | 'generationDate' | 'createDate' | 'updateDate'>
+type BoardGenerationRow = Pick<
+  BoardGenerationDatabase,
+  | 'id'
+  | 'toolCallId'
+  | 'status'
+  | 'generationDate'
+  | 'createDate'
+  | 'updateDate'
+>
+
+type BoardReviewRow = Pick<
+  BoardReviewDatabase,
+  | 'id'
+  | 'boardId'
+  | 'toolCallId'
+  | 'status'
+  | 'review'
+  | 'score'
+  | 'reviewDate'
+  | 'createDate'
+  | 'updateDate'
+>
 
 const schema = yup.object({
   boardId: yup.string().trim().required()
@@ -62,12 +93,32 @@ export function handler (): Handler {
       .ORDER_BY`create_date`
       .list()
 
+    const boardReviews = await pool
+      .SELECT<BoardReviewRow>`
+        id,
+        board_id,
+        tool_call_id,
+        status,
+        review,
+        score,
+        review_date,
+        create_date,
+        update_date`
+      .FROM`board_review`
+      .WHERE`board_id = ${boardId}`
+      .ORDER_BY`create_date`
+      .list()
+
     const boardGenerationsByToolCallId = new Map<string, BoardGenerationRow>(
       boardGenerations.map(boardGeneration => [boardGeneration.toolCallId, boardGeneration])
+    )
+    const boardReviewsByToolCallId = new Map<string, BoardReviewRow>(
+      boardReviews.map(boardReview => [boardReview.toolCallId, boardReview])
     )
 
     const data = messages.map<GetMessagesResultData>(message => {
       const boardGeneration = message.toolCallId ? boardGenerationsByToolCallId.get(message.toolCallId) : null
+      const boardReview = message.toolCallId ? boardReviewsByToolCallId.get(message.toolCallId) : null
 
       return {
         id: message.id,
@@ -87,6 +138,15 @@ export function handler (): Handler {
           createDate: boardGeneration.createDate.toISOString(),
           updateDate: boardGeneration.updateDate.toISOString()
         } : null,
+        boardReview: boardReview ? {
+          id: boardReview.id,
+          status: boardReview.status,
+          review: boardReview.review,
+          score: boardReview.score,
+          reviewDate: boardReview.reviewDate ? boardReview.reviewDate.toISOString() : null,
+          createDate: boardReview.createDate.toISOString(),
+          updateDate: boardReview.updateDate.toISOString()
+        } as GetMessagesResultBoardReview : null,
         sendDate: message.sendDate.toISOString(),
         createDate: message.createDate.toISOString(),
         updateDate: message.updateDate.toISOString()
