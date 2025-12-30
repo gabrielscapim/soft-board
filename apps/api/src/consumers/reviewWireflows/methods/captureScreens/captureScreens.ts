@@ -9,8 +9,6 @@ import {
   FRONTEND_BASE_URL,
   NODE_ENV
 } from '../../../../constants'
-import fs from 'fs'
-import path from 'path'
 
 type CaptureScreensCommand = {
   pool: DatabasePool
@@ -103,18 +101,6 @@ export async function captureScreens (
 
     screenBuffers.push(buffer)
   }
-
-  const debugScreenPath = path.join(__dirname, 'debug-screens')
-  if (!fs.existsSync(debugScreenPath)) {
-    fs.mkdirSync(debugScreenPath)
-  }
-
-  screenBuffers.forEach((buffer, index) => {
-    fs.writeFileSync(
-      path.join(debugScreenPath, `screen-${index + 1}.png`),
-      buffer
-    )
-  })
 
   await browser.close()
 
