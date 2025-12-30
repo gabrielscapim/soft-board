@@ -38,6 +38,7 @@ export function ChatMessagesList (props: ChatMessagesListProps) {
           .map(message => {
             const isGenerationCompleted = message.boardGeneration?.status === 'completed'
             const isGenerationSelected = message.boardGeneration && board.generation?.id === message.boardGeneration?.id
+            const isReviewCompleted = message.boardReview?.status === 'completed'
 
             return (
               <ChatBubble
@@ -52,7 +53,8 @@ export function ChatMessagesList (props: ChatMessagesListProps) {
                   variant={message.author?.userId === authenticatedUser?.userId ? 'sent' : 'received'}
                   className={clsx(
                     !isGenerationSelected && isGenerationCompleted && board.step === 'wireflows' && 'cursor-pointer hover:bg-accent/50',
-                    isGenerationSelected && 'border-1'
+                    isGenerationSelected && 'border-1',
+                    isReviewCompleted && 'cursor-pointer hover:bg-accent/50'
                   )}
                   onClick={() => {
                     if (isGenerationCompleted) {
