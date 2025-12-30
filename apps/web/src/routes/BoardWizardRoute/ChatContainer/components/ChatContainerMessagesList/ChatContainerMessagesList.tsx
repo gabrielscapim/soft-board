@@ -3,8 +3,9 @@ import { ChatMessageList } from '@/components/ui/chat/chat-message-list'
 import { getAvatarFallbackName, getRootImage } from '@/helpers'
 import { GetAuthenticatedUserResult, GetBoardResult, GetMessagesResultData } from 'types/endpoints'
 import removeMd from 'remove-markdown'
-import { BoardGenerationItem } from './BoardGenerationItem'
+import { BoardGenerationItem } from '../BoardGenerationItem/BoardGenerationItem'
 import clsx from 'clsx'
+import { BoardReviewDialog } from '../BoardReviewDialog'
 
 export type ChatMessagesListProps = {
   board: GetBoardResult
@@ -30,13 +31,14 @@ export function ChatMessagesList (props: ChatMessagesListProps) {
           .filter(message =>
             message.content &&
             message.role !== 'system' &&
-            (message.role !== 'tool' || message.boardGeneration) &&
+            (message.role !== 'tool' || message.boardGeneration || message.boardReview) &&
             message.toolCalled === false &&
-            (message.toolCallId === null || message.boardGeneration)
+            (message.toolCallId === null || message.boardGeneration || message.boardReview)
           )
           .map(message => {
             const isGenerationCompleted = message.boardGeneration?.status === 'completed'
             const isGenerationSelected = message.boardGeneration && board.generation?.id === message.boardGeneration?.id
+            const isReviewCompleted = message.boardReview?.status === 'completed'
 
             return (
               <ChatBubble
@@ -50,8 +52,9 @@ export function ChatMessagesList (props: ChatMessagesListProps) {
                 <ChatBubbleMessage
                   variant={message.author?.userId === authenticatedUser?.userId ? 'sent' : 'received'}
                   className={clsx(
-                    !isGenerationSelected && isGenerationCompleted && 'cursor-pointer hover:bg-accent/50',
-                    isGenerationSelected && 'border-1'
+                    !isGenerationSelected && isGenerationCompleted && board.step === 'wireflows' && 'cursor-pointer hover:bg-accent/50',
+                    isGenerationSelected && 'border-1',
+                    isReviewCompleted && 'cursor-pointer hover:bg-accent/50'
                   )}
                   onClick={() => {
                     if (isGenerationCompleted) {
@@ -65,7 +68,13 @@ export function ChatMessagesList (props: ChatMessagesListProps) {
                     />
                   )}
 
-                  {!message.boardGeneration && (
+                  {message.boardReview && (
+                    <BoardReviewDialog
+                      boardReview={message.boardReview}
+                    />
+                  )}
+
+                  {!(message.boardGeneration || message.boardReview) && (
                     removeMd(message.content ?? '')
                   )}
                 </ChatBubbleMessage>

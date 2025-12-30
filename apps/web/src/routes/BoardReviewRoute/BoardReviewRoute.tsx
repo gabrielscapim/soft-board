@@ -58,10 +58,14 @@ export function BoardReviewRoute () {
     <main>
       <div
         data-testid="screen-container"
-        className="w-[391px] border-8 border-[#6b6b6b] rounded-[65px]"
+        className="w-[391px] h-[828px] border-8 border-[#6b6b6b] bg-white rounded-[65px] overflow-hidden"
         style={{ height: currentScreen.properties.height + 'px' }}
       >
-        {children
+        <div
+          className="relative h-full overflow-y-scroll scrollbar overflow-x-hidden"
+        >
+          <div style={{ height: currentScreen.properties.height + 'px' }}>
+            {children
               .filter((flexComponent) => flexComponent.type !== 'mobileScreen')
               .map((flexComponent) => (
                 createElement(FLEX_COMPONENTS_ELEMENTS[flexComponent.type], {
@@ -77,8 +81,9 @@ export function BoardReviewRoute () {
                 })
               ))
             }
+          </div>
+        </div>
       </div>
     </main>
-
   )
 }

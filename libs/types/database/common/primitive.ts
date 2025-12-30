@@ -1,6 +1,7 @@
 export type BOOLEAN = boolean
 export type INTEGER = number
 export type JSONB = Record<string, any>
+export type NUMERIC = number
 export type TEXT = string
 export type TIMESTAMPTZ = Date
 export type UUID = `${string}-${string}-${string}-${string}-${string}`
