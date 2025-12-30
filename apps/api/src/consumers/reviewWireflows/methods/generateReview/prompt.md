@@ -76,7 +76,7 @@ Para cada critério, informe:
   * 4 = Bom
   * 5 = Excelente
 * **suggestions** — sugestões de melhoria (se houver)
-* **not_applicable_reason** — quando o critério não se aplicar
+* **notApplicableReason** — quando o critério não se aplicar
 
 Caso o critério **não se aplique**, explique o motivo.
 

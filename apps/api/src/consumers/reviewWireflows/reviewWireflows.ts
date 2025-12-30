@@ -33,14 +33,14 @@ export function consumer ({ openai }: Deps) {
         return
       }
 
-      const { reviews } = await generateReview({
+      const { review } = await generateReview({
         openai,
         screenBuffers
       })
 
-      logger.info({ event, reviews }, 'Review wireflows completed')
+      logger.info({ event, review }, 'Review wireflows completed')
 
-      const score = Object.values(reviews ?? {}).reduce((acc, item) => {
+      const score = review.reduce((acc, item) => {
         if (item.score) {
           return acc + item.score
         }
@@ -54,7 +54,7 @@ export function consumer ({ openai }: Deps) {
         .UPDATE`board_review`
         .SET({
           status: 'completed',
-          review: reviews,
+          review,
           score,
           reviewDate: now,
           updateDate: now
@@ -65,7 +65,7 @@ export function consumer ({ openai }: Deps) {
       await pool
         .UPDATE`message`
         .SET({
-          content: JSON.stringify({ reviews, score })
+          content: JSON.stringify({ review, score })
         })
         .WHERE`board_id = ${board.id}`
         .AND`tool_call_id = ${toolCall.id}`

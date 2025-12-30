@@ -4,7 +4,7 @@ import path from 'path'
 import { ChatCompletionContentPartImage, ChatCompletionCreateParamsNonStreaming } from 'openai/resources.js'
 import { logger } from '../../../../libs'
 
-type GenerateReviewCommand = {
+export type GenerateReviewCommand = {
   openai: OpenAI
   screenBuffers: Buffer<ArrayBufferLike>[]
 }
@@ -14,10 +14,10 @@ type ReviewItem = {
   explanation: string
   score?: number
   suggestions?: string[]
-  not_applicable_reason?: string
+  notApplicableReason?: string
 }
 
-type GenerateReviewResult = {
+export type FormattedCompletionResponse = {
   reviews: {
     nielsen_2: ReviewItem
     nielsen_4: ReviewItem
@@ -27,6 +27,41 @@ type GenerateReviewResult = {
     startflow_3: ReviewItem
     startflow_4: ReviewItem
   } | null
+}
+
+export type GenerateReviewResult = {
+  review: ({ title: string, description: string } & ReviewItem)[]
+}
+
+const REVIEWS_MAP: Record<keyof NonNullable<FormattedCompletionResponse['reviews']>, { title: string; description: string }> = {
+  nielsen_2: {
+    title: 'Nielsen Heuristic 2: Match between system and the real world',
+    description: 'The interface should speak the user\'s language, using familiar terms, concepts, and structures. Information should appear in a natural and logical order.'
+  },
+  nielsen_4: {
+    title: 'Nielsen Heuristic 4: Consistency and standards',
+    description: 'The user should not have doubts if different elements mean the same thing. Follow platform conventions and visual patterns.'
+  },
+  nielsen_6: {
+    title: 'Nielsen Heuristic 6: Recognition rather than recall',
+    description: 'Reduce the user\'s memory load by making actions, objects, and instructions visible and easy to retrieve whenever necessary.'
+  },
+  nielsen_8: {
+    title: 'Nielsen Heuristic 8: Aesthetic and minimalist design',
+    description: 'Only relevant information should be displayed. Unnecessary content competes with important information and reduces clarity.'
+  },
+  startflow_2: {
+    title: 'StartFlow Criterion 2: Completion feedback',
+    description: 'Is there a screen that clearly communicates to the user that the task has been completed?'
+  },
+  startflow_3: {
+    title: 'StartFlow Criterion 3: Text-based triggers',
+    description: 'Do text-based triggers clearly describe the action that will be executed?'
+  },
+  startflow_4: {
+    title: 'StartFlow Criterion 4: Icon-based triggers',
+    description: 'Are icon-based triggers clear and unambiguous?'
+  }
 }
 
 export async function generateReview (
@@ -56,9 +91,26 @@ export async function generateReview (
     response_format: buildResponseFormat()
   })
 
-  const response = getFormattedResponse(completion.choices[0].message.content)
+  const formattedCompletionResponse = getFormattedCompletionResponse(completion.choices[0].message.content)
 
-  return response
+  if (!formattedCompletionResponse.reviews) {
+    return { review: [] }
+  }
+
+  const result: GenerateReviewResult = {
+    review: Object.entries(formattedCompletionResponse.reviews).map(([key, item]) => {
+      const { title, description } = REVIEWS_MAP[key as keyof typeof REVIEWS_MAP]
+
+      return {
+        title,
+        description,
+        ...item
+      }
+    })
+  }
+
+
+  return result
 }
 
 function buildResponseFormat (): ChatCompletionCreateParamsNonStreaming['response_format'] {
@@ -85,7 +137,7 @@ function buildResponseFormat (): ChatCompletionCreateParamsNonStreaming['respons
         items: { type: 'string' },
         description: 'Improvement suggestions (if applicable)'
       },
-      not_applicable_reason: {
+      notApplicableReason: {
         type: 'string',
         description: 'Reason when the criterion does not apply'
       }
@@ -130,13 +182,13 @@ function buildResponseFormat (): ChatCompletionCreateParamsNonStreaming['respons
   }
 }
 
-function getFormattedResponse (content: string | null): GenerateReviewResult {
+function getFormattedCompletionResponse (content: string | null): FormattedCompletionResponse {
   if (content === null) {
     return { reviews: null }
   }
 
   try {
-    return JSON.parse(content) as GenerateReviewResult
+    return JSON.parse(content) as FormattedCompletionResponse
   } catch (error) {
     logger.error({ error, content }, 'Failed to parse review wireflows response')
 
