@@ -3,6 +3,8 @@ import { UpdateBoardStepCommand } from 'types/endpoints'
 import * as yup from 'yup'
 import { assertMemberPermission, getPool } from '../../libs'
 import { BadRequest } from 'http-errors'
+import { DatabasePool } from 'pg-script'
+import { RequirementDatabase } from 'types/database'
 
 type Handler = RequestHandler<unknown, unknown, UpdateBoardStepCommand>
 
@@ -29,23 +31,74 @@ export function handler (): Handler {
       .AND`team_id = ${teamId}`
       .find({ error: `Board with id ${id} not found in team ${teamId}` })
 
-    const boardStep = step === 'next'
-      ? STEPS_ORDER[STEPS_ORDER.indexOf(board.step) + 1]
-      : STEPS_ORDER[STEPS_ORDER.indexOf(board.step) - 1]
+    const currentStep = board.step
 
-    if (!boardStep) {
-      throw new BadRequest(`Cannot go ${step} from step ${board.step}`)
+    const nextStep = step === 'next'
+      ? STEPS_ORDER[STEPS_ORDER.indexOf(currentStep) + 1]
+      : STEPS_ORDER[STEPS_ORDER.indexOf(currentStep) - 1]
+
+    if (!nextStep) {
+      throw new BadRequest(`Cannot go ${step} from step ${currentStep}`)
+    }
+
+    // If moving from requirements to wireflows, ensure at least 1 requirement exists
+    if (currentStep === 'requirements' && nextStep === 'wireflows') {
+      await validateRequirements(pool, id)
+    }
+
+    // If moving from wireflows to review, ensure at least 1 screen exists
+    if (currentStep === 'wireflows' && nextStep === 'review') {
+      await validateScreens(pool, id)
     }
 
     await pool
       .UPDATE`board`
       .SET({
-        step: boardStep,
+        step: nextStep,
         updateDate: new Date()
       })
       .WHERE`id = ${id}`
       .AND`team_id = ${teamId}`
 
     res.status(204).end()
+  }
+}
+
+async function validateRequirements (
+  pool: DatabasePool,
+  boardId: string
+): Promise<void> {
+  const requirements = await pool
+    .SELECT<Pick<RequirementDatabase, 'id' | 'title'>>`id, title`
+    .FROM`requirement`
+    .WHERE`board_id = ${boardId}`
+    .list()
+
+  const count = requirements.length
+
+  if (count < 1) {
+    throw new BadRequest('Cannot move to wireflows step without at least 1 requirement.')
+  }
+
+  if (requirements.some(r => !r.title)) {
+    throw new BadRequest('All requirements must have a title before moving to wireflows step.')
+  }
+}
+
+async function validateScreens (
+  pool: DatabasePool,
+  boardId: string
+) {
+  const screens = await pool
+    .SELECT`id`
+    .FROM`component`
+    .WHERE`board_id = ${boardId}`
+    .AND`type = 'mobileScreen'`
+    .list()
+
+  const count = screens.length
+
+  if (count < 1) {
+    throw new BadRequest('Cannot move to review step without at least 1 screen.')
   }
 }
