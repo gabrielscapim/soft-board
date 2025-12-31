@@ -58,9 +58,11 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
               aria-expanded={open}
               className="justify-between w-full"
             >
-              {flexComponent.connectionId
-                ? mobileScreens.find((screen) => screen.id === flexComponent.connectionId)?.name
-                : 'Select a screen'}
+              <span className="truncate">
+                {flexComponent.connectionId
+                  ? mobileScreens.find((screen) => screen.id === flexComponent.connectionId)?.name
+                  : 'Select a screen'}
+              </span>
               <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
@@ -87,7 +89,9 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
                             flexComponent.connectionId === screen.id ? 'opacity-100' : 'opacity-0'
                           )}
                         />
-                        {screen.name}
+                        <span className="truncate">
+                          {screen.name}
+                        </span>
                       </CommandItem>
                     ))}
                 </CommandGroup>
