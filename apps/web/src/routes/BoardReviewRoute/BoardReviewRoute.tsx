@@ -58,7 +58,7 @@ export function BoardReviewRoute () {
     <main>
       <div
         data-testid="screen-container"
-        className="w-[391px] h-[828px] border-8 border-[#6b6b6b] bg-white rounded-[65px] overflow-hidden"
+        className="w-[391px] h-[828px] border-8 border-[#3d3d44] bg-white rounded-[65px] overflow-hidden"
         style={{ height: currentScreen.properties.height + 'px' }}
       >
         <div

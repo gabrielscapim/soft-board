@@ -29,7 +29,7 @@ export function MobileScreenFlexComponent (props: MobileScreenFlexComponentProps
         width: `${properties.width}px`,
         height: `${properties.height}px`,
         zIndex: properties.zIndex,
-        boxShadow: '0 0 0 8px #6b6b6b'
+        boxShadow: '0 0 0 8px rgba(61, 61, 68)'
       }}
     >
       {children}
