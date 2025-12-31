@@ -60,7 +60,9 @@ export function BoardReviewDialog (props: BoardReviewDialogProps) {
         </Item>
       </DialogTrigger>
 
-      <DialogContentWrapper {...props} />
+      {boardReview.status === 'completed' && (
+        <DialogContentWrapper {...props} />
+      )}
     </Dialog>
   )
 }
