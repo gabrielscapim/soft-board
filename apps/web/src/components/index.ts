@@ -1,7 +1,6 @@
 export * from './AuthenticationGuardLayout'
 export * from './Board'
 export * from './BoardLink'
-export * from './BoardPendingContainer'
 export * from './EditBoardHeader'
 export * from './EditBoardLayout'
 export * from './BoardPropertiesMenu'
