@@ -123,6 +123,7 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
             <PropertiesTabContent
               flexComponent={flexComponent}
               screen={flexComponents?.find(component => component.id === flexComponent.screenId) ?? null}
+              boardState={boardState}
               onUpdateProperties={onUpdateProperties}
               onUpdateName={value => onUpdateFlexComponent('name', value)}
             />
