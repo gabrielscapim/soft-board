@@ -32,7 +32,7 @@ export function ReviewCard (props: ReviewCardProps) {
       <CardContent className="space-y-4">
         <div className="p-4 rounded-lg bg-muted">
           <div className="flex items-start gap-2">
-            <Info className="mt-0.5 shrink-0" size={16} />
+            <Info className="mt-1 shrink-0" size={16} />
             <p className="text-sm text-foreground/90 leading-relaxed">
               {review.applicable ? review.explanation : review.notApplicableReason}
             </p>

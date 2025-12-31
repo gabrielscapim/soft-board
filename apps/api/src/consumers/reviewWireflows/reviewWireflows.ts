@@ -35,10 +35,10 @@ export function consumer ({ openai }: Deps) {
         return
       }
 
-      const { review } = await generateReview({
-        openai,
-        screenBuffers
-      })
+      const { review } = await generateReview(
+        { openai, pool },
+        { boardId: board.id, teamId: team.id, screenBuffers }
+      )
 
       logger.info({ event, review }, 'Review wireflows completed')
 
