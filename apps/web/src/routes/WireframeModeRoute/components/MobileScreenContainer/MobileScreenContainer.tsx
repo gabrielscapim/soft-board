@@ -1,13 +1,13 @@
-import { FlexComponent } from '@/types'
+import { FlexComponent, MobileScreenFlexComponent } from '@/types'
 import { createElement, useMemo, useState } from 'react'
 import { FLEX_COMPONENTS_ELEMENTS } from '@/flex-components'
 import clsx from 'clsx'
 import { TouchCursor } from './TouchCursor'
 
 export type MobileScreenContainerProps = {
-  currentScreen: FlexComponent
+  currentScreen: MobileScreenFlexComponent
   components?: FlexComponent[]
-  onChangeScreen?: (screen: FlexComponent) => void
+  onChangeScreen?: (screen: MobileScreenFlexComponent) => void
 }
 
 export function MobileScreenContainer (props: MobileScreenContainerProps) {
