@@ -9,11 +9,13 @@ import { requireAuth } from '../../middlewares/require-auth'
 import OpenAI from 'openai'
 import { getOpenai } from '../../libs'
 import { loadPublishers } from '../load-publishers'
+import { loadWebsocketEmitters } from '../load-websocket-emitters'
 
 export type CreateAppOptions = {
   endpoints?: Endpoint[] | Record<string, Omit<Endpoint, 'path'>>
   publishers?: Partial<ReturnType<typeof loadPublishers>>
   openai?: OpenAI
+  emitters?: Partial<ReturnType<typeof loadWebsocketEmitters>>
   tests?: {
     auth?: AuthenticationData
     team?: TeamData
@@ -29,6 +31,11 @@ export function createApp (options: CreateAppOptions = {}): Express {
 
   // Register publishers
   for (const [key, value] of Object.entries(options.publishers ?? {})) {
+    container.register({ [key]: asValue(value) })
+  }
+
+  // Register websocket emitters
+  for (const [key, value] of Object.entries(options.emitters ?? {})) {
     container.register({ [key]: asValue(value) })
   }
 
