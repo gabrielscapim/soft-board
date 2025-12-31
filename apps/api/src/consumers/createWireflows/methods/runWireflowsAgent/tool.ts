@@ -51,7 +51,8 @@ export class CreateWireflowTool extends Tool {
         x: index * 375 + index * 60,
         y: 0,
         width: 375,
-        height: 812
+        height: 812,
+        main: index === 0
       }
     }))
 
