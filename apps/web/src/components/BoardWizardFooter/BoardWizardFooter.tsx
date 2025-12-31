@@ -14,12 +14,12 @@ export function BoardWizardFooter () {
   const handleNext = useMutation({
     mutationFn: async () => client.updateBoardStep({ id: boardId!, step: 'next' }),
     onSuccess: () => onHandleStep(),
-    onError: () => toast.error('Failed to update board step')
+    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to update board step')
   })
   const handlePrevious = useMutation({
     mutationFn: async () => client.updateBoardStep({ id: boardId!, step: 'previous' }),
     onSuccess: () => onHandleStep(),
-    onError: () => toast.error('Failed to update board step')
+    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to update board step')
   })
 
   const onHandleStep = () => {
