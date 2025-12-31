@@ -1,4 +1,5 @@
 import { MobileScreenFlexComponent } from '@/types'
+import { HomeIcon } from 'lucide-react'
 
 export type MobileScreenBarProps = {
   screen: MobileScreenFlexComponent
@@ -20,7 +21,12 @@ export function MobileScreenBar (props: MobileScreenBarProps) {
         zIndex: 10
       }}
     >
-      <span className="truncate block w-full text-center">{screen.name}</span>
+      <div className="flex items-center gap-4 w-full justify-center">
+        {screen.properties.main && <HomeIcon className="shrink-0" />}
+        <span className="truncate block text-center">
+          {screen.name}
+        </span>
+      </div>
     </div>
   )
 }

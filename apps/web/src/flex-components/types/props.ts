@@ -1,5 +1,5 @@
 import { ClassValue } from 'clsx'
-import { BoardController } from '../../lib'
+import { BoardController, BoardState } from '../../lib'
 import { FlexComponent, FlexComponentProperties } from '../../types'
 
 export type FlexComponentProps = {
@@ -13,6 +13,8 @@ export type FlexComponentProps = {
 }
 
 export type FlexComponentPropertiesMenuProps = {
+  boardState: BoardState
+  component: FlexComponent
   properties: FlexComponentProperties
   onUpdateProperties (key: string, value: unknown): void
 }

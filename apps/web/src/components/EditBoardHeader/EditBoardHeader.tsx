@@ -3,7 +3,7 @@ import { SmartphoneIcon } from 'lucide-react'
 import { BoardZoomController } from '../BoardZoomController'
 import { useBoard, useScreenDimensions } from '@/hooks'
 import { MAX_SCALE, MIN_SCALE } from '@/helpers'
-import { useScale } from '../Board'
+import { useFlexComponents, useScale } from '../Board'
 import { BoardLink } from '../BoardLink'
 import { WireframeModeLink } from '../WireframeModeLink'
 import { FLEX_COMPONENTS_SCHEMAS } from '@/flex-components'
@@ -12,6 +12,8 @@ export function EditBoardHeader () {
   const { boardState, boardController } = useBoard()
   const scale = useScale(boardState)
   const screenDimensions = useScreenDimensions()
+  const flexComponents = useFlexComponents(boardState)
+  const currentMobileScreens = flexComponents.filter(fc => fc.type === 'mobileScreen')
 
   return (
     <header className="bg-background sticky top-0 shrink-0 p-3 h-15 flex justify-between items-center w-full border-b-1">
@@ -27,7 +29,10 @@ export function EditBoardHeader () {
             variant="outline"
             onClick={() => boardController.onAddFlexComponent({
               type: 'mobileScreen',
-              properties: FLEX_COMPONENTS_SCHEMAS.mobileScreen.variations[0].properties,
+              properties: {
+                ...FLEX_COMPONENTS_SCHEMAS.mobileScreen.variations[0].properties,
+                main: currentMobileScreens.length === 0
+              },
               name: FLEX_COMPONENTS_SCHEMAS.mobileScreen.variations[0].name,
               position: {
                 x: Math.round((screenDimensions.width / 2) / 10) * 10,
