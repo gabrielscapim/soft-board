@@ -151,3 +151,4 @@ Prototipe um [tipo] de baixa fidelidade que [instrução completa].
 5. **SEJA** conciso mas completo (2-4 linhas)
 6. Use vocabulário do usuário
 7. Ordem lógica: autenticação → funcionalidade principal → recursos secundários
+8. O usuário pode ter preferências específicas; **incorpore-as** na instrução
