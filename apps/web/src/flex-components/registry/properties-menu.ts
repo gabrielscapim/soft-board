@@ -4,6 +4,7 @@ import {
   DividerPropertiesMenu,
   IconPropertiesMenu,
   InputPropertiesMenu,
+  MobileScreenPropertiesMenu,
   RadioButtonPropertiesMenu,
   ShapePropertiesMenu,
   TextPropertiesMenu,
@@ -11,11 +12,12 @@ import {
 } from '../components'
 import { FlexComponentPropertiesMenuProps } from '../types'
 
-export const FLEX_COMPONENTS_PROPERTIES_MENU: Partial<Record<FlexComponentType, (props: FlexComponentPropertiesMenuProps) => JSX.Element>> = {
+export const FLEX_COMPONENTS_PROPERTIES_MENU: Record<FlexComponentType, (props: FlexComponentPropertiesMenuProps) => JSX.Element> = {
   button: ButtonPropertiesMenu,
   divider: DividerPropertiesMenu,
   icon: IconPropertiesMenu,
   input: InputPropertiesMenu,
+  mobileScreen: MobileScreenPropertiesMenu,
   radioButton: RadioButtonPropertiesMenu,
   shape: ShapePropertiesMenu,
   text: TextPropertiesMenu,
