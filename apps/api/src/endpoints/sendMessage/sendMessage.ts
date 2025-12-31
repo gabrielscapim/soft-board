@@ -23,7 +23,7 @@ type Handler = RequestHandler<unknown, SendMessageResult, SendMessageCommand>
 
 type MessageRow = Pick<MessageDatabase, 'id' | 'role' | 'content' | 'toolCallId' | 'toolCalls'> & { userName: string | null }
 
-type BoardRow = Pick<BoardDatabase, 'id' | 'step' | 'status'>
+type BoardRow = Pick<BoardDatabase, 'id' | 'step'>
 
 type Deps = {
   openai: OpenAI
@@ -52,7 +52,7 @@ export function handler ({ openai, agentCalledFunction }: Deps): Handler {
       .find({ error: `Team with id ${teamId} not found` })
 
     const board = await pool
-      .SELECT<BoardRow>`id, step, status`
+      .SELECT<BoardRow>`id, step`
       .FROM`board`
       .WHERE`id = ${boardId}`
       .AND`team_id = ${teamId}`
@@ -82,8 +82,7 @@ export function handler ({ openai, agentCalledFunction }: Deps): Handler {
     const context: AgentContext = {
       board: {
         id: boardId,
-        step: board.step,
-        status: board.status
+        step: board.step
       },
       team: {
         id: teamId,

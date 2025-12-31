@@ -30,7 +30,6 @@ export const Example: Story = {
       team: {} as any,
       title: 'Board',
       step: 'init',
-      status: 'idle',
       image: '1',
       createDate: new Date().toISOString(),
       updateDate: new Date().toISOString(),

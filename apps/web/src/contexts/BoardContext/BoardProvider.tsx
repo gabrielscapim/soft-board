@@ -7,7 +7,7 @@ import { BoardContext } from './BoardContext'
 import { useClient } from '@/hooks'
 
 import { FlexComponent } from '@/types'
-import { BoardPendingContainer, FullScreenLoader } from '@/components'
+import { FullScreenLoader } from '@/components'
 import { ErrorRoute } from '@/routes'
 import { Client } from '@/client'
 import { GetBoardQuery } from 'types/endpoints'
@@ -94,11 +94,7 @@ export function BoardProvider ({ children }: BoardProviderProps) {
 
       {getBoard.isLoading && <FullScreenLoader />}
 
-      {getBoard.data && getBoard.data.status === 'pending' && (
-        <BoardPendingContainer />
-      )}
-
-      {getBoard.data && getBoard.data.status !== 'pending' && children}
+      {getBoard.data && children}
     </BoardContext.Provider>
   )
 }

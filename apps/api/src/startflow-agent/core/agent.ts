@@ -20,7 +20,6 @@ export type AgentContext = {
   board: {
     id: string
     step: string
-    status: 'idle' | 'error' | 'pending'
   }
   team: {
     id: string

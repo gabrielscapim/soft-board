@@ -31,7 +31,6 @@ describe('getBoard', () => {
         id: board.id,
         title: board.title,
         step: board.step,
-        status: board.status,
         image: board.image,
         createDate: board.createDate.toISOString(),
         updateDate: board.updateDate.toISOString(),
