@@ -65,7 +65,9 @@ export type InputFlexComponentProperties = BaseProperties & {
 }
 
 /** Mobile screen */
-export type MobileScreenFlexComponentProperties = BaseProperties
+export type MobileScreenFlexComponentProperties = BaseProperties & {
+  main?: boolean
+}
 
 /** Radio button */
 export type RadioButtonFlexComponentProperties = BaseProperties & {
