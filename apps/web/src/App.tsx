@@ -26,6 +26,7 @@ import {
   AuthorizationProvider,
   BoardProvider,
   ClientProvider,
+  SocketProvider,
   TeamProvider
 } from './contexts'
 import { Client } from './client'
@@ -52,87 +53,89 @@ function App () {
     <QueryClientProvider client={queryClient}>
       <ClientProvider client={client}>
         <AuthenticationProvider>
-          <Toaster />
-          <div className="bg-muted">
-            <Routes>
+          <SocketProvider>
+            <Toaster />
+            <div className="bg-muted">
+              <Routes>
 
-              {/* Public Routes */}
-              <Route path="/" element={<UnauthenticatedGuardLayout />}>
-                <Route index element={<SignInRoute />} />
-                <Route path="sign-in" element={<SignInRoute />} />
-              </Route>
+                {/* Public Routes */}
+                <Route path="/" element={<UnauthenticatedGuardLayout />}>
+                  <Route index element={<SignInRoute />} />
+                  <Route path="sign-in" element={<SignInRoute />} />
+                </Route>
 
-              {/* Private Routes */}
-              <Route path=":teamSlug" element={<AuthenticationGuardLayout />}>
-                <Route
-                  element={
-                    <PrivateRoutesProviders>
-                      <RootLayout />
-                    </PrivateRoutesProviders>
-                  }
-                >
-                  <Route index element={<Navigate to="boards" replace />} />
-                  <Route path="boards" element={<BoardsRoute />} />
-                  <Route path="members" element={<MembersRoute />} />
-                  <Route path="settings" element={<SettingsRoute />} />
+                {/* Private Routes */}
+                <Route path=":teamSlug" element={<AuthenticationGuardLayout />}>
+                  <Route
+                    element={
+                      <PrivateRoutesProviders>
+                        <RootLayout />
+                      </PrivateRoutesProviders>
+                    }
+                  >
+                    <Route index element={<Navigate to="boards" replace />} />
+                    <Route path="boards" element={<BoardsRoute />} />
+                    <Route path="members" element={<MembersRoute />} />
+                    <Route path="settings" element={<SettingsRoute />} />
+                  </Route>
+
+                  <Route
+                    path="boards/:boardId"
+                    element={
+                      <BoardProviders>
+                        <BoardWizardLayout />
+                      </BoardProviders>
+                    }
+                  >
+                    <Route index element={<BoardWizardRoute />} />
+                  </Route>
+
+                  <Route
+                    path="boards/:boardId/edit"
+                    element={
+                      <BoardProviders>
+                        <EditBoardLayout />
+                      </BoardProviders>
+                    }
+                  >
+                    <Route index element={<EditBoardRoute />} />
+                  </Route>
+
+                  <Route
+                    path="boards/:boardId/wireframe"
+                    element={
+                      <BoardProviders>
+                        <WireframeModeLayout />
+                      </BoardProviders>
+                    }
+                  >
+                    <Route index element={<WireframeModeRoute />} />
+                  </Route>
+
+                  <Route
+                    path="boards/:boardId/review"
+                    element={
+                      <BoardProviders>
+                        <BoardReviewRoute />
+                      </BoardProviders>
+                    }
+                  >
+                    <Route index element={<WireframeModeRoute />} />
+                  </Route>
                 </Route>
 
                 <Route
-                  path="boards/:boardId"
+                  path="*"
                   element={
-                    <BoardProviders>
-                      <BoardWizardLayout />
-                    </BoardProviders>
+                    <ErrorRoute
+                      status={404}
+                      description="The page you are looking for does not exist."
+                    />
                   }
-                >
-                  <Route index element={<BoardWizardRoute />} />
-                </Route>
-
-                <Route
-                  path="boards/:boardId/edit"
-                  element={
-                    <BoardProviders>
-                      <EditBoardLayout />
-                    </BoardProviders>
-                  }
-                >
-                  <Route index element={<EditBoardRoute />} />
-                </Route>
-
-                <Route
-                  path="boards/:boardId/wireframe"
-                  element={
-                    <BoardProviders>
-                      <WireframeModeLayout />
-                    </BoardProviders>
-                  }
-                >
-                  <Route index element={<WireframeModeRoute />} />
-                </Route>
-
-                <Route
-                  path="boards/:boardId/review"
-                  element={
-                    <BoardProviders>
-                      <BoardReviewRoute />
-                    </BoardProviders>
-                  }
-                >
-                  <Route index element={<WireframeModeRoute />} />
-                </Route>
-              </Route>
-
-              <Route
-                path="*"
-                element={
-                  <ErrorRoute
-                    status={404}
-                    description="The page you are looking for does not exist."
-                  />
-                }
-              />
-            </Routes>
-          </div>
+                />
+              </Routes>
+            </div>
+          </SocketProvider>
         </AuthenticationProvider>
       </ClientProvider>
     </QueryClientProvider>
