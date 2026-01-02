@@ -8,7 +8,7 @@ import {
   loadWebsocketEmitters,
   registerApplicationDependencies
 } from './setup'
-import { CONSUMERS_DIR, ENDPOINTS_DIR, PORT } from './constants'
+import { CONSUMERS_DIR, CORS_ORIGINS, ENDPOINTS_DIR, PORT } from './constants'
 import { logger } from './libs'
 import { Server } from 'socket.io'
 import http from 'http'
@@ -32,7 +32,10 @@ async function main () {
   const server = http.createServer(app)
 
   const io = new Server(server, {
-    cors: { origin: '*' }
+    cors: {
+      origin: CORS_ORIGINS,
+      credentials: true
+    }
   })
 
   registerApplicationDependencies(
