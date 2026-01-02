@@ -224,26 +224,6 @@ async function generateStartFlow1Review (
 ): Promise<ReviewItem> {
   const { boardId, teamId } = command
 
-  const screensWithoutConnectionsSql = pool
-    .SELECT<{ id: string, name: string }>`s.id, s.name`
-    .FROM`component s`
-    .WHERE`s.board_id = ${boardId}`
-    .AND`s.team_id = ${teamId}`
-    .AND`s.board_generation_id IS NULL`
-    .AND`s.type = 'mobileScreen'`
-    .AND`s.deleted = false`
-    .AND`NOT EXISTS (
-      SELECT 1
-      FROM component c
-      WHERE c.screen_id = s.id
-        AND c.connection_id IS NOT NULL
-        AND c.deleted = false
-    )`
-    .toSql()
-
-
-  console.log('screensWithoutConnectionsSql', screensWithoutConnectionsSql) // --- IGNORE ---
-
   const screensWithoutConnections = await pool
     .SELECT<{ id: string, name: string }>`s.id, s.name`
     .FROM`component s`

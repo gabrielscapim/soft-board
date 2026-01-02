@@ -39,8 +39,6 @@ export async function loadExchanges (consumersDir: string): Promise<Exchange[]> 
       throw new Error(`Module ${consumerDir} does not export a valid exchange or consumer function`)
     }
 
-    console.log('module', module.exchange)
-
     const exchange = EXCHANGES.find(exchange => exchange.name === module.exchange)
 
     if (!exchange) {
