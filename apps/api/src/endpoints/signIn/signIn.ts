@@ -5,9 +5,8 @@ import * as yup from 'yup'
 import * as bcrypt from 'bcrypt'
 import { getPool } from '../../libs'
 import { Unauthorized } from 'http-errors'
-import { AuthenticationData, IPublisher } from '../../types'
+import { ApplicationDependencies, AuthenticationData } from '../../types'
 import { AUTHENTICATION_COOKIE_NAME, NODE_ENV } from '../../constants'
-import { UserSignedInEvent } from 'event-types'
 
 const schema = yup.object({
   email: yup.string().email().required(),
@@ -22,13 +21,10 @@ type Handler = RequestHandler<unknown, SignInResult, SignInCommand>
 
 type UserRow = Pick<UserDatabase, 'id' | 'name' | 'passwordHash'>
 
-type Deps = {
-  userSignedIn: IPublisher<UserSignedInEvent>
-}
-
-export function handler (deps: Deps): Handler {
+export function handler (getDeps: () => ApplicationDependencies): Handler {
   return async (req, res) => {
     const { email, password } = schema.validateSync(req.body, { abortEarly: false })
+    const { publishers } = getDeps()
 
     const pool = getPool()
 
@@ -76,7 +72,7 @@ export function handler (deps: Deps): Handler {
       maxAge: EIGHT_HOURS_IN_MS
     }
 
-    deps.userSignedIn.publish({
+    publishers.userSignedIn.publish({
       userId: user.id,
       eventDate: new Date().toISOString()
     })

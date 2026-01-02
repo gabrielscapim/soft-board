@@ -5,14 +5,19 @@ import request from 'supertest'
 import { mock } from 'vitest-mock-extended'
 import { IPublisher } from '../../types'
 import { UserSignedOutEvent } from 'event-types'
+import { asValue, createContainer } from 'awilix'
 
 describe('signOut', () => {
   test('clears the session cookie', async () => {
     const userSignedOut = mock<IPublisher<UserSignedOutEvent>>({
       publish: vi.fn()
     })
+    const container = createContainer()
+      .register({
+        publishers: asValue({ userSignedOut })
+      })
     const app = createApp({
-      publishers: { userSignedOut },
+      container,
       endpoints: { signOut }
     })
 

@@ -1,12 +1,13 @@
 import { Channel } from 'amqplib'
 import { IPublisher } from '../../types'
 import { AgentCalledFunctionEvent, UserSignedInEvent, UserSignedOutEvent } from 'event-types'
+import { ExchangeName } from '../load-exchanges'
 
-export function loadPublishers (channel: Channel) {
+export function loadPublishers (channel?: Channel) {
   return {
-    agentCalledFunction: publisher<AgentCalledFunctionEvent>('agentCalledFunction', channel),
-    userSignedIn: publisher<UserSignedInEvent>('userSignedIn', channel),
-    userSignedOut: publisher<UserSignedOutEvent>('userSignedOut', channel)
+    agentCalledFunction: publisher<AgentCalledFunctionEvent>('agent.calledFunction', channel),
+    userSignedIn: publisher<UserSignedInEvent>('user.signedIn', channel),
+    userSignedOut: publisher<UserSignedOutEvent>('user.signedOut', channel)
   }
 }
 
@@ -43,7 +44,7 @@ class NullPublisher<T> implements IPublisher<T> {
   }
 }
 
-function publisher<T> (name: string, channel?: Channel): IPublisher<T> {
+function publisher<T> (name: ExchangeName, channel?: Channel): IPublisher<T> {
   if (channel) {
     return new Publisher<T>(name, channel)
   } else {

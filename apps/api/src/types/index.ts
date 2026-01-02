@@ -1,3 +1,4 @@
+export * from './application-dependencies'
 export * from './authentication-data'
 export * from './consumer'
 export * from './endpoint'

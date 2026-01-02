@@ -8,6 +8,7 @@ import { mock } from 'vitest-mock-extended'
 import { PASSWORD_SALT_ROUNDS } from '../../constants'
 import { IPublisher } from '../../types'
 import { UserSignedInEvent } from 'event-types'
+import { asValue, createContainer } from 'awilix'
 
 describe('signIn', () => {
   describe('when user is not found or credentials are invalid', () => {
@@ -15,8 +16,12 @@ describe('signIn', () => {
       const userSignedIn = mock<IPublisher<UserSignedInEvent>>({
         publish: vi.fn()
       })
+      const container = createContainer()
+        .register({
+          publishers: asValue({ userSignedIn })
+        })
       const app = createApp({
-        publishers: { userSignedIn },
+        container,
         endpoints: { signIn }
       })
 
@@ -36,8 +41,12 @@ describe('signIn', () => {
       const userSignedIn = mock<IPublisher<UserSignedInEvent>>({
         publish: vi.fn()
       })
+      const container = createContainer()
+        .register({
+          publishers: asValue({ userSignedIn })
+        })
       const app = createApp({
-        publishers: { userSignedIn },
+        container,
         endpoints: { signIn }
       })
       const pool = getPool()

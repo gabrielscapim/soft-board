@@ -1,16 +1,12 @@
 import { CookieOptions, RequestHandler } from 'express'
 import { AUTHENTICATION_COOKIE_NAME, NODE_ENV } from '../../constants'
-import { UserSignedOutEvent } from 'event-types'
-import { IPublisher } from '../../types'
+import { ApplicationDependencies } from '../../types'
 
 export const auth = false
 
-type Deps = {
-  userSignedOut: IPublisher<UserSignedOutEvent>
-}
-
-export function handler (deps: Deps): RequestHandler {
+export function handler (getDeps: () => ApplicationDependencies): RequestHandler {
   return async (req, res) => {
+    const { publishers } = getDeps()
     const cookieOptions: CookieOptions = {
       signed: true,
       httpOnly: true,
@@ -19,7 +15,7 @@ export function handler (deps: Deps): RequestHandler {
       sameSite: NODE_ENV === 'production' ? 'none' : 'lax'
     }
 
-    deps.userSignedOut.publish({
+    publishers.userSignedOut.publish({
       userId: req.auth?.userId ?? '',
       eventDate: new Date().toISOString()
     })
