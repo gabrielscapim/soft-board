@@ -4,7 +4,7 @@ import { Consumer, Exchange } from '../../types'
 
 const EXCHANGES = [
   {
-    name: 'agentCalledFunction',
+    name: 'agent.calledFunction',
     type: 'topic'
   },
   {
@@ -15,16 +15,18 @@ const EXCHANGES = [
     name: 'user.signedOut',
     type: 'fanout'
   }
-]
+] as const
+
+export type ExchangeName = typeof EXCHANGES[number]['name']
 
 type Module = {
-  exchange?: string
+  exchange?: ExchangeName
   key?: string
   consumer?: Consumer
 }
 
 export async function loadExchanges (consumersDir: string): Promise<Exchange[]> {
-  const result: Exchange[] = []
+  const exchanges: Exchange[] = []
 
   const consumerDirs = (await fs.promises.readdir(consumersDir, { withFileTypes: true }))
     .filter(dirent => dirent.isDirectory())
@@ -37,13 +39,15 @@ export async function loadExchanges (consumersDir: string): Promise<Exchange[]> 
       throw new Error(`Module ${consumerDir} does not export a valid exchange or consumer function`)
     }
 
+    console.log('module', module.exchange)
+
     const exchange = EXCHANGES.find(exchange => exchange.name === module.exchange)
 
     if (!exchange) {
       throw new Error(`Exchange ${module.exchange} not found`)
     }
 
-    const consumerExchange = result.find(item => item.name === exchange.name)
+    const consumerExchange = exchanges.find(item => item.name === exchange.name)
 
     if (consumerExchange) {
       consumerExchange.bindings.push({
@@ -52,7 +56,7 @@ export async function loadExchanges (consumersDir: string): Promise<Exchange[]> 
         consumer: module.consumer
       })
     } else {
-      result.push({
+      exchanges.push({
         name: exchange.name,
         type: exchange.type,
         bindings: [{
@@ -64,5 +68,5 @@ export async function loadExchanges (consumersDir: string): Promise<Exchange[]> 
     }
   }
 
-  return result
+  return exchanges
 }
