@@ -28,6 +28,8 @@ describe('getMessages', () => {
       .post('/getMessages')
       .send({ boardId: board.id })
 
+    console.log(response.body)
+
     expect(response.body.data.length).toBe(2)
   })
 })
