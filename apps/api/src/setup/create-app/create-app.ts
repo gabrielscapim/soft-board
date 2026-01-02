@@ -1,21 +1,15 @@
 import cors from 'cors'
 import express, { type Express } from 'express'
-import { asValue, createContainer } from 'awilix'
+import { AwilixContainer } from 'awilix'
 import cookieParser from 'cookie-parser'
 import { COOKIE_PARSER_SECRET, CORS_ORIGINS } from '../../constants'
-import { AuthenticationData, Endpoint, TeamData } from '../../types'
+import { ApplicationDependencies, AuthenticationData, Endpoint, TeamData } from '../../types'
 import { errorHandler, setAuth, setTeam } from '../../middlewares'
 import { requireAuth } from '../../middlewares/require-auth'
-import OpenAI from 'openai'
-import { getOpenai } from '../../libs'
-import { loadPublishers } from '../load-publishers'
-import { loadWebsocketEmitters } from '../load-websocket-emitters'
 
 export type CreateAppOptions = {
+  container?: AwilixContainer<ApplicationDependencies>
   endpoints?: Endpoint[] | Record<string, Omit<Endpoint, 'path'>>
-  publishers?: Partial<ReturnType<typeof loadPublishers>>
-  openai?: OpenAI
-  emitters?: Partial<ReturnType<typeof loadWebsocketEmitters>>
   tests?: {
     auth?: AuthenticationData
     team?: TeamData
@@ -23,22 +17,6 @@ export type CreateAppOptions = {
 }
 
 export function createApp (options: CreateAppOptions = {}): Express {
-  // Create a new Awilix container for dependency injection
-  const container = createContainer({ strict: true })
-  container.register({
-    openai: asValue(options.openai ?? getOpenai())
-  })
-
-  // Register publishers
-  for (const [key, value] of Object.entries(options.publishers ?? {})) {
-    container.register({ [key]: asValue(value) })
-  }
-
-  // Register websocket emitters
-  for (const [key, value] of Object.entries(options.emitters ?? {})) {
-    container.register({ [key]: asValue(value) })
-  }
-
   const app = express()
 
   // Set credentials true to allow cookies and other credentials to be sent with requests
@@ -83,9 +61,9 @@ export function createApp (options: CreateAppOptions = {}): Express {
 
     // If endpoint requires authentication, use the requireAuth middleware
     if (auth){
-      app[method](path, requireAuth, handler(container.cradle))
+      app[method](path, requireAuth, handler(() => options.container?.cradle))
     } else {
-      app[method](path, handler(container.cradle))
+      app[method](path, handler(() => options.container?.cradle))
     }
   }
 

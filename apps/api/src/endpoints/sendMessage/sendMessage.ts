@@ -1,7 +1,7 @@
 import { SendMessageResultMessage, SendMessageCommand, SendMessageResult } from 'types/endpoints'
 import { RequestHandler } from 'express'
 import { getPool, logger } from '../../libs'
-import OpenAI, { OpenAIError } from 'openai'
+import { OpenAIError } from 'openai'
 import * as yup from 'yup'
 import { DatabasePool } from 'pg-script'
 import { ChatCompletionMessageFunctionToolCall, ChatCompletionMessageParam } from 'openai/resources/index'
@@ -16,19 +16,13 @@ import {
   CreateWireflowTool,
   ReviewWireflowsTool
 } from './tools'
-import { AgentCalledFunctionEvent } from 'event-types'
-import { IPublisher } from '../../types'
+import { ApplicationDependencies, IPublisher } from '../../types'
 
 type Handler = RequestHandler<unknown, SendMessageResult, SendMessageCommand>
 
 type MessageRow = Pick<MessageDatabase, 'id' | 'role' | 'content' | 'toolCallId' | 'toolCalls'> & { userName: string | null }
 
 type BoardRow = Pick<BoardDatabase, 'id' | 'step'>
-
-type Deps = {
-  openai: OpenAI
-  agentCalledFunction: IPublisher<AgentCalledFunctionEvent>
-}
 
 const schema = yup.object({
   content: yup.string().required('Message is required'),
@@ -37,9 +31,10 @@ const schema = yup.object({
 
 const DEFAULT_ERROR_MESSAGE = 'An error occurred while processing your message.'
 
-export function handler ({ openai, agentCalledFunction }: Deps): Handler {
+export function handler (getDeps: () => ApplicationDependencies): Handler {
   return async (req, res) => {
     const { content, boardId } = await schema.validate(req.body, { abortEarly: false })
+    const { openai, publishers } = getDeps()
     const teamId = req.team!.teamId
     const userId = req.auth!.userId
 
@@ -73,9 +68,6 @@ export function handler ({ openai, agentCalledFunction }: Deps): Handler {
       .ORDER_BY`send_date ASC`
       .list()
 
-    const publishers: Record<string, IPublisher<any>> = {
-      agentCalledFunction
-    }
     const tools = getTools(board, pool, publishers)
     const prompt = getPrompt(board)
 
