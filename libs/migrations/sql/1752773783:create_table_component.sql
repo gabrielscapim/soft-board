@@ -7,7 +7,6 @@ CREATE TABLE component (
   properties JSONB NOT NULL DEFAULT '{}',
   connection_id UUID REFERENCES component(id) ON DELETE SET NULL,
   screen_id UUID REFERENCES component(id) ON DELETE SET NULL,
-  deleted BOOLEAN NOT NULL DEFAULT FALSE,
   create_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   update_date TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

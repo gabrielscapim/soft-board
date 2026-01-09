@@ -76,7 +76,6 @@ export function handler (): Handler {
       .FROM`component`
       .WHERE`component.board_id = ${boardId}`
       .AND`component.team_id = ${teamId}`
-      .AND`component.deleted IS FALSE`
       .if(!boardGenerationId, q => q.AND`component.board_generation_id IS NULL`)
       .if(Boolean(boardGenerationId), q => q.AND`component.board_generation_id = ${boardGenerationId}`)
       .ORDER_BY`component.update_date DESC`

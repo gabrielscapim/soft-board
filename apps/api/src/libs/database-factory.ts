@@ -84,7 +84,6 @@ export class DatabaseFactory {
       name: component.name ?? randomUUID(),
       teamId: component.teamId ?? randomUUID(),
       boardId: component.boardId ?? randomUUID(),
-      deleted: component.deleted ?? false,
       type: component.type ?? 'button',
       properties: component.properties ?? {},
       connectionId: component.connectionId ?? null,

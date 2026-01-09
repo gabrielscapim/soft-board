@@ -5,7 +5,7 @@ import request from 'supertest'
 import * as deleteComponents from './deleteComponents'
 
 describe('deleteComponent', () => {
-  test('set deleted to true', async () => {
+  test('delete components', async () => {
     const pool = getPool()
     const factory = new DatabaseFactory({ pool })
     const user = await factory.createUser()
@@ -30,11 +30,11 @@ describe('deleteComponent', () => {
       })
 
     const check = await pool
-      .SELECT`deleted`
+      .SELECT<{ id: string }>`id`
       .FROM`component`
       .WHERE`id = ${component.id}`
-      .find()
+      .first()
 
-    expect(check.deleted).toBe(true)
+    expect(check).toBeNull()
   })
 })
