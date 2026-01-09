@@ -1,4 +1,4 @@
-import { FlexComponent } from '../../../types'
+import { Dimensions, FlexComponent, Offset } from '../../../types'
 
 export type AddFlexComponentsParams = {
   flexComponents: FlexComponent[]
@@ -10,6 +10,7 @@ export type DeleteFlexComponentsParams = {
 
 export type UpdateFlexComponentsParams = {
   updatedFlexComponents: FlexComponent[]
+  initialProperties?: Map<string, Dimensions & Offset & { screenId?: string | null }> | null
 }
 
 export interface BoardManagerI {
