@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react'
+import { Fragment, useMemo, useRef } from 'react'
 import { BoardController, BoardManager, BoardState } from '../../lib'
 import { AlignmentGuides, ConnectionLines, MobileScreenBar, ResizeBox, SelectionBox } from './Components'
 import {
@@ -94,10 +94,9 @@ export function Board (props: BoardProps) {
           const children = componentsByScreenId[screen.id] ?? []
 
           return (
-            <>
+            <Fragment key={screen.id}>
               <MobileScreenBar screen={screen} />
               <MobileScreenFlexComponent
-                key={screen.id}
                 component={screen}
                 boardController={boardController}
                 editable={enableSelection}
@@ -124,7 +123,7 @@ export function Board (props: BoardProps) {
                   )
                 })}
               </MobileScreenFlexComponent>
-            </>
+            </Fragment>
           )
         })}
 
