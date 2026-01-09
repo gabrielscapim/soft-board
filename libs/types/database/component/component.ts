@@ -7,7 +7,6 @@ export type ComponentDatabase = {
   name: VARCHAR_255
   type: VARCHAR_50
   properties: JSONB
-  deleted: BOOLEAN
   connectionId: UUID | null
   screenId: UUID | null
   boardGenerationId: UUID | null

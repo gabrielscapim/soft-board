@@ -13,12 +13,14 @@ export type ElementResizerOptions = {
   boardManager: BoardManager
 }
 
+type InitialProperties = Map<string, Dimensions & Offset & { screenId?: string | null }>
+
 export class ElementResizer {
   private _boardElement: HTMLElement
   private _boardState: BoardState
   private _boardManager: BoardManager
   private _hasDragged: boolean = false
-  private _initialFlexComponentProperties: Map<string, Dimensions & Offset> | null = null
+  private _initialProperties: InitialProperties | null = null
   private _offset: Offset | undefined
   private _resizeDirection: ResizeDirection | undefined
   private _selectedResizerElement: HTMLElement | undefined
@@ -236,11 +238,14 @@ export class ElementResizer {
     const selectedComponents = this._boardState.flexComponents.filter(flexComponent => selectedIds.includes(flexComponent.id))
 
     if (selectedComponents.length && this._hasDragged) {
-      this._boardManager.updateFlexComponents({ updatedFlexComponents: selectedComponents })
+      this._boardManager.updateFlexComponents({
+        updatedFlexComponents: selectedComponents,
+        initialProperties: this._initialProperties
+      })
     }
 
     this._boardState.setIsResizing(false)
-    this._initialFlexComponentProperties = null
+    this._initialProperties = null
   }
 
   private onResizingFlexComponent (params: OnResizingFlexComponentParams) {
@@ -248,7 +253,7 @@ export class ElementResizer {
 
     const selected = new Set(this._boardState.selectedFlexComponents)
 
-    if (!selected || selected.size === 0 || !this._initialFlexComponentProperties) {
+    if (!selected || selected.size === 0 || !this._initialProperties) {
       return
     }
 
@@ -266,7 +271,7 @@ export class ElementResizer {
       }
 
       if (selected.has(flexComponent.id)) {
-        const initialProps = this._initialFlexComponentProperties?.get(flexComponent.id)
+        const initialProps = this._initialProperties?.get(flexComponent.id)
 
         if (!initialProps) return flexComponent
 
@@ -411,22 +416,23 @@ export class ElementResizer {
       return
     }
 
-    const initialProperties = new Map<string, Dimensions & Offset>()
+    const initialProperties = new Map<string, Dimensions & Offset & { screenId?: string | null }>()
 
     for (const id of selected) {
       const selectedFlexComponent = this._boardState.flexComponents.find(flexComponent => flexComponent.id === id)
 
       if (selectedFlexComponent) {
-        initialProperties.set(id, {
+        initialProperties.set(id, structuredClone({
           width: selectedFlexComponent.properties.width,
           height: selectedFlexComponent.properties.height,
           x: selectedFlexComponent.properties.x,
-          y: selectedFlexComponent.properties.y
-        })
+          y: selectedFlexComponent.properties.y,
+          screenId: selectedFlexComponent.screenId
+        }))
       }
     }
 
-    this._initialFlexComponentProperties = initialProperties
+    this._initialProperties = initialProperties
   }
 
   public endResize () {

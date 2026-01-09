@@ -13,6 +13,8 @@ export type DraggableBoardOptions = {
   boardManager: BoardManager
 }
 
+type InitialProperties = Map<string, Dimensions & Offset & { screenId?: string | null }>
+
 export class DraggableBoard {
   private _boardElement: HTMLElement
   private _boardState: BoardState
@@ -20,7 +22,7 @@ export class DraggableBoard {
   private _hasDragged: boolean = false
   private _offset: Offset | undefined
   private _selectedElement: HTMLDivElement | undefined
-  private _initialFlexComponentProperties: Map<string, Dimensions & Offset> | null = null
+  private _initialProperties: InitialProperties | null = null
 
   constructor (options: DraggableBoardOptions) {
     this._boardElement = options.boardElement
@@ -73,7 +75,7 @@ export class DraggableBoard {
 
     const selected = this._boardState.selectedFlexComponents
 
-    if (!selected || selected.length === 0 || !this._initialFlexComponentProperties) {
+    if (!selected || selected.length === 0 || !this._initialProperties) {
       return
     }
 
@@ -85,7 +87,7 @@ export class DraggableBoard {
     let groupInitialY = Infinity
 
     for (const id of selected) {
-      const initProps = this._initialFlexComponentProperties.get(id)
+      const initProps = this._initialProperties.get(id)
 
       if (initProps && initProps?.x < groupInitialX) groupInitialX = initProps.x
       if (initProps && initProps?.y < groupInitialY) groupInitialY = initProps.y
@@ -113,7 +115,7 @@ export class DraggableBoard {
         return flexComponent
       }
 
-      const initialProps = this._initialFlexComponentProperties?.get(flexComponent.id)
+      const initialProps = this._initialProperties?.get(flexComponent.id)
 
       if (!initialProps) return flexComponent
 
@@ -157,7 +159,7 @@ export class DraggableBoard {
       }
     }
 
-    const initialProperties = new Map<string, Dimensions & Offset>()
+    const initialProperties = new Map<string, Dimensions & Offset & { screenId?: string | null }>()
 
     for (const selectedId of newSelection) {
       const component = this._boardState.flexComponents.find(flexComponent => flexComponent.id === selectedId)
@@ -166,30 +168,32 @@ export class DraggableBoard {
         continue
       }
 
-      initialProperties.set(selectedId, {
+      initialProperties.set(selectedId, structuredClone({
         x: component.properties.x,
         y: component.properties.y,
         width: component.properties.width,
-        height: component.properties.height
-      })
+        height: component.properties.height,
+        screenId: component.screenId
+      }))
 
       if (component.type === 'mobileScreen') {
         const childComponents = this._boardState.flexComponents.filter(c => c.screenId === component.id)
 
         for (const child of childComponents) {
-          initialProperties.set(child.id, {
+          initialProperties.set(child.id, structuredClone({
             x: child.properties.x,
             y: child.properties.y,
             width: child.properties.width,
-            height: child.properties.height
-          })
+            height: child.properties.height,
+            screenId: component.id
+          }))
         }
 
         newSelection = Array.from(new Set([...newSelection, ...childComponents.map(c => c.id)]))
       }
     }
 
-    this._initialFlexComponentProperties = initialProperties
+    this._initialProperties = initialProperties
     this._boardState.setSelectedFlexComponents(newSelection)
   }
 
@@ -198,13 +202,16 @@ export class DraggableBoard {
     const selectedComponents = this._boardState.flexComponents.filter(flexComponent => selectedIds.includes(flexComponent.id))
 
     if (selectedComponents.length && this._hasDragged) {
-      this._boardManager.updateFlexComponents({ updatedFlexComponents: selectedComponents })
+      this._boardManager.updateFlexComponents({
+        updatedFlexComponents: selectedComponents,
+        initialProperties: this._initialProperties
+      })
     }
 
     this._selectedElement = undefined
     this._offset = undefined
     this._boardState.setIsDragging(false)
-    this._initialFlexComponentProperties = null
+    this._initialProperties = null
   }
 
   public onDragging (event: MouseEvent) {

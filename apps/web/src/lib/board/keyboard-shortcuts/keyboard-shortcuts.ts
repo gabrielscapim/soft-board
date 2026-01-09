@@ -22,6 +22,20 @@ export class KeyboardShortcuts {
     this.onPastePressed = this.onPastePressed.bind(this)
   }
 
+  private isEditableElement (target: EventTarget | null): boolean {
+    if (!(target instanceof HTMLElement)) {
+      return false
+    }
+
+    const tagName = target.tagName.toLowerCase()
+
+    return (
+      tagName === 'input' ||
+      tagName === 'textarea' ||
+      target.isContentEditable
+    )
+  }
+
   private onDeleteKeyPressed () {
     this._boardManager.deleteFlexComponents({ flexComponents: this._boardState.selectedFlexComponents ?? [] })
   }
@@ -61,7 +75,29 @@ export class KeyboardShortcuts {
   }
 
   onKeyPressed (event: KeyboardEvent) {
-    if (event.key === 'Delete') {
+    if (this.isEditableElement(event.target)) {
+      return
+    }
+
+    const isMac = navigator.platform.toUpperCase().includes('MAC')
+    const modKey = isMac ? event.metaKey : event.ctrlKey
+
+    // UNDO → Cmd/Ctrl + Z
+    if (modKey && event.key.toLowerCase() === 'z' && !event.shiftKey) {
+      event.preventDefault()
+      this._boardManager.undo()
+    }
+
+    // REDO → Cmd + Shift + Z (Mac) | Ctrl + Y (Windows)
+    if (
+      (modKey && event.shiftKey && event.key.toLowerCase() === 'z') ||
+      (!isMac && event.ctrlKey && event.key.toLowerCase() === 'y')
+    ) {
+      event.preventDefault()
+      this._boardManager.redo()
+    }
+
+    if (event.key === 'Delete' || event.key === 'Backspace') {
       this.onDeleteKeyPressed()
     }
 

@@ -7,6 +7,7 @@ import {
 import { BoardState } from '../board-state'
 import { PromiseQueue } from '../promise-queue'
 import { Client } from '@/client'
+import { Command, CommandManager } from '../command-manager'
 import { FlexComponent } from '@/types'
 
 export type BoardManagerOptions = {
@@ -18,6 +19,7 @@ export class BoardManager implements BoardManagerI {
   private _client: Client
   private _boardState: BoardState
   private _promiseQueue: PromiseQueue
+  private _commandManager = new CommandManager()
 
   constructor (options: BoardManagerOptions) {
     this._client = options.client
@@ -31,65 +33,173 @@ export class BoardManager implements BoardManagerI {
     const prevFlexComponents = this._boardState.flexComponents
     const newFlexComponents = [...prevFlexComponents, ...flexComponents]
 
-    this._boardState.setFlexComponents(newFlexComponents)
-    this._boardState.setSelectedFlexComponents(flexComponents.map(flexComponent => flexComponent.id))
-
-    const data = flexComponents.map(flexComponent => ({
-      name: flexComponent.name,
-      type: flexComponent.type,
+    const data = flexComponents.map(fc => ({
+      name: fc.name,
+      type: fc.type,
       properties: {
-        ...flexComponent.properties,
-        x: Math.round(flexComponent.properties.x),
-        y: Math.round(flexComponent.properties.y),
-        width: Math.round(flexComponent.properties.width),
-        height: Math.round(flexComponent.properties.height)
+        ...fc.properties,
+        x: Math.round(fc.properties.x),
+        y: Math.round(fc.properties.y),
+        width: Math.round(fc.properties.width),
+        height: Math.round(fc.properties.height)
       },
-      id: flexComponent.id,
-      connectionId: flexComponent.connectionId,
-      screenId: flexComponent.screenId
+      id: fc.id,
+      connectionId: fc.connectionId,
+      screenId: fc.screenId
     }))
 
-    const action = this._client.createComponents({ boardId: this._boardState.id, components: data })
-    this.runAction(() => action)
+    const command: Command = {
+      do: () => {
+        this._boardState.setFlexComponents(newFlexComponents)
+        this._boardState.setSelectedFlexComponents(
+          flexComponents.map(fc => fc.id)
+        )
+
+        return this._promiseQueue.run(() =>
+          this._client.createComponents({
+            boardId: this._boardState.id,
+            components: data
+          })
+        )
+      },
+
+      undo: () => {
+        this._boardState.setFlexComponents(prevFlexComponents)
+        this._boardState.setSelectedFlexComponents(null)
+
+        return this._promiseQueue.run(() =>
+          this._client.deleteComponents({
+            boardId: this._boardState.id,
+            componentIds: flexComponents.map(fc => fc.id)
+          })
+        )
+      }
+    }
+
+    this._commandManager.execute(command)
   }
 
   deleteFlexComponents (params: DeleteFlexComponentsParams) {
-    const newFlexComponents = this._boardState.flexComponents
-      .filter(flexComponent => !params.flexComponents.includes(flexComponent.id))
+    const removed = this._boardState.flexComponents
+      .filter(fc => params.flexComponents.includes(fc.id))
 
-    this._boardState.setFlexComponents(newFlexComponents)
-    this._boardState.setSelectedFlexComponents(null)
+    const remaining = this._boardState.flexComponents
+      .filter(fc => !params.flexComponents.includes(fc.id))
 
-    const action = this._client.deleteComponents({ boardId: this._boardState.id, componentIds: params.flexComponents })
-    this.runAction(() => action)
+    const command: Command = {
+      do: () => {
+        this._boardState.setFlexComponents(remaining)
+        this._boardState.setSelectedFlexComponents(null)
+
+        return this._promiseQueue.run(() =>
+          this._client.deleteComponents({
+            boardId: this._boardState.id,
+            componentIds: params.flexComponents
+          })
+        )
+      },
+
+      undo: () => {
+        this._boardState.setFlexComponents([
+          ...remaining,
+          ...removed
+        ])
+
+        return this._promiseQueue.run(() =>
+          this._client.createComponents({
+            boardId: this._boardState.id,
+            components: removed
+          })
+        )
+      }
+    }
+
+    this._commandManager.execute(command)
   }
 
   updateFlexComponents (params: UpdateFlexComponentsParams) {
-    const { updatedFlexComponents } = params
+    const { updatedFlexComponents, initialProperties } = params
 
-    const roundedComponents = updatedFlexComponents.map<FlexComponent>(updatedComponent => {
-      return {
-        ...updatedComponent,
+    const roundedComponents = updatedFlexComponents.map(c =>
+      structuredClone({
+        ...c,
         properties: {
-          ...updatedComponent.properties,
-          x: Math.round(updatedComponent.properties.x),
-          y: Math.round(updatedComponent.properties.y),
-          width: Math.round(updatedComponent.properties.width),
-          height: Math.round(updatedComponent.properties.height)
+          ...c.properties,
+          x: Math.round(c.properties.x),
+          y: Math.round(c.properties.y),
+          width: Math.round(c.properties.width),
+          height: Math.round(c.properties.height)
         }
+      })
+    )
+
+    let previousComponents: FlexComponent[] = []
+
+    if (initialProperties) {
+      previousComponents = roundedComponents.map(component => {
+        const initial = initialProperties.get(component.id)
+
+        return {
+          ...component,
+          screenId: initial?.screenId ?? component.screenId,
+          properties: {
+            ...component.properties,
+            x: initial?.x ?? component.properties.x,
+            y: initial?.y ?? component.properties.y,
+            width: initial?.width ?? component.properties.width,
+            height: initial?.height ?? component.properties.height
+          }
+        }
+      })
+    } else {
+      previousComponents = this._boardState.flexComponents
+        .filter(fc => roundedComponents.some(u => u.id === fc.id))
+        .map(fc => structuredClone(fc))
+    }
+
+    const newFlexComponents = this._boardState.flexComponents.map(fc => {
+      const updated = roundedComponents.find(u => u.id === fc.id)
+      return updated ?? fc
+    })
+
+    const command: Command = {
+      do: () => {
+        this._boardState.setFlexComponents(newFlexComponents)
+
+        return this._promiseQueue.run(() =>
+          this._client.updateComponents({
+            boardId: this._boardState.id,
+            components: roundedComponents
+          })
+        )
+      },
+
+      undo: () => {
+        const restored = this._boardState.flexComponents.map(fc => {
+          const prev = previousComponents.find(p => p.id === fc.id)
+          return prev ?? fc
+        })
+
+        this._boardState.setFlexComponents(restored)
+
+        return this._promiseQueue.run(() =>
+          this._client.updateComponents({
+            boardId: this._boardState.id,
+            components: previousComponents
+          })
+        )
       }
-    })
+    }
 
-    const newFlexComponents = this._boardState.flexComponents.map(flexComponent => {
-      const updatedComponent = roundedComponents.find(updated => updated.id === flexComponent.id)
+    this._commandManager.execute(command)
+  }
 
-      return updatedComponent ? updatedComponent : flexComponent
-    })
+  undo () {
+    this._commandManager.undo()
+  }
 
-    this._boardState.setFlexComponents(newFlexComponents)
-
-    const action = this._client.updateComponents({ boardId: this._boardState.id, components: roundedComponents })
-    this.runAction(() => action)
+  redo () {
+    this._commandManager.redo()
   }
 
   runAction (action: () => Promise<void>) {

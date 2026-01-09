@@ -231,13 +231,11 @@ async function generateStartFlow1Review (
     .AND`s.team_id = ${teamId}`
     .AND`s.board_generation_id IS NULL`
     .AND`s.type = 'mobileScreen'`
-    .AND`s.deleted = false`
     .AND`NOT EXISTS (
       SELECT 1
       FROM component c
       WHERE c.screen_id = s.id
         AND c.connection_id IS NOT NULL
-        AND c.deleted = false
     )`
     .list()
 
