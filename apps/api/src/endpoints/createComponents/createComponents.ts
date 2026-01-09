@@ -25,13 +25,24 @@ export function handler (): Handler {
 
     const pool = getPool()
 
+    await pool
+      .SELECT`id`
+      .FROM`board`
+      .WHERE`id = ${boardId}`
+      .AND`team_id = ${teamId}`
+      .find({ error: `Board with id ${boardId} not found` })
+
     await pool.transaction(async pool => {
-      await pool
-        .SELECT`id`
-        .FROM`board`
-        .WHERE`id = ${boardId}`
-        .AND`team_id = ${teamId}`
-        .find({ error: `Board with id ${boardId} not found` })
+      // Sort to insert screens first
+      components.sort((a, b) => {
+        if (a.type === 'mobileScreen' && b.type !== 'mobileScreen') {
+          return -1
+        }
+        if (a.type !== 'mobileScreen' && b.type === 'mobileScreen') {
+          return 1
+        }
+        return 0
+      })
 
       for (const component of components) {
         await pool
