@@ -18,8 +18,7 @@ export function handler (): Handler {
     const pool = getPool()
 
     await pool
-      .UPDATE`component`
-      .SET({ deleted: true })
+      .DELETE_FROM`component`
       .WHERE`id = ANY(${componentIds})`
       .AND`board_id = ${boardId}`
       .AND`team_id = ${teamId}`
