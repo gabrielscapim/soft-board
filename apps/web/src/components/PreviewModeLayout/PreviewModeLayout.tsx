@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router'
-import { WireframeModeHeader } from '../WireframeModeHeader'
+import { PreviewModeHeader } from '../PreviewModeHeader'
 
-export function WireframeModeLayout () {
+export function PreviewModeLayout () {
   return (
     <>
-      <WireframeModeHeader />
+      <PreviewModeHeader />
       <main className="flex grow h-[calc(100vh-60px)]">
         <Outlet />
       </main>

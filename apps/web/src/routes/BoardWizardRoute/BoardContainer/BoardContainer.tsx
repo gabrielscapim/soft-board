@@ -1,4 +1,4 @@
-import { Board, BoardProps, BoardZoomController, EditBoardLink, useScale, WireframeModeLink } from '@/components'
+import { Board, BoardProps, BoardZoomController, EditBoardLink, PreviewModeLink, useScale } from '@/components'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { MAX_SCALE, MIN_SCALE } from '@/helpers'
@@ -58,7 +58,7 @@ export function BoardContainer (props: BoardContainerProps) {
           <>
             <div className="flex flex-row gap-2">
               {board?.step === 'wireflows' && <EditBoardLink to="edit" /> }
-              <WireframeModeLink to="wireframe" />
+              <PreviewModeLink to="preview" />
             </div>
 
             <BoardZoomController

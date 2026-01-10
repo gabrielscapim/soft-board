@@ -5,8 +5,8 @@ import { useBoard, useScreenDimensions } from '@/hooks'
 import { MAX_SCALE, MIN_SCALE } from '@/helpers'
 import { useFlexComponents, useScale } from '../Board'
 import { BoardLink } from '../BoardLink'
-import { WireframeModeLink } from '../WireframeModeLink'
 import { FLEX_COMPONENTS_SCHEMAS } from '@/flex-components'
+import { PreviewModeLink } from '../PreviewModeLink'
 
 export function EditBoardHeader () {
   const { boardState, boardController } = useBoard()
@@ -20,7 +20,7 @@ export function EditBoardHeader () {
       <div className="flex justify-between items-center w-full">
         <div className="flex items-center gap-2">
           <BoardLink to=".." />
-          <WireframeModeLink to="../wireframe" />
+          <PreviewModeLink to="../preview" />
         </div>
 
         <div className="flex items-center gap-4">

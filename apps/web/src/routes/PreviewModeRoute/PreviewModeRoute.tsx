@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { MobileScreenContainer, NotFoundScreenContainer } from './components'
 import { MobileScreenFlexComponent } from '@/types'
 
-export function WireframeModeRoute () {
+export function PreviewModeRoute () {
   const { boardState } = useBoard()
   const flexComponents = useFlexComponents(boardState)
   const screens = useMemo(() => {
