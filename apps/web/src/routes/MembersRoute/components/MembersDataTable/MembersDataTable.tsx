@@ -11,7 +11,7 @@ import { getAvatarFallbackName } from '@/helpers'
 
 export type MembersDataTableProps = {
   members?: GetMembersResultData[]
-  hasPermission?: boolean
+  memberRole?: 'owner' | 'admin' | 'member'
   loading?: boolean
   updateMemberRoleLoading?: boolean
   handleDelete?: (member: GetMembersResultData) => void
@@ -29,7 +29,7 @@ type MemberData = {
 }
 
 export function MembersDataTable (props: MembersDataTableProps) {
-  const { members = [], hasPermission, loading, updateMemberRoleLoading, handleDelete, updateMemberRole } = props
+  const { members = [], memberRole, loading, updateMemberRoleLoading, handleDelete, updateMemberRole } = props
 
   const { authenticatedUser } = useAuthentication()
 
@@ -92,7 +92,7 @@ export function MembersDataTable (props: MembersDataTableProps) {
           >
             <SelectTrigger
               size="sm"
-              disabled={updateMemberRoleLoading || isSameUser || !hasPermission}
+              disabled={updateMemberRoleLoading || isSameUser || memberRole === 'owner'}
             >
               <SelectValue placeholder="Select color" />
             </SelectTrigger>
@@ -125,9 +125,8 @@ export function MembersDataTable (props: MembersDataTableProps) {
       id: 'actions',
       header: 'Actions',
       cell: ({ row }) => {
-        const member = members.find(m => m.user.id === row.original.userId)!
-        const isSameUser = member.user.id === authenticatedUser?.userId
-        const isOwner = member.role === 'owner'
+        const currentMember = members.find(m => m.user.id === row.original.userId)!
+        const isSameUser = currentMember.user.id === authenticatedUser?.userId
 
         return (
           <DropdownMenu>
@@ -141,8 +140,8 @@ export function MembersDataTable (props: MembersDataTableProps) {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 className="text-destructive focus:text-destructive"
-                disabled={isSameUser || !hasPermission || isOwner}
-                onClick={() => handleDelete?.(member)}
+                disabled={isSameUser || memberRole !== 'owner'}
+                onClick={() => handleDelete?.(currentMember)}
               >
                 <TrashIcon />
                 Delete

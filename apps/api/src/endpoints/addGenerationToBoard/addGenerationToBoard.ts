@@ -3,7 +3,7 @@ import * as yup from 'yup'
 import { randomUUID } from 'crypto'
 import { AddGenerationToBoardCommand } from 'types/endpoints'
 import { ComponentDatabase } from 'types/database'
-import { getPool } from '../../libs'
+import { assertMemberPermission, getPool } from '../../libs'
 import { calculateOffsets } from './_methods'
 
 type Handler = RequestHandler<unknown, unknown, AddGenerationToBoardCommand>
@@ -29,6 +29,8 @@ export function handler (): Handler {
       boardId,
       boardGenerationId
     } = schema.validateSync(req.body, { abortEarly: false })
+
+    assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can add generations to boards')
 
     const teamId = req.team!.teamId
     const pool = getPool()

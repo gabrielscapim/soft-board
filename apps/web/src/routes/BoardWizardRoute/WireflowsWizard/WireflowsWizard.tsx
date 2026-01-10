@@ -1,4 +1,4 @@
-import { useAuthentication, useBoard, useClient, useMessages } from '@/hooks'
+import { useAuthentication, useBoard, useClient, useMemberRole, useMessages } from '@/hooks'
 import { ChatContainer } from '../ChatContainer'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -14,14 +14,15 @@ export function WireflowsWizard () {
   const getMessages = useMessages(boardId)
   const client = useClient()
   const { boardController, boardState, boardManager } = useBoard()
+  const memberRole = useMemberRole()
+  const hasPermission = memberRole !== 'member'
 
   const sendMessage = useMutation({
     mutationFn: async (content: string) => {
       setSendingMessage(content)
       return await client.sendMessage({ boardId: boardId!, content })
     },
-    onError: (error: any) =>
-      toast.error(error?.response?.data?.detail ?? 'Failed to send message'),
+    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to send message'),
     onSuccess: () => getMessages.refetch(),
     onSettled: () => setSendingMessage(null)
   })
@@ -34,6 +35,7 @@ export function WireflowsWizard () {
         {board && (
           <ChatContainer
             board={board}
+            hasPermission={memberRole !== 'member'}
             authenticatedUser={authenticatedUser}
             loading={sendMessage.isPending}
             messages={
@@ -59,6 +61,7 @@ export function WireflowsWizard () {
 
       <div className="w-8/12 flex flex-col h-full">
         <BoardContainer
+          hasPermission={hasPermission}
           board={board}
           boardState={boardState}
           boardController={boardController}

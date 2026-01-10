@@ -1,4 +1,4 @@
-import { useAuthentication, useBoard, useClient, useMessages } from '@/hooks'
+import { useAuthentication, useBoard, useClient, useMemberRole, useMessages } from '@/hooks'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -14,6 +14,7 @@ export function ReviewWizard () {
   const getMessages = useMessages(boardId)
   const client = useClient()
   const { boardController, boardManager, boardState } = useBoard()
+  const memberRole = useMemberRole()
 
   const sendMessage = useMutation({
     mutationFn: async (content: string) => {
@@ -32,6 +33,7 @@ export function ReviewWizard () {
       <div className="w-4/12 flex flex-col h-full border-r text-sm">
         {board && (
           <ChatContainer
+            hasPermission={memberRole !== 'member'}
             board={board}
             authenticatedUser={authenticatedUser}
             loading={sendMessage.isPending}
@@ -57,6 +59,7 @@ export function ReviewWizard () {
 
       <div className="w-8/12 flex flex-col h-full">
         <BoardContainer
+          hasPermission={memberRole !== 'member'}
           board={board}
           enableDraggable={false}
           enableKeyboardShortcuts={false}

@@ -11,13 +11,14 @@ import { GetRequirementsResultData } from 'types/endpoints'
 
 export type RequirementCardProps = {
   requirement: GetRequirementsResultData
+  hasPermission?: boolean
   loading?: boolean
   handleDelete?: () => void
   handleEdit?: () => void
 }
 
 export function RequirementCard (props: RequirementCardProps) {
-  const { requirement, loading, handleDelete, handleEdit } = props
+  const { requirement, hasPermission, loading, handleDelete, handleEdit } = props
 
   return (
     <Card id={requirement.id} className="py-4 shadow-none group w-full">
@@ -33,7 +34,7 @@ export function RequirementCard (props: RequirementCardProps) {
             variant="ghost"
             size="icon"
             className="size-7"
-            disabled={loading}
+            disabled={loading || hasPermission === false}
             onClick={handleEdit}
           >
             <PencilIcon />
@@ -42,7 +43,7 @@ export function RequirementCard (props: RequirementCardProps) {
             variant="ghost"
             size="icon"
             className="size-7 text-destructive focus:text-destructive hover:text-destructive"
-            disabled={loading}
+            disabled={loading || hasPermission === false}
             onClick={handleDelete}
           >
             <TrashIcon />

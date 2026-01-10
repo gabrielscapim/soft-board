@@ -61,7 +61,6 @@ export function MembersRoute () {
     onError: () => toast.error('Failed to update member role')
   })
   const members = getMembers.data?.data ?? []
-  const hasPermission = ['owner', 'admin'].includes(memberRole ?? '')
 
   return (
     <div className="py-4 w-full px-8">
@@ -76,7 +75,7 @@ export function MembersRoute () {
           className="text-"
           variant="outline"
           size="sm"
-          disabled={createMember.isPending || getMembers.isPending || !hasPermission}
+          disabled={createMember.isPending || getMembers.isPending || memberRole === 'member'}
           onClick={() => setCreateMemberDialogOpen(true)}
         >
           <PlusIcon />
@@ -117,7 +116,7 @@ export function MembersRoute () {
       {!getMembers.error && (
         <MembersDataTable
           members={members}
-          hasPermission={hasPermission}
+          memberRole={memberRole}
           loading={getMembers.isPending}
           updateMemberRoleLoading={updateMemberRole.isPending}
           handleDelete={member => setMemberToDelete(member)}

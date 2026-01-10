@@ -15,7 +15,7 @@ const schema = yup.object({
 
 export function handler (): Handler {
   return async (req, res) => {
-    assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can delete members')
+    assertMemberPermission(req.team!.memberRole, ['owner'], 'Only team owners can delete members')
 
     const teamId = req.team!.teamId
     const userId = req.auth?.userId

@@ -1,4 +1,4 @@
-import { useAuthentication, useBoard, useClient, useMessages, useRequirements } from '@/hooks'
+import { useAuthentication, useBoard, useClient, useMemberRole, useMessages, useRequirements } from '@/hooks'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useState } from 'react'
@@ -13,6 +13,7 @@ export function RequirementsWizard () {
   const { authenticatedUser } = useAuthentication()
   const getMessages = useMessages(boardId)
   const getRequirements = useRequirements(boardId)
+  const memberRole = useMemberRole()
 
   const [sendingMessage, setSendingMessage] = useState<string | null>(null)
   const [requirementToDelete, setRequiredToDelete] = useState<GetRequirementsResultData | null>(null)
@@ -75,6 +76,7 @@ export function RequirementsWizard () {
         {board && (
           <ChatContainer
             board={board}
+            hasPermission={memberRole !== 'member'}
             authenticatedUser={authenticatedUser}
             loading={sendMessage.isPending}
             messages={
@@ -100,6 +102,7 @@ export function RequirementsWizard () {
 
       <div className="w-4/12 p-4 overflow-auto scrollbar">
         <RequirementsContainer
+          hasPermission={memberRole !== 'member'}
           requirements={requirements}
           loading={createRequirement.isPending || deleteRequirement.isPending || updateRequirement.isPending}
           handleCreate={() => createRequirement.mutate()}

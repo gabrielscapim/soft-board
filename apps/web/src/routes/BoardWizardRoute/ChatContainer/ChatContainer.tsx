@@ -7,6 +7,7 @@ import {
 
 export type ChatContainerProps = {
   board: GetBoardResult
+  hasPermission?: boolean
   authenticatedUser?: GetAuthenticatedUserResult
   loading?: boolean
   messages?: GetMessagesResultData[]
@@ -17,6 +18,7 @@ export type ChatContainerProps = {
 export function ChatContainer (props: ChatContainerProps) {
   const {
     board,
+    hasPermission,
     authenticatedUser,
     loading,
     messages,
@@ -37,6 +39,7 @@ export function ChatContainer (props: ChatContainerProps) {
         />
       </div>
       <ChatContainerInput
+        hasPermission={hasPermission}
         loading={loading}
         onSendMessage={onSendMessage}
       />

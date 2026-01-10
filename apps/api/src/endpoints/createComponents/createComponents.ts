@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import { CreateComponentsCommand } from 'types/endpoints'
 import * as yup from 'yup'
-import { getPool } from '../../libs'
+import { assertMemberPermission, getPool } from '../../libs'
 import { randomUUID } from 'crypto'
 
 type Handler = RequestHandler<unknown, unknown, CreateComponentsCommand>
@@ -22,6 +22,8 @@ export function handler (): Handler {
   return async (req, res) => {
     const teamId = req.team!.teamId
     const { boardId, components } = schema.validateSync(req.body)
+
+    assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can create components')
 
     const pool = getPool()
 

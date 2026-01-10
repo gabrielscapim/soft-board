@@ -2,13 +2,14 @@ import { Button } from '../ui/button'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useParams } from 'react-router'
-import { useClient, useBoard } from '@/hooks'
+import { useClient, useBoard, useMemberRole } from '@/hooks'
 
 export function BoardWizardFooter () {
   const params = useParams<{ boardId?: string }>()
   const boardId = params.boardId
   const { board, refetch, refetchWithQuery } = useBoard()
   const client = useClient()
+  const memberRole = useMemberRole()
   const currentStep = board?.step
 
   const handleNext = useMutation({
@@ -36,7 +37,7 @@ export function BoardWizardFooter () {
         <Button
           size="lg"
           variant="link"
-          disabled={handlePrevious.isPending || handleNext.isPending}
+          disabled={handlePrevious.isPending || handleNext.isPending || memberRole === 'member'}
           onClick={() => handlePrevious.mutate()}
         >
           {currentStep === 'requirements' && 'Back'}
@@ -49,7 +50,7 @@ export function BoardWizardFooter () {
         <Button
           size="lg"
           className="ml-auto"
-          disabled={handleNext.isPending || handlePrevious.isPending}
+          disabled={handleNext.isPending || handlePrevious.isPending || memberRole === 'member'}
           onClick={() => handleNext.mutate()}
         >
           {currentStep === 'init' && 'Start'}

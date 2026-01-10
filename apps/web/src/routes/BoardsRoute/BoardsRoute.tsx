@@ -22,7 +22,7 @@ export function BoardsRoute () {
       getBoards.refetch()
       toast.success('Board created successfully')
     },
-    onError: () => toast.error('Failed to create board')
+    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to create board')
   })
   const deleteBoard = useMutation({
     mutationFn: () => client.deleteBoard({ id: selectedBoard!.id }),
@@ -31,7 +31,7 @@ export function BoardsRoute () {
       setSelectedBoard(null)
       toast.success('Board deleted successfully')
     },
-    onError: () => toast.error('Failed to delete board')
+    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to delete board')
   })
   const editBoard = useMutation({
     mutationFn: (title: string) => client.updateBoard({ id: selectedBoard!.id, title }),
@@ -40,7 +40,7 @@ export function BoardsRoute () {
       setSelectedBoard(null)
       toast.success('Board updated successfully')
     },
-    onError: () => toast.error('Failed to update board')
+    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to update board')
   })
   const boards = getBoards.data?.data ?? []
 
@@ -57,7 +57,7 @@ export function BoardsRoute () {
         <Button
           variant="outline"
           size="sm"
-          disabled={createBoard.isPending}
+          disabled={createBoard.isPending || memberRole === 'member'}
           onClick={() => createBoard.mutate()}
         >
           <PlusIcon />
@@ -104,7 +104,7 @@ export function BoardsRoute () {
           <Button
             variant="outline"
             size="sm"
-            disabled={createBoard.isPending}
+            disabled={createBoard.isPending || memberRole === 'member'}
             onClick={() => createBoard.mutate()}
           >
             <PlusIcon />

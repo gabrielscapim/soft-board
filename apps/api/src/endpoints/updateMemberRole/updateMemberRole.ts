@@ -16,7 +16,7 @@ type MemberRow = Pick<MemberDatabase, 'userId' | 'role'>
 
 export function handler (): Handler {
   return async (req, res) => {
-    assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can update member roles')
+    assertMemberPermission(req.team!.memberRole, ['owner'], 'Only team owners can update member roles')
 
     const teamId = req.team!.teamId
     const { memberId, role } = schema.validateSync(req.body, { abortEarly: false })

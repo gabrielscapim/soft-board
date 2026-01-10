@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { BoardDatabase } from 'types/database'
 import { CreateBoardCommand, CreateBoardResult } from 'types/endpoints'
 import * as yup from 'yup'
-import { getPool } from '../../libs'
+import { assertMemberPermission, getPool } from '../../libs'
 
 type Handler = RequestHandler<unknown, CreateBoardResult, CreateBoardCommand>
 
@@ -22,6 +22,8 @@ export function handler (): Handler {
     const teamId = req.team!.teamId
     const userId = req.auth!.userId
     const { title } = schema.validateSync(req.body)
+
+    assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can create boards')
 
     const pool = getPool()
 
