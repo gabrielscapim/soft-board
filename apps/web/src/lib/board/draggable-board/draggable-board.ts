@@ -110,6 +110,11 @@ export class DraggableBoard {
     const groupDeltaX = useSnapX && snap?.x ? (snap.x - groupInitialX) : properties.roundedDeltaX
     const groupDeltaY = useSnapY && snap?.y ? (snap.y - groupInitialY) : properties.roundedDeltaY
 
+    const movingMobileScreen = selected.some(id => {
+      const component = this._boardState.flexComponents.find(fc => fc.id === id)
+      return component?.type === 'mobileScreen'
+    })
+
     const newFlexComponents = this._boardState.flexComponents.map(flexComponent => {
       if (!selected.includes(flexComponent.id)) {
         return flexComponent
@@ -122,6 +127,17 @@ export class DraggableBoard {
       const newX = initialProps.x + groupDeltaX
       const newY = initialProps.y + groupDeltaY
 
+      let newScreenId = flexComponent.screenId
+
+
+      if (flexComponent.type === 'mobileScreen') {
+        newScreenId = null
+      } else if (movingMobileScreen && initialProps.screenId) {
+        newScreenId = initialProps.screenId
+      } else if (!movingMobileScreen) {
+        newScreenId = screenId
+      }
+
       return {
         ...flexComponent,
         properties: {
@@ -129,7 +145,7 @@ export class DraggableBoard {
           x: newX,
           y: newY
         },
-        screenId: flexComponent.type !== 'mobileScreen' ? screenId : null
+        screenId: newScreenId
       }
     })
 
