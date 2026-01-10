@@ -21,7 +21,7 @@ describe('updateComponent', () => {
       endpoints: { updateComponents },
       tests: {
         auth: { userId: user.id },
-        team: { teamId: team.id, memberRole: 'member' }
+        team: { teamId: team.id, memberRole: 'owner' }
       }
     })
 
