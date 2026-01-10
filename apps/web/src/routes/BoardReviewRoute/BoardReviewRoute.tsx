@@ -1,4 +1,4 @@
-import { useFlexComponents } from '@/components'
+import { useBoardStore } from '@/components'
 import { FLEX_COMPONENTS_ELEMENTS } from '@/flex-components'
 import { useBoard } from '@/hooks'
 import { FlexComponent } from '@/types'
@@ -10,7 +10,7 @@ import { createElement, useEffect, useMemo, useState } from 'react'
  */
 export function BoardReviewRoute () {
   const { boardState } = useBoard()
-  const flexComponents = useFlexComponents(boardState)
+  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
   const [currentScreen, setCurrentScreen] = useState<FlexComponent | null>(
     flexComponents.find(component => component.type === 'mobileScreen') ?? null
   )

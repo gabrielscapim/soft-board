@@ -2,15 +2,10 @@ import { Fragment, useMemo, useRef } from 'react'
 import { BoardController, BoardManager, BoardState } from '../../lib'
 import { AlignmentGuides, ConnectionLines, MobileScreenBar, ResizeBox, SelectionBox } from './Components'
 import {
-  useBoardTranslate,
+  useBoardStore,
   useDraggableFlexBoard,
   useElementResizer,
-  useFlexComponents,
-  useIsDragging,
-  useIsResizing,
   useKeyboardShortcuts,
-  useScale,
-  useSelectedFlexComponents,
   useSelectionBoard,
   useZoomBoard
 } from './hooks'
@@ -42,12 +37,12 @@ export function Board (props: BoardProps) {
   const flexBoardContainerRef = useRef<HTMLDivElement>(null)
   const flexBoardRef = useRef<HTMLDivElement>(null)
   const selectionBoxRef = useRef<HTMLDivElement>(null)
-  const flexComponents = useFlexComponents(boardState)
-  const scale = useScale(boardState)
-  const boardTranslate = useBoardTranslate(boardState)
-  const selectedFlexComponents = useSelectedFlexComponents(boardState)
-  const isDragging = useIsDragging(boardState)
-  const isResizing = useIsResizing(boardState)
+  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
+  const scale = useBoardStore(boardState, 'scaleChanged', state => state.scale)
+  const boardTranslate = useBoardStore(boardState, 'translateChanged', state => state.translate)
+  const selectedFlexComponents = useBoardStore(boardState, 'selectedFlexComponentsChanged', state => state.selectedFlexComponents)
+  const isDragging = useBoardStore(boardState, 'isDraggingChanged', state => state.isDragging)
+  const isResizing = useBoardStore(boardState, 'isResizingChanged', state => state.isResizing)
 
   useDraggableFlexBoard(boardState, boardManager, flexBoardContainerRef, enableDraggable)
   useElementResizer(boardState, boardManager, flexBoardContainerRef, enableResizing)

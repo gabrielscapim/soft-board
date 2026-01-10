@@ -19,7 +19,7 @@ import {
 import { useMemo, useState } from 'react'
 import { FlexComponent } from '@/types'
 import { BoardState } from '@/lib'
-import { useFlexComponents } from '@/components/Board/hooks'
+import { useBoardStore } from '@/components/Board/hooks'
 
 export type ActionsTabContentProps = {
   flexComponent: FlexComponent
@@ -32,7 +32,7 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
 
   const [open, setOpen] = useState(true)
 
-  const flexComponents = useFlexComponents(boardState)
+  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
 
   const mobileScreens = useMemo(() => {
     return flexComponents.filter((component) => component.type === 'mobileScreen')

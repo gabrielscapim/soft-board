@@ -1,4 +1,4 @@
-import { Board, BoardProps, BoardZoomController, EditBoardLink, PreviewModeLink, useScale } from '@/components'
+import { Board, BoardProps, BoardZoomController, EditBoardLink, PreviewModeLink, useBoardStore } from '@/components'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { MAX_SCALE, MIN_SCALE } from '@/helpers'
@@ -32,7 +32,7 @@ export function BoardContainer (props: BoardContainerProps) {
 
   const [addGenerationDialogOpen, setAddGenerationDialogOpen] = useState(false)
   const client = useClient()
-  const scale = useScale(boardState)
+  const scale = useBoardStore(boardState, 'scaleChanged', state => state.scale)
 
   const addGenerationToBoard = useMutation({
     mutationFn: async () => {

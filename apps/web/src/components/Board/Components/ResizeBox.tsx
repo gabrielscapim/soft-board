@@ -1,5 +1,5 @@
 import { FLEX_COMPONENTS_SCHEMAS } from '../../../flex-components'
-import { useFlexComponents, useGrid, useSelectedFlexComponents } from '../hooks'
+import { useBoardStore } from '../hooks'
 import { BoardState } from '../../../lib'
 
 export type ResizeBoxProps = {
@@ -18,9 +18,9 @@ const RESIZER_SIZE = 8
 export function ResizeBox (props: ResizeBoxProps) {
   const { boardState } = props
 
-  const flexComponents = useFlexComponents(boardState)
-  const selected = useSelectedFlexComponents(boardState)
-  const minDistance = useGrid(boardState)
+  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
+  const selected = useBoardStore(boardState, 'selectedFlexComponentsChanged', state => state.selectedFlexComponents)
+  const minDistance = useBoardStore(boardState, 'flexComponentsChanged', state => state.grid)
 
   const selectedFlexComponents = flexComponents.filter(flexComponent =>selected?.includes(flexComponent.id))
 
