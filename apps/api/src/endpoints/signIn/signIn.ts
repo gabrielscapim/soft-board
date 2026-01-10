@@ -45,12 +45,21 @@ export function handler (getDeps: () => ApplicationDependencies): Handler {
     }
 
     const fallbackTeam = await pool
-      .SELECT<{ slug: string, role: 'member' | 'admin' | 'owner' }>`team.slug, member.role`
+      .SELECT<{ slug: string; role: 'member' | 'admin' | 'owner' }>`
+        team.slug,
+        member.role
+      `
       .FROM`team`
       .LEFT_JOIN`member ON member."team_id" = team.id`
       .WHERE`member."user_id" = ${user.id}`
-      .AND`member.role = 'owner'`
-      .ORDER_BY`team.create_date ASC`
+      .ORDER_BY`
+        CASE member.role
+          WHEN 'owner' THEN 1
+          WHEN 'admin' THEN 2
+          WHEN 'member' THEN 3
+          ELSE 3
+        END
+      `
       .first()
 
     const result: SignInResult = {
