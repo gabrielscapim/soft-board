@@ -21,8 +21,8 @@ export function MobileScreenBar (props: MobileScreenBarProps) {
         zIndex: 10
       }}
     >
-      <div className="flex items-center gap-4 w-full justify-center">
-        {screen.properties.main && <HomeIcon className="shrink-0" />}
+      <div className="flex items-center gap-2 w-full justify-center">
+        {screen.properties.main && <HomeIcon className="shrink-0" size={20} />}
         <span className="truncate block text-center">
           {screen.name}
         </span>
