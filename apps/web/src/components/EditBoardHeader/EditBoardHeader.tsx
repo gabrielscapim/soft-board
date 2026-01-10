@@ -3,16 +3,16 @@ import { SmartphoneIcon } from 'lucide-react'
 import { BoardZoomController } from '../BoardZoomController'
 import { useBoard, useMemberRole, useScreenDimensions } from '@/hooks'
 import { MAX_SCALE, MIN_SCALE } from '@/helpers'
-import { useFlexComponents, useScale } from '../Board'
 import { BoardLink } from '../BoardLink'
 import { FLEX_COMPONENTS_SCHEMAS } from '@/flex-components'
 import { PreviewModeLink } from '../PreviewModeLink'
+import { useBoardStore } from '../Board'
 
 export function EditBoardHeader () {
   const { boardState, boardController } = useBoard()
-  const scale = useScale(boardState)
+  const scale = useBoardStore(boardState, 'scaleChanged', state => state.scale)
   const screenDimensions = useScreenDimensions()
-  const flexComponents = useFlexComponents(boardState)
+  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
   const memberRole = useMemberRole()
   const hasPermission = memberRole !== 'member'
   const currentMobileScreens = flexComponents.filter(fc => fc.type === 'mobileScreen')

@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useFlexComponents } from '../hooks'
+import { useBoardStore } from '../hooks'
 import { BoardState } from '../../../lib'
 import { FlexComponent, Offset } from '../../../types'
 
@@ -16,7 +16,7 @@ type FlexComponentWithConnection = FlexComponent & {
 export function ConnectionLines (props: ConnectionLinesProps) {
   const { boardState, boardTranslate, scale } = props
 
-  const flexComponents = useFlexComponents(boardState)
+  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
 
   const componentsWithConnection = useMemo(() => {
     return flexComponents

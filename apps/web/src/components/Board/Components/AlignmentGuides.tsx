@@ -1,5 +1,5 @@
 import { SECONDARY_GUIDE_DISTANCE_TO_SNAP } from '../../../helpers'
-import { useFlexComponents, useGuides, useIsDragging, useIsResizing, useSelectedFlexComponents } from '../hooks'
+import { useBoardStore } from '../hooks'
 import { BoardState } from '../../../lib'
 import { FlexComponent, Offset } from '../../../types'
 
@@ -11,11 +11,11 @@ export type AlignmentGuidesProps = {
 
 export function AlignmentGuides (props: AlignmentGuidesProps) {
   const { boardState, boardTranslate, scale } = props
-  const guides = useGuides(boardState)
-  const isDragging = useIsDragging(boardState)
-  const isResizing = useIsResizing(boardState)
-  const selectedComponents = useSelectedFlexComponents(boardState)
-  const flexComponents = useFlexComponents(boardState)
+  const guides = useBoardStore(boardState, 'guidesChanged', state => state.guides)
+  const isDragging = useBoardStore(boardState, 'isDraggingChanged', state => state.isDragging)
+  const isResizing = useBoardStore(boardState, 'isResizingChanged', state => state.isResizing)
+  const selectedComponents = useBoardStore(boardState, 'selectedFlexComponentsChanged', state => state.selectedFlexComponents)
+  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
 
   if (
     (!isDragging && !isResizing) ||

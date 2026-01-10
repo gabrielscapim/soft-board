@@ -1,12 +1,12 @@
-import { useFlexComponents } from '@/components'
 import { useBoard } from '@/hooks'
 import { useEffect, useMemo, useState } from 'react'
 import { MobileScreenContainer, NotFoundScreenContainer } from './components'
 import { MobileScreenFlexComponent } from '@/types'
+import { useBoardStore } from '@/components'
 
 export function PreviewModeRoute () {
   const { boardState } = useBoard()
-  const flexComponents = useFlexComponents(boardState)
+  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
   const screens = useMemo(() => {
     const result = flexComponents
       .filter(component => component.type === 'mobileScreen')
