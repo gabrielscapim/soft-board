@@ -37,7 +37,7 @@ export function MobileScreenContainer (props: MobileScreenContainerProps) {
       const containerWidth = container.clientWidth
       const containerHeight = container.clientHeight
       const mobileWidth = 391
-      const mobileHeight = 828
+      const mobileHeight = 828 + 36 + 16 // including top bar
 
       const scaleX = (containerWidth - 32) / mobileWidth
       const scaleY = (containerHeight - 32) / mobileHeight
