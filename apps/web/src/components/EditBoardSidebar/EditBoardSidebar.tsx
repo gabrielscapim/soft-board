@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Sidebar, useSidebar } from '../ui/sidebar'
 import { CollapsibleEditBoardSidebar, FixedEditBoardSidebar } from './components'
-import { useBoard } from '@/hooks'
+import { useBoard, useMemberRole } from '@/hooks'
 
 export type EditBoardSidebarSection =
   'Components' |
@@ -13,6 +13,8 @@ export function EditBoardSidebar () {
   const [search, setSearch] = useState('')
   const { setOpen } = useSidebar()
   const { boardController } = useBoard()
+  const memberRole = useMemberRole()
+  const hasPermission = memberRole !== 'member'
 
   return (
     <Sidebar
@@ -27,6 +29,7 @@ export function EditBoardSidebar () {
         }}
       />
       <CollapsibleEditBoardSidebar
+        hasPermission={hasPermission}
         boardController={boardController}
         selectedSection={selectedSection}
         search={search}

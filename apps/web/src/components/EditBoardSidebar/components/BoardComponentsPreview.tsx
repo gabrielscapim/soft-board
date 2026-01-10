@@ -9,10 +9,11 @@ import { BoardController } from '@/lib'
 export type BoardComponentsPreviewProps = {
   boardController: BoardController
   search: string
+  disabled?: boolean
 }
 
 export function BoardComponentsPreview (props: BoardComponentsPreviewProps) {
-  const { boardController, search } = props
+  const { boardController, search, disabled } = props
 
   const { width, height } = useScreenDimensions()
 
@@ -46,15 +47,20 @@ export function BoardComponentsPreview (props: BoardComponentsPreviewProps) {
       {componentsPreview.map(component => (
         <BoardComponentCardPreview
           key={component.variation.name}
+          disabled={disabled}
           type={component.type as FlexComponentType}
           name={component.variation.name}
           properties={component.variation.properties}
-          onClick={() => boardController.onAddFlexComponent({
-            type: component.type as FlexComponentType,
-            properties: component.variation.properties,
-            name: component.variation.name,
-            position
-          })}
+          onClick={() => {
+            if (disabled) return
+
+            boardController.onAddFlexComponent({
+              type: component.type as FlexComponentType,
+              properties: component.variation.properties,
+              name: component.variation.name,
+              position
+            })
+          }}
         />
       ))}
     </>

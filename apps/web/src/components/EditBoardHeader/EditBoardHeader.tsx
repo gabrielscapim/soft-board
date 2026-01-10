@@ -1,7 +1,7 @@
 import { Button } from '../ui/button'
 import { SmartphoneIcon } from 'lucide-react'
 import { BoardZoomController } from '../BoardZoomController'
-import { useBoard, useScreenDimensions } from '@/hooks'
+import { useBoard, useMemberRole, useScreenDimensions } from '@/hooks'
 import { MAX_SCALE, MIN_SCALE } from '@/helpers'
 import { useFlexComponents, useScale } from '../Board'
 import { BoardLink } from '../BoardLink'
@@ -13,6 +13,8 @@ export function EditBoardHeader () {
   const scale = useScale(boardState)
   const screenDimensions = useScreenDimensions()
   const flexComponents = useFlexComponents(boardState)
+  const memberRole = useMemberRole()
+  const hasPermission = memberRole !== 'member'
   const currentMobileScreens = flexComponents.filter(fc => fc.type === 'mobileScreen')
 
   return (
@@ -27,6 +29,7 @@ export function EditBoardHeader () {
           <Button
             size="sm"
             variant="outline"
+            disabled={hasPermission === false}
             onClick={() => boardController.onAddFlexComponent({
               type: 'mobileScreen',
               properties: {

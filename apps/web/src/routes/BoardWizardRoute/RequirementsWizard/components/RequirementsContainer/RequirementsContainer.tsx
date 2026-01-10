@@ -5,6 +5,7 @@ import { PlusIcon } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 export type RequirementsContainerProps = {
+  hasPermission?: boolean
   requirements?: GetRequirementsResultData[]
   loading?: boolean
   handleCreate?: () => void
@@ -14,6 +15,7 @@ export type RequirementsContainerProps = {
 
 export function RequirementsContainer (props: RequirementsContainerProps) {
   const {
+    hasPermission,
     requirements = [],
     loading,
     handleCreate,
@@ -33,7 +35,7 @@ export function RequirementsContainer (props: RequirementsContainerProps) {
                   variant="outline"
                   className="size-7"
                   size="icon"
-                  disabled={loading}
+                  disabled={loading || hasPermission === false}
                   onClick={handleCreate}
                 >
                   <PlusIcon />
@@ -56,6 +58,7 @@ export function RequirementsContainer (props: RequirementsContainerProps) {
         {requirements.map((requirement) => (
           <RequirementCard
             key={requirement.id}
+            hasPermission={hasPermission}
             requirement={requirement}
             loading={loading}
             handleDelete={() => handleDelete?.(requirement)}
@@ -68,7 +71,7 @@ export function RequirementsContainer (props: RequirementsContainerProps) {
             variant="outline"
             className="mt-1 w-fit"
             size="sm"
-            disabled={loading}
+            disabled={loading || hasPermission === false}
             onClick={handleCreate}
           >
             <PlusIcon className="mr-2" />

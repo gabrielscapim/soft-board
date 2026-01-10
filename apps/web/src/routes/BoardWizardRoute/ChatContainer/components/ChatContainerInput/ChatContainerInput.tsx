@@ -4,12 +4,13 @@ import { ArrowUpIcon } from 'lucide-react'
 import { useState } from 'react'
 
 export type ChatContainerInputProps = {
+  hasPermission?: boolean
   loading?: boolean
   onSendMessage?: (content: string) => void
 }
 
 export function ChatContainerInput (props: ChatContainerInputProps) {
-  const { loading, onSendMessage } = props
+  const { hasPermission, loading, onSendMessage } = props
 
   const [content, setContent] = useState('')
 
@@ -21,6 +22,7 @@ export function ChatContainerInput (props: ChatContainerInputProps) {
   return (
     <form className="border-t-1 flex flex-row items-center max-h-64">
       <Textarea
+        disabled={hasPermission === false}
         placeholder="Talk with your board..."
         className="shadow-none flex-1 resize-none bg-transparent placeholder:text-muted-foreground h-full outline-none border-none p-3 focus-visible:border-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 rounded-none rounded-b-xl"
         value={content}
@@ -37,7 +39,7 @@ export function ChatContainerInput (props: ChatContainerInputProps) {
         variant="secondary"
         size="icon"
         className="size-9 mx-4"
-        disabled={loading || !content.trim()}
+        disabled={loading || !content.trim() || hasPermission === false}
         onClick={() => {
           if (!loading && content.trim()) {
             handleSendMessage()

@@ -11,12 +11,14 @@ import { AddGenerationToBoardDialog } from './AddGenerationToBoardDialog'
 import { toast } from 'sonner'
 
 export type BoardContainerProps = BoardProps & {
+  hasPermission?: boolean
   board?: GetBoardResult
   onReturnToBoard?: () => void
 }
 
 export function BoardContainer (props: BoardContainerProps) {
   const {
+    hasPermission,
     board,
     boardController,
     boardState,
@@ -46,7 +48,7 @@ export function BoardContainer (props: BoardContainerProps) {
       onReturnToBoard?.()
       toast.success('Generation added to board successfully')
     },
-    onError: () => toast.error('Failed to add generation to board')
+    onError: (error: any) => toast.error(error?.response?.data?.detail || 'Failed to add generation to board')
   })
 
   const generation = board?.generation
@@ -86,6 +88,7 @@ export function BoardContainer (props: BoardContainerProps) {
             <Button
               variant="outline"
               size="sm"
+              disabled={hasPermission === false || addGenerationToBoard.isPending}
               onClick={() => setAddGenerationDialogOpen(true)}
             >
               <PlusIcon />
@@ -107,10 +110,10 @@ export function BoardContainer (props: BoardContainerProps) {
         boardController={boardController}
         boardManager={boardManager}
         enableZoom
-        enableSelection={generation ? false : enableSelection}
-        enableResizing={generation ? false : enableResizing}
-        enableDraggable={generation ? false : enableDraggable}
-        enableKeyboardShortcuts={generation ? false : enableKeyboardShortcuts}
+        enableSelection={generation ? false : enableSelection && hasPermission}
+        enableResizing={generation ? false : enableResizing && hasPermission}
+        enableDraggable={generation ? false : enableDraggable && hasPermission}
+        enableKeyboardShortcuts={generation ? false : enableKeyboardShortcuts && hasPermission}
       />
     </>
   )

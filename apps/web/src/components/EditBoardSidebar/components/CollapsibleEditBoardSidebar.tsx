@@ -9,11 +9,12 @@ export type CollapsibleEditBoardSidebarProps = {
   boardController: BoardController
   selectedSection: EditBoardSidebarSection
   search: string
+  hasPermission?: boolean
   onSearchChange?: (search: string) => void
 }
 
 export function CollapsibleEditBoardSidebar (props: CollapsibleEditBoardSidebarProps) {
-  const { boardController, selectedSection, search, onSearchChange } = props
+  const { boardController, selectedSection, search, hasPermission, onSearchChange } = props
 
   const { toggleSidebar } = useSidebar()
 
@@ -42,7 +43,13 @@ export function CollapsibleEditBoardSidebar (props: CollapsibleEditBoardSidebarP
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
             <div className="grid grid-cols-1 gap-2 p-4">
-              {selectedSection === 'Components' && <BoardComponentsPreview search={search} boardController={boardController} />}
+              {selectedSection === 'Components' && (
+                <BoardComponentsPreview
+                  disabled={hasPermission === false}
+                  search={search}
+                  boardController={boardController}
+                />
+              )}
               {selectedSection === 'Templates' && <span className="opacity-40">No templates found</span>}
             </div>
           </SidebarGroupContent>
