@@ -9,7 +9,7 @@ export function NotFoundScreenContainer () {
         No screens found
       </h1>
       <p className="text-muted-foreground">
-        Please add a screen to the board to enter wireframe mode.
+        Please add a screen to the board to enter preview mode.
       </p>
       <Link to=".." relative="path">
         <Button variant="outline">

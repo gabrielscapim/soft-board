@@ -26,10 +26,10 @@ export function AddGenerationToBoardDialog (props: AddGenerationToBoardDialogPro
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Add generated wireframe to board
+            Add generated wireflow to board
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Add the genereated components to your board. This will not overwrite the current wireframe on the board and you will be able to edit it.
+            Add the genereated components to your board. This will not overwrite the current wireflow on the board and you will be able to edit it.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
