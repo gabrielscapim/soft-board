@@ -2,11 +2,11 @@ import { Button } from '@/components/ui/button'
 import { PlayIcon } from 'lucide-react'
 import { Link } from 'react-router'
 
-export type WireframeModeLinkProps = {
+export type PreviewModeLinkProps = {
   to: string
 }
 
-export function WireframeModeLink (props: WireframeModeLinkProps) {
+export function PreviewModeLink (props: PreviewModeLinkProps) {
   const { to } = props
 
   return (

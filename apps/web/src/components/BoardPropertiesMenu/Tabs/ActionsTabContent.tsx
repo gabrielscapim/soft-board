@@ -48,7 +48,7 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
           Connect to a screen
         </p>
         <p className="text-xs text-muted-foreground pb-3 pt-2">
-          This will allow to navigate between screens in the wireframe mode.
+          This will allow to navigate between screens in the preview mode.
         </p>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild disabled={!isButton && !isText}>

@@ -5,9 +5,9 @@ import {
   AuthenticationGuardLayout,
   BoardWizardLayout,
   EditBoardLayout,
+  PreviewModeLayout,
   RootLayout,
-  UnauthenticatedGuardLayout,
-  WireframeModeLayout
+  UnauthenticatedGuardLayout
 } from './components'
 import {
   BoardReviewRoute,
@@ -18,7 +18,7 @@ import {
   SettingsRoute,
   BoardWizardRoute,
   EditBoardRoute,
-  WireframeModeRoute
+  PreviewModeRoute
 } from './routes'
 import { Toaster } from 'sonner'
 import {
@@ -102,14 +102,14 @@ function App () {
                   </Route>
 
                   <Route
-                    path="boards/:boardId/wireframe"
+                    path="boards/:boardId/preview"
                     element={
                       <BoardProviders>
-                        <WireframeModeLayout />
+                        <PreviewModeLayout />
                       </BoardProviders>
                     }
                   >
-                    <Route index element={<WireframeModeRoute />} />
+                    <Route index element={<PreviewModeRoute />} />
                   </Route>
 
                   <Route
@@ -119,9 +119,7 @@ function App () {
                         <BoardReviewRoute />
                       </BoardProviders>
                     }
-                  >
-                    <Route index element={<WireframeModeRoute />} />
-                  </Route>
+                  />
                 </Route>
 
                 <Route
