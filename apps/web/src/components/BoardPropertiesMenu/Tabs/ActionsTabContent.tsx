@@ -40,6 +40,7 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
 
   const isButton = flexComponent.type === 'button'
   const isText = flexComponent.type === 'text'
+  const isInsideScreen = Boolean(flexComponent.screenId)
 
   return (
     <>
@@ -51,7 +52,7 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
           This will allow to navigate between screens in the preview mode.
         </p>
         <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild disabled={!isButton && !isText}>
+          <PopoverTrigger asChild disabled={!isButton && !isText || !isInsideScreen}>
             <Button
               variant="outline"
               role="combobox"
@@ -102,6 +103,12 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
         {!isButton && !isText && (
           <p className="text-xs text-yellow-600 pt-2">
             Only buttons or text components can be connected to a screen.
+          </p>
+        )}
+
+        {(isButton || isText) && !isInsideScreen && (
+          <p className="text-xs text-yellow-600 pt-2">
+            Only components inside a screen can be connected to another screen.
           </p>
         )}
       </div>
