@@ -8,7 +8,7 @@ import { FRONTEND_BASE_URL } from '../../constants'
 describe('shareBoard', () => {
   describe('when board shared link already exists', () => {
     test('creates a new share link', async () => {
-    const pool = getPool()
+      const pool = getPool()
       const factory = new DatabaseFactory({ pool })
       const user = await factory.createUser()
       const team = await factory.createTeam()
