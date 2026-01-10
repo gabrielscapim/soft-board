@@ -19,11 +19,32 @@ export function handler (): Handler {
 
     const pool = getPool()
 
-    await pool
-      .DELETE_FROM`component`
-      .WHERE`id = ANY(${componentIds})`
-      .AND`board_id = ${boardId}`
-      .AND`team_id = ${teamId}`
+    await pool.transaction(async client => {
+      // Delete the child components first (e.g., components inside a screen)
+      await client
+        .DELETE_FROM`component`
+        .WHERE`screen_id = ANY(${componentIds})`
+        .AND`board_id = ${boardId}`
+        .AND`team_id = ${teamId}`
+
+      // Set the connectionId to null for components connected to the deleted components
+      const deleted = await client
+        .UPDATE`component`
+        .SET({ connectionId: null })
+        .WHERE`connection_id = ANY(${componentIds})`
+        .AND`board_id = ${boardId}`
+        .AND`team_id = ${teamId}`
+
+      console.log(`Updated ${deleted.rowCount} components to remove connections to deleted components.`)
+
+      // Then delete the specified components
+      await client
+        .DELETE_FROM`component`
+        .WHERE`id = ANY(${componentIds})`
+        .AND`board_id = ${boardId}`
+        .AND`team_id = ${teamId}`
+    })
+
 
     res.status(204).end()
   }

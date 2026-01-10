@@ -80,11 +80,19 @@ export class BoardManager implements BoardManagerI {
   }
 
   deleteFlexComponents (params: DeleteFlexComponentsParams) {
-    const removed = this._boardState.flexComponents
+    const previousFlexComponents = this._boardState.flexComponents
+      .map(fc => structuredClone(fc))
+
+    const removed = previousFlexComponents
       .filter(fc => params.flexComponents.includes(fc.id))
 
-    const remaining = this._boardState.flexComponents
+    const remaining = previousFlexComponents
       .filter(fc => !params.flexComponents.includes(fc.id))
+      .map(fc => ({
+        ...fc,
+        connectionId: removed.some(r => r.id === fc.connectionId) ? null : fc.connectionId,
+        screenId: removed.some(r => r.id === fc.screenId) ? null : fc.screenId
+      }))
 
     const command: Command = {
       do: () => {
@@ -100,15 +108,19 @@ export class BoardManager implements BoardManagerI {
       },
 
       undo: () => {
-        this._boardState.setFlexComponents([
-          ...remaining,
-          ...removed
-        ])
+        this._boardState.setFlexComponents(previousFlexComponents)
 
         return this._promiseQueue.run(() =>
           this._client.createComponents({
             boardId: this._boardState.id,
-            components: removed
+            components: removed.map(fc => ({
+              name: fc.name,
+              type: fc.type,
+              id: fc.id,
+              connectionId: fc.connectionId,
+              screenId: fc.screenId,
+              properties: fc.properties
+            }))
           })
         )
       }
