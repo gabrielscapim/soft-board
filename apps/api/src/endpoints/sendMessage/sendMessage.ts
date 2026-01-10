@@ -1,6 +1,6 @@
 import { SendMessageResultMessage, SendMessageCommand, SendMessageResult } from 'types/endpoints'
 import { RequestHandler } from 'express'
-import { getPool, logger } from '../../libs'
+import { assertMemberPermission, getPool, logger } from '../../libs'
 import { OpenAIError } from 'openai'
 import * as yup from 'yup'
 import { DatabasePool } from 'pg-script'
@@ -37,6 +37,8 @@ export function handler (getDeps: () => ApplicationDependencies): Handler {
     const { openai, publishers } = getDeps()
     const teamId = req.team!.teamId
     const userId = req.auth!.userId
+
+    assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can send messages')
 
     const pool = getPool()
 
