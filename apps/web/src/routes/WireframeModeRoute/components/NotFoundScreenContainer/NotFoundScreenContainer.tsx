@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 
 export function NotFoundScreenContainer () {
   return (
-    <div className="flex flex-col items-center justify-center gap-4 p-4">
+    <div className="flex flex-col items-center justify-center gap-4 p-4 w-full">
       <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">
         No screens found
       </h1>
