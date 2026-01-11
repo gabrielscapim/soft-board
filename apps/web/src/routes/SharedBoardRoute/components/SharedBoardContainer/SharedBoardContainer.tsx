@@ -4,6 +4,7 @@ import { FlexComponent } from '@/types'
 import { useMemo, useState } from 'react'
 import { GetSharedBoardByTokenResult } from 'types/endpoints'
 import { SharedBoardHeader } from '../SharedBoardHeader'
+import { SharedBoardRequirementsContainer } from '../SharedBoardRequirementsContainer'
 
 export type SharedBoardContainerProps = {
   sharedBoard: GetSharedBoardByTokenResult
@@ -12,7 +13,7 @@ export type SharedBoardContainerProps = {
 export function SharedBoardContainer (props: SharedBoardContainerProps) {
   const { sharedBoard } = props
 
-  const [mode, setMode] = useState<'board' | 'preview'>('board')
+  const [mode, setMode] = useState<'board' | 'preview' | 'requirements'>('board')
 
   const components = useMemo(() => {
     return (
@@ -59,6 +60,10 @@ export function SharedBoardContainer (props: SharedBoardContainerProps) {
 
         {mode === 'preview' && (
           <PreviewModeContainer boardState={board.boardState} />
+        )}
+
+        {mode === 'requirements' && (
+          <SharedBoardRequirementsContainer requirements={sharedBoard.board.requirements} />
         )}
       </main>
     </>
