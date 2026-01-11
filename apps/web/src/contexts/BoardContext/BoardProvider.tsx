@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useMemo, useState } from 'react'
+import { PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
@@ -11,12 +11,14 @@ import { FullScreenLoader } from '@/components'
 import { ErrorRoute } from '@/routes'
 import { Client } from '@/client'
 import { GetBoardQuery } from 'types/endpoints'
+import { SocketContext } from '../SocketContext'
 
 export type BoardProviderProps = PropsWithChildren
 
 export function BoardProvider ({ children }: BoardProviderProps) {
   const params = useParams<{ boardId?: string }>()
   const boardId = params.boardId!
+  const socket = useContext(SocketContext)
 
   const client = useClient()
 
@@ -57,6 +59,16 @@ export function BoardProvider ({ children }: BoardProviderProps) {
   useEffect(() => {
     board.boardState.setFlexComponents(components)
   }, [components, board.boardState])
+
+  useEffect(() => {
+    if (!socket) return
+
+    socket.emit('joinBoard', boardId)
+
+    return () => {
+      socket.emit('leaveBoard', boardId)
+    }
+  }, [socket, boardId])
 
   const error = Client.getError(getBoard.error)
 
