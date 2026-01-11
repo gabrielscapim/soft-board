@@ -72,7 +72,8 @@ export class CreateRequirementTool extends Tool {
       return requirement
     })
 
-    websocketEmitters.agentUpdatedRequirements.emit({ boardId: context.board.id })
+    const room = `board:${context.board.id}`
+    websocketEmitters.agentUpdatedRequirements.emit({ boardId: context.board.id }, [room])
 
     return {
       content: 'Requirement created successfully.'

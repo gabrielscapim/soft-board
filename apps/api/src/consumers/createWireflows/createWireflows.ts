@@ -121,7 +121,8 @@ export function consumer (getDeps: GetApplicationDependencies) {
         .AND`tool_call_id = ${event.toolCall.id}`
     }
 
-    websocketEmitters.agentCreatedWireflow.emit({ boardId: board.id })
+    const room = `board:${board.id}`
+    websocketEmitters.agentCreatedWireflow.emit({ boardId: board.id }, [room])
   }
 }
 

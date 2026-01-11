@@ -36,7 +36,8 @@ export class GetRequirementsTool extends Tool {
       return acc + `### ${req.title ?? 'Unnamed'} (ID: ${req.id})\n${req.description ?? 'No description'}\n\n`
     }, '')
 
-    websocketEmitters.agentUpdatedRequirements.emit({ boardId: context.board.id })
+    const room = `board:${context.board.id}`
+    websocketEmitters.agentUpdatedRequirements.emit({ boardId: context.board.id }, [room])
 
     return {
       content: response

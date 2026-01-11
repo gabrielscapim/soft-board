@@ -55,6 +55,16 @@ async function main () {
   io.on('connection', socket => {
     logger.info('Client connected: %s', socket.id)
 
+    socket.on('joinBoard', (boardId: string) => {
+      socket.join(`board:${boardId}`)
+      logger.info('Socket %s joined board %s', socket.id, boardId)
+    })
+
+    socket.on('leaveBoard', (boardId: string) => {
+      socket.leave(`board:${boardId}`)
+      logger.info('Socket %s left board %s', socket.id, boardId)
+    })
+
     socket.on('disconnect', () => {
       logger.info('Client disconnected: %s', socket.id)
     })

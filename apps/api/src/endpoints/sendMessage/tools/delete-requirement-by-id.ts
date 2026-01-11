@@ -49,7 +49,8 @@ export class DeleteRequirementByIdTool extends Tool {
         .WHERE`id = ${context.board.id}`
     })
 
-    websocketEmitters.agentUpdatedRequirements.emit({ boardId: context.board.id })
+    const room = `board:${context.board.id}`
+    websocketEmitters.agentUpdatedRequirements.emit({ boardId: context.board.id }, [room])
 
     return {
       content: `Requirement with ID "${args.id}" has been deleted successfully.`

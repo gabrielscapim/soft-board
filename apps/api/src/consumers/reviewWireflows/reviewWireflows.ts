@@ -93,7 +93,8 @@ export function consumer (getDeps: GetApplicationDependencies) {
         .AND`tool_call_id = ${toolCall.id}`
     }
 
-    websocketEmitters.agentReviewedBoard.emit({ boardId: board.id })
+    const room = `board:${board.id}`
+    websocketEmitters.agentReviewedBoard.emit({ boardId: board.id }, [room])
   }
 }
 
