@@ -18,7 +18,8 @@ import {
   SettingsRoute,
   BoardWizardRoute,
   EditBoardRoute,
-  PreviewModeRoute
+  PreviewModeRoute,
+  SharedBoardRoute
 } from './routes'
 import { Toaster } from 'sonner'
 import {
@@ -54,7 +55,7 @@ function App () {
       <ClientProvider client={client}>
         <AuthenticationProvider>
           <SocketProvider>
-            <Toaster />
+            <Toaster position="top-center" />
             <div className="bg-muted">
               <Routes>
 
@@ -63,6 +64,7 @@ function App () {
                   <Route index element={<SignInRoute />} />
                   <Route path="sign-in" element={<SignInRoute />} />
                 </Route>
+                <Route path="share/:token" element={<SharedBoardRoute />} />
 
                 {/* Private Routes */}
                 <Route path=":teamSlug" element={<AuthenticationGuardLayout />}>

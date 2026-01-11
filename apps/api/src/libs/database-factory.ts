@@ -1,6 +1,6 @@
 import { DatabasePool } from 'pg-script'
 import { getPool } from './get-pool'
-import { MemberDatabase, UserDatabase, TeamDatabase, BoardDatabase, MessageDatabase, RequirementDatabase, ComponentDatabase, BoardGenerationDatabase, BoardReviewDatabase } from 'types/database'
+import { MemberDatabase, UserDatabase, TeamDatabase, BoardDatabase, MessageDatabase, RequirementDatabase, ComponentDatabase, BoardGenerationDatabase, BoardReviewDatabase, BoardShareDatabase } from 'types/database'
 import { randomUUID } from 'crypto'
 import slugify from 'slugify'
 
@@ -29,6 +29,23 @@ export class DatabaseFactory {
     }
 
     await this.pool.INSERT_INTO`board`.VALUES(created)
+
+    return created
+  }
+
+  async createBoardShare (boardShare: Partial<BoardShareDatabase> = {}): Promise<BoardShareDatabase> {
+    const now = new Date()
+    const created: BoardShareDatabase = {
+      id: boardShare.id ?? randomUUID(),
+      teamId: boardShare.teamId ?? randomUUID(),
+      boardId: boardShare.boardId ?? randomUUID(),
+      token: boardShare.token ?? randomUUID(),
+      expireDate: boardShare.expireDate ?? null,
+      createDate: boardShare.createDate ?? now,
+      updateDate: boardShare.updateDate ?? now
+    }
+
+    await this.pool.INSERT_INTO`board_share`.VALUES(created)
 
     return created
   }
