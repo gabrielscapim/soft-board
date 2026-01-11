@@ -1,42 +1,10 @@
+import { PreviewModeContainer } from '@/components'
 import { useBoard } from '@/hooks'
-import { useEffect, useMemo, useState } from 'react'
-import { MobileScreenContainer, NotFoundScreenContainer } from './components'
-import { MobileScreenFlexComponent } from '@/types'
-import { useBoardStore } from '@/components'
 
 export function PreviewModeRoute () {
   const { boardState } = useBoard()
-  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
-  const screens = useMemo(() => {
-    const result = flexComponents
-      .filter(component => component.type === 'mobileScreen')
-      .sort((a, b) => {
-        const aMain = a.properties.main ? 0 : 1
-        const bMain = b.properties.main ? 0 : 1
-
-        return aMain - bMain
-      })
-
-    return result
-  }, [flexComponents])
-  const [currentScreen, setCurrentScreen] = useState<MobileScreenFlexComponent | null>(() => (screens[0] ?? null))
-
-  useEffect(() => {
-    if (!currentScreen && screens.length > 0) {
-      setCurrentScreen(screens[0])
-    }
-  }, [screens, currentScreen])
-
-  if (!currentScreen) {
-    return <NotFoundScreenContainer />
-  }
 
   return (
-    <MobileScreenContainer
-      screens={screens}
-      currentScreen={currentScreen}
-      components={flexComponents}
-      onChangeScreen={setCurrentScreen}
-    />
+    <PreviewModeContainer boardState={boardState} />
   )
 }
