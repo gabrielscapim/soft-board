@@ -1,5 +1,6 @@
 import { DatabasePool } from 'pg-script'
 import { AgentContext, RunToolResult, Tool } from '../../../startflow-agent'
+import { ApplicationDependencies } from '../../../types'
 
 type Arguments = {
   title: string
@@ -31,7 +32,7 @@ export class CreateRequirementTool extends Tool {
   }
 
   async run (args: Arguments, context: AgentContext): Promise<RunToolResult> {
-    const { pool } = this.data as { pool: DatabasePool }
+    const { pool, websocketEmitters } = this.data as { pool: DatabasePool, websocketEmitters: ApplicationDependencies['websocketEmitters'] }
 
     const { rows: [{ count }] } = await pool
       .SELECT<{ count: number }>`COUNT(*) AS count`
@@ -70,6 +71,8 @@ export class CreateRequirementTool extends Tool {
 
       return requirement
     })
+
+    websocketEmitters.agentUpdatedRequirements.emit({ boardId: context.board.id })
 
     return {
       content: 'Requirement created successfully.'

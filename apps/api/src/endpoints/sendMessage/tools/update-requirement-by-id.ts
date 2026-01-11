@@ -1,5 +1,6 @@
 import { DatabasePool } from 'pg-script'
 import { AgentContext, RunToolResult, Tool } from '../../../startflow-agent'
+import { ApplicationDependencies } from '../../../types'
 
 type Arguments = {
   id: string
@@ -25,7 +26,7 @@ export class UpdateRequirementByIdTool extends Tool {
   }
 
   async run (args: Arguments, context: AgentContext): Promise<RunToolResult> {
-    const { pool } = this.data as { pool: DatabasePool }
+    const { pool, websocketEmitters } = this.data as { pool: DatabasePool, websocketEmitters: ApplicationDependencies['websocketEmitters'] }
 
     const requirement = await pool
       .SELECT`id`
@@ -54,6 +55,8 @@ export class UpdateRequirementByIdTool extends Tool {
         .WHERE`id = ${context.board.id}`
       }
     )
+
+    websocketEmitters.agentUpdatedRequirements.emit({ boardId: context.board.id })
 
     return {
       content: `Requirement with ID "${args.id}" updated successfully.`

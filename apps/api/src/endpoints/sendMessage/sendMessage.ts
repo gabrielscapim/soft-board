@@ -16,7 +16,7 @@ import {
   CreateWireflowTool,
   ReviewWireflowsTool
 } from './tools'
-import { GetApplicationDependencies, IPublisher } from '../../types'
+import { ApplicationDependencies, GetApplicationDependencies, IPublisher } from '../../types'
 
 type Handler = RequestHandler<unknown, SendMessageResult, SendMessageCommand>
 
@@ -34,7 +34,7 @@ const DEFAULT_ERROR_MESSAGE = 'An error occurred while processing your message.'
 export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const { content, boardId } = await schema.validate(req.body, { abortEarly: false })
-    const { openai, publishers } = getDeps()
+    const { openai, publishers, websocketEmitters } = getDeps()
     const teamId = req.team!.teamId
     const userId = req.auth!.userId
 
@@ -70,7 +70,7 @@ export function handler (getDeps: GetApplicationDependencies): Handler {
       .ORDER_BY`send_date ASC`
       .list()
 
-    const tools = getTools(board, pool, publishers)
+    const tools = getTools(board, pool, publishers, websocketEmitters)
     const prompt = getPrompt(board)
 
     const context: AgentContext = {
@@ -190,14 +190,15 @@ export function handler (getDeps: GetApplicationDependencies): Handler {
 function getTools (
   board: BoardRow,
   pool: DatabasePool,
-  publishers: Record<string, IPublisher<any>>
+  publishers: Record<string, IPublisher<any>>,
+  websocketEmitters: ApplicationDependencies['websocketEmitters']
 ): Tool[] {
   if (board.step === 'requirements') {
     return [
-      new CreateRequirementTool({ pool, publishers }),
-      new DeleteRequirementByIdTool({ pool, publishers }),
-      new GetRequirementsTool({ pool, publishers }),
-      new UpdateRequirementByIdTool({ pool, publishers })
+      new CreateRequirementTool({ pool, websocketEmitters }),
+      new DeleteRequirementByIdTool({ pool, websocketEmitters }),
+      new GetRequirementsTool({ pool, websocketEmitters }),
+      new UpdateRequirementByIdTool({ pool, websocketEmitters })
     ]
   } else if (board.step === 'wireflows') {
     return [

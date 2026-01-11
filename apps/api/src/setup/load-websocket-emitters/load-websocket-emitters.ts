@@ -1,9 +1,16 @@
 import { Server } from 'socket.io'
 import { IWebsocketEmitter } from '../../types'
+import {
+  AgentCreatedWireflow,
+  AgentReviewedBoard,
+  AgentUpdatedRequirements
+} from 'realtime-events'
 
 export function loadWebsocketEmitters (io?: Server) {
   return {
-    exampleEvent: websocketEmitter<any>('exampleEvent', io)
+    agentCreatedWireflow: websocketEmitter<AgentCreatedWireflow>('agentCreatedWireflow', io),
+    agentReviewedBoard: websocketEmitter<AgentReviewedBoard>('agentReviewedBoard', io),
+    agentUpdatedRequirements: websocketEmitter<AgentUpdatedRequirements>('agentUpdatedRequirements', io)
   }
 }
 

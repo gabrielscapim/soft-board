@@ -1,6 +1,7 @@
 import { RequirementDatabase } from 'types/database'
 import { AgentContext, RunToolResult, Tool } from '../../../startflow-agent'
 import { DatabasePool } from 'pg-script'
+import { ApplicationDependencies } from '../../../types'
 
 type RequirementRow = Pick<RequirementDatabase, 'id' | 'title' | 'description'>
 
@@ -17,7 +18,7 @@ export class GetRequirementsTool extends Tool {
   }
 
   async run (_args: Record<string, any>, context: AgentContext): Promise<RunToolResult> {
-    const { pool } = this.data as { pool: DatabasePool }
+    const { pool, websocketEmitters } = this.data as { pool: DatabasePool, websocketEmitters: ApplicationDependencies['websocketEmitters'] }
 
     const requirements = await pool
       .SELECT<RequirementRow>`id, title, description`
@@ -34,6 +35,8 @@ export class GetRequirementsTool extends Tool {
     const response = requirements.reduce((acc, req) => {
       return acc + `### ${req.title ?? 'Unnamed'} (ID: ${req.id})\n${req.description ?? 'No description'}\n\n`
     }, '')
+
+    websocketEmitters.agentUpdatedRequirements.emit({ boardId: context.board.id })
 
     return {
       content: response
