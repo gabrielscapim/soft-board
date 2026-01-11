@@ -78,6 +78,7 @@
     "eslint-plugin-react-refresh": "^0.4.7",
     "eslint-plugin-storybook": "^0.12.0",
     "playwright": "^1.52.0",
+    "realtime-events": "*",
     "storybook": "^8.6.14",
     "tailwindcss": "^4.0.9",
     "tw-animate-css": "^1.3.3",
