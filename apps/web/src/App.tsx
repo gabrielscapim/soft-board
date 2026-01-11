@@ -55,7 +55,7 @@ function App () {
       <ClientProvider client={client}>
         <AuthenticationProvider>
           <SocketProvider>
-            <Toaster />
+            <Toaster position="top-center" />
             <div className="bg-muted">
               <Routes>
 
