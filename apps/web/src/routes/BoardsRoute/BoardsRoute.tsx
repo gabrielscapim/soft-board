@@ -75,7 +75,7 @@ export function BoardsRoute () {
 
       {getBoards.error && (
         <div className="flex flex-col items-center justify-center">
-          <h2 className="text-lg font-semibold text-destructive mb-1">
+          <h2 className="text-lg font-semibold mb-1">
             Failed to load boards
           </h2>
           <p className="text-xs text-muted-foreground">
