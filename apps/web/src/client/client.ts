@@ -42,7 +42,9 @@ import type {
   GetSharedBoardByTokenCommand,
   GetSharedBoardByTokenResult,
   ShareBoardCommand,
-  ShareBoardResult
+  ShareBoardResult,
+  GetSharedBoardByBoardIdCommand,
+  GetSharedBoardByBoardIdResult
 } from 'types/endpoints'
 
 export type ClientOptions = {
@@ -163,6 +165,10 @@ export class Client {
 
   async getRequirements (data: GetRequirementsQuery): Promise<GetRequirementsResult> {
     return (await this.axios.post<GetRequirementsResult>('/getRequirements', data)).data
+  }
+
+  async getSharedBoardByBoardId (data: GetSharedBoardByBoardIdCommand): Promise<GetSharedBoardByBoardIdResult> {
+    return (await this.axios.post<GetSharedBoardByBoardIdResult>('/getSharedBoardByBoardId', data)).data
   }
 
   async getSharedBoardByToken (data: GetSharedBoardByTokenCommand): Promise<GetSharedBoardByTokenResult> {
