@@ -3,7 +3,7 @@ import * as yup from 'yup'
 import { ShareBoardCommand, ShareBoardResult } from 'types/endpoints'
 import { assertMemberPermission, getPool } from '../../libs'
 import { FRONTEND_BASE_URL } from '../../constants'
-import { randomBytes } from 'crypto'
+import { nanoid } from 'nanoid'
 
 type Handler = RequestHandler<unknown, ShareBoardResult, ShareBoardCommand>
 
@@ -43,7 +43,7 @@ export function handler (): Handler {
       return
     }
 
-    const token = randomBytes(24).toString('hex')
+    const token = nanoid(10)
 
     await pool
       .INSERT_INTO`board_share`
