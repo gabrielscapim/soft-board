@@ -18,7 +18,7 @@ export function SharedBoardRoute () {
 
   return (
     <div className="h-screen w-full">
-      {true && (
+      {getSharedBoard.isPending && (
         <div className="flex flex-col items-center justify-center h-full">
           <Spinner variant="circle" />
         </div>
