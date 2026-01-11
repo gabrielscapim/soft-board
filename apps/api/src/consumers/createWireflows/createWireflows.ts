@@ -13,7 +13,7 @@ export const key = 'createWireflows'
 
 export function consumer (getDeps: GetApplicationDependencies) {
   return async (event: AgentCalledFunctionEvent) => {
-    const { openai } = getDeps()
+    const { openai, websocketEmitters } = getDeps()
     const { board, team, user, toolCall } = event
 
     const pool = getPool()
@@ -120,6 +120,8 @@ export function consumer (getDeps: GetApplicationDependencies) {
         .WHERE`board_id = ${board.id}`
         .AND`tool_call_id = ${event.toolCall.id}`
     }
+
+    websocketEmitters.agentCreatedWireflow.emit({ boardId: board.id })
   }
 }
 
