@@ -38,7 +38,11 @@ import type {
   GetRequirementsResult,
   UpdateRequirementCommand,
   DeleteComponentsCommand,
-  UpdateComponentsCommand
+  UpdateComponentsCommand,
+  GetSharedBoardCommand,
+  GetSharedBoardResult,
+  ShareBoardCommand,
+  ShareBoardResult
 } from 'types/endpoints'
 
 export type ClientOptions = {
@@ -161,6 +165,10 @@ export class Client {
     return (await this.axios.post<GetRequirementsResult>('/getRequirements', data)).data
   }
 
+  async getSharedBoard (data: GetSharedBoardCommand): Promise<GetSharedBoardResult> {
+    return (await this.axios.post<GetSharedBoardResult>('/getSharedBoard', data)).data
+  }
+
   async getTeam (): Promise<GetTeamResult> {
     return (await this.axios.post<GetTeamResult>('/getTeam')).data
   }
@@ -175,6 +183,10 @@ export class Client {
 
   async leaveTeam (): Promise<void> {
     await this.axios.post('/leaveTeam')
+  }
+
+  async shareBoard (data: ShareBoardCommand): Promise<ShareBoardResult> {
+    return (await this.axios.post<ShareBoardResult>('/shareBoard', data)).data
   }
 
   async signIn (data: SignInCommand): Promise<SignInResult> {
