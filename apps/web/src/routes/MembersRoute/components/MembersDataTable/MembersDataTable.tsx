@@ -92,7 +92,7 @@ export function MembersDataTable (props: MembersDataTableProps) {
           >
             <SelectTrigger
               size="sm"
-              disabled={updateMemberRoleLoading || isSameUser || memberRole === 'owner'}
+              disabled={updateMemberRoleLoading || isSameUser || memberRole !== 'owner'}
             >
               <SelectValue placeholder="Select color" />
             </SelectTrigger>
