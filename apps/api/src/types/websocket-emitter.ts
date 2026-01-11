@@ -1,3 +1,3 @@
 export interface IWebsocketEmitter<T> {
-  emit(event: T, room?: string): void
+  emit(event: T, rooms?: string[]): void
 }

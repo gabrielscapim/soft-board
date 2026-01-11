@@ -23,8 +23,12 @@ class WebsocketEmitter<T> implements IWebsocketEmitter<T> {
     this.io = io
   }
 
-  emit (event: T): void {
-    this.io.emit(this.eventName, event)
+  emit (event: T, rooms?: string[]) : void {
+    if (rooms) {
+      this.io.to(rooms).emit(this.eventName, event)
+    } else {
+      this.io.emit(this.eventName, event)
+    }
   }
 }
 
