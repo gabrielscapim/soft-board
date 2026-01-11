@@ -1,8 +1,8 @@
-export type GetSharedBoardCommand = {
+export type GetSharedBoardByTokenCommand = {
   token: string
 }
 
-export type GetSharedBoardResultComponent = {
+export type GetSharedBoardByTokenResultComponent = {
   id: string
   name: string
   type: string
@@ -13,19 +13,19 @@ export type GetSharedBoardResultComponent = {
   updateDate: string
 }
 
-export type GetSharedBoardResultRequirement = {
+export type GetSharedBoardByTokenResultRequirement = {
   id: string
   title: string | null
   description: string | null
 }
 
-export type GetSharedBoardResult = {
+export type GetSharedBoardByTokenResult = {
   board: {
     id: string
     title: string | null
     image: string | null
     step: 'init' | 'requirements' | 'wireflows' | 'review' | 'end'
-    components: GetSharedBoardResultComponent[]
-    requirements: GetSharedBoardResultRequirement[]
+    components: GetSharedBoardByTokenResultComponent[]
+    requirements: GetSharedBoardByTokenResultRequirement[]
   }
 }

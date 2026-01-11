@@ -1,11 +1,11 @@
 import { RequestHandler } from 'express'
-import { GetSharedBoardCommand, GetSharedBoardResult } from 'types/endpoints'
+import { GetSharedBoardByTokenCommand, GetSharedBoardByTokenResult } from 'types/endpoints'
 import * as yup from 'yup'
 import { getPool } from '../../libs'
 import { BoardDatabase, BoardShareDatabase, ComponentDatabase, RequirementDatabase } from 'types/database'
 import { BadRequest, Gone } from 'http-errors'
 
-type Handler = RequestHandler<unknown, GetSharedBoardResult, GetSharedBoardCommand>
+type Handler = RequestHandler<unknown, GetSharedBoardByTokenResult, GetSharedBoardByTokenCommand>
 
 export const auth = false
 
@@ -84,12 +84,12 @@ export function handler (): Handler {
       .ORDER_BY`requirement."order" ASC`
       .list()
 
-    const result: GetSharedBoardResult = {
+    const result: GetSharedBoardByTokenResult = {
       board: {
         id: board.id,
         title: board.title,
         image: board.image,
-        step: board.step as GetSharedBoardResult['board']['step'],
+        step: board.step as GetSharedBoardByTokenResult['board']['step'],
         components: components.map(component => ({
           id: component.id,
           name: component.name,

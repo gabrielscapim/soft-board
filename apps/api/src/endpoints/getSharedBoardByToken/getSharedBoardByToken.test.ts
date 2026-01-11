@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'vitest'
 import { DatabaseFactory, getPool } from '../../libs'
-import * as getSharedBoard from './getSharedBoard'
+import * as getSharedBoardByToken from './getSharedBoardByToken'
 import { createApp } from '../../setup'
 import request from 'supertest'
 
-describe('getSharedBoard', () => {
+describe('getSharedBoardByToken', () => {
   test('return shared board', async () => {
     const pool = getPool()
     const factory = new DatabaseFactory({ pool })
@@ -15,7 +15,7 @@ describe('getSharedBoard', () => {
     const boardShare = await factory.createBoardShare({ teamId: team.id, boardId: board.id })
 
     const app = createApp({
-      endpoints: { getSharedBoard },
+      endpoints: { getSharedBoardByToken },
       tests: {
         auth: { userId: user.id },
         team: { teamId: team.id, memberRole: member.role }
@@ -23,7 +23,7 @@ describe('getSharedBoard', () => {
     })
 
     const result = await request(app)
-      .post('/getSharedBoard')
+      .post('/getSharedBoardByToken')
       .send({ token: boardShare.token })
 
     expect(result.status).toBe(200)
