@@ -25,19 +25,7 @@ export function RequirementsWizard () {
       return await client.sendMessage({ boardId: boardId!, content })
     },
     onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to send message'),
-    onSuccess: async (result) => {
-      await getMessages.refetch()
-
-      const actionTools = ['create_requirement', 'update_requirement_by_id', 'delete_requirement_by_id']
-      const hasRequirementAction = result.messages.some(message => (
-        message.toolCalls?.some(({ function: { name } }) => actionTools.includes(name))
-      ))
-
-      if (hasRequirementAction) {
-        getRequirements.refetch()
-        toast.success('Requirements updated by the assistant')
-      }
-    },
+    onSuccess: () => getMessages.refetch(),
     onSettled: () => setSendingMessage(null)
   })
   const createRequirement = useMutation({
