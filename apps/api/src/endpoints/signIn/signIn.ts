@@ -5,7 +5,7 @@ import * as yup from 'yup'
 import * as bcrypt from 'bcrypt'
 import { getPool } from '../../libs'
 import { Unauthorized } from 'http-errors'
-import { ApplicationDependencies, AuthenticationData } from '../../types'
+import { AuthenticationData, GetApplicationDependencies } from '../../types'
 import { AUTHENTICATION_COOKIE_NAME, NODE_ENV } from '../../constants'
 
 const schema = yup.object({
@@ -21,7 +21,7 @@ type Handler = RequestHandler<unknown, SignInResult, SignInCommand>
 
 type UserRow = Pick<UserDatabase, 'id' | 'name' | 'passwordHash'>
 
-export function handler (getDeps: () => ApplicationDependencies): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const { email, password } = schema.validateSync(req.body, { abortEarly: false })
     const { publishers } = getDeps()

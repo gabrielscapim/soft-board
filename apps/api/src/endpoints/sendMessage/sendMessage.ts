@@ -16,7 +16,7 @@ import {
   CreateWireflowTool,
   ReviewWireflowsTool
 } from './tools'
-import { ApplicationDependencies, IPublisher } from '../../types'
+import { GetApplicationDependencies, IPublisher } from '../../types'
 
 type Handler = RequestHandler<unknown, SendMessageResult, SendMessageCommand>
 
@@ -31,7 +31,7 @@ const schema = yup.object({
 
 const DEFAULT_ERROR_MESSAGE = 'An error occurred while processing your message.'
 
-export function handler (getDeps: () => ApplicationDependencies): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const { content, boardId } = await schema.validate(req.body, { abortEarly: false })
     const { openai, publishers } = getDeps()

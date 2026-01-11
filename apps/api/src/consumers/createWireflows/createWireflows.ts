@@ -5,13 +5,13 @@ import { MessageDatabase, RequirementDatabase } from 'types/database'
 import { AgentContext } from '../../startflow-agent'
 import { runSummaryAgent } from './methods/runSummaryAgent'
 import { runWireflowsAgent } from './methods'
-import { ApplicationDependencies } from '../../types'
+import { GetApplicationDependencies } from '../../types'
 
 export const exchange = 'agent.calledFunction'
 
 export const key = 'createWireflows'
 
-export function consumer (getDeps: () => ApplicationDependencies) {
+export function consumer (getDeps: GetApplicationDependencies) {
   return async (event: AgentCalledFunctionEvent) => {
     const { openai } = getDeps()
     const { board, team, user, toolCall } = event

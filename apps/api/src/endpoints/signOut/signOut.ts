@@ -1,10 +1,10 @@
 import { CookieOptions, RequestHandler } from 'express'
 import { AUTHENTICATION_COOKIE_NAME, NODE_ENV } from '../../constants'
-import { ApplicationDependencies } from '../../types'
+import { GetApplicationDependencies } from '../../types'
 
 export const auth = false
 
-export function handler (getDeps: () => ApplicationDependencies): RequestHandler {
+export function handler (getDeps: GetApplicationDependencies): RequestHandler {
   return async (req, res) => {
     const { publishers } = getDeps()
     const cookieOptions: CookieOptions = {

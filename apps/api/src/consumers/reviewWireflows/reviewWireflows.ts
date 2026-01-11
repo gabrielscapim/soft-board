@@ -2,13 +2,13 @@ import { AgentCalledFunctionEvent } from 'event-types'
 import OpenAI from 'openai'
 import { getPool, logger } from '../../libs'
 import { captureScreens, generateReview } from './methods'
-import { ApplicationDependencies } from '../../types'
+import { GetApplicationDependencies } from '../../types'
 
 export const exchange = 'agent.calledFunction'
 
 export const key = 'reviewWireflows'
 
-export function consumer (getDeps: () => ApplicationDependencies) {
+export function consumer (getDeps: GetApplicationDependencies) {
   return async (event: AgentCalledFunctionEvent) => {
     const { board, team, user, toolCall } = event
     const { openai } = getDeps()

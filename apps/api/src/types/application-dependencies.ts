@@ -6,3 +6,5 @@ export type ApplicationDependencies = {
   publishers: ReturnType<typeof loadPublishers>
   websocketEmitters: ReturnType<typeof loadWebsocketEmitters>
 }
+
+export type GetApplicationDependencies = () => ApplicationDependencies
