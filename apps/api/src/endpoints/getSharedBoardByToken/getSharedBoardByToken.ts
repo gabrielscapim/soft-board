@@ -71,6 +71,7 @@ export function handler (): Handler {
         update_date`
       .FROM`component`
       .WHERE`component.board_id = ${board.id}`
+      .AND`board_generation_id IS NULL`
       .ORDER_BY`component.update_date DESC`
       .list()
 
