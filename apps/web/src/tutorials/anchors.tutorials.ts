@@ -21,7 +21,11 @@ export const TUTORIALS_ANCHORS = {
 
   BoardWizardRequirementsContainer: 'board.requirements.container',
   BoardWizardRequirementsContainerCreateButton: 'board.requirements.container.create.button',
-  BoardWizardChatContainer: 'board.chat.container'
+  BoardWizardChatContainer: 'board.chat.container',
+  BoardWizardWireflowsContainer: 'board.wireflows.container',
+  BoardZoomController: 'board.zoom.controller',
+  PreviewModeLink: 'board.preview.mode.link',
+  EditBoardLink: 'board.edit.link'
 }
 
 export function getPopoverAnchorSelector (anchorKey: keyof typeof TUTORIALS_ANCHORS) {
