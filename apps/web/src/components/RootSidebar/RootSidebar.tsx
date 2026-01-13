@@ -18,22 +18,26 @@ import { useAuthentication, useClient, useMemberRole, useTeam } from '@/hooks'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useState } from 'react'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 const items = [
   {
     title: 'Boards',
     url: 'boards',
-    icon: SquareMousePointer
+    icon: SquareMousePointer,
+    'data-tutorial': TUTORIALS_ANCHORS.RootSidebarBoardsItem
   },
   {
     title: 'Members',
     url: 'members',
-    icon: UsersRound
+    icon: UsersRound,
+    'data-tutorial': TUTORIALS_ANCHORS.RootSidebarMembersItem
   },
   {
     title: 'Settings',
     url: 'settings',
-    icon: Settings
+    icon: Settings,
+    'data-tutorial': TUTORIALS_ANCHORS.RootSidebarSettingsItem
   }
 ]
 
@@ -82,7 +86,10 @@ export function RootSidebar () {
   const teams = getTeams.data?.data ?? []
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar
+      collapsible="icon"
+      data-tutorial={TUTORIALS_ANCHORS.RootSidebar}
+    >
       <SidebarHeader>
         <TeamSwitcher
           teams={teams}
@@ -102,7 +109,10 @@ export function RootSidebar () {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem
+                  key={item.title}
+                  data-tutorial={item['data-tutorial']}
+                >
                   <SidebarMenuButton asChild>
                     <Link to={item.url}>
                       <item.icon />
