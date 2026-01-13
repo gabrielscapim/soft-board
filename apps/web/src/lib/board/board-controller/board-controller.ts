@@ -33,10 +33,33 @@ export class BoardController implements BoardControllerInterface {
       ? Math.max(...this._boardState.flexComponents.map(flexComponent => flexComponent.properties.zIndex ?? 0)) + 1
       : 1
 
-    const flexComponent = {
+    let screenId: string | null = null
+
+    if (type !== 'mobileScreen') {
+      const screenFlexComponent = this._boardState.flexComponents.find(flexComponent => {
+        if (flexComponent.type !== 'mobileScreen') return false
+
+        const screenX = flexComponent.properties.x
+        const screenY = flexComponent.properties.y
+        const screenWidth = flexComponent.properties.width
+        const screenHeight = flexComponent.properties.height
+
+        return (
+          position.x >= screenX &&
+          position.x <= screenX + screenWidth &&
+          position.y >= screenY &&
+          position.y <= screenY + screenHeight
+        )
+      })
+
+      screenId = screenFlexComponent ? screenFlexComponent.id : null
+    }
+
+    const flexComponent: FlexComponent = {
       id: uuid(),
       type,
       name,
+      screenId,
       properties: {
         ...properties,
         x: position.x,
@@ -44,7 +67,7 @@ export class BoardController implements BoardControllerInterface {
         absolute: true,
         zIndex
       }
-    } as FlexComponent
+    }
 
     this._boardManager.addFlexComponents({ flexComponents: [flexComponent] })
   }
