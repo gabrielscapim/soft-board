@@ -46,7 +46,7 @@ export function handler (): Handler {
       await validateRequirements(pool, id)
     }
 
-    // If moving from wireflows to review, ensure at least 1 screen exists
+    // If moving from wireflows to review, ensure at least 1 screen and 1 component exist
     if (currentStep === 'wireflows' && nextStep === 'review') {
       await validateScreens(pool, id)
     }
@@ -89,16 +89,25 @@ async function validateScreens (
   pool: DatabasePool,
   boardId: string
 ) {
-  const screens = await pool
+  const screen = await pool
     .SELECT`id`
     .FROM`component`
     .WHERE`board_id = ${boardId}`
     .AND`type = 'mobileScreen'`
-    .list()
+    .first()
 
-  const count = screens.length
+  const component = await pool
+    .SELECT`id`
+    .FROM`component`
+    .WHERE`board_id = ${boardId}`
+    .AND`type != 'mobileScreen'`
+    .first()
 
-  if (count < 1) {
+  if (!screen) {
     throw new BadRequest('Cannot move to review step without at least 1 screen.')
+  }
+
+  if (!component) {
+    throw new BadRequest('Cannot move to review step without at least 1 component.')
   }
 }
