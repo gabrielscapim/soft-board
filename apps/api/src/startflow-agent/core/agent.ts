@@ -2,8 +2,10 @@ import OpenAI from 'openai'
 import {
   ChatCompletionMessageParam,
   ChatCompletionRole,
-  ChatCompletionToolChoiceOption
-} from 'openai/resources/index'
+  ChatCompletionToolChoiceOption,
+  ResponseFormatJSONSchema,
+  ResponseFormatText
+} from 'openai/resources'
 import { Tool } from './tool'
 
 export type AgentOptions = {
@@ -14,6 +16,7 @@ export type AgentOptions = {
   prompt?: string | Array<string>
   tools?: Array<Tool>
   toolChoice?: ChatCompletionToolChoiceOption
+  responseFormat?: ResponseFormatText | ResponseFormatJSONSchema
 }
 
 export type AgentContext = {
@@ -49,15 +52,17 @@ export abstract class Agent {
   protected prompt: string | Array<string>
   protected tools: Array<Tool>
   protected toolChoice: ChatCompletionToolChoiceOption | undefined
+  protected responseFormat: ResponseFormatText | ResponseFormatJSONSchema | undefined
 
-  constructor ({ context, openai, history, model, prompt, tools, toolChoice }: AgentOptions) {
-    this.context = context
-    this.openai = openai
-    this.history = history ?? []
-    this.model = model ?? DEFAULT_MODEL
-    this.prompt = prompt ?? DEFAULT_PROMPT
-    this.tools = tools ?? []
-    this.toolChoice = toolChoice
+  constructor (options: AgentOptions) {
+    this.context = options.context
+    this.openai = options.openai
+    this.history = options.history ?? []
+    this.model = options.model ?? DEFAULT_MODEL
+    this.prompt = options.prompt ?? DEFAULT_PROMPT
+    this.tools = options.tools ?? []
+    this.toolChoice = options.toolChoice
+    this.responseFormat = options.responseFormat
   }
 
   protected abstract parseHistory (): Array<ChatCompletionMessageParam>
