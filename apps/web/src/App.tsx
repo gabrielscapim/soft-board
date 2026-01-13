@@ -1,5 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router'
 import './index.css'
+import './driver.css'
+import 'driver.js/dist/driver.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import {
   AuthenticationGuardLayout,
