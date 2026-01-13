@@ -11,7 +11,17 @@ export const TUTORIALS_ANCHORS = {
   RootSidebarMembersItem: 'sidebar.navigation.team',
   RootSidebarSettingsItem: 'sidebar.navigation.settings',
   TeamSwitcher: 'sidebar.team.switcher',
-  NavUser: 'sidebar.user.menu'
+  NavUser: 'sidebar.user.menu',
+  BoardWizardHeaderSteps: 'board.header.steps',
+  BoardWizardFooter: 'board.footer',
+  InitWizardStepRequirements: 'board.init.step.requirements',
+  InitWizardStepWireflows: 'board.init.step.wireflows',
+  InitWizardStepReview: 'board.init.step.review',
+  BoardWizardFooterNextStepButton: 'board.footer.next',
+
+  BoardWizardRequirementsContainer: 'board.requirements.container',
+  BoardWizardRequirementsContainerCreateButton: 'board.requirements.container.create.button',
+  BoardWizardChatContainer: 'board.chat.container'
 }
 
 export function getPopoverAnchorSelector (anchorKey: keyof typeof TUTORIALS_ANCHORS) {
