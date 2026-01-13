@@ -41,6 +41,8 @@ export function consumer (getDeps: GetApplicationDependencies) {
       user
     }
 
+    const websocketRoom = `board:${board.id}`
+
     try {
       /**
        * Agent 1: Analyze the board requirements, messages, and context to create an overview of the wireflows.
@@ -54,7 +56,7 @@ export function consumer (getDeps: GetApplicationDependencies) {
 
       logger.info({ event, summaryAgentResponse }, 'Summary agent completed')
 
-      if (!summaryAgentResponse) {
+      if (summaryAgentResponse.isWireflowPossible === false) {
         logger.info({ event }, 'No summary generated, skipping wireflows creation')
 
         await pool
@@ -62,18 +64,20 @@ export function consumer (getDeps: GetApplicationDependencies) {
           .SET({
             status: 'error',
             updateDate: new Date(),
-            error: parseError(new Error('No summary generated'))
+            error: parseError(new Error(summaryAgentResponse.invalidReason ?? 'No summary generated'))
           })
           .WHERE`tool_call_id = ${toolCall.id}`
 
         await pool
           .UPDATE`message`
           .SET({
-            content: 'An error occurred while generating the wireflows.',
+            content: summaryAgentResponse.invalidReason ?? 'Wireflow generation is not possible based on the provided requirements.',
             updateDate: new Date()
           })
           .WHERE`board_id = ${board.id}`
           .AND`tool_call_id = ${toolCall.id}`
+
+        websocketEmitters.agentCreatedWireflow.emit({ boardId: board.id }, [websocketRoom])
 
         return
       }
@@ -85,7 +89,7 @@ export function consumer (getDeps: GetApplicationDependencies) {
         pool,
         openai,
         context,
-        boardSummary: summaryAgentResponse,
+        boardSummary: summaryAgentResponse.summary,
         boardGenerationToolCallId: event.toolCall.id
       })
 
@@ -121,8 +125,7 @@ export function consumer (getDeps: GetApplicationDependencies) {
         .AND`tool_call_id = ${event.toolCall.id}`
     }
 
-    const room = `board:${board.id}`
-    websocketEmitters.agentCreatedWireflow.emit({ boardId: board.id }, [room])
+    websocketEmitters.agentCreatedWireflow.emit({ boardId: board.id }, [websocketRoom])
   }
 }
 
