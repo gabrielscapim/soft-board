@@ -33,7 +33,8 @@ export const TUTORIALS_ANCHORS = {
   BoardPropertiesMenu: 'board.properties.menu',
   BoardPropertiesMenuActionsTab: 'board.properties.menu.actions.tab', // click
 
-  EditBoardHeaderAddScreenButton: 'board.header.add.screen.button'
+  EditBoardHeaderAddScreenButton: 'board.header.add.screen.button',
+  PreviewModeContainerMobileScreenContainer: 'board.preview.mobile.screen.container'
 }
 
 export function getPopoverAnchorSelector (anchorKey: keyof typeof TUTORIALS_ANCHORS) {
