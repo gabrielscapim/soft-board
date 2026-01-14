@@ -5,17 +5,6 @@ export const boardInitTutorial: Tutorial = {
   name: 'board-init',
   steps: [
     {
-      popover: {
-        title: 'Welcome to your board 🚀',
-        description:
-          'This is your workspace to define, design, and review your product idea step by step.',
-        side: 'over',
-        nextBtnText: 'Show me how it works',
-        showButtons: ['next']
-      },
-      disableActiveInteraction: true
-    },
-    {
       element: getPopoverAnchorSelector('BoardWizardHeaderSteps'),
       popover: {
         title: 'Your progress steps',
