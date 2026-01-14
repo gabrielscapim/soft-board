@@ -28,14 +28,12 @@ export function handler (): Handler {
         .AND`team_id = ${teamId}`
 
       // Set the connectionId to null for components connected to the deleted components
-      const deleted = await client
+      await client
         .UPDATE`component`
         .SET({ connectionId: null })
         .WHERE`connection_id = ANY(${componentIds})`
         .AND`board_id = ${boardId}`
         .AND`team_id = ${teamId}`
-
-      console.log(`Updated ${deleted.rowCount} components to remove connections to deleted components.`)
 
       // Then delete the specified components
       await client

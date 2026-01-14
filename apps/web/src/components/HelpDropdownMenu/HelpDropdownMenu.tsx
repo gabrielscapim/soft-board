@@ -16,8 +16,6 @@ export type HelpDropdownMenuProps = {
 export function HelpDropdownMenu (props: HelpDropdownMenuProps) {
   const { onStartTutorial } = props
 
-  console.log('onStartTutorial', onStartTutorial)
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

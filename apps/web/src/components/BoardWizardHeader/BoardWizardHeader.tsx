@@ -15,8 +15,6 @@ export type BoardWizardHeaderProps = {
 export function BoardWizardHeader (props: BoardWizardHeaderProps) {
   const { onStartTutorial } = props
 
-  console.log('onStartTutorial', onStartTutorial)
-
   const [leaveBoardOpen, setLeaveBoardOpen] = useState(false)
   const navigate = useNavigate()
   const { team } = useTeam()

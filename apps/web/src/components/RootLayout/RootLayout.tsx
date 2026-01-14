@@ -12,8 +12,6 @@ export function RootLayout () {
   const title = (path ? path.charAt(0).toUpperCase() + path.slice(1) : 'null') as RootTitle
   const tutorial = useTutorial()
 
-  console.log('Rendering RootLayout with title:', title)
-
   return (
     <SidebarProvider width="16rem">
       <RootSidebar />
