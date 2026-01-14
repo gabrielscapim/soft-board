@@ -61,7 +61,7 @@ export function SharedBoardHeader (props: SharedBoardHeaderProps) {
         ))}
       </div>
 
-      <div className={clsx(currentMode === 'preview' && 'opacity-0')}>
+      <div className={clsx(currentMode !== 'board' && 'opacity-0')}>
         <BoardZoomController
           scale={scale}
           onZoomIn={() => onChangeBoardScale?.(Math.min(scale + 0.25, MAX_SCALE))}
