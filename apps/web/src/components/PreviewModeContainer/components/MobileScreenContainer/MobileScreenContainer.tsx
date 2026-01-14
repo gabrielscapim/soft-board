@@ -78,7 +78,6 @@ export function MobileScreenContainer (props: MobileScreenContainerProps) {
       {isOverScreen && <TouchCursor />}
 
       <div
-        data-tutorial={TUTORIALS_ANCHORS.PreviewModeContainerMobileScreenContainer}
         style={{
           transform: `scale(${scale})`,
           transformOrigin: 'center center'
@@ -90,6 +89,7 @@ export function MobileScreenContainer (props: MobileScreenContainerProps) {
           onChangeScreen={onChangeScreen}
         />
         <div
+          data-tutorial={TUTORIALS_ANCHORS.PreviewModeContainerMobileScreenContainer}
           className="w-[391px] h-[828px] border-8 border-[rgba(61,61,68,1)] bg-white rounded-[65px] overflow-hidden"
           onMouseEnter={() => setIsOverScreen(true)}
           onMouseLeave={() => setIsOverScreen(false)}

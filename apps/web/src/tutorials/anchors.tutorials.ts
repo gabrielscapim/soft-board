@@ -31,12 +31,14 @@ export const TUTORIALS_ANCHORS = {
   CollapsibleEditBoardSidebar: 'board.sidebar.edit.collapsible',
   BoardComponentCardPreview: 'board.component.card.preview',
   BoardPropertiesMenu: 'board.properties.menu',
-  BoardPropertiesMenuActionsTab: 'board.properties.menu.actions.tab', // click
+  BoardPropertiesMenuActionsTab: 'board.properties.menu.actions.tab',
 
   EditBoardHeaderAddScreenButton: 'board.header.add.screen.button',
   PreviewModeContainerMobileScreenContainer: 'board.preview.mobile.screen.container',
 
-  BoardWizardReviewContainer: 'board.review.container'
+  BoardWizardReviewContainer: 'board.review.container',
+
+  PreviewModeMobileScreenContainerTopBarScreenSelector: 'board.preview.mobile.screen.selector'
 }
 
 export function getPopoverAnchorSelector (anchorKey: keyof typeof TUTORIALS_ANCHORS) {
