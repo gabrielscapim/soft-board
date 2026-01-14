@@ -5,16 +5,6 @@ export const onboardingTutorial: Tutorial = {
   name: 'onboarding',
   steps: [
     {
-      popover: {
-        title: 'Welcome to SoftBoard 👋',
-        description: 'Let’s take a quick tour so you know where everything is.',
-        side: 'over',
-        nextBtnText: 'Let’s go',
-        showButtons: ['next']
-      },
-      disableActiveInteraction: true
-    },
-    {
       element: getPopoverAnchorSelector('RootSidebar'),
       popover: {
         title: 'Main navigation',
