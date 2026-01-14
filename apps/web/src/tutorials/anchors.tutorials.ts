@@ -25,7 +25,15 @@ export const TUTORIALS_ANCHORS = {
   BoardWizardWireflowsContainer: 'board.wireflows.container',
   BoardZoomController: 'board.zoom.controller',
   PreviewModeLink: 'board.preview.mode.link',
-  EditBoardLink: 'board.edit.link'
+  EditBoardLink: 'board.edit.link',
+
+  Board: 'board',
+  CollapsibleEditBoardSidebar: 'board.sidebar.edit.collapsible',
+  BoardComponentCardPreview: 'board.component.card.preview',
+  BoardPropertiesMenu: 'board.properties.menu',
+  BoardPropertiesMenuActionsTab: 'board.properties.menu.actions.tab', // click
+
+  EditBoardHeaderAddScreenButton: 'board.header.add.screen.button'
 }
 
 export function getPopoverAnchorSelector (anchorKey: keyof typeof TUTORIALS_ANCHORS) {
