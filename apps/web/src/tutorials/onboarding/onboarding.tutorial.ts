@@ -77,7 +77,7 @@ export const onboardingTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('CreateBoardButton'),
       popover: {
-        title: 'Create your first board',
+        title: 'Create a board',
         description:
           'Click here to create a new board and get things started.',
         side: 'left',
@@ -90,7 +90,7 @@ export const onboardingTutorial: Tutorial = {
       popover: {
         title: 'All set! 🎉',
         description:
-          'Nice! Now click on your new board to jump in and start working.',
+          'Nice! Now click on your board to jump in and start working.',
         side: 'bottom',
         nextBtnText: 'Got it'
       }
