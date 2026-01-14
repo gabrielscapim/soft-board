@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { MinusIcon, PlusIcon } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export type BoardZoomControllerProps = {
   scale?: number
@@ -12,7 +13,10 @@ export function BoardZoomController (props: BoardZoomControllerProps) {
   const { scale = 1, onZoomIn, onZoomOut } = props
 
   return (
-    <div className="flex justify-center items-center gap-3">
+    <div
+      data-tutorial={TUTORIALS_ANCHORS.BoardZoomController}
+      className="flex justify-center items-center gap-3"
+    >
       <Tooltip>
         <TooltipTrigger asChild>
           <Button

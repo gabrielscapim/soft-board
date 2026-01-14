@@ -5,6 +5,7 @@ import { ChevronLeftIcon } from 'lucide-react'
 import { Stepper } from '../Stepper'
 import { useState } from 'react'
 import { ConfirmLeaveBoardDialog } from './ConfirmLeaveBoardDialog'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export function BoardWizardHeader () {
   const [leaveBoardOpen, setLeaveBoardOpen] = useState(false)
@@ -25,7 +26,10 @@ export function BoardWizardHeader () {
         </Button>
       </div>
 
-      <div className="w-3/5 flex justify-center">
+      <div
+        data-tutorial={TUTORIALS_ANCHORS.BoardWizardHeaderSteps}
+        className="w-3/5 flex justify-center"
+      >
         <Stepper
           steps={[
             { label: 'Init', state: 'init', visible: false },

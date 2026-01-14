@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import { GetMessagesResultData } from 'types/endpoints'
 import { BoardContainer } from '../BoardContainer'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export function WireflowsWizard () {
   const { board, refetchWithQuery } = useBoard()
@@ -59,7 +60,10 @@ export function WireflowsWizard () {
         )}
       </div>
 
-      <div className="w-8/12 flex flex-col h-full">
+      <div
+        data-tutorial={TUTORIALS_ANCHORS.BoardWizardWireflowsContainer}
+        className="w-8/12 flex flex-col h-full"
+      >
         <BoardContainer
           hasPermission={hasPermission}
           board={board}

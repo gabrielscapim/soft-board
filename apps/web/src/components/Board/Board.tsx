@@ -10,6 +10,7 @@ import {
   useZoomBoard
 } from './hooks'
 import { FLEX_COMPONENTS_ELEMENTS, MobileScreenFlexComponent } from '../../flex-components'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export type BoardProps = {
   boardState: BoardState
@@ -75,6 +76,7 @@ export function Board (props: BoardProps) {
   return (
     <div
       id="flex-board-container"
+      data-tutorial={TUTORIALS_ANCHORS.Board}
       ref={flexBoardContainerRef}
       className="relative w-full h-full overflow-hidden bg-sidebar"
     >

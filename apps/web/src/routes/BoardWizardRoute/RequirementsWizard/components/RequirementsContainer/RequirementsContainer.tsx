@@ -3,6 +3,7 @@ import { GetRequirementsResultData } from 'types/endpoints'
 import { RequirementCard } from '../RequirementCard'
 import { PlusIcon } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export type RequirementsContainerProps = {
   hasPermission?: boolean
@@ -24,7 +25,7 @@ export function RequirementsContainer (props: RequirementsContainerProps) {
   } = props
 
   return (
-    <>
+    <div data-tutorial={TUTORIALS_ANCHORS.BoardWizardRequirementsContainer}>
       <div className="mb-4 flex flex-row justify-between items-center">
         <div>
           <div className="flex items-center justify-between pb-2">
@@ -32,6 +33,7 @@ export function RequirementsContainer (props: RequirementsContainerProps) {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
+                  data-tutorial={TUTORIALS_ANCHORS.BoardWizardRequirementsContainerCreateButton}
                   variant="outline"
                   className="size-7"
                   size="icon"
@@ -79,6 +81,6 @@ export function RequirementsContainer (props: RequirementsContainerProps) {
           </Button>
         )}
       </div>
-    </>
+    </div>
   )
 }

@@ -7,6 +7,7 @@ import { BoardLink } from '../BoardLink'
 import { FLEX_COMPONENTS_SCHEMAS } from '@/flex-components'
 import { PreviewModeLink } from '../PreviewModeLink'
 import { useBoardStore } from '../Board'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export function EditBoardHeader () {
   const { boardState, boardController } = useBoard()
@@ -27,6 +28,7 @@ export function EditBoardHeader () {
 
         <div className="flex items-center gap-4">
           <Button
+            data-tutorial={TUTORIALS_ANCHORS.EditBoardHeaderAddScreenButton}
             size="sm"
             variant="outline"
             disabled={hasPermission === false}
@@ -38,8 +40,8 @@ export function EditBoardHeader () {
               },
               name: FLEX_COMPONENTS_SCHEMAS.mobileScreen.variations[0].name,
               position: {
-                x: Math.round((screenDimensions.width / 2) / 10) * 10,
-                y: Math.round((screenDimensions.height / 2) / 10) * 10
+                x: (Math.round((screenDimensions.width / 2) / 10) * 10) - 300,
+                y: (Math.round((screenDimensions.height / 2) / 10) * 10) - 300
               }
             })}
           >

@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 import { ArrowUpIcon } from 'lucide-react'
 import { useState } from 'react'
 

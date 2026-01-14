@@ -3,7 +3,7 @@ import {
   BoardPropertiesMenu,
   useBoardStore
 } from '../../components'
-import { useBoard, useMemberRole } from '../../hooks'
+import { useBoard, useMemberRole, useTutorial } from '../../hooks'
 
 export function EditBoardRoute () {
   const { boardState, boardController, boardManager } = useBoard()
@@ -12,6 +12,7 @@ export function EditBoardRoute () {
   const selectedFlexComponents = flexComponents.filter(component => selected?.includes(component.id))
   const memberRole = useMemberRole()
   const hasPermission = memberRole !== 'member'
+  useTutorial('edit-board')
 
   return (
     <>

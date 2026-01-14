@@ -1,3 +1,4 @@
+export * from './use-tutorial'
 export * from './use-authentication'
 export * from './use-board'
 export * from './use-client'

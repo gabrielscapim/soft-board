@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 import { ChatContainer } from '../ChatContainer'
 import { GetMessagesResultData } from 'types/endpoints'
 import { BoardContainer } from '../BoardContainer'
+import { TUTORIALS_ANCHORS } from '@/tutorials/anchors.tutorials'
 
 export function ReviewWizard () {
   const { board } = useBoard()
@@ -57,7 +58,10 @@ export function ReviewWizard () {
         )}
       </div>
 
-      <div className="w-8/12 flex flex-col h-full">
+      <div
+        data-tutorial={TUTORIALS_ANCHORS.BoardWizardReviewContainer}
+        className="w-8/12 flex flex-col h-full"
+      >
         <BoardContainer
           hasPermission={memberRole !== 'member'}
           board={board}

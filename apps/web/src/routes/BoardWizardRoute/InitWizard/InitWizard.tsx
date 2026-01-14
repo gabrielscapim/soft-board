@@ -1,17 +1,22 @@
 import { Separator } from '@/components/ui/separator'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
+import { Fragment } from 'react/jsx-runtime'
 
 const STEPS = [
   {
     title: 'Understand & organize features',
-    description: 'List and prioritize the main functionalities you want in your MVP.'
+    description: 'List and prioritize the main functionalities you want in your MVP.',
+    'data-tutorial': TUTORIALS_ANCHORS.InitWizardStepRequirements
   },
   {
     title: 'Build your wireflows',
-    description: 'Create simple, low-fidelity screens showing how users will interact.'
+    description: 'Create simple, low-fidelity screens showing how users will interact.',
+    'data-tutorial': TUTORIALS_ANCHORS.InitWizardStepWireflows
   },
   {
     title: 'Review & refine',
-    description: 'Check your flows for clarity, efficiency, and a great user experience.'
+    description: 'Check your flows for clarity, efficiency, and a great user experience.',
+    'data-tutorial': TUTORIALS_ANCHORS.InitWizardStepReview
   }
 ]
 
@@ -33,8 +38,8 @@ export function InitWizard () {
       </div>
       <div className="flex flex-1 items-start justify-center flex-col p-16 gap-10">
         {STEPS.map((step, index) => (
-          <>
-            <div>
+          <Fragment key={index}>
+            <div data-tutorial={step['data-tutorial']}>
               <div className="flex flex-row gap-3 text-lg font-semibold mb-1">
                 <span>
                   {index + 1}
@@ -48,7 +53,7 @@ export function InitWizard () {
               </span>
             </div>
             {index < STEPS.length - 1 && <Separator />}
-          </>
+          </Fragment>
         ))}
       </div>
     </div>
