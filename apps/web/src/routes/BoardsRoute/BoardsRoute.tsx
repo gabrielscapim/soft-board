@@ -1,18 +1,18 @@
 import { Button } from '@/components/ui/button'
 import { PlusIcon } from 'lucide-react'
 import { BoardsGrid, DeleteBoardDialog, EditBoardDialog } from './components'
-import { useClient, useMemberRole, useTutorial } from '@/hooks'
+import { useClient, useMemberRole } from '@/hooks'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import { GetBoardsResultData } from 'types/endpoints'
-import { TUTORIALS_ANCHORS } from '@/tutorials'
+import { TUTORIALS_ANCHORS, useTutorial } from '@/tutorials'
+import { ConfirmationDialog } from '@/components'
 
 export function BoardsRoute () {
   const client = useClient()
   const memberRole = useMemberRole()
-
-  // useTutorial('onboarding')
+  const tutorial = useTutorial('onboarding')
 
   const [selectedBoard, setSelectedBoard] = useState<(GetBoardsResultData & { to: 'edit' | 'delete' }) | null>(null)
   const getBoards = useQuery({
@@ -138,6 +138,16 @@ export function BoardsRoute () {
           onConfirm={title => editBoard.mutate(title)}
         />
       )}
+
+      <ConfirmationDialog
+        title="Welcome to SoftBoard! 👋"
+        description="Would you like to enable guided tutorials to help you get started?"
+        confirmLabel="Yes, enable tutorials"
+        cancelLabel="No, thanks"
+        open={!tutorial.isRunning && tutorial.state.allowed === null}
+        onCancel={() => tutorial.onChange('allowed', false)}
+        onConfirm={() => tutorial.onChange('allowed', true)}
+      />
     </div>
   )
 }

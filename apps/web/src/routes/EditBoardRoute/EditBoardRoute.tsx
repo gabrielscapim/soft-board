@@ -1,9 +1,10 @@
+import { useTutorial } from '@/tutorials'
 import {
   Board,
   BoardPropertiesMenu,
   useBoardStore
 } from '../../components'
-import { useBoard, useMemberRole, useTutorial } from '../../hooks'
+import { useBoard, useMemberRole } from '../../hooks'
 
 export function EditBoardRoute () {
   const { boardState, boardController, boardManager } = useBoard()

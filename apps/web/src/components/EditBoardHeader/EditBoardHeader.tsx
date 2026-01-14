@@ -7,7 +7,8 @@ import { BoardLink } from '../BoardLink'
 import { FLEX_COMPONENTS_SCHEMAS } from '@/flex-components'
 import { PreviewModeLink } from '../PreviewModeLink'
 import { useBoardStore } from '../Board'
-import { TUTORIALS_ANCHORS } from '@/tutorials'
+import { TUTORIALS_ANCHORS, useTutorial } from '@/tutorials'
+import { HelpDropdownMenu } from '../HelpDropdownMenu'
 
 export function EditBoardHeader () {
   const { boardState, boardController } = useBoard()
@@ -17,6 +18,7 @@ export function EditBoardHeader () {
   const memberRole = useMemberRole()
   const hasPermission = memberRole !== 'member'
   const currentMobileScreens = flexComponents.filter(fc => fc.type === 'mobileScreen')
+  const tutorial = useTutorial()
 
   return (
     <header className="bg-background sticky top-0 shrink-0 p-3 h-15 flex justify-between items-center w-full border-b-1">
@@ -53,6 +55,7 @@ export function EditBoardHeader () {
             onZoomIn={() => boardController.onChangeBoardScale({ scale: Math.min(scale + 0.25, MAX_SCALE) })}
             onZoomOut={() => boardController.onChangeBoardScale({ scale: Math.max(scale - 0.25, MIN_SCALE) })}
           />
+          <HelpDropdownMenu onStartTutorial={() => tutorial.runTutorialOnce('edit-board')} />
         </div>
       </div>
     </header>

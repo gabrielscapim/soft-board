@@ -1,5 +1,6 @@
 import { PreviewModeContainer } from '@/components'
-import { useBoard, useTutorial } from '@/hooks'
+import { useBoard } from '@/hooks'
+import { useTutorial } from '@/tutorials'
 
 export function PreviewModeRoute () {
   const { boardState } = useBoard()
