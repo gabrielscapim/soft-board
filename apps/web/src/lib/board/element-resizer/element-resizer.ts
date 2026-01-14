@@ -1,3 +1,4 @@
+import { FLEX_COMPONENT_MIN_DIMENSIONS } from '@/flex-components'
 import { Dimensions, FlexComponent, Guide, Offset, ResizeDirection } from '../../../types'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
@@ -389,6 +390,8 @@ export class ElementResizer {
           }
         }
 
+        const minDimensions = FLEX_COMPONENT_MIN_DIMENSIONS[flexComponent.type]
+
         return {
           ...flexComponent,
           screenId: params.screenId,
@@ -396,8 +399,8 @@ export class ElementResizer {
             ...flexComponent.properties,
             x: finalX,
             y: finalY,
-            width: finalWidth,
-            height: finalHeight
+            width: minDimensions ? Math.max(finalWidth, minDimensions.width) : finalWidth,
+            height: minDimensions ? Math.max(finalHeight, minDimensions.height) : finalHeight
           }
         }
       }

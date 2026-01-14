@@ -1,5 +1,6 @@
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { FLEX_COMPONENT_MIN_DIMENSIONS } from '@/flex-components'
 import { FLEX_COMPONENTS_PROPERTIES_MENU } from '@/flex-components/registry/properties-menu'
 import { BoardState } from '@/lib'
 import { FlexComponent } from '@/types'
@@ -16,6 +17,7 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
   const { flexComponent, screen, boardState, onUpdateProperties, onUpdateName } = props
 
   const Menu = FLEX_COMPONENTS_PROPERTIES_MENU[flexComponent.type]
+  const minDimensions = FLEX_COMPONENT_MIN_DIMENSIONS[flexComponent.type]
 
   const relX = screen ? flexComponent.properties.x - screen.properties.x : flexComponent.properties.x
   const relY = screen ? flexComponent.properties.y - screen.properties.y : flexComponent.properties.y
@@ -40,9 +42,10 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
             <Input
               type="number"
               step="1"
+              min={minDimensions.width}
               disabled={flexComponent.type === 'mobileScreen'}
               value={Math.round(flexComponent.properties.width)}
-              onChange={event => onUpdateProperties('width', Number(event.target.value))}
+              onChange={event => onUpdateProperties('width', clampInt(event.target.value, minDimensions.width))}
             />
           </Label>
           <Label className="text-xs">
@@ -50,8 +53,9 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
             <Input
               type="number"
               step="1"
+              min={minDimensions.height}
               value={Math.round(flexComponent.properties.height)}
-              onChange={event => onUpdateProperties('height', Number(event.target.value))}
+              onChange={event => onUpdateProperties('height', clampInt(event.target.value, minDimensions.height))}
             />
           </Label>
         </div>
@@ -93,4 +97,8 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
       )}
     </>
   )
+}
+
+function clampInt (value: string, min: number) {
+  return Math.max(min, Math.round(Number(value)))
 }
