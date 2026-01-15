@@ -6,7 +6,7 @@ export const dividerFlexComponentSchema = {
       name: 'Primary Divider',
       properties: {
         color: 'primary',
-        height: 2,
+        height: 4,
         width: 200,
         x: 0,
         y: 0
@@ -16,7 +16,7 @@ export const dividerFlexComponentSchema = {
       name: 'Secondary Divider',
       properties: {
         color: 'secondary',
-        height: 2,
+        height: 4,
         width: 200,
         x: 0,
         y: 0
@@ -26,7 +26,7 @@ export const dividerFlexComponentSchema = {
       name: 'Tertiary Divider',
       properties: {
         color: 'tertiary',
-        height: 2,
+        height: 4,
         width: 200,
         x: 0,
         y: 0

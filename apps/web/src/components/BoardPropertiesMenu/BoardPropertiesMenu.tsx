@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { ActionsTabContent, LayoutTabContent, PropertiesTabContent } from './Tabs'
 import { BoardController, BoardState } from '@/lib'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export type BoardPropertiesMenuProps = {
   boardState: BoardState
@@ -89,6 +90,7 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
 
   return (
     <div
+      data-tutorial={TUTORIALS_ANCHORS.BoardPropertiesMenu}
       className={clsx('bg-sidebar absolute top-24 right-8 rounded-xl border w-80 shadow-md', className)}
       style={{ zIndex: 100_000 }}
     >
@@ -108,6 +110,7 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
               Layout
             </TabsTrigger>
             <TabsTrigger
+              data-tutorial={TUTORIALS_ANCHORS.BoardPropertiesMenuActionsTab}
               value="actions"
               disabled={!flexComponent}
             >

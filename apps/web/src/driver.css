@@ -1,0 +1,28 @@
+.driver-popover .driver-popover-title {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: oklch(0.205 0 0);
+}
+
+.driver-popover .driver-popover-description {
+  font-family: var(--font-sans);
+  color: oklch(0.269 0 0);
+  font-size: 12px;
+  padding-bottom: 14px;
+}
+
+.driver-popover .driver-popover-footer button {
+  background-color: var(--color-secondary);
+  font-family: var(--font-sans);
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.driver-popover .driver-popover-footer button:hover {
+  transform: translateY(-1px);
+}

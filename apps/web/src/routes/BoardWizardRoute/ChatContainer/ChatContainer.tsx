@@ -4,6 +4,7 @@ import {
   ChatMessagesList,
   ChatContainerInput
 } from './components'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export type ChatContainerProps = {
   board: GetBoardResult
@@ -27,7 +28,10 @@ export function ChatContainer (props: ChatContainerProps) {
   } = props
 
   return (
-    <div className="flex flex-col h-full">
+    <div
+      data-tutorial={TUTORIALS_ANCHORS.BoardWizardChatContainer}
+      className="flex flex-col h-full"
+    >
       <ChatContainerHeader board={board} />
       <div className="flex-1 overflow-y-auto">
         <ChatMessagesList

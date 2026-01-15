@@ -4,6 +4,7 @@ import { EditBoardSidebarSection } from '../EditBoardSidebar'
 import { BoardController } from '@/lib'
 import { Button } from '@/components/ui/button'
 import { XIcon } from 'lucide-react'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export type CollapsibleEditBoardSidebarProps = {
   boardController: BoardController
@@ -19,7 +20,11 @@ export function CollapsibleEditBoardSidebar (props: CollapsibleEditBoardSidebarP
   const { toggleSidebar } = useSidebar()
 
   return (
-    <Sidebar collapsible="none" className="hidden flex-1 md:flex">
+    <Sidebar
+      data-tutorial={TUTORIALS_ANCHORS.CollapsibleEditBoardSidebar}
+      collapsible="none"
+      className="hidden flex-1 md:flex"
+    >
       <SidebarHeader className="gap-3.5 border-b p-4">
         <div className="flex justify-between items-center w-full">
           <div className="text-foreground text-base font-medium">

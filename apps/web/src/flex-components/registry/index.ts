@@ -1,3 +1,5 @@
 export * from './elements'
+export * from './min-dimensions'
 export * from './names'
+export * from './properties-menu'
 export * from './schemas'

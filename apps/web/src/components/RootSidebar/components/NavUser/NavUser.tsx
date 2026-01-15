@@ -15,6 +15,7 @@ import {
   useSidebar
 } from '@/components/ui/sidebar'
 import { getAvatarFallbackName } from '@/helpers'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export type NavUserProps = {
   user: {
@@ -33,7 +34,7 @@ export function NavUser (props: NavUserProps) {
   const avatar = getAvatarFallbackName(user.name)
 
   return (
-    <SidebarMenu>
+    <SidebarMenu data-tutorial={TUTORIALS_ANCHORS.NavUser}>
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

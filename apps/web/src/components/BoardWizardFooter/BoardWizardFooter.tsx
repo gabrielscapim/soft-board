@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useParams } from 'react-router'
 import { useClient, useBoard, useMemberRole } from '@/hooks'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export function BoardWizardFooter () {
   const params = useParams<{ boardId?: string }>()
@@ -32,7 +33,10 @@ export function BoardWizardFooter () {
   }
 
   return (
-    <footer className="flex justify-between py-4 px-4">
+    <footer
+      data-tutorial={TUTORIALS_ANCHORS.BoardWizardFooter}
+      className="flex justify-between py-4 px-4"
+    >
       {currentStep && currentStep !== 'init' && (
         <Button
           size="lg"
@@ -48,6 +52,7 @@ export function BoardWizardFooter () {
       )}
       {currentStep && currentStep !== 'end' && (
         <Button
+          data-tutorial={TUTORIALS_ANCHORS.BoardWizardFooterNextStepButton}
           size="lg"
           className="ml-auto"
           disabled={handleNext.isPending || handlePrevious.isPending || memberRole === 'member'}

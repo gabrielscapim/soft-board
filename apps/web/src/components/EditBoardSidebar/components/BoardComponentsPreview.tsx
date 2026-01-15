@@ -37,8 +37,8 @@ export function BoardComponentsPreview (props: BoardComponentsPreviewProps) {
   }, [search])
 
   const position = {
-    x: Math.round((width / 2) / 10) * 10,
-    y: Math.round((height / 2) / 10) * 10
+    x: (Math.round((width / 2) / 10) * 10) - 100,
+    y: (Math.round((height / 2) / 10) * 10) - 100
   }
 
   return (

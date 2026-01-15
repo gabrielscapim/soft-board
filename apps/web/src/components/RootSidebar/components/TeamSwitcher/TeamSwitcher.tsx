@@ -10,6 +10,7 @@ import {
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getAvatarFallbackName } from '@/helpers'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 import { ChevronsUpDown, Plus } from 'lucide-react'
 import { GetTeamsResultData } from 'types/endpoints'
 
@@ -31,7 +32,7 @@ export function TeamSwitcher (props: TeamSwitcherProps) {
   }
 
   return (
-    <SidebarMenu>
+    <SidebarMenu data-tutorial={TUTORIALS_ANCHORS.TeamSwitcher}>
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

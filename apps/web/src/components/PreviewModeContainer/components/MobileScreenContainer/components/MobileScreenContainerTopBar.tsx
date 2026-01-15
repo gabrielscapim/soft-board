@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/popover'
 import { MobileScreenFlexComponent } from '@/types'
 import { useState } from 'react'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export type MobileScreenContainerTopBarProps = {
   currentScreen: MobileScreenFlexComponent
@@ -32,6 +33,7 @@ export function MobileScreenContainerTopBar (props: MobileScreenContainerTopBarP
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
+          data-tutorial={TUTORIALS_ANCHORS.PreviewModeMobileScreenContainerTopBarScreenSelector}
           variant="outline"
           role="combobox"
           aria-expanded={open}

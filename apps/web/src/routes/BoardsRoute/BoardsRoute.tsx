@@ -6,10 +6,13 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import { GetBoardsResultData } from 'types/endpoints'
+import { TUTORIALS_ANCHORS, useTutorial } from '@/tutorials'
+import { ConfirmationDialog } from '@/components'
 
 export function BoardsRoute () {
   const client = useClient()
   const memberRole = useMemberRole()
+  const tutorial = useTutorial('onboarding')
 
   const [selectedBoard, setSelectedBoard] = useState<(GetBoardsResultData & { to: 'edit' | 'delete' }) | null>(null)
   const getBoards = useQuery({
@@ -45,7 +48,10 @@ export function BoardsRoute () {
   const boards = getBoards.data?.data ?? []
 
   return (
-    <div className="py-4 w-full px-8">
+    <div
+      className="py-4 w-full px-8"
+      data-tutorial={TUTORIALS_ANCHORS.BoardsRoute}
+    >
       <div className="mb-6 flex flex-row justify-between items-center">
         <div className="space-y-0.5">
           <h1 className="text-2xl font-semibold">Team boards</h1>
@@ -55,6 +61,7 @@ export function BoardsRoute () {
         </div>
 
         <Button
+          data-tutorial={TUTORIALS_ANCHORS.CreateBoardButton}
           variant="outline"
           size="sm"
           disabled={createBoard.isPending || memberRole === 'member'}
@@ -131,6 +138,16 @@ export function BoardsRoute () {
           onConfirm={title => editBoard.mutate(title)}
         />
       )}
+
+      <ConfirmationDialog
+        title="Welcome to SoftBoard! 👋"
+        description="Would you like to enable guided tutorials to help you get started?"
+        confirmLabel="Yes, enable tutorials"
+        cancelLabel="No, thanks"
+        open={!tutorial.isRunning && tutorial.state.allowed === null}
+        onCancel={() => tutorial.onChange('allowed', false)}
+        onConfirm={() => tutorial.onChange('allowed', true)}
+      />
     </div>
   )
 }

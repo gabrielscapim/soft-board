@@ -6,6 +6,7 @@ import clsx from 'clsx'
 import { getRootImage } from '@/helpers'
 import { Link } from 'react-router'
 import { BoardCardDropdown } from './BoardCardDropdown'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export type BoardCardProps = {
   board: GetBoardsResultData
@@ -20,6 +21,7 @@ export function BoardCard (props: BoardCardProps) {
   return (
     <Card
       key={board.id}
+      data-tutorial={TUTORIALS_ANCHORS.BoardCard}
       className="overflow-hidden p-0 gap-1 cursor-pointer hover:shadow-lg transition-shadow duration-200 ease-in-out"
     >
       <Link to={`${board.id}`}>

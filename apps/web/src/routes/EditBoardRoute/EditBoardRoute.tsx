@@ -1,3 +1,4 @@
+import { useTutorial } from '@/tutorials'
 import {
   Board,
   BoardPropertiesMenu,
@@ -12,6 +13,7 @@ export function EditBoardRoute () {
   const selectedFlexComponents = flexComponents.filter(component => selected?.includes(component.id))
   const memberRole = useMemberRole()
   const hasPermission = memberRole !== 'member'
+  useTutorial('edit-board')
 
   return (
     <>

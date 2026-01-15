@@ -3,6 +3,7 @@ import { createElement, useEffect, useMemo, useState } from 'react'
 import { FLEX_COMPONENTS_ELEMENTS } from '@/flex-components'
 import clsx from 'clsx'
 import { MobileScreenContainerTopBar, TouchCursor } from './components'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export type MobileScreenContainerProps = {
   screens: MobileScreenFlexComponent[]
@@ -70,7 +71,10 @@ export function MobileScreenContainer (props: MobileScreenContainerProps) {
   }
 
   return (
-    <div id="mobile-screen-wrapper" className="w-full h-full flex items-center justify-center">
+    <div
+      id="mobile-screen-wrapper"
+      className="w-full h-full flex items-center justify-center"
+    >
       {isOverScreen && <TouchCursor />}
 
       <div
@@ -85,6 +89,7 @@ export function MobileScreenContainer (props: MobileScreenContainerProps) {
           onChangeScreen={onChangeScreen}
         />
         <div
+          data-tutorial={TUTORIALS_ANCHORS.PreviewModeContainerMobileScreenContainer}
           className="w-[391px] h-[828px] border-8 border-[rgba(61,61,68,1)] bg-white rounded-[65px] overflow-hidden"
           onMouseEnter={() => setIsOverScreen(true)}
           onMouseLeave={() => setIsOverScreen(false)}

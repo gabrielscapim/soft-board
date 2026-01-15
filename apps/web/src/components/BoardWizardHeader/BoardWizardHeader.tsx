@@ -5,8 +5,16 @@ import { ChevronLeftIcon } from 'lucide-react'
 import { Stepper } from '../Stepper'
 import { useState } from 'react'
 import { ConfirmLeaveBoardDialog } from './ConfirmLeaveBoardDialog'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
+import { HelpDropdownMenu } from '../HelpDropdownMenu'
 
-export function BoardWizardHeader () {
+export type BoardWizardHeaderProps = {
+  onStartTutorial?: () => void
+}
+
+export function BoardWizardHeader (props: BoardWizardHeaderProps) {
+  const { onStartTutorial } = props
+
   const [leaveBoardOpen, setLeaveBoardOpen] = useState(false)
   const navigate = useNavigate()
   const { team } = useTeam()
@@ -25,7 +33,10 @@ export function BoardWizardHeader () {
         </Button>
       </div>
 
-      <div className="w-3/5 flex justify-center">
+      <div
+        data-tutorial={TUTORIALS_ANCHORS.BoardWizardHeaderSteps}
+        className="w-3/5 flex justify-center"
+      >
         <Stepper
           steps={[
             { label: 'Init', state: 'init', visible: false },
@@ -36,6 +47,10 @@ export function BoardWizardHeader () {
           ]}
           currentStep={currentStep}
         />
+      </div>
+
+      <div className="w-1/5 flex justify-end">
+        <HelpDropdownMenu onStartTutorial={onStartTutorial} />
       </div>
 
       <ConfirmLeaveBoardDialog

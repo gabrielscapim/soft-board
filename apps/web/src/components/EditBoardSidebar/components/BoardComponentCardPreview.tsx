@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardFooter } from '@/components/ui/card'
 import { FLEX_COMPONENTS_ELEMENTS } from '@/flex-components'
+import { TUTORIALS_ANCHORS } from '@/tutorials'
 import { FlexComponentProperties, FlexComponentType } from '@/types'
 import clsx from 'clsx'
 import { createElement } from 'react'
@@ -21,6 +22,7 @@ export function BoardComponentCardPreview (props: BoardComponentCardPreviewProps
 
   return (
     <Card
+      data-tutorial={TUTORIALS_ANCHORS.BoardComponentCardPreview}
       className={clsx(
         'w-full max-w-sm gap-2 hover:bg-accent hover:shadow-sm transition-shadow cursor-pointer py-4',
         disabled && 'opacity-50 hover:bg-transparent hover:shadow-none cursor-not-allowed'
