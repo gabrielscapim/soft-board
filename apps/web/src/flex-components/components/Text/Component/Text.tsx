@@ -1,12 +1,12 @@
 import clsx from 'clsx'
-import { FlexComponentProperties, TextFlexComponentProperties } from '../../../../types'
-import { FlexComponentProps } from '../../../types'
+import { SoftComponentProperties, TextSoftComponentProperties } from '../../../../types'
+import { SoftComponentProps } from '../../../types'
 import { ContentEditableText } from '@/components'
 
-export function TextFlexComponent (props: FlexComponentProps) {
+export function TextSoftComponent (props: SoftComponentProps) {
   const { component, boardController, editable, className, isDragging, isResizing } = props
 
-  const properties = component.properties as TextFlexComponentProperties
+  const properties = component.properties as TextSoftComponentProperties
   const color = properties.color ?? 'primary'
 
    return (
@@ -44,9 +44,9 @@ export function TextFlexComponent (props: FlexComponentProps) {
         inline={false}
         className="w-full outline-none"
         onBlur={text => {
-          boardController?.onUpdateFlexComponentProperty({
+          boardController?.onUpdateSoftComponentProperty({
             id: component.id,
-            property: 'text' as keyof FlexComponentProperties,
+            property: 'text' as keyof SoftComponentProperties,
             value: text
           })
         }}

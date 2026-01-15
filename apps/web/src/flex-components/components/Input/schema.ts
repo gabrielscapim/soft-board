@@ -1,6 +1,6 @@
-import { FlexComponentSchema } from '../../types'
+import { SoftComponentSchema } from '../../types'
 
-export const inputFlexComponentSchema = {
+export const inputSoftComponentSchema = {
   variations: [
     {
       name: 'Primary Input',
@@ -167,4 +167,4 @@ export const inputFlexComponentSchema = {
       }
     }
   ]
-} satisfies FlexComponentSchema
+} satisfies SoftComponentSchema

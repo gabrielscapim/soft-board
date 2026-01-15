@@ -1,16 +1,16 @@
 import { useEffect } from 'react'
 import { BoardManager, BoardState, DraggableBoard } from '../../../../lib'
 
-export function useDraggableFlexBoard (
+export function useDraggableSoftBoard (
   boardState: BoardState,
   boardManager: BoardManager,
-  flexBoardRef: React.RefObject<HTMLDivElement>,
+  softBoardRef: React.RefObject<HTMLDivElement>,
   enable = true
 ) {
   useEffect(() => {
     if (!enable) return
 
-    const element = flexBoardRef.current
+    const element = softBoardRef.current
 
     if (!element) return
 
@@ -29,5 +29,5 @@ export function useDraggableFlexBoard (
       window.removeEventListener('mousemove', draggableBoard.onDragging)
       window.removeEventListener('mouseup', draggableBoard.endDrag)
     }
-  }, [flexBoardRef, boardState, boardManager, enable])
+  }, [softBoardRef, boardState, boardManager, enable])
 }

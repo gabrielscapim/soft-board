@@ -1,15 +1,15 @@
-import { FlexComponent } from '../../../types'
+import { SoftComponent } from '../../../types'
 import { v4 as uuid } from 'uuid'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import {
   BoardControllerInterface,
-  OnAddFlexComponentParams,
-  OnAlignFlexComponentsParams,
+  OnAddSoftComponentParams,
+  OnAlignSoftComponentsParams,
   OnChangeBoardScaleParams,
-  OnOrderFlexComponentsParams,
-  OnUpdateFlexComponentParams,
-  OnUpdateFlexComponentPropertyParams
+  OnOrderSoftComponentsParams,
+  OnUpdateSoftComponentParams,
+  OnUpdateSoftComponentPropertyParams
 } from './board-controller-interface.ts'
 
 export type BoardControllerOptions = {
@@ -26,23 +26,23 @@ export class BoardController implements BoardControllerInterface {
     this._boardState = options.boardState
   }
 
-  onAddFlexComponent (params: OnAddFlexComponentParams) {
+  onAddSoftComponent (params: OnAddSoftComponentParams) {
     const { type, name, properties, position } = params
 
-    const zIndex = this._boardState.flexComponents.length > 0
-      ? Math.max(...this._boardState.flexComponents.map(flexComponent => flexComponent.properties.zIndex ?? 0)) + 1
+    const zIndex = this._boardState.softComponents.length > 0
+      ? Math.max(...this._boardState.softComponents.map(softComponent => softComponent.properties.zIndex ?? 0)) + 1
       : 1
 
     let screenId: string | null = null
 
     if (type !== 'mobileScreen') {
-      const screenFlexComponent = this._boardState.flexComponents.find(flexComponent => {
-        if (flexComponent.type !== 'mobileScreen') return false
+      const screenSoftComponent = this._boardState.softComponents.find(softComponent => {
+        if (softComponent.type !== 'mobileScreen') return false
 
-        const screenX = flexComponent.properties.x
-        const screenY = flexComponent.properties.y
-        const screenWidth = flexComponent.properties.width
-        const screenHeight = flexComponent.properties.height
+        const screenX = softComponent.properties.x
+        const screenY = softComponent.properties.y
+        const screenWidth = softComponent.properties.width
+        const screenHeight = softComponent.properties.height
 
         return (
           position.x >= screenX &&
@@ -52,10 +52,10 @@ export class BoardController implements BoardControllerInterface {
         )
       })
 
-      screenId = screenFlexComponent ? screenFlexComponent.id : null
+      screenId = screenSoftComponent ? screenSoftComponent.id : null
     }
 
-    const flexComponent: FlexComponent = {
+    const softComponent: SoftComponent = {
       id: uuid(),
       type,
       name,
@@ -69,24 +69,24 @@ export class BoardController implements BoardControllerInterface {
       }
     }
 
-    this._boardManager.addFlexComponents({ flexComponents: [flexComponent] })
+    this._boardManager.addSoftComponents({ softComponents: [softComponent] })
   }
 
-  onAlignFlexComponents (params: OnAlignFlexComponentsParams) {
+  onAlignSoftComponents (params: OnAlignSoftComponentsParams) {
     const { option } = params
 
-    const selected = this._boardState.selectedFlexComponents ?? []
-    const flexComponents = this._boardState.flexComponents.filter(flexComponent => selected.includes(flexComponent.id))
+    const selected = this._boardState.selectedSoftComponents ?? []
+    const softComponents = this._boardState.softComponents.filter(softComponent => selected.includes(softComponent.id))
 
     if (option === 'left') {
-      const minX = Math.min(...flexComponents.map(flexComponent => flexComponent.properties.x))
+      const minX = Math.min(...softComponents.map(softComponent => softComponent.properties.x))
 
-      flexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponents({
-          updatedFlexComponents: [{
-            ...flexComponent,
+      softComponents.forEach(softComponent => {
+        this._boardManager.updateSoftComponents({
+          updatedSoftComponents: [{
+            ...softComponent,
             properties: {
-              ...flexComponent.properties,
+              ...softComponent.properties,
               x: minX
             }
           }]
@@ -95,15 +95,15 @@ export class BoardController implements BoardControllerInterface {
     }
 
     if (option === 'center') {
-      const centerX = Math.min(...flexComponents.map(flexComponent => flexComponent.properties.x + flexComponent.properties.width / 2))
+      const centerX = Math.min(...softComponents.map(softComponent => softComponent.properties.x + softComponent.properties.width / 2))
 
-      flexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponents({
-          updatedFlexComponents: [{
-            ...flexComponent,
+      softComponents.forEach(softComponent => {
+        this._boardManager.updateSoftComponents({
+          updatedSoftComponents: [{
+            ...softComponent,
             properties: {
-              ...flexComponent.properties,
-              x: centerX - flexComponent.properties.width / 2
+              ...softComponent.properties,
+              x: centerX - softComponent.properties.width / 2
             }
           }]
         })
@@ -111,15 +111,15 @@ export class BoardController implements BoardControllerInterface {
     }
 
     if (option === 'right') {
-      const maxX = Math.max(...flexComponents.map(flexComponent => flexComponent.properties.x + flexComponent.properties.width))
+      const maxX = Math.max(...softComponents.map(softComponent => softComponent.properties.x + softComponent.properties.width))
 
-      flexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponents({
-          updatedFlexComponents: [{
-            ...flexComponent,
+      softComponents.forEach(softComponent => {
+        this._boardManager.updateSoftComponents({
+          updatedSoftComponents: [{
+            ...softComponent,
             properties: {
-              ...flexComponent.properties,
-              x: maxX - flexComponent.properties.width
+              ...softComponent.properties,
+              x: maxX - softComponent.properties.width
             }
           }]
         })
@@ -127,14 +127,14 @@ export class BoardController implements BoardControllerInterface {
     }
 
     if (option === 'top') {
-      const minY = Math.min(...flexComponents.map(flexComponent => flexComponent.properties.y))
+      const minY = Math.min(...softComponents.map(softComponent => softComponent.properties.y))
 
-      flexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponents({
-          updatedFlexComponents: [{
-            ...flexComponent,
+      softComponents.forEach(softComponent => {
+        this._boardManager.updateSoftComponents({
+          updatedSoftComponents: [{
+            ...softComponent,
             properties: {
-              ...flexComponent.properties,
+              ...softComponent.properties,
               y: minY
             }
           }]
@@ -143,15 +143,15 @@ export class BoardController implements BoardControllerInterface {
     }
 
     if (option === 'middle') {
-      const centerY = Math.min(...flexComponents.map(flexComponent => flexComponent.properties.y + flexComponent.properties.height / 2))
+      const centerY = Math.min(...softComponents.map(softComponent => softComponent.properties.y + softComponent.properties.height / 2))
 
-      flexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponents({
-          updatedFlexComponents: [{
-            ...flexComponent,
+      softComponents.forEach(softComponent => {
+        this._boardManager.updateSoftComponents({
+          updatedSoftComponents: [{
+            ...softComponent,
             properties: {
-              ...flexComponent.properties,
-              y: centerY - flexComponent.properties.height / 2
+              ...softComponent.properties,
+              y: centerY - softComponent.properties.height / 2
             }
           }]
         })
@@ -159,15 +159,15 @@ export class BoardController implements BoardControllerInterface {
     }
 
     if (option === 'bottom') {
-      const maxY = Math.max(...flexComponents.map(flexComponent => flexComponent.properties.y + flexComponent.properties.height))
+      const maxY = Math.max(...softComponents.map(softComponent => softComponent.properties.y + softComponent.properties.height))
 
-      flexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponents({
-          updatedFlexComponents: [{
-            ...flexComponent,
+      softComponents.forEach(softComponent => {
+        this._boardManager.updateSoftComponents({
+          updatedSoftComponents: [{
+            ...softComponent,
             properties: {
-              ...flexComponent.properties,
-              y: maxY - flexComponent.properties.height
+              ...softComponent.properties,
+              y: maxY - softComponent.properties.height
             }
           }]
         })
@@ -175,15 +175,15 @@ export class BoardController implements BoardControllerInterface {
     }
 
     if (option === 'full-width') {
-      const minX = Math.min(...flexComponents.map(flexComponent => flexComponent.properties.x))
-      const maxX = Math.max(...flexComponents.map(flexComponent => flexComponent.properties.x + flexComponent.properties.width))
+      const minX = Math.min(...softComponents.map(softComponent => softComponent.properties.x))
+      const maxX = Math.max(...softComponents.map(softComponent => softComponent.properties.x + softComponent.properties.width))
 
-      flexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponents({
-          updatedFlexComponents: [{
-            ...flexComponent,
+      softComponents.forEach(softComponent => {
+        this._boardManager.updateSoftComponents({
+          updatedSoftComponents: [{
+            ...softComponent,
             properties: {
-              ...flexComponent.properties,
+              ...softComponent.properties,
               x: minX,
               width: maxX - minX
             }
@@ -193,15 +193,15 @@ export class BoardController implements BoardControllerInterface {
     }
 
     if (option === 'full-height') {
-      const minY = Math.min(...flexComponents.map(flexComponent => flexComponent.properties.y))
-      const maxY = Math.max(...flexComponents.map(flexComponent => flexComponent.properties.y + flexComponent.properties.height))
+      const minY = Math.min(...softComponents.map(softComponent => softComponent.properties.y))
+      const maxY = Math.max(...softComponents.map(softComponent => softComponent.properties.y + softComponent.properties.height))
 
-      flexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponents({
-          updatedFlexComponents: [{
-            ...flexComponent,
+      softComponents.forEach(softComponent => {
+        this._boardManager.updateSoftComponents({
+          updatedSoftComponents: [{
+            ...softComponent,
             properties: {
-              ...flexComponent.properties,
+              ...softComponent.properties,
               y: minY,
               height: maxY - minY
             }
@@ -221,23 +221,23 @@ export class BoardController implements BoardControllerInterface {
     this._boardState.setTranslate({ x: newTranslateX, y: newTranslateY })
   }
 
-  onOrderFlexComponents (params: OnOrderFlexComponentsParams) {
+  onOrderSoftComponents (params: OnOrderSoftComponentsParams) {
     const { option } = params
 
-    const selected = this._boardState.selectedFlexComponents ?? []
-    const selectedFlexComponents = this._boardState.flexComponents.filter(flexComponent => selected.includes(flexComponent.id))
+    const selected = this._boardState.selectedSoftComponents ?? []
+    const selectedSoftComponents = this._boardState.softComponents.filter(softComponent => selected.includes(softComponent.id))
 
     if (option === 'front') {
-      const max = Math.max(...this._boardState.flexComponents.map(flexComponent => flexComponent.properties.zIndex ?? 0))
+      const max = Math.max(...this._boardState.softComponents.map(softComponent => softComponent.properties.zIndex ?? 0))
       let currentNewMax = max + 1
 
-      selectedFlexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponents({
-          updatedFlexComponents: [{
-            ...flexComponent,
+      selectedSoftComponents.forEach(softComponent => {
+        this._boardManager.updateSoftComponents({
+          updatedSoftComponents: [{
+            ...softComponent,
             properties: {
-              ...flexComponent.properties,
-              zIndex: flexComponent.properties.zIndex === max ? max : currentNewMax
+              ...softComponent.properties,
+              zIndex: softComponent.properties.zIndex === max ? max : currentNewMax
             }
           }]
         })
@@ -247,32 +247,32 @@ export class BoardController implements BoardControllerInterface {
     }
 
     if (option === 'forward') {
-      const nonSelectedFlexComponents = this._boardState.flexComponents.filter(flexComponent => !selected.includes(flexComponent.id))
+      const nonSelectedSoftComponents = this._boardState.softComponents.filter(softComponent => !selected.includes(softComponent.id))
 
-      selectedFlexComponents.forEach(flexComponent => {
-        const currentZ = flexComponent.properties.zIndex ?? 0
-        const candidates = nonSelectedFlexComponents.filter(nonSelectedFlexComponent => (nonSelectedFlexComponent.properties.zIndex ?? 0) > currentZ)
+      selectedSoftComponents.forEach(softComponent => {
+        const currentZ = softComponent.properties.zIndex ?? 0
+        const candidates = nonSelectedSoftComponents.filter(nonSelectedSoftComponent => (nonSelectedSoftComponent.properties.zIndex ?? 0) > currentZ)
 
         if (candidates.length > 0) {
           candidates.sort((a, b) => (a.properties.zIndex ?? 0) - (b.properties.zIndex ?? 0))
 
-          const adjacentFlexComponent = candidates[0]
+          const adjacentSoftComponent = candidates[0]
 
-          this._boardManager.updateFlexComponents({
-            updatedFlexComponents: [{
-              ...flexComponent,
+          this._boardManager.updateSoftComponents({
+            updatedSoftComponents: [{
+              ...softComponent,
               properties: {
-                ...flexComponent.properties,
-                zIndex: adjacentFlexComponent.properties.zIndex
+                ...softComponent.properties,
+                zIndex: adjacentSoftComponent.properties.zIndex
               }
             }]
           })
 
-          this._boardManager.updateFlexComponents({
-            updatedFlexComponents: [{
-              ...adjacentFlexComponent,
+          this._boardManager.updateSoftComponents({
+            updatedSoftComponents: [{
+              ...adjacentSoftComponent,
               properties: {
-                ...adjacentFlexComponent.properties,
+                ...adjacentSoftComponent.properties,
                 zIndex: currentZ
               }
             }]
@@ -282,16 +282,16 @@ export class BoardController implements BoardControllerInterface {
     }
 
     if (option === 'back') {
-      const min = Math.min(...this._boardState.flexComponents.map(flexComponent => flexComponent.properties.zIndex ?? 0))
+      const min = Math.min(...this._boardState.softComponents.map(softComponent => softComponent.properties.zIndex ?? 0))
       let currentNewMin = min - 1
 
-      selectedFlexComponents.forEach(flexComponent => {
-        this._boardManager.updateFlexComponents({
-          updatedFlexComponents: [{
-            ...flexComponent,
+      selectedSoftComponents.forEach(softComponent => {
+        this._boardManager.updateSoftComponents({
+          updatedSoftComponents: [{
+            ...softComponent,
             properties: {
-              ...flexComponent.properties,
-              zIndex: flexComponent.properties.zIndex === min ? min : currentNewMin
+              ...softComponent.properties,
+              zIndex: softComponent.properties.zIndex === min ? min : currentNewMin
             }
           }]
         })
@@ -301,32 +301,31 @@ export class BoardController implements BoardControllerInterface {
     }
 
     if (option === 'backward') {
-      const nonSelectedFlexComponents = this._boardState.flexComponents.filter(flexComponent => !selected.includes(flexComponent.id))
+      const nonSelectedSoftComponents = this._boardState.softComponents.filter(softComponent => !selected.includes(softComponent.id))
 
-      selectedFlexComponents.forEach(flexComponent => {
-        const currentZ = flexComponent.properties.zIndex ?? 0
-        const candidates = nonSelectedFlexComponents.filter(nonSelectedFlexComponent => (nonSelectedFlexComponent.properties.zIndex ?? 0) < currentZ)
-
+      selectedSoftComponents.forEach(softComponent => {
+        const currentZ = softComponent.properties.zIndex ?? 0
+        const candidates = nonSelectedSoftComponents.filter(nonSelectedSoftComponent => (nonSelectedSoftComponent.properties.zIndex ?? 0) < currentZ)
         if (candidates.length > 0) {
           candidates.sort((a, b) => (b.properties.zIndex ?? 0) - (a.properties.zIndex ?? 0))
 
-          const adjacentFlexComponent = candidates[0]
+          const adjacentSoftComponent = candidates[0]
 
-          this._boardManager.updateFlexComponents({
-            updatedFlexComponents: [{
-              ...flexComponent,
+          this._boardManager.updateSoftComponents({
+            updatedSoftComponents: [{
+              ...softComponent,
               properties: {
-                ...flexComponent.properties,
-                zIndex: adjacentFlexComponent.properties.zIndex
+                ...softComponent.properties,
+                zIndex: adjacentSoftComponent.properties.zIndex
               }
             }]
           })
 
-          this._boardManager.updateFlexComponents({
-            updatedFlexComponents: [{
-              ...adjacentFlexComponent,
+          this._boardManager.updateSoftComponents({
+            updatedSoftComponents: [{
+              ...adjacentSoftComponent,
               properties: {
-                ...adjacentFlexComponent.properties,
+                ...adjacentSoftComponent.properties,
                 zIndex: currentZ
               }
             }]
@@ -336,22 +335,22 @@ export class BoardController implements BoardControllerInterface {
     }
   }
 
-  onUpdateFlexComponent (params: OnUpdateFlexComponentParams): void {
-    this._boardManager.updateFlexComponents({ updatedFlexComponents: [params.flexComponent] })
+  onUpdateSoftComponent (params: OnUpdateSoftComponentParams): void {
+    this._boardManager.updateSoftComponents({ updatedSoftComponents: [params.softComponent] })
   }
 
-  onUpdateFlexComponentProperty (params: OnUpdateFlexComponentPropertyParams): void {
+  onUpdateSoftComponentProperty (params: OnUpdateSoftComponentPropertyParams): void {
       const { id, property, value } = params
 
-      const flexComponent = this._boardState.flexComponents.find(flexComponent => flexComponent.id === id)
+      const softComponent = this._boardState.softComponents.find(softComponent => softComponent.id === id)
 
-      if (!flexComponent) return
+      if (!softComponent) return
 
-      this._boardManager.updateFlexComponents({
-        updatedFlexComponents: [{
-          ...flexComponent,
+      this._boardManager.updateSoftComponents({
+        updatedSoftComponents: [{
+          ...softComponent,
           properties: {
-            ...flexComponent.properties,
+            ...softComponent.properties,
             [property]: value
           }
         }]

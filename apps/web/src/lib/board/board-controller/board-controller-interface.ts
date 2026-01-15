@@ -1,18 +1,18 @@
 import {
-  FlexComponent,
-  FlexComponentProperties,
-  FlexComponentType,
+  SoftComponent,
+  SoftComponentProperties,
+  SoftComponentType,
   Offset
 } from '../../../types'
 
-export type OnAddFlexComponentParams = {
-  type: FlexComponentType
+export type OnAddSoftComponentParams = {
+  type: SoftComponentType
   name: string
-  properties: FlexComponentProperties
+  properties: SoftComponentProperties
   position: Offset
 }
 
-export type OnAlignFlexComponentsParams = {
+export type OnAlignSoftComponentsParams = {
   option: string
 }
 
@@ -20,25 +20,25 @@ export type OnChangeBoardScaleParams = {
   scale: number
 }
 
-export type OnOrderFlexComponentsParams = {
+export type OnOrderSoftComponentsParams = {
   option: string
 }
 
-export type OnUpdateFlexComponentParams = {
-  flexComponent: FlexComponent
+export type OnUpdateSoftComponentParams = {
+  softComponent: SoftComponent
 }
 
-export type OnUpdateFlexComponentPropertyParams = {
+export type OnUpdateSoftComponentPropertyParams = {
   id: string
-  property: keyof FlexComponentProperties
+  property: keyof SoftComponentProperties
   value: any
 }
 
 export interface BoardControllerInterface {
-  onAddFlexComponent(params: OnAddFlexComponentParams): void
-  onAlignFlexComponents(params: OnAlignFlexComponentsParams): void
+  onAddSoftComponent(params: OnAddSoftComponentParams): void
+  onAlignSoftComponents(params: OnAlignSoftComponentsParams): void
   onChangeBoardScale(params: OnChangeBoardScaleParams): void
-  onOrderFlexComponents(params: OnOrderFlexComponentsParams): void
-  onUpdateFlexComponent(params: OnUpdateFlexComponentParams): void
-  onUpdateFlexComponentProperty(params: OnUpdateFlexComponentPropertyParams): void
+  onOrderSoftComponents(params: OnOrderSoftComponentsParams): void
+  onUpdateSoftComponent(params: OnUpdateSoftComponentParams): void
+  onUpdateSoftComponentProperty(params: OnUpdateSoftComponentPropertyParams): void
 }

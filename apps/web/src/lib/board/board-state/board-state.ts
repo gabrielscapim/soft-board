@@ -1,34 +1,34 @@
-import { BoardEvent, BoardEventListener, FlexComponent, Guide } from '../../../types'
+import { BoardEvent, BoardEventListener, SoftComponent, Guide } from '../../../types'
 
 export type BoardStateOptions = {
   id?: string
-  components?: FlexComponent[]
+  components?: SoftComponent[]
 }
 
 export class BoardState {
   private _id: string
   private _boardListeners: Record<string, BoardEventListener[]>
-  private _flexComponents: FlexComponent[]
+  private _softComponents: SoftComponent[]
   private _grid: number
   private _guides: { vertical: Guide[], horizontal: Guide[] }
   private _isBoardMoving: boolean
   private _isDragging: boolean
   private _isResizing: boolean
   private _scale: number
-  private _selectedFlexComponents: string[] | null
+  private _selectedSoftComponents: string[] | null
   private _translate: { x: number, y: number }
 
   constructor (options: BoardStateOptions = {}) {
     this._id = options.id || 'default-board-id'
     this._boardListeners = {}
-    this._flexComponents = options.components ?? []
+    this._softComponents = options.components ?? []
     this._grid = 1
     this._guides = { vertical: [], horizontal: [] }
     this._isBoardMoving = false
     this._isDragging = false
     this._isResizing = false
     this._scale = 1
-    this._selectedFlexComponents = null
+    this._selectedSoftComponents = null
     this._translate = { x: 0, y: 0 }
   }
 
@@ -36,8 +36,8 @@ export class BoardState {
     return this._id
   }
 
-  get flexComponents () {
-    return this._flexComponents
+  get softComponents () {
+    return this._softComponents
   }
 
   get grid () {
@@ -64,17 +64,17 @@ export class BoardState {
     return this._scale
   }
 
-  get selectedFlexComponents () {
-    return this._selectedFlexComponents
+  get selectedSoftComponents () {
+    return this._selectedSoftComponents
   }
 
   get translate () {
     return this._translate
   }
 
-  setFlexComponents (flexComponents: FlexComponent[]) {
-    this._flexComponents = flexComponents
-    this.runListener('flexComponentsChanged')
+  setSoftComponents (softComponents: SoftComponent[]) {
+    this._softComponents = softComponents
+    this.runListener('softComponentsChanged')
   }
 
   setGuides (guides: { vertical: Guide[], horizontal: Guide[] }) {
@@ -102,9 +102,9 @@ export class BoardState {
     this.runListener('scaleChanged')
   }
 
-  setSelectedFlexComponents (selectedFlexComponents: string[] | null) {
-    this._selectedFlexComponents = selectedFlexComponents
-    this.runListener('selectedFlexComponentsChanged')
+  setSelectedSoftComponents (selectedSoftComponents: string[] | null) {
+    this._selectedSoftComponents = selectedSoftComponents
+    this.runListener('selectedSoftComponentsChanged')
   }
 
   setTranslate (translate: { x: number, y: number }) {

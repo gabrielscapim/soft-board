@@ -1,4 +1,4 @@
-export type OnDraggingFlexComponentParams = {
+export type OnDraggingSoftComponentParams = {
   id: string
   screenId: string | null
   properties: {

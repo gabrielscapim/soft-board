@@ -1,17 +1,17 @@
-import { FlexComponent } from './flex-component'
+import { SoftComponent } from './flex-component'
 
-export type FlexComponentProperties = FlexComponent['properties']
+export type SoftComponentProperties = SoftComponent['properties']
 
-export type FlexComponentProperty =
-  keyof ButtonFlexComponentProperties |
-  keyof DividerFlexComponentProperties |
-  keyof IconFlexComponentProperties |
-  keyof InputFlexComponentProperties |
-  keyof MobileScreenFlexComponentProperties |
-  keyof RadioButtonFlexComponentProperties |
-  keyof ShapeFlexComponentProperties |
-  keyof TextFlexComponentProperties |
-  keyof ToggleFlexComponentProperties
+export type SoftComponentProperty =
+  keyof ButtonSoftComponentProperties |
+  keyof DividerSoftComponentProperties |
+  keyof IconSoftComponentProperties |
+  keyof InputSoftComponentProperties |
+  keyof MobileScreenSoftComponentProperties |
+  keyof RadioButtonSoftComponentProperties |
+  keyof ShapeSoftComponentProperties |
+  keyof TextSoftComponentProperties |
+  keyof ToggleSoftComponentProperties
 
 export type BaseProperty = keyof BaseProperties
 
@@ -26,7 +26,7 @@ export type BaseProperties = {
 }
 
 /** Button */
-export type ButtonFlexComponentProperties = BaseProperties & {
+export type ButtonSoftComponentProperties = BaseProperties & {
   color?: string // primary; secondary
   borderRadius?: number
   fontSize?: number
@@ -39,18 +39,18 @@ export type ButtonFlexComponentProperties = BaseProperties & {
 }
 
 /** Divider */
-export type DividerFlexComponentProperties = BaseProperties & {
+export type DividerSoftComponentProperties = BaseProperties & {
   color?: string // primary; secondary; tertiary
 }
 
 /** Icon */
-export type IconFlexComponentProperties = BaseProperties & {
+export type IconSoftComponentProperties = BaseProperties & {
   color?: string // primary; secondary
   icon?: string
 }
 
 /** Input */
-export type InputFlexComponentProperties = BaseProperties & {
+export type InputSoftComponentProperties = BaseProperties & {
   variant?: string // primary; secondary; tertiary
   borderRadius?: number
   fontSize?: number
@@ -65,17 +65,17 @@ export type InputFlexComponentProperties = BaseProperties & {
 }
 
 /** Mobile screen */
-export type MobileScreenFlexComponentProperties = BaseProperties & {
+export type MobileScreenSoftComponentProperties = BaseProperties & {
   main?: boolean
 }
 
 /** Radio button */
-export type RadioButtonFlexComponentProperties = BaseProperties & {
+export type RadioButtonSoftComponentProperties = BaseProperties & {
   activated?: boolean
 }
 
 /** Shape */
-export type ShapeFlexComponentProperties = BaseProperties & {
+export type ShapeSoftComponentProperties = BaseProperties & {
   color?: string // primary; secondary
   fill?: boolean
   borderRadius?: number
@@ -83,7 +83,7 @@ export type ShapeFlexComponentProperties = BaseProperties & {
 }
 
 /** Text */
-export type TextFlexComponentProperties = BaseProperties & {
+export type TextSoftComponentProperties = BaseProperties & {
   color?: string // primary; secondary
   text?: string
   fontSize?: number
@@ -94,6 +94,6 @@ export type TextFlexComponentProperties = BaseProperties & {
 }
 
 /** Toggle */
-export type ToggleFlexComponentProperties = BaseProperties & {
+export type ToggleSoftComponentProperties = BaseProperties & {
   activated?: boolean
 }

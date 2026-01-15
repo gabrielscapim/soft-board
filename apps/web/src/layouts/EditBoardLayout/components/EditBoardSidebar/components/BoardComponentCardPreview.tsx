@@ -1,15 +1,15 @@
 import { Card, CardContent, CardDescription, CardFooter } from '@/components/ui/card'
-import { FLEX_COMPONENTS_ELEMENTS } from '@/flex-components'
+import { SOFT_COMPONENTS_ELEMENTS } from '@/flex-components'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
-import { FlexComponentProperties, FlexComponentType } from '@/types'
+import { SoftComponentProperties, SoftComponentType } from '@/types'
 import clsx from 'clsx'
 import { createElement } from 'react'
 import { v4 as uuid } from 'uuid'
 
 export type BoardComponentCardPreviewProps = {
-  type: FlexComponentType
+  type: SoftComponentType
   name: string
-  properties: FlexComponentProperties
+  properties: SoftComponentProperties
   disabled?: boolean
   onClick?: () => void
 }
@@ -49,11 +49,11 @@ export function BoardComponentCardPreview (props: BoardComponentCardPreviewProps
               justifyContent: 'center'
             }}
           >
-            {createElement(FLEX_COMPONENTS_ELEMENTS[type as FlexComponentType], {
+            {createElement(SOFT_COMPONENTS_ELEMENTS[type as SoftComponentType], {
               component: {
                 id: uuid(),
                 name,
-                type: type as FlexComponentType,
+                type: type as SoftComponentType,
                 properties: {
                   ...properties,
                   x: 0,

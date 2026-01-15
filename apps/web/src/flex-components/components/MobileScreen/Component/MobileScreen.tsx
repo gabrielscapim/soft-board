@@ -1,14 +1,14 @@
 import clsx from 'clsx'
-import { MobileScreenFlexComponentProperties } from '../../../../types'
-import { FlexComponentProps } from '../../../types'
+import { MobileScreenSoftComponentProperties } from '../../../../types'
+import { SoftComponentProps } from '../../../types'
 import { PropsWithChildren } from 'react'
 
-export type MobileScreenFlexComponentProps = FlexComponentProps & PropsWithChildren
+export type MobileScreenSoftComponentProps = SoftComponentProps & PropsWithChildren
 
-export function MobileScreenFlexComponent (props: MobileScreenFlexComponentProps) {
+export function MobileScreenSoftComponent (props: MobileScreenSoftComponentProps) {
   const { component, className, children } = props
 
-  const properties = component.properties as MobileScreenFlexComponentProperties
+  const properties = component.properties as MobileScreenSoftComponentProperties
 
   return (
     <div

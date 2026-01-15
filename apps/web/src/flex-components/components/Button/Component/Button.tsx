@@ -1,12 +1,12 @@
 import clsx from 'clsx'
-import { FlexComponentProps } from '../../../types'
-import { ButtonFlexComponentProperties } from '../../../../types'
+import { SoftComponentProps } from '../../../types'
+import { ButtonSoftComponentProperties } from '../../../../types'
 import { DynamicIcon, IconName } from 'lucide-react/dynamic'
 
-export function ButtonFlexComponent (props: FlexComponentProps) {
+export function ButtonSoftComponent (props: SoftComponentProps) {
   const { component, className, handleAction } = props
 
-  const properties = component.properties as ButtonFlexComponentProperties
+  const properties = component.properties as ButtonSoftComponentProperties
   const color = properties.color ?? 'primary'
 
   return (

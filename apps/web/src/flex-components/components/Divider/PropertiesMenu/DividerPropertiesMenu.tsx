@@ -6,8 +6,8 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { FlexComponentPropertiesMenuProps } from '@/flex-components/types'
-import { DividerFlexComponentProperties } from '@/types'
+import { SoftComponentPropertiesMenuProps } from '@/flex-components/types'
+import { DividerSoftComponentProperties } from '@/types'
 
 const COLORS = [
   {
@@ -24,8 +24,8 @@ const COLORS = [
   }
 ]
 
-export function DividerPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
-  const properties = props.properties as DividerFlexComponentProperties
+export function DividerPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
+  const properties = props.properties as DividerSoftComponentProperties
 
   return (
     <>

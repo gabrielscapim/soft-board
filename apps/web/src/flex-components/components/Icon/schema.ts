@@ -1,6 +1,6 @@
-import { FlexComponentSchema } from '../../types'
+import { SoftComponentSchema } from '../../types'
 
-export const iconFlexComponentSchema = {
+export const iconSoftComponentSchema = {
   variations: [
     {
       name: 'Primary Icon',
@@ -23,4 +23,4 @@ export const iconFlexComponentSchema = {
       }
     }
   ]
-} satisfies FlexComponentSchema
+} satisfies SoftComponentSchema

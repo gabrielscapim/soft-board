@@ -1,10 +1,11 @@
 import clsx from 'clsx'
-import { RadioButtonFlexComponentProperties } from '../../../../types'
-import { FlexComponentProps } from '../../../types'
+import { RadioButtonSoftComponentProperties } from '../../../../types'
+import { SoftComponentProps } from '../../../types'
 
-export function RadioButtonFlexComponent (props: FlexComponentProps) {
+export function RadioButtonSoftComponent (props: SoftComponentProps) {
   const { component, className } = props
-  const properties = component.properties as RadioButtonFlexComponentProperties
+
+  const properties = component.properties as RadioButtonSoftComponentProperties
 
   return (
     <div

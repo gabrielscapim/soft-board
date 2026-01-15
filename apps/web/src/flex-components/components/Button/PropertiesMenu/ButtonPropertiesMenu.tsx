@@ -7,8 +7,8 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { FlexComponentPropertiesMenuProps } from '@/flex-components/types'
-import { ButtonFlexComponentProperties } from '@/types'
+import { SoftComponentPropertiesMenuProps } from '@/flex-components/types'
+import { ButtonSoftComponentProperties } from '@/types'
 
 const COLORS = [
   {
@@ -21,8 +21,8 @@ const COLORS = [
   }
 ]
 
-export function ButtonPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
-  const properties = props.properties as ButtonFlexComponentProperties
+export function ButtonPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
+  const properties = props.properties as ButtonSoftComponentProperties
 
   return (
     <>

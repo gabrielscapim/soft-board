@@ -1,20 +1,20 @@
 import { ClassValue } from 'clsx'
 import { BoardController, BoardState } from '../../lib'
-import { FlexComponent, FlexComponentProperties } from '../../types'
+import { SoftComponent, SoftComponentProperties } from '../../types'
 
-export type FlexComponentProps = {
-  component: FlexComponent
+export type SoftComponentProps = {
+  component: SoftComponent
   boardController?: BoardController
   editable?: boolean
   className?: ClassValue
   isDragging?: boolean
   isResizing?: boolean
-  handleAction?: (flexComponent: FlexComponent, event: string) => void
+  handleAction?: (softComponent: SoftComponent, event: string) => void
 }
 
-export type FlexComponentPropertiesMenuProps = {
+export type SoftComponentPropertiesMenuProps = {
   boardState: BoardState
-  component: FlexComponent
-  properties: FlexComponentProperties
+  component: SoftComponent
+  properties: SoftComponentProperties
   onUpdateProperties (key: string, value: unknown): void
 }

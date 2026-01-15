@@ -7,8 +7,8 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { FlexComponentPropertiesMenuProps } from '@/flex-components/types'
-import { InputFlexComponentProperties } from '@/types'
+import { SoftComponentPropertiesMenuProps } from '@/flex-components/types'
+import { InputSoftComponentProperties } from '@/types'
 
 const VARIANTS = [
   {
@@ -40,8 +40,8 @@ const TEXT_ALIGNMENTS = [
   }
 ]
 
-export function InputPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
-  const properties = props.properties as InputFlexComponentProperties
+export function InputPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
+  const properties = props.properties as InputSoftComponentProperties
 
   return (
     <>

@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { InputFlexComponent } from './Input'
-import { inputFlexComponentSchema } from '../schema'
+import { InputSoftComponent } from './Input'
+import { inputSoftComponentSchema } from '../schema'
 
 const meta = {
-  title: 'Flex components/Primitive/Input',
-  component: InputFlexComponent,
+  title: 'Soft components/Primitive/Input',
+  component: InputSoftComponent,
   parameters: {
     layout: 'centered'
   },
@@ -15,7 +15,7 @@ const meta = {
       }
     }
   }
-} satisfies Meta<typeof InputFlexComponent>
+} satisfies Meta<typeof InputSoftComponent>
 
 export default meta
 
@@ -28,7 +28,7 @@ export const Primary: Story = {
       name: 'Input',
       type: 'input',
       properties: {
-        ...inputFlexComponentSchema.variations[0].properties,
+        ...inputSoftComponentSchema.variations[0].properties,
         absolute: false
       }
     }
@@ -42,7 +42,7 @@ export const Secondary: Story = {
       name: 'Input',
       type: 'input',
       properties: {
-        ...inputFlexComponentSchema.variations[1].properties,
+        ...inputSoftComponentSchema.variations[1].properties,
         absolute: false
       }
     }
@@ -56,7 +56,7 @@ export const Tertiary: Story = {
       name: 'Input',
       type: 'input',
       properties: {
-        ...inputFlexComponentSchema.variations[2].properties,
+        ...inputSoftComponentSchema.variations[2].properties,
         absolute: false
       }
     }
@@ -70,7 +70,7 @@ export const ExtraSmall: Story = {
       name: 'Input',
       type: 'input',
       properties: {
-        ...inputFlexComponentSchema.variations[3].properties,
+        ...inputSoftComponentSchema.variations[3].properties,
         absolute: false
       }
     }
@@ -84,7 +84,7 @@ export const Small: Story = {
       name: 'Input',
       type: 'input',
       properties: {
-        ...inputFlexComponentSchema.variations[4].properties,
+        ...inputSoftComponentSchema.variations[4].properties,
         absolute: false
       }
     }
@@ -98,7 +98,7 @@ export const Medium: Story = {
       name: 'Input',
       type: 'input',
       properties: {
-        ...inputFlexComponentSchema.variations[5].properties,
+        ...inputSoftComponentSchema.variations[5].properties,
         absolute: false
       }
     }
@@ -112,7 +112,7 @@ export const Large: Story = {
       name: 'Input',
       type: 'input',
       properties: {
-        ...inputFlexComponentSchema.variations[6].properties,
+        ...inputSoftComponentSchema.variations[6].properties,
         absolute: false
       }
     }
@@ -126,7 +126,7 @@ export const Icon: Story = {
       name: 'Input',
       type: 'input',
       properties: {
-        ...inputFlexComponentSchema.variations[7].properties,
+        ...inputSoftComponentSchema.variations[7].properties,
         absolute: false
       }
     }
@@ -140,7 +140,7 @@ export const Dropdown: Story = {
       name: 'Input',
       type: 'input',
       properties: {
-        ...inputFlexComponentSchema.variations[8].properties,
+        ...inputSoftComponentSchema.variations[8].properties,
         absolute: false
       }
     }

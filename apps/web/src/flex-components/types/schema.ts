@@ -1,9 +1,9 @@
-import { FlexComponentProperties } from '../../types'
+import { SoftComponentProperties } from '../../types'
 
-export type FlexComponentSchema = {
+export type SoftComponentSchema = {
   variations: {
     name: string
-    properties: FlexComponentProperties
+    properties: SoftComponentProperties
   }[]
   resizable?: {
     horizontal?: boolean

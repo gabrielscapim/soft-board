@@ -1,18 +1,18 @@
-import { FlexComponentType } from './type'
+import { SoftComponentType } from './type'
 import {
-  ButtonFlexComponentProperties,
-  DividerFlexComponentProperties,
-  FlexComponentProperties,
-  IconFlexComponentProperties,
-  InputFlexComponentProperties,
-  MobileScreenFlexComponentProperties,
-  RadioButtonFlexComponentProperties,
-  ShapeFlexComponentProperties,
-  TextFlexComponentProperties,
-  ToggleFlexComponentProperties
+  ButtonSoftComponentProperties,
+  DividerSoftComponentProperties,
+  SoftComponentProperties,
+  IconSoftComponentProperties,
+  InputSoftComponentProperties,
+  MobileScreenSoftComponentProperties,
+  RadioButtonSoftComponentProperties,
+  ShapeSoftComponentProperties,
+  TextSoftComponentProperties,
+  ToggleSoftComponentProperties
 } from './properties'
 
-export type BaseFlexComponent<T extends FlexComponentType, P extends FlexComponentProperties> = {
+export type BaseFlexComponent<T extends SoftComponentType, P extends SoftComponentProperties> = {
   id: string
   name: string
   type: T
@@ -21,23 +21,23 @@ export type BaseFlexComponent<T extends FlexComponentType, P extends FlexCompone
   screenId?: string | null
 }
 
-export type ButtonFlexComponent = BaseFlexComponent<'button', ButtonFlexComponentProperties>
-export type DividerFlexComponent = BaseFlexComponent<'divider', DividerFlexComponentProperties>
-export type IconFlexComponent = BaseFlexComponent<'icon', IconFlexComponentProperties>
-export type InputFlexComponent = BaseFlexComponent<'input', InputFlexComponentProperties>
-export type MobileScreenFlexComponent = BaseFlexComponent<'mobileScreen', MobileScreenFlexComponentProperties>
-export type RadioButtonFlexComponent = BaseFlexComponent<'radioButton', RadioButtonFlexComponentProperties>
-export type ShapeFlexComponent = BaseFlexComponent<'shape', ShapeFlexComponentProperties>
-export type TextFlexComponent = BaseFlexComponent<'text', TextFlexComponentProperties>
-export type ToggleFlexComponent = BaseFlexComponent<'toggle', ToggleFlexComponentProperties>
+export type ButtonSoftComponent = BaseFlexComponent<'button', ButtonSoftComponentProperties>
+export type DividerSoftComponent = BaseFlexComponent<'divider', DividerSoftComponentProperties>
+export type IconSoftComponent = BaseFlexComponent<'icon', IconSoftComponentProperties>
+export type InputSoftComponent = BaseFlexComponent<'input', InputSoftComponentProperties>
+export type MobileScreenSoftComponent = BaseFlexComponent<'mobileScreen', MobileScreenSoftComponentProperties>
+export type RadioButtonSoftComponent = BaseFlexComponent<'radioButton', RadioButtonSoftComponentProperties>
+export type ShapeSoftComponent = BaseFlexComponent<'shape', ShapeSoftComponentProperties>
+export type TextSoftComponent = BaseFlexComponent<'text', TextSoftComponentProperties>
+export type ToggleSoftComponent = BaseFlexComponent<'toggle', ToggleSoftComponentProperties>
 
-export type FlexComponent =
-  ButtonFlexComponent |
-  DividerFlexComponent |
-  IconFlexComponent |
-  InputFlexComponent |
-  MobileScreenFlexComponent |
-  RadioButtonFlexComponent |
-  ShapeFlexComponent |
-  TextFlexComponent |
-  ToggleFlexComponent
+export type SoftComponent =
+  ButtonSoftComponent |
+  DividerSoftComponent |
+  IconSoftComponent |
+  InputSoftComponent |
+  MobileScreenSoftComponent |
+  RadioButtonSoftComponent |
+  ShapeSoftComponent |
+  TextSoftComponent |
+  ToggleSoftComponent

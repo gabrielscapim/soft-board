@@ -1,5 +1,5 @@
-import { FlexComponent } from '@/types'
+import { SoftComponent } from '@/types'
 
-export type CopiedFlexComponent = FlexComponent & {
-  children?: FlexComponent[]
+export type CopiedSoftComponent = SoftComponent & {
+  children?: SoftComponent[]
 }

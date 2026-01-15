@@ -1,25 +1,25 @@
-import { FlexComponentProps } from '../types'
-import { FlexComponentType } from '../../types'
+import { SoftComponentProps } from '../types'
+import { SoftComponentType } from '../../types'
 import {
-  ButtonFlexComponent,
-  DividerFlexComponent,
-  IconFlexComponent,
-  InputFlexComponent,
-  MobileScreenFlexComponent,
-  RadioButtonFlexComponent,
-  ShapeFlexComponent,
-  TextFlexComponent,
-  ToggleFlexComponent
+  ButtonSoftComponent,
+  DividerSoftComponent,
+  IconSoftComponent,
+  InputSoftComponent,
+  MobileScreenSoftComponent,
+  RadioButtonSoftComponent,
+  ShapeSoftComponent,
+  TextSoftComponent,
+  ToggleSoftComponent
 } from '../components'
 
-export const FLEX_COMPONENTS_ELEMENTS: Record<FlexComponentType, (props: FlexComponentProps) => JSX.Element> = {
-  button: ButtonFlexComponent,
-  divider: DividerFlexComponent,
-  icon: IconFlexComponent,
-  input: InputFlexComponent,
-  mobileScreen: MobileScreenFlexComponent,
-  radioButton: RadioButtonFlexComponent,
-  shape: ShapeFlexComponent,
-  text: TextFlexComponent,
-  toggle: ToggleFlexComponent
+export const SOFT_COMPONENTS_ELEMENTS: Record<SoftComponentType, (props: SoftComponentProps) => JSX.Element> = {
+  button: ButtonSoftComponent,
+  divider: DividerSoftComponent,
+  icon: IconSoftComponent,
+  input: InputSoftComponent,
+  mobileScreen: MobileScreenSoftComponent,
+  radioButton: RadioButtonSoftComponent,
+  shape: ShapeSoftComponent,
+  text: TextSoftComponent,
+  toggle: ToggleSoftComponent
 }

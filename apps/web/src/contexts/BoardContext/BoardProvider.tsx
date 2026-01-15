@@ -6,7 +6,7 @@ import { BoardController, BoardManager, BoardState } from '../../lib'
 import { BoardContext } from './BoardContext'
 import { useClient } from '@/hooks'
 
-import { FlexComponent } from '@/types'
+import { SoftComponent } from '@/types'
 import { FullScreenLoader } from '@/components'
 import { ErrorRoute } from '@/routes'
 import { Client } from '@/client'
@@ -37,11 +37,11 @@ export function BoardProvider ({ children }: BoardProviderProps) {
 
   const components = useMemo(() => {
     return (
-      getBoard.data?.components.map<FlexComponent>(component => ({
+      getBoard.data?.components.map<SoftComponent>(component => ({
         id: component.id,
         name: component.name,
-        type: component.type as FlexComponent['type'],
-        properties: component.properties as FlexComponent['properties'],
+        type: component.type as SoftComponent['type'],
+        properties: component.properties as SoftComponent['properties'],
         connectionId: component.connectionId,
         screenId: component.screenId
       })) ?? []
@@ -57,7 +57,7 @@ export function BoardProvider ({ children }: BoardProviderProps) {
   })
 
   useEffect(() => {
-    board.boardState.setFlexComponents(components)
+    board.boardState.setSoftComponents(components)
   }, [components, board.boardState])
 
   useEffect(() => {

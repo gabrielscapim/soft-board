@@ -1,32 +1,30 @@
 import { Input, Label } from '@/components'
-import { FLEX_COMPONENT_MIN_DIMENSIONS } from '@/flex-components'
-import { FLEX_COMPONENTS_PROPERTIES_MENU } from '@/flex-components/registry/properties-menu'
+import { SOFT_COMPONENT_MIN_DIMENSIONS, SOFT_COMPONENTS_PROPERTIES_MENU } from '@/flex-components'
 import { BoardState } from '@/lib'
-import { FlexComponent } from '@/types'
+import { SoftComponent } from '@/types'
 
 export type PropertiesTabContentProps = {
-  flexComponent: FlexComponent
-  screen: FlexComponent | null
+  softComponent: SoftComponent
+  screen: SoftComponent | null
   boardState: BoardState
   onUpdateProperties (key: string, value: unknown): void
   onUpdateName (value: string): void
 }
 
 export function PropertiesTabContent (props: PropertiesTabContentProps) {
-  const { flexComponent, screen, boardState, onUpdateProperties, onUpdateName } = props
+  const { softComponent, screen, boardState, onUpdateProperties, onUpdateName } = props
 
-  const Menu = FLEX_COMPONENTS_PROPERTIES_MENU[flexComponent.type]
-  const minDimensions = FLEX_COMPONENT_MIN_DIMENSIONS[flexComponent.type]
+  const Menu = SOFT_COMPONENTS_PROPERTIES_MENU[softComponent.type]
+  const minDimensions = SOFT_COMPONENT_MIN_DIMENSIONS[softComponent.type]
 
-  const relX = screen ? flexComponent.properties.x - screen.properties.x : flexComponent.properties.x
-  const relY = screen ? flexComponent.properties.y - screen.properties.y : flexComponent.properties.y
-
+  const relX = screen ? softComponent.properties.x - screen.properties.x : softComponent.properties.x
+  const relY = screen ? softComponent.properties.y - screen.properties.y : softComponent.properties.y
   return (
     <>
       <Label className="flex flex-col items-start">
         Name
         <Input
-          value={flexComponent.name}
+          value={softComponent.name}
           onChange={event => onUpdateName(event.target.value)}
         />
       </Label>
@@ -42,8 +40,8 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
               type="number"
               step="1"
               min={minDimensions.width}
-              disabled={flexComponent.type === 'mobileScreen'}
-              value={Math.round(flexComponent.properties.width)}
+              disabled={softComponent.type === 'mobileScreen'}
+              value={Math.round(softComponent.properties.width)}
               onChange={event => onUpdateProperties('width', clampInt(event.target.value, minDimensions.width))}
             />
           </Label>
@@ -53,7 +51,7 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
               type="number"
               step="1"
               min={minDimensions.height}
-              value={Math.round(flexComponent.properties.height)}
+              value={Math.round(softComponent.properties.height)}
               onChange={event => onUpdateProperties('height', clampInt(event.target.value, minDimensions.height))}
             />
           </Label>
@@ -88,9 +86,9 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
 
       {Menu && (
         <Menu
-          properties={flexComponent.properties}
+          properties={softComponent.properties}
           boardState={boardState}
-          component={flexComponent}
+          component={softComponent}
           onUpdateProperties={onUpdateProperties}
         />
       )}

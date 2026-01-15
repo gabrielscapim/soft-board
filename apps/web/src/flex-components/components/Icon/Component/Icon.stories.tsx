@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { IconFlexComponent } from './Icon'
-import { iconFlexComponentSchema } from '../schema'
+import { IconSoftComponent } from './Icon'
+import { iconSoftComponentSchema } from '../schema'
 
 const meta = {
-  title: 'Flex components/Primitive/Icon',
-  component: IconFlexComponent,
+  title: 'Soft components/Primitive/Icon',
+  component: IconSoftComponent,
   parameters: {
     layout: 'centered'
   },
@@ -14,7 +14,7 @@ const meta = {
       properties: {}
     }
   }
-} satisfies Meta<typeof IconFlexComponent>
+} satisfies Meta<typeof IconSoftComponent>
 
 export default meta
 
@@ -27,7 +27,7 @@ export const Primary: Story = {
       name: 'Icon',
       type: 'icon',
       properties: {
-        ...iconFlexComponentSchema.variations[0].properties,
+        ...iconSoftComponentSchema.variations[0].properties,
         absolute: false
       }
     }
@@ -41,7 +41,7 @@ export const Secondary: Story = {
       name: 'Icon',
       type: 'icon',
       properties: {
-        ...iconFlexComponentSchema.variations[1].properties,
+        ...iconSoftComponentSchema.variations[1].properties,
         absolute: false
       }
     }

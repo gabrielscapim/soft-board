@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { ToggleFlexComponent } from './Toggle'
-import { toggleFlexComponentSchema } from '../schema'
+import { ToggleSoftComponent } from './Toggle'
+import { toggleSoftComponentSchema } from '../schema'
 
 const meta = {
-  title: 'Flex components/Primitive/Toggle',
-  component: ToggleFlexComponent,
+  title: 'Soft components/Primitive/Toggle',
+  component: ToggleSoftComponent,
   parameters: {
     layout: 'centered'
   },
@@ -15,7 +15,7 @@ const meta = {
       }
     }
   }
-} satisfies Meta<typeof ToggleFlexComponent>
+} satisfies Meta<typeof ToggleSoftComponent>
 
 
 export default meta
@@ -30,7 +30,7 @@ export const Activated: Story = {
       type: 'toggle',
       properties: {
         absolute: false,
-        ...toggleFlexComponentSchema.variations[0].properties
+        ...toggleSoftComponentSchema.variations[0].properties
       }
     }
   }
@@ -44,7 +44,7 @@ export const Deactivated: Story = {
       type: 'toggle',
       properties: {
         absolute: false,
-        ...toggleFlexComponentSchema.variations[1].properties
+        ...toggleSoftComponentSchema.variations[1].properties
       }
     }
   }
@@ -58,7 +58,7 @@ export const ExtraSmall: Story = {
       type: 'toggle',
       properties: {
         absolute: false,
-        ...toggleFlexComponentSchema.variations[2].properties
+        ...toggleSoftComponentSchema.variations[2].properties
       }
     }
   }
@@ -72,7 +72,7 @@ export const Small: Story = {
       type: 'toggle',
       properties: {
         absolute: false,
-        ...toggleFlexComponentSchema.variations[3].properties
+        ...toggleSoftComponentSchema.variations[3].properties
       }
     }
   }
@@ -86,7 +86,7 @@ export const Medium: Story = {
       type: 'toggle',
       properties: {
         absolute: false,
-        ...toggleFlexComponentSchema.variations[4].properties
+        ...toggleSoftComponentSchema.variations[4].properties
       }
     }
   }
@@ -100,7 +100,7 @@ export const Large: Story = {
       type: 'toggle',
       properties: {
         absolute: false,
-        ...toggleFlexComponentSchema.variations[5].properties
+        ...toggleSoftComponentSchema.variations[5].properties
       }
     }
   }

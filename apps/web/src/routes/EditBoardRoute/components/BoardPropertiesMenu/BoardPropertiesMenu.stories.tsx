@@ -23,7 +23,7 @@ export const Example: Story = {
   args: {
     boardState: {} as any,
     boardController: {} as any,
-    flexComponents: [
+    softComponents: [
       {
         id: '1',
         type: 'button',
@@ -37,7 +37,7 @@ export const Example: Story = {
       }
     ],
     className: 'static',
-    selectedFlexComponents: [
+    selectedSoftComponents: [
       {
         id: '1',
         type: 'button',

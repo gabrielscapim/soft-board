@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { ButtonFlexComponent } from './Button'
-import { buttonFlexComponentSchema } from '../schema'
+import { ButtonSoftComponent } from './Button'
+import { buttonSoftComponentSchema } from '../schema'
 
 const meta = {
-  title: 'Flex components/Primitive/Button',
-  component: ButtonFlexComponent,
+  title: 'Soft components/Primitive/Button',
+  component: ButtonSoftComponent,
   parameters: {
     layout: 'centered'
   },
@@ -26,7 +26,7 @@ const meta = {
       }
     }
   }
-} satisfies Meta<typeof ButtonFlexComponent>
+} satisfies Meta<typeof ButtonSoftComponent>
 
 export default meta
 
@@ -40,7 +40,7 @@ export const Primary: Story = {
       type: 'button',
       properties: {
         absolute: false,
-        ...buttonFlexComponentSchema.variations[0].properties
+        ...buttonSoftComponentSchema.variations[0].properties
       }
     }
   }
@@ -54,7 +54,7 @@ export const Secondary: Story = {
       type: 'button',
       properties: {
         absolute: false,
-        ...buttonFlexComponentSchema.variations[1].properties
+        ...buttonSoftComponentSchema.variations[1].properties
       }
     }
   }
@@ -68,7 +68,7 @@ export const ExtraSmall: Story = {
       type: 'button',
       properties: {
         absolute: false,
-        ...buttonFlexComponentSchema.variations[2].properties
+        ...buttonSoftComponentSchema.variations[2].properties
       }
     }
   }
@@ -82,7 +82,7 @@ export const Small: Story = {
       type: 'button',
       properties: {
         absolute: false,
-        ...buttonFlexComponentSchema.variations[3].properties
+        ...buttonSoftComponentSchema.variations[3].properties
       }
     }
   }
@@ -96,7 +96,7 @@ export const Medium: Story = {
       type: 'button',
       properties: {
         absolute: false,
-        ...buttonFlexComponentSchema.variations[4].properties
+        ...buttonSoftComponentSchema.variations[4].properties
       }
     }
   }
@@ -110,7 +110,7 @@ export const Large: Story = {
       type: 'button',
       properties: {
         absolute: false,
-        ...buttonFlexComponentSchema.variations[5].properties
+        ...buttonSoftComponentSchema.variations[5].properties
       }
     }
   }

@@ -1,12 +1,12 @@
-import { IconFlexComponentProperties } from '../../../../types'
+import { IconSoftComponentProperties } from '../../../../types'
 import { DynamicIcon, IconName, iconNames } from 'lucide-react/dynamic'
 import clsx from 'clsx'
-import { FlexComponentProps } from '../../../types'
+import { SoftComponentProps } from '../../../types'
 
-export function IconFlexComponent (props: FlexComponentProps) {
+export function IconSoftComponent (props: SoftComponentProps) {
   const { component, className } = props
 
-  const properties = component.properties as IconFlexComponentProperties
+  const properties = component.properties as IconSoftComponentProperties
   const icon = (properties.icon ?? 'sparkle') as IconName
   const color = properties.color ?? 'primary'
 

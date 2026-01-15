@@ -1,9 +1,9 @@
-import { FLEX_COMPONENT_MIN_DIMENSIONS } from '@/flex-components'
-import { Dimensions, FlexComponent, Guide, Offset, ResizeDirection } from '../../../types'
+import { SOFT_COMPONENT_MIN_DIMENSIONS } from '@/flex-components'
+import { Dimensions, SoftComponent, Guide, Offset, ResizeDirection } from '../../../types'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import { getAlignmentBoardGuides } from '../get-alignment-board-guides'
-import { OnResizingFlexComponentParams } from './types'
+import { OnResizingSoftComponentParams } from './types'
 
 const DISTANCE_TO_BREAK_SNAP = 5
 const MIN_DISTANCE_TO_RESIZE = 0.5
@@ -53,7 +53,7 @@ export class ElementResizer {
     return closestGuide
   }
 
-  private getGroupDimensions (selectedComponents: FlexComponent[]) {
+  private getGroupDimensions (selectedComponents: SoftComponent[]) {
       if (selectedComponents.length === 0) {
         return { x: 0, y: 0, width: 0, height: 0 }
       }
@@ -234,13 +234,13 @@ export class ElementResizer {
     }
   }
 
-  private onEndResizeFlexComponent () {
-    const selectedIds = this._boardState.selectedFlexComponents ?? []
-    const selectedComponents = this._boardState.flexComponents.filter(flexComponent => selectedIds.includes(flexComponent.id))
+  private onEndResizeSoftComponent () {
+    const selectedIds = this._boardState.selectedSoftComponents ?? []
+    const selectedComponents = this._boardState.softComponents.filter(softComponent => selectedIds.includes(softComponent.id))
 
     if (selectedComponents.length && this._hasDragged) {
-      this._boardManager.updateFlexComponents({
-        updatedFlexComponents: selectedComponents,
+      this._boardManager.updateSoftComponents({
+        updatedSoftComponents: selectedComponents,
         initialProperties: this._initialProperties
       })
     }
@@ -249,10 +249,10 @@ export class ElementResizer {
     this._initialProperties = null
   }
 
-  private onResizingFlexComponent (params: OnResizingFlexComponentParams) {
+  private onResizingSoftComponent (params: OnResizingSoftComponentParams) {
     const { dimension, position, snap, resizeDirection } = params
 
-    const selected = new Set(this._boardState.selectedFlexComponents)
+    const selected = new Set(this._boardState.selectedSoftComponents)
 
     if (!selected || selected.size === 0 || !this._initialProperties) {
       return
@@ -262,19 +262,19 @@ export class ElementResizer {
       this._boardState.setIsResizing(true)
     }
 
-    const selectedFlexComponents = this._boardState.flexComponents.filter(flexComponent => selected.has(flexComponent.id))
-    const isResizingMobileScreen = selectedFlexComponents.some(component => component.type === 'mobileScreen')
+    const selectedSoftComponents = this._boardState.softComponents.filter(softComponent => selected.has(softComponent.id))
+    const isResizingMobileScreen = selectedSoftComponents.some(component => component.type === 'mobileScreen')
 
-    const newFlexComponents = this._boardState.flexComponents.map<FlexComponent>(flexComponent => {
+    const newSoftComponents = this._boardState.softComponents.map<SoftComponent>(softComponent => {
       // When a mobile screen is being resized, only resize the mobile screen
-      if (isResizingMobileScreen && flexComponent.type !== 'mobileScreen') {
-        return flexComponent
+      if (isResizingMobileScreen && softComponent.type !== 'mobileScreen') {
+        return softComponent
       }
 
-      if (selected.has(flexComponent.id)) {
-        const initialProps = this._initialProperties?.get(flexComponent.id)
+      if (selected.has(softComponent.id)) {
+        const initialProps = this._initialProperties?.get(softComponent.id)
 
-        if (!initialProps) return flexComponent
+        if (!initialProps) return softComponent
 
         let finalX = initialProps.x + position.roundedDeltaX
         let finalY = initialProps.y + position.roundedDeltaY
@@ -390,13 +390,13 @@ export class ElementResizer {
           }
         }
 
-        const minDimensions = FLEX_COMPONENT_MIN_DIMENSIONS[flexComponent.type]
+        const minDimensions = SOFT_COMPONENT_MIN_DIMENSIONS[softComponent.type]
 
         return {
-          ...flexComponent,
+          ...softComponent,
           screenId: params.screenId,
           properties: {
-            ...flexComponent.properties,
+            ...softComponent.properties,
             x: finalX,
             y: finalY,
             width: minDimensions ? Math.max(finalWidth, minDimensions.width) : finalWidth,
@@ -405,15 +405,15 @@ export class ElementResizer {
         }
       }
 
-      return flexComponent
+      return softComponent
     })
 
-    this._boardState.setFlexComponents(newFlexComponents)
-    this._boardState.setSelectedFlexComponents(Array.from(selected))
+    this._boardState.setSoftComponents(newSoftComponents)
+    this._boardState.setSelectedSoftComponents(Array.from(selected))
   }
 
-  private onStartResizeFlexComponent () {
-    const selected = this._boardState.selectedFlexComponents
+  private onStartResizeSoftComponent () {
+    const selected = this._boardState.selectedSoftComponents
 
     if (!selected || selected.length === 0) {
       return
@@ -422,15 +422,15 @@ export class ElementResizer {
     const initialProperties = new Map<string, Dimensions & Offset & { screenId?: string | null }>()
 
     for (const id of selected) {
-      const selectedFlexComponent = this._boardState.flexComponents.find(flexComponent => flexComponent.id === id)
+      const selectedSoftComponent = this._boardState.softComponents.find(softComponent => softComponent.id === id)
 
-      if (selectedFlexComponent) {
+      if (selectedSoftComponent) {
         initialProperties.set(id, structuredClone({
-          width: selectedFlexComponent.properties.width,
-          height: selectedFlexComponent.properties.height,
-          x: selectedFlexComponent.properties.x,
-          y: selectedFlexComponent.properties.y,
-          screenId: selectedFlexComponent.screenId
+          width: selectedSoftComponent.properties.width,
+          height: selectedSoftComponent.properties.height,
+          x: selectedSoftComponent.properties.x,
+          y: selectedSoftComponent.properties.y,
+          screenId: selectedSoftComponent.screenId
         }))
       }
     }
@@ -443,7 +443,7 @@ export class ElementResizer {
     this._offset = undefined
     this._resizeDirection = undefined
     this._transform = undefined
-    this.onEndResizeFlexComponent()
+    this.onEndResizeSoftComponent()
   }
 
   public onResizing (event: MouseEvent) {
@@ -451,8 +451,8 @@ export class ElementResizer {
 
     event.preventDefault()
 
-    const selected = this._boardState.selectedFlexComponents ?? []
-    const selectedComponents = this._boardState.flexComponents.filter(flexComponent => selected.includes(flexComponent.id))
+    const selected = this._boardState.selectedSoftComponents ?? []
+    const selectedComponents = this._boardState.softComponents.filter(softComponent => selected.includes(softComponent.id))
 
     if (selectedComponents.length === 0) {
       return
@@ -470,9 +470,9 @@ export class ElementResizer {
     }
 
     const guides = getAlignmentBoardGuides({
-      flexComponents: this._boardState.flexComponents,
+      softComponents: this._boardState.softComponents,
       dragging: compositeDragging,
-      selectedFlexComponents: selected
+      selectedSoftComponents: selected
     })
 
     this._boardState.setGuides({
@@ -502,7 +502,7 @@ export class ElementResizer {
       }
     }
 
-    let snap: OnResizingFlexComponentParams['snap'] | undefined = undefined
+    let snap: OnResizingSoftComponentParams['snap'] | undefined = undefined
 
     switch (this._resizeDirection) {
       case 'n':
@@ -575,7 +575,7 @@ export class ElementResizer {
 
     let screenId: string | null = null
 
-    const screens = this._boardState.flexComponents.filter(component => component.type === 'mobileScreen')
+    const screens = this._boardState.softComponents.filter(component => component.type === 'mobileScreen')
 
     const TOLERANCE = -25
 
@@ -592,7 +592,7 @@ export class ElementResizer {
       }
     }
 
-    this.onResizingFlexComponent({
+    this.onResizingSoftComponent({
       ...params,
       resizeDirection: this._resizeDirection ?? '',
       snap: snap,
@@ -609,7 +609,7 @@ export class ElementResizer {
     if (resizerElement) {
       this._selectedResizerElement = resizerElement
       this._offset = this.getMousePosition(event)
-      this.onStartResizeFlexComponent()
+      this.onStartResizeSoftComponent()
       this._resizeDirection = resizerElement.id as ResizeDirection
 
       const transformStyle = window.getComputedStyle(resizerElement).transform

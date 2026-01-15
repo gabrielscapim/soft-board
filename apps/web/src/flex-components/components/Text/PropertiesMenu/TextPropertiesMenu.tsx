@@ -1,5 +1,5 @@
-import { FlexComponentPropertiesMenuProps } from '@/flex-components/types'
-import { TextFlexComponentProperties } from '@/types'
+import { SoftComponentPropertiesMenuProps } from '@/flex-components/types'
+import { TextSoftComponentProperties } from '@/types'
 import { Label } from '@/components/ui/label'
 import {
   Select,
@@ -59,8 +59,8 @@ const DECORATIONS = [
   }
 ]
 
-export function TextPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
-  const properties = props.properties as TextFlexComponentProperties
+export function TextPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
+  const properties = props.properties as TextSoftComponentProperties
 
   return (
     <>

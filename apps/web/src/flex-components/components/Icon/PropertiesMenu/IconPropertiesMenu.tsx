@@ -7,8 +7,8 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { FlexComponentPropertiesMenuProps } from '@/flex-components/types'
-import { IconFlexComponentProperties } from '@/types'
+import { SoftComponentPropertiesMenuProps } from '@/flex-components/types'
+import { IconSoftComponentProperties } from '@/types'
 
 const COLORS = [
   {
@@ -21,8 +21,8 @@ const COLORS = [
   }
 ]
 
-export function IconPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
-  const properties = props.properties as IconFlexComponentProperties
+export function IconPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
+  const properties = props.properties as IconSoftComponentProperties
 
   return (
     <>

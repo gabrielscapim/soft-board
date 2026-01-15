@@ -1,6 +1,6 @@
-import { FlexComponentSchema } from '../../types'
+import { SoftComponentSchema } from '../../types'
 
-export const mobileScreenFlexComponentSchema = {
+export const mobileScreenSoftComponentSchema = {
   variations: [
     {
       name: 'Mobile Screen',
@@ -20,4 +20,4 @@ export const mobileScreenFlexComponentSchema = {
     width: 375,
     height: 812
   }
-} satisfies FlexComponentSchema
+} satisfies SoftComponentSchema

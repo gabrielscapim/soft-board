@@ -1,10 +1,10 @@
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
-import { FlexComponentPropertiesMenuProps } from '@/flex-components/types'
-import { ToggleFlexComponentProperties } from '@/types'
+import { SoftComponentPropertiesMenuProps } from '@/flex-components/types'
+import { ToggleSoftComponentProperties } from '@/types'
 
-export function TogglePropertiesMenu (props: FlexComponentPropertiesMenuProps) {
-  const properties = props.properties as ToggleFlexComponentProperties
+export function TogglePropertiesMenu (props: SoftComponentPropertiesMenuProps) {
+  const properties = props.properties as ToggleSoftComponentProperties
 
   return (
     <>

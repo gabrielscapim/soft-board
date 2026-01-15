@@ -1,11 +1,11 @@
 import clsx from 'clsx'
-import { ShapeFlexComponentProperties } from '../../../../types'
-import { FlexComponentProps } from '../../../types'
+import { ShapeSoftComponentProperties } from '../../../../types'
+import { SoftComponentProps } from '../../../types'
 
-export function ShapeFlexComponent (props: FlexComponentProps) {
+export function ShapeSoftComponent (props: SoftComponentProps) {
   const { component, className } = props
 
-  const properties = component.properties as ShapeFlexComponentProperties
+  const properties = component.properties as ShapeSoftComponentProperties
   const color = properties.color ?? 'primary'
   const fill = properties.fill ?? true
 

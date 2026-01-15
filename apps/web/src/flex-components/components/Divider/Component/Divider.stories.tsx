@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { DividerFlexComponent } from './Divider'
-import { dividerFlexComponentSchema } from '../schema'
+import { DividerSoftComponent } from './Divider'
+import { dividerSoftComponentSchema } from '../schema'
 
 const meta = {
-  title: 'Flex components/Primitive/Divider',
-  component: DividerFlexComponent,
+  title: 'Soft components/Primitive/Divider',
+  component: DividerSoftComponent,
   parameters: {
     layout: 'centered'
   },
@@ -15,7 +15,7 @@ const meta = {
       }
     }
   }
-} satisfies Meta<typeof DividerFlexComponent>
+} satisfies Meta<typeof DividerSoftComponent>
 
 export default meta
 
@@ -28,7 +28,7 @@ export const Primary: Story = {
       name: 'Divider',
       type: 'divider',
       properties: {
-        ...dividerFlexComponentSchema.variations[0].properties,
+        ...dividerSoftComponentSchema.variations[0].properties,
         absolute: false
       }
     }
@@ -42,7 +42,7 @@ export const Secondary: Story = {
       name: 'Divider',
       type: 'divider',
       properties: {
-        ...dividerFlexComponentSchema.variations[1].properties,
+        ...dividerSoftComponentSchema.variations[1].properties,
         absolute: false
       }
     }
@@ -56,7 +56,7 @@ export const Tertiary: Story = {
       name: 'Divider',
       type: 'divider',
       properties: {
-        ...dividerFlexComponentSchema.variations[2].properties,
+        ...dividerSoftComponentSchema.variations[2].properties,
         absolute: false
       }
     }

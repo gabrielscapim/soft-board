@@ -1,15 +1,15 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { RadioButtonFlexComponent } from './RadioButton'
-import { radioButtonFlexComponentSchema } from '../schema'
+import { RadioButtonSoftComponent } from './RadioButton'
+import { radioButtonSoftComponentSchema } from '../schema'
 
 const meta = {
-  title: 'Flex components/Primitive/Radio Button',
-  component: RadioButtonFlexComponent,
+  title: 'Soft components/Primitive/Radio Button',
+  component: RadioButtonSoftComponent,
   parameters: {
     layout: 'centered'
   },
   tags: ['autodocs']
-} satisfies Meta<typeof RadioButtonFlexComponent>
+} satisfies Meta<typeof RadioButtonSoftComponent>
 
 export default meta
 
@@ -22,7 +22,7 @@ export const Activated: Story = {
       name: 'Radio Button',
       type: 'radioButton',
       properties: {
-        ...radioButtonFlexComponentSchema.variations[0].properties,
+        ...radioButtonSoftComponentSchema.variations[0].properties,
         absolute: false
       }
     }
@@ -36,7 +36,7 @@ export const Deactivated: Story = {
       name: 'Radio Button',
       type: 'radioButton',
       properties: {
-        ...radioButtonFlexComponentSchema.variations[1].properties,
+        ...radioButtonSoftComponentSchema.variations[1].properties,
         absolute: false
       }
     }
@@ -50,7 +50,7 @@ export const ExtraSmall: Story = {
       name: 'Radio Button',
       type: 'radioButton',
       properties: {
-        ...radioButtonFlexComponentSchema.variations[2].properties,
+        ...radioButtonSoftComponentSchema.variations[2].properties,
         absolute: false
       }
     }
@@ -64,7 +64,7 @@ export const Small: Story = {
       name: 'Radio Button',
       type: 'radioButton',
       properties: {
-        ...radioButtonFlexComponentSchema.variations[3].properties,
+        ...radioButtonSoftComponentSchema.variations[3].properties,
         absolute: false
       }
     }
@@ -78,7 +78,7 @@ export const Medium: Story = {
       name: 'Radio Button',
       type: 'radioButton',
       properties: {
-        ...radioButtonFlexComponentSchema.variations[4].properties,
+        ...radioButtonSoftComponentSchema.variations[4].properties,
         absolute: false
       }
     }
@@ -92,7 +92,7 @@ export const Large: Story = {
       name: 'Radio Button',
       type: 'radioButton',
       properties: {
-        ...radioButtonFlexComponentSchema.variations[5].properties,
+        ...radioButtonSoftComponentSchema.variations[5].properties,
         absolute: false
       }
     }

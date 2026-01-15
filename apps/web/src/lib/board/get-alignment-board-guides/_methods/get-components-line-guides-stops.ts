@@ -1,17 +1,17 @@
 import { SECONDARY_GUIDE_DISTANCE_TO_SNAP } from '../../../../helpers'
-import { FlexComponent, FlexComponentProperties } from '../../../../types'
+import { SoftComponent, SoftComponentProperties } from '../../../../types'
 
 type GetComponentsLineGuidesStopsParams = {
-  flexComponents: FlexComponent[]
-  selectedFlexComponents: string[]
+  softComponents: SoftComponent[]
+  selectedSoftComponents: string[]
   dragging: {
     id: string | null
-    properties: FlexComponentProperties
+    properties: SoftComponentProperties
   }
 }
 
 type LineGuide = {
-  componentToAlign: FlexComponent
+  componentToAlign: SoftComponent
   value: number,
   distance: 'primary' | 'secondary'
 }
@@ -27,9 +27,9 @@ export function getComponentsLineGuidesStops (
   const vertical: LineGuide[] = []
   const horizontal: LineGuide[] = []
 
-  const screenId = params.flexComponents.find(component => component.id === params.selectedFlexComponents?.[0])?.screenId
-  const componentsToAlign = params.flexComponents.filter(component => {
-    const isBeingDragged = params.dragging.id === component.id || params.selectedFlexComponents.includes(component.id)
+  const screenId = params.softComponents.find(component => component.id === params.selectedSoftComponents?.[0])?.screenId
+  const componentsToAlign = params.softComponents.filter(component => {
+    const isBeingDragged = params.dragging.id === component.id || params.selectedSoftComponents.includes(component.id)
     const isSameScreen = screenId && component.screenId === screenId
     const isCurrentScreen = component.id === screenId
 

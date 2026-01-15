@@ -1,5 +1,5 @@
 import { BoardState } from '@/lib'
-import { MobileScreenFlexComponent } from '@/types'
+import { MobileScreenSoftComponent } from '@/types'
 import { useMemo, useState, useEffect } from 'react'
 import { MobileScreenContainer, NotFoundScreenContainer } from './components'
 import { useBoardStore } from '../BoardCanvas'
@@ -11,10 +11,10 @@ export type PreviewModeContainerProps = {
 export function PreviewModeContainer (props: PreviewModeContainerProps) {
   const { boardState } = props
 
-  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
+  const softComponents = useBoardStore(boardState, 'softComponentsChanged', state => state.softComponents)
 
   const screens = useMemo(() => {
-    const result = flexComponents
+    const result = softComponents
       .filter(component => component.type === 'mobileScreen')
       .sort((a, b) => {
         const aMain = a.properties.main ? 0 : 1
@@ -24,9 +24,9 @@ export function PreviewModeContainer (props: PreviewModeContainerProps) {
       })
 
     return result
-  }, [flexComponents])
+  }, [softComponents])
 
-  const [currentScreen, setCurrentScreen] = useState<MobileScreenFlexComponent | null>(() => (screens[0] ?? null))
+  const [currentScreen, setCurrentScreen] = useState<MobileScreenSoftComponent | null>(() => (screens[0] ?? null))
 
   useEffect(() => {
     if (!currentScreen && screens.length > 0) {
@@ -42,7 +42,7 @@ export function PreviewModeContainer (props: PreviewModeContainerProps) {
     <MobileScreenContainer
       screens={screens}
       currentScreen={currentScreen}
-      components={flexComponents}
+      components={softComponents}
       onChangeScreen={setCurrentScreen}
     />
   )

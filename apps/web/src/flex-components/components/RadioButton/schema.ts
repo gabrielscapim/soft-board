@@ -1,6 +1,6 @@
-import { FlexComponentSchema } from '../../types'
+import { SoftComponentSchema } from '../../types'
 
-export const radioButtonFlexComponentSchema = {
+export const radioButtonSoftComponentSchema = {
   variations: [
     {
       name: 'Activated Radio Button',
@@ -63,4 +63,4 @@ export const radioButtonFlexComponentSchema = {
       }
     }
   ]
-} satisfies FlexComponentSchema
+} satisfies SoftComponentSchema

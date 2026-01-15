@@ -1,14 +1,14 @@
 import {
-  AddFlexComponentsParams,
+  AddSoftComponentsParams,
   BoardManagerI,
-  DeleteFlexComponentsParams,
-  UpdateFlexComponentsParams
+  DeleteSoftComponentsParams,
+  UpdateSoftComponentsParams
 } from './board-manager-interface'
 import { BoardState } from '../board-state'
 import { PromiseQueue } from '../promise-queue'
 import { Client } from '@/client'
 import { Command, CommandManager } from '../command-manager'
-import { FlexComponent } from '@/types'
+import { SoftComponent } from '@/types'
 
 export type BoardManagerOptions = {
   client: Client
@@ -27,13 +27,13 @@ export class BoardManager implements BoardManagerI {
     this._promiseQueue = new PromiseQueue()
   }
 
-  addFlexComponents (params: AddFlexComponentsParams) {
-    const { flexComponents } = params
+  addSoftComponents (params: AddSoftComponentsParams) {
+    const { softComponents } = params
 
-    const prevFlexComponents = this._boardState.flexComponents
-    const newFlexComponents = [...prevFlexComponents, ...flexComponents]
+    const prevSoftComponents = this._boardState.softComponents
+    const newSoftComponents = [...prevSoftComponents, ...softComponents]
 
-    const data = flexComponents.map(fc => ({
+    const data = softComponents.map(fc => ({
       name: fc.name,
       type: fc.type,
       properties: {
@@ -50,9 +50,9 @@ export class BoardManager implements BoardManagerI {
 
     const command: Command = {
       do: () => {
-        this._boardState.setFlexComponents(newFlexComponents)
-        this._boardState.setSelectedFlexComponents(
-          flexComponents.map(fc => fc.id)
+        this._boardState.setSoftComponents(newSoftComponents)
+        this._boardState.setSelectedSoftComponents(
+          softComponents.map(fc => fc.id)
         )
 
         return this._promiseQueue.run(() =>
@@ -64,13 +64,13 @@ export class BoardManager implements BoardManagerI {
       },
 
       undo: () => {
-        this._boardState.setFlexComponents(prevFlexComponents)
-        this._boardState.setSelectedFlexComponents(null)
+        this._boardState.setSoftComponents(prevSoftComponents)
+        this._boardState.setSelectedSoftComponents(null)
 
         return this._promiseQueue.run(() =>
           this._client.deleteComponents({
             boardId: this._boardState.id,
-            componentIds: flexComponents.map(fc => fc.id)
+            componentIds: softComponents.map(fc => fc.id)
           })
         )
       }
@@ -79,15 +79,15 @@ export class BoardManager implements BoardManagerI {
     this._commandManager.execute(command)
   }
 
-  deleteFlexComponents (params: DeleteFlexComponentsParams) {
-    const previousFlexComponents = this._boardState.flexComponents
+  deleteSoftComponents (params: DeleteSoftComponentsParams) {
+    const previousSoftComponents = this._boardState.softComponents
       .map(fc => structuredClone(fc))
 
-    const removed = previousFlexComponents
-      .filter(fc => params.flexComponents.includes(fc.id))
+    const removed = previousSoftComponents
+      .filter(fc => params.softComponents.includes(fc.id))
 
-    const remaining = previousFlexComponents
-      .filter(fc => !params.flexComponents.includes(fc.id))
+    const remaining = previousSoftComponents
+      .filter(fc => !params.softComponents.includes(fc.id))
       .map(fc => ({
         ...fc,
         connectionId: removed.some(r => r.id === fc.connectionId) ? null : fc.connectionId,
@@ -96,19 +96,19 @@ export class BoardManager implements BoardManagerI {
 
     const command: Command = {
       do: () => {
-        this._boardState.setFlexComponents(remaining)
-        this._boardState.setSelectedFlexComponents(null)
+        this._boardState.setSoftComponents(remaining)
+        this._boardState.setSelectedSoftComponents(null)
 
         return this._promiseQueue.run(() =>
           this._client.deleteComponents({
             boardId: this._boardState.id,
-            componentIds: params.flexComponents
+            componentIds: params.softComponents
           })
         )
       },
 
       undo: () => {
-        this._boardState.setFlexComponents(previousFlexComponents)
+        this._boardState.setSoftComponents(previousSoftComponents)
 
         return this._promiseQueue.run(() =>
           this._client.createComponents({
@@ -129,10 +129,10 @@ export class BoardManager implements BoardManagerI {
     this._commandManager.execute(command)
   }
 
-  updateFlexComponents (params: UpdateFlexComponentsParams) {
-    const { updatedFlexComponents, initialProperties } = params
+  updateSoftComponents (params: UpdateSoftComponentsParams) {
+    const { updatedSoftComponents, initialProperties } = params
 
-    const roundedComponents = updatedFlexComponents.map(c =>
+    const roundedComponents = updatedSoftComponents.map(c =>
       structuredClone({
         ...c,
         properties: {
@@ -145,7 +145,7 @@ export class BoardManager implements BoardManagerI {
       })
     )
 
-    let previousComponents: FlexComponent[] = []
+    let previousComponents: SoftComponent[] = []
 
     if (initialProperties) {
       previousComponents = roundedComponents.map(component => {
@@ -164,19 +164,19 @@ export class BoardManager implements BoardManagerI {
         }
       })
     } else {
-      previousComponents = this._boardState.flexComponents
+      previousComponents = this._boardState.softComponents
         .filter(fc => roundedComponents.some(u => u.id === fc.id))
         .map(fc => structuredClone(fc))
     }
 
-    const newFlexComponents = this._boardState.flexComponents.map(fc => {
+    const newSoftComponents = this._boardState.softComponents.map(fc => {
       const updated = roundedComponents.find(u => u.id === fc.id)
       return updated ?? fc
     })
 
     const command: Command = {
       do: () => {
-        this._boardState.setFlexComponents(newFlexComponents)
+        this._boardState.setSoftComponents(newSoftComponents)
 
         return this._promiseQueue.run(() =>
           this._client.updateComponents({
@@ -187,12 +187,12 @@ export class BoardManager implements BoardManagerI {
       },
 
       undo: () => {
-        const restored = this._boardState.flexComponents.map(fc => {
+        const restored = this._boardState.softComponents.map(fc => {
           const prev = previousComponents.find(p => p.id === fc.id)
           return prev ?? fc
         })
 
-        this._boardState.setFlexComponents(restored)
+        this._boardState.setSoftComponents(restored)
 
         return this._promiseQueue.run(() =>
           this._client.updateComponents({

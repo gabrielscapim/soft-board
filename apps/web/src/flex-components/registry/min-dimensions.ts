@@ -1,6 +1,6 @@
-import { Dimensions, FlexComponentType } from '@/types'
+import { Dimensions, SoftComponentType } from '@/types'
 
-export const FLEX_COMPONENT_MIN_DIMENSIONS: Record<FlexComponentType, Dimensions> = {
+export const SOFT_COMPONENT_MIN_DIMENSIONS: Record<SoftComponentType, Dimensions> = {
   button: { width: 80, height: 32 },
   divider: { width: 32, height: 4 },
   icon: { width: 16, height: 16 },

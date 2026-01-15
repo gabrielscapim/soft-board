@@ -1,25 +1,25 @@
-import { FlexComponentType } from '../../types'
-import { FlexComponentSchema } from '../types'
+import { SoftComponentType } from '../../types'
+import { SoftComponentSchema } from '../types'
 import {
-  buttonFlexComponentSchema,
-  dividerFlexComponentSchema,
-  iconFlexComponentSchema,
-  inputFlexComponentSchema,
-  mobileScreenFlexComponentSchema,
-  radioButtonFlexComponentSchema,
-  shapeFlexComponentSchema,
-  textFlexComponentSchema,
-  toggleFlexComponentSchema
+  buttonSoftComponentSchema,
+  dividerSoftComponentSchema,
+  iconSoftComponentSchema,
+  inputSoftComponentSchema,
+  mobileScreenSoftComponentSchema,
+  radioButtonSoftComponentSchema,
+  shapeSoftComponentSchema,
+  textSoftComponentSchema,
+  toggleSoftComponentSchema
 } from '../components'
 
-export const FLEX_COMPONENTS_SCHEMAS: Record<FlexComponentType, FlexComponentSchema> = {
-  button: buttonFlexComponentSchema,
-  divider: dividerFlexComponentSchema,
-  icon: iconFlexComponentSchema,
-  input: inputFlexComponentSchema,
-  mobileScreen: mobileScreenFlexComponentSchema,
-  radioButton: radioButtonFlexComponentSchema,
-  shape: shapeFlexComponentSchema,
-  text: textFlexComponentSchema,
-  toggle: toggleFlexComponentSchema
+export const SOFT_COMPONENTS_SCHEMAS: Record<SoftComponentType, SoftComponentSchema> = {
+  button: buttonSoftComponentSchema,
+  divider: dividerSoftComponentSchema,
+  icon: iconSoftComponentSchema,
+  input: inputSoftComponentSchema,
+  mobileScreen: mobileScreenSoftComponentSchema,
+  radioButton: radioButtonSoftComponentSchema,
+  shape: shapeSoftComponentSchema,
+  text: textSoftComponentSchema,
+  toggle: toggleSoftComponentSchema
 }

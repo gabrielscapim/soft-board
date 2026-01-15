@@ -1,6 +1,6 @@
-import { FlexComponentName, FlexComponentType } from '../../types'
+import { SoftComponentName, SoftComponentType } from '../../types'
 
-export const FLEX_COMPONENT_NAMES: Record<FlexComponentType, FlexComponentName> = {
+export const SOFT_COMPONENT_NAMES: Record<SoftComponentType, SoftComponentName> = {
   button: 'Button',
   divider: 'Divider',
   icon: 'Icon',

@@ -1,10 +1,10 @@
 import clsx from 'clsx'
-import { DividerFlexComponentProperties } from '../../../../types'
-import { FlexComponentProps } from '../../../types'
+import { DividerSoftComponentProperties } from '../../../../types'
+import { SoftComponentProps } from '../../../types'
 
-export function DividerFlexComponent (props: FlexComponentProps) {
+export function DividerSoftComponent (props: SoftComponentProps) {
   const { component, className } = props
-  const properties = component.properties as DividerFlexComponentProperties
+  const properties = component.properties as DividerSoftComponentProperties
 
   const color = properties.color ?? 'primary'
 

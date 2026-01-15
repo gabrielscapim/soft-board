@@ -1,4 +1,4 @@
-export type OnResizingFlexComponentParams = {
+export type OnResizingSoftComponentParams = {
   resizeDirection: string
   dimension: {
     roundedDeltaX: number

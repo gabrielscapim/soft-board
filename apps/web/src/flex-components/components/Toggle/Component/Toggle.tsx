@@ -1,11 +1,11 @@
 import clsx from 'clsx'
-import { ToggleFlexComponentProperties } from '../../../../types'
-import { FlexComponentProps } from '../../../types'
+import { ToggleSoftComponentProperties } from '../../../../types'
+import { SoftComponentProps } from '../../../types'
 
-export function ToggleFlexComponent (props: FlexComponentProps) {
+export function ToggleSoftComponent (props: SoftComponentProps) {
   const { component, className } = props
 
-  const properties = component.properties as ToggleFlexComponentProperties
+  const properties = component.properties as ToggleSoftComponentProperties
 
   return (
     <div

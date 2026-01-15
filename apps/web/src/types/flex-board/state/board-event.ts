@@ -1,10 +1,10 @@
 export type BoardEvent =
-  'flexComponentsChanged' |
+  'softComponentsChanged' |
   'gridChanged' |
   'guidesChanged' |
   'isBoardMovingChanged' |
   'isDraggingChanged' |
   'isResizingChanged' |
   'scaleChanged' |
-  'selectedFlexComponentsChanged' |
+  'selectedSoftComponentsChanged' |
   'translateChanged'

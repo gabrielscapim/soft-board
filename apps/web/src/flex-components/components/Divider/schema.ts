@@ -1,6 +1,6 @@
-import { FlexComponentSchema } from '../../types'
+import { SoftComponentSchema } from '../../types'
 
-export const dividerFlexComponentSchema = {
+export const dividerSoftComponentSchema = {
   variations: [
     {
       name: 'Primary Divider',
@@ -36,4 +36,4 @@ export const dividerFlexComponentSchema = {
   resizable: {
     vertical: false
   }
-} satisfies FlexComponentSchema
+} satisfies SoftComponentSchema

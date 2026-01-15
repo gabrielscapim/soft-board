@@ -1,3 +1,3 @@
-import { FlexComponent } from './flex-component'
+import { SoftComponent } from './flex-component'
 
-export type FlexComponentName = FlexComponent['name']
+export type SoftComponentName = SoftComponent['name']

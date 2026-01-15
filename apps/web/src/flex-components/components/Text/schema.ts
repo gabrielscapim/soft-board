@@ -1,6 +1,6 @@
-import { FlexComponentSchema } from '../../types'
+import { SoftComponentSchema } from '../../types'
 
-export const textFlexComponentSchema = {
+export const textSoftComponentSchema = {
   variations: [
     {
       name: 'Large Title',
@@ -83,4 +83,4 @@ export const textFlexComponentSchema = {
       }
     }
   ]
-} satisfies FlexComponentSchema
+} satisfies SoftComponentSchema

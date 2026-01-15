@@ -12,14 +12,14 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components'
-import { MobileScreenFlexComponent } from '@/types'
+import { MobileScreenSoftComponent } from '@/types'
 import { useState } from 'react'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export type MobileScreenContainerTopBarProps = {
-  currentScreen: MobileScreenFlexComponent
-  screens: MobileScreenFlexComponent[]
-  onChangeScreen?: (screen: MobileScreenFlexComponent) => void
+  currentScreen: MobileScreenSoftComponent
+  screens: MobileScreenSoftComponent[]
+  onChangeScreen?: (screen: MobileScreenSoftComponent) => void
 }
 
 export function MobileScreenContainerTopBar (props: MobileScreenContainerTopBarProps) {

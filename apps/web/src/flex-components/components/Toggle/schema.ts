@@ -1,6 +1,6 @@
-import { FlexComponentSchema } from '../../types'
+import { SoftComponentSchema } from '../../types'
 
-export const toggleFlexComponentSchema = {
+export const toggleSoftComponentSchema = {
   variations: [
     {
       name: 'Activated Toggle',
@@ -63,4 +63,4 @@ export const toggleFlexComponentSchema = {
       }
     }
   ]
-} satisfies FlexComponentSchema
+} satisfies SoftComponentSchema

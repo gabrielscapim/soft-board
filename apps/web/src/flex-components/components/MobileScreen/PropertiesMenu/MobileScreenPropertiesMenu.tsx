@@ -1,15 +1,15 @@
 import { useBoardStore } from '@/components'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
-import { FlexComponentPropertiesMenuProps } from '@/flex-components/types'
-import { MobileScreenFlexComponentProperties } from '@/types'
+import { SoftComponentPropertiesMenuProps } from '@/flex-components/types'
+import { MobileScreenSoftComponentProperties } from '@/types'
 
-export function MobileScreenPropertiesMenu (props: FlexComponentPropertiesMenuProps) {
+export function MobileScreenPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
   const { boardState } = props
 
-  const components = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
+  const components = useBoardStore(boardState, 'softComponentsChanged', state => state.softComponents)
 
-  const properties = props.properties as MobileScreenFlexComponentProperties
+  const properties = props.properties as MobileScreenSoftComponentProperties
   const currentMobileScreens = components.filter(c => c.type === 'mobileScreen')
 
   return (

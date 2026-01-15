@@ -1,4 +1,4 @@
-import { FlexComponentType } from '@/types'
+import { SoftComponentType } from '@/types'
 import {
   ButtonPropertiesMenu,
   DividerPropertiesMenu,
@@ -10,9 +10,9 @@ import {
   TextPropertiesMenu,
   TogglePropertiesMenu
 } from '../components'
-import { FlexComponentPropertiesMenuProps } from '../types'
+import { SoftComponentPropertiesMenuProps } from '../types'
 
-export const FLEX_COMPONENTS_PROPERTIES_MENU: Record<FlexComponentType, (props: FlexComponentPropertiesMenuProps) => JSX.Element> = {
+export const SOFT_COMPONENTS_PROPERTIES_MENU: Record<SoftComponentType, (props: SoftComponentPropertiesMenuProps) => JSX.Element> = {
   button: ButtonPropertiesMenu,
   divider: DividerPropertiesMenu,
   icon: IconPropertiesMenu,

@@ -1,15 +1,15 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { TextFlexComponent } from './Text'
-import { textFlexComponentSchema } from '../schema'
+import { TextSoftComponent } from './Text'
+import { textSoftComponentSchema } from '../schema'
 
 const meta = {
-  title: 'Flex components/Primitive/Text',
-  component: TextFlexComponent,
+  title: 'Soft components/Primitive/Text',
+  component: TextSoftComponent,
   parameters: {
     layout: 'centered'
   },
   tags: ['autodocs']
-} satisfies Meta<typeof TextFlexComponent>
+} satisfies Meta<typeof TextSoftComponent>
 
 export default meta
 
@@ -22,7 +22,7 @@ export const LargeTitle: Story = {
       name: 'Text',
       type: 'text',
       properties: {
-        ...textFlexComponentSchema.variations[0].properties,
+        ...textSoftComponentSchema.variations[0].properties,
         absolute: false
       }
     }
@@ -36,7 +36,7 @@ export const MediumTitle: Story = {
       name: 'Text',
       type: 'text',
       properties: {
-        ...textFlexComponentSchema.variations[1].properties,
+        ...textSoftComponentSchema.variations[1].properties,
         absolute: false
       }
     }
@@ -50,7 +50,7 @@ export const SmallTitle: Story = {
       name: 'Text',
       type: 'text',
       properties: {
-        ...textFlexComponentSchema.variations[2].properties,
+        ...textSoftComponentSchema.variations[2].properties,
         absolute: false
       }
     }
@@ -64,7 +64,7 @@ export const RegularText: Story = {
       name: 'Text',
       type: 'text',
       properties: {
-        ...textFlexComponentSchema.variations[3].properties,
+        ...textSoftComponentSchema.variations[3].properties,
         absolute: false
       }
     }
@@ -78,7 +78,7 @@ export const SmallText: Story = {
       name: 'Text',
       type: 'text',
       properties: {
-        ...textFlexComponentSchema.variations[4].properties,
+        ...textSoftComponentSchema.variations[4].properties,
         absolute: false
       }
     }

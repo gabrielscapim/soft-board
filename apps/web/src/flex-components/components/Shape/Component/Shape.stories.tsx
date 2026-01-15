@@ -1,15 +1,15 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { ShapeFlexComponent } from './Shape'
-import { shapeFlexComponentSchema } from '../schema'
+import { ShapeSoftComponent } from './Shape'
+import { shapeSoftComponentSchema } from '../schema'
 
 const meta = {
-  title: 'Flex components/Primitive/Shape',
-  component: ShapeFlexComponent,
+  title: 'Soft components/Primitive/Shape',
+  component: ShapeSoftComponent,
   parameters: {
     layout: 'centered'
   },
   tags: ['autodocs']
-} satisfies Meta<typeof ShapeFlexComponent>
+} satisfies Meta<typeof ShapeSoftComponent>
 
 export default meta
 
@@ -22,7 +22,7 @@ export const Primary: Story = {
       name: 'Shape',
       type: 'shape',
       properties: {
-        ...shapeFlexComponentSchema.variations[0].properties,
+        ...shapeSoftComponentSchema.variations[0].properties,
         absolute: false
       }
     }
@@ -36,7 +36,7 @@ export const Secondary: Story = {
       name: 'Shape',
       type: 'shape',
       properties: {
-        ...shapeFlexComponentSchema.variations[1].properties,
+        ...shapeSoftComponentSchema.variations[1].properties,
         absolute: false
       }
     }
@@ -50,7 +50,7 @@ export const Tertiary: Story = {
       name: 'Shape',
       type: 'shape',
       properties: {
-        ...shapeFlexComponentSchema.variations[2].properties,
+        ...shapeSoftComponentSchema.variations[2].properties,
         absolute: false
       }
     }
@@ -64,7 +64,7 @@ export const Unfilled: Story = {
       name: 'Shape',
       type: 'shape',
       properties: {
-        ...shapeFlexComponentSchema.variations[3].properties,
+        ...shapeSoftComponentSchema.variations[3].properties,
         absolute: false
       }
     }
@@ -78,7 +78,7 @@ export const Circle: Story = {
       name: 'Shape',
       type: 'shape',
       properties: {
-        ...shapeFlexComponentSchema.variations[4].properties,
+        ...shapeSoftComponentSchema.variations[4].properties,
         absolute: false
       }
     }
@@ -92,7 +92,7 @@ export const Rectangle: Story = {
       name: 'Shape',
       type: 'shape',
       properties: {
-        ...shapeFlexComponentSchema.variations[5].properties,
+        ...shapeSoftComponentSchema.variations[5].properties,
         absolute: false
       }
     }

@@ -1,12 +1,12 @@
 import clsx from 'clsx'
-import { InputFlexComponentProperties } from '../../../../types'
-import { FlexComponentProps } from '../../../types'
+import { InputSoftComponentProperties } from '../../../../types'
+import { SoftComponentProps } from '../../../types'
 import { DynamicIcon, IconName } from 'lucide-react/dynamic'
 
-export function InputFlexComponent (props: FlexComponentProps) {
+export function InputSoftComponent (props: SoftComponentProps) {
   const { component, className } = props
 
-  const properties = component.properties as InputFlexComponentProperties
+  const properties = component.properties as InputSoftComponentProperties
 
   const variant = properties.variant ?? 'primary'
   const primary = variant === 'primary'

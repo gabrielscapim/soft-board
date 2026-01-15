@@ -1,5 +1,5 @@
-import { FlexComponentPropertiesMenuProps } from '@/flex-components/types'
-import { ShapeFlexComponentProperties } from '@/types'
+import { SoftComponentPropertiesMenuProps } from '@/flex-components/types'
+import { ShapeSoftComponentProperties } from '@/types'
 import { Label } from '@/components/ui/label'
 import {
   Select,
@@ -22,8 +22,8 @@ const COLORS = [
   }
 ]
 
-export function ShapePropertiesMenu (props: FlexComponentPropertiesMenuProps) {
-  const properties = props.properties as ShapeFlexComponentProperties
+export function ShapePropertiesMenu (props: SoftComponentPropertiesMenuProps) {
+  const properties = props.properties as ShapeSoftComponentProperties
 
   return (
     <>

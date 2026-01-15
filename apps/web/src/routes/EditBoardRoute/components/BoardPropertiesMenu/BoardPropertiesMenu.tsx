@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components'
-import { FlexComponent } from '@/types'
+import { SoftComponent } from '@/types'
 import clsx, { ClassValue } from 'clsx'
 import { useState, useEffect } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
@@ -10,8 +10,8 @@ import { TUTORIALS_ANCHORS } from '@/tutorials'
 export type BoardPropertiesMenuProps = {
   boardState: BoardState
   boardController: BoardController
-  flexComponents: FlexComponent[]
-  selectedFlexComponents: FlexComponent[]
+  softComponents: SoftComponent[]
+  selectedSoftComponents: SoftComponent[]
   className?: ClassValue
 }
 
@@ -19,72 +19,72 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
   const {
     boardState,
     boardController,
-    flexComponents,
-    selectedFlexComponents,
+    softComponents,
+    selectedSoftComponents,
     className
   } = props
 
   const [tab, setTab] = useState('properties')
-  const [flexComponent, setFlexComponent] = useState<FlexComponent | null>(() => {
-    const mobileScreen = selectedFlexComponents.find(c => c.type === 'mobileScreen')
+  const [softComponent, setSoftComponent] = useState<SoftComponent | null>(() => {
+    const mobileScreen = selectedSoftComponents.find(c => c.type === 'mobileScreen')
 
     if (mobileScreen) {
       return mobileScreen
     } else {
-      return selectedFlexComponents.length === 1 ? selectedFlexComponents[0] : null
+      return selectedSoftComponents.length === 1 ? selectedSoftComponents[0] : null
     }
   })
 
   useEffect(() => {
-    const mobileScreen = selectedFlexComponents.find(c => c.type === 'mobileScreen')
+    const mobileScreen = selectedSoftComponents.find(c => c.type === 'mobileScreen')
 
-    if (selectedFlexComponents.length > 1 && !mobileScreen) {
+    if (selectedSoftComponents.length > 1 && !mobileScreen) {
       setTab('layout')
     }
 
-    setFlexComponent(() => {
+    setSoftComponent(() => {
       if (mobileScreen) {
         return mobileScreen
       } else {
-        return selectedFlexComponents.length === 1 ? selectedFlexComponents[0] : null
+        return selectedSoftComponents.length === 1 ? selectedSoftComponents[0] : null
       }
     })
-  }, [selectedFlexComponents])
+  }, [selectedSoftComponents])
 
-  // Debounced commit function to update the flex component
-  const commit = useDebouncedCallback((flexComponent: FlexComponent) => {
-    boardController.onUpdateFlexComponent({
-      flexComponent
+  // Debounced commit function to update the soft component
+  const commit = useDebouncedCallback((softComponent: SoftComponent) => {
+    boardController.onUpdateSoftComponent({
+      softComponent
     })
   }, 350)
 
-  // Update properties of the flex component
+  // Update properties of the soft component
   const onUpdateProperties = (
     key: string,
     value: unknown
   ) => {
-    setFlexComponent(prev => {
+    setSoftComponent(prev => {
       if (!prev) {
         return prev
       }
-      const newFlexComponent = { ...prev, properties: { ...prev.properties, [key]: value } }
-      commit(newFlexComponent)
-      return newFlexComponent
+      const newSoftComponent = { ...prev, properties: { ...prev.properties, [key]: value } }
+      commit(newSoftComponent)
+      return newSoftComponent
     })
   }
 
-  // Update the flex component itself (e.g., name, connection)
-  const onUpdateFlexComponent = (
+  // Update the soft component itself (e.g., name, connection)
+  const onUpdateSoftComponent = (
     key: string,
     value: unknown
   ) => {
-    setFlexComponent(prev => {
+    setSoftComponent(prev => {
       if (!prev) {
         return prev
       }
-      const newFlexComponent = { ...prev, [key]: value }
-      commit(newFlexComponent)
-      return newFlexComponent
+      const newSoftComponent = { ...prev, [key]: value }
+      commit(newSoftComponent)
+      return newSoftComponent
     })
   }
 
@@ -99,20 +99,20 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
           <TabsList className="w-full">
             <TabsTrigger
               value="properties"
-              disabled={!flexComponent}
+              disabled={!softComponent}
             >
               Properties
             </TabsTrigger>
             <TabsTrigger
               value="layout"
-              disabled={!flexComponent}
+              disabled={!softComponent}
             >
               Layout
             </TabsTrigger>
             <TabsTrigger
               data-tutorial={TUTORIALS_ANCHORS.BoardPropertiesMenuActionsTab}
               value="actions"
-              disabled={!flexComponent}
+              disabled={!softComponent}
             >
               Actions
             </TabsTrigger>
@@ -122,13 +122,13 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
           value="properties"
           className="p-4 flex flex-col gap-4"
         >
-          {flexComponent && (
+          {softComponent && (
             <PropertiesTabContent
-              flexComponent={flexComponent}
-              screen={flexComponents?.find(component => component.id === flexComponent.screenId) ?? null}
+              softComponent={softComponent}
+              screen={softComponents?.find(component => component.id === softComponent.screenId) ?? null}
               boardState={boardState}
               onUpdateProperties={onUpdateProperties}
-              onUpdateName={value => onUpdateFlexComponent('name', value)}
+              onUpdateName={value => onUpdateSoftComponent('name', value)}
             />
           )}
         </TabsContent>
@@ -144,11 +144,11 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
           value="actions"
           className="p-4 flex flex-col gap-4"
         >
-          {flexComponent && (
+          {softComponent && (
             <ActionsTabContent
-              flexComponent={flexComponent}
+              softComponent={softComponent}
               boardState={boardState}
-              onUpdateConnection={value => onUpdateFlexComponent('connectionId', value)}
+              onUpdateConnection={value => onUpdateSoftComponent('connectionId', value)}
             />
           )}
         </TabsContent>

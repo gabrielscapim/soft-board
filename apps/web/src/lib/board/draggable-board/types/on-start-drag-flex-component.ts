@@ -1,4 +1,4 @@
-export type OnStartDragFlexComponentParams = {
+export type OnStartDragSoftComponentParams = {
   id: string
   event: MouseEvent
 }
