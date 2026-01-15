@@ -1,8 +1,8 @@
-import { MobileScreenFlexComponent } from '@/types'
+import { MobileScreenSoftComponent } from '@/types'
 import { HomeIcon } from 'lucide-react'
 
 export type MobileScreenBarProps = {
-  screen: MobileScreenFlexComponent
+  screen: MobileScreenSoftComponent
 }
 
 export function MobileScreenBar (props: MobileScreenBarProps) {

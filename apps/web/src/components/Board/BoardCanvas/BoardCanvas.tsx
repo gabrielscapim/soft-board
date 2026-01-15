@@ -3,13 +3,13 @@ import { BoardController, BoardManager, BoardState } from '../../../lib'
 import { AlignmentGuides, ConnectionLines, MobileScreenBar, ResizeBox, SelectionBox } from './components'
 import {
   useBoardStore,
-  useDraggableFlexBoard,
+  useDraggableSoftBoard,
   useElementResizer,
   useKeyboardShortcuts,
   useSelectionBoard,
   useZoomBoard
 } from './hooks'
-import { FLEX_COMPONENTS_ELEMENTS, MobileScreenFlexComponent } from '../../../flex-components'
+import { SOFT_COMPONENTS_ELEMENTS, MobileScreenSoftComponent } from '../../../soft-components'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export type BoardCanvasProps = {
@@ -35,28 +35,28 @@ export function BoardCanvas (props: BoardCanvasProps) {
     enableKeyboardShortcuts = true
   } = props
 
-  const flexBoardContainerRef = useRef<HTMLDivElement>(null)
-  const flexBoardRef = useRef<HTMLDivElement>(null)
+  const softBoardContainerRef = useRef<HTMLDivElement>(null)
+  const softBoardRef = useRef<HTMLDivElement>(null)
   const selectionBoxRef = useRef<HTMLDivElement>(null)
-  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
+  const softComponents = useBoardStore(boardState, 'softComponentsChanged', state => state.softComponents)
   const scale = useBoardStore(boardState, 'scaleChanged', state => state.scale)
   const boardTranslate = useBoardStore(boardState, 'translateChanged', state => state.translate)
-  const selectedFlexComponents = useBoardStore(boardState, 'selectedFlexComponentsChanged', state => state.selectedFlexComponents)
+  const selectedSoftComponents = useBoardStore(boardState, 'selectedSoftComponentsChanged', state => state.selectedSoftComponents)
   const isDragging = useBoardStore(boardState, 'isDraggingChanged', state => state.isDragging)
   const isResizing = useBoardStore(boardState, 'isResizingChanged', state => state.isResizing)
 
-  useDraggableFlexBoard(boardState, boardManager, flexBoardContainerRef, enableDraggable)
-  useElementResizer(boardState, boardManager, flexBoardContainerRef, enableResizing)
-  useZoomBoard(boardState, flexBoardContainerRef, flexBoardRef, enableZoom)
-  useSelectionBoard(boardState, flexBoardContainerRef, selectionBoxRef, enableSelection)
+  useDraggableSoftBoard(boardState, boardManager, softBoardContainerRef, enableDraggable)
+  useElementResizer(boardState, boardManager, softBoardContainerRef, enableResizing)
+  useZoomBoard(boardState, softBoardContainerRef, softBoardRef, enableZoom)
+  useSelectionBoard(boardState, softBoardContainerRef, selectionBoxRef, enableSelection)
   useKeyboardShortcuts(boardState, boardManager, enableKeyboardShortcuts)
 
   const { screens, componentsByScreenId, rootComponents } = useMemo(() => {
     const screens = []
-    const componentsByScreenId: Record<string, typeof flexComponents> = {}
+    const componentsByScreenId: Record<string, typeof softComponents> = {}
     const rootComponents = []
 
-    for (const component of flexComponents) {
+    for (const component of softComponents) {
       if (component.type === 'mobileScreen') {
         screens.push(component)
       } else if (component.screenId) {
@@ -71,19 +71,19 @@ export function BoardCanvas (props: BoardCanvasProps) {
     }
 
     return { screens, componentsByScreenId, rootComponents }
-  }, [flexComponents])
+  }, [softComponents])
 
   return (
     <div
-      id="flex-board-container"
+      id="soft-board-container"
       data-tutorial={TUTORIALS_ANCHORS.Board}
-      ref={flexBoardContainerRef}
+      ref={softBoardContainerRef}
       className="relative w-full h-full overflow-hidden bg-sidebar"
     >
       <div id="grid" className="absolute w-screen h-screen" />
       <div
-        id="flex-board"
-        ref={flexBoardRef}
+        id="soft-board"
+        ref={softBoardRef}
         className="w-0 h-0 absolute z-0"
         style={{ transform: `translate(${boardTranslate.x}px, ${boardTranslate.y}px) scale(${scale})` }}
       >
@@ -93,7 +93,7 @@ export function BoardCanvas (props: BoardCanvasProps) {
           return (
             <Fragment key={screen.id}>
               <MobileScreenBar screen={screen} />
-              <MobileScreenFlexComponent
+              <MobileScreenSoftComponent
                 component={screen}
                 boardController={boardController}
                 editable={enableSelection}
@@ -101,7 +101,7 @@ export function BoardCanvas (props: BoardCanvasProps) {
                 isResizing={isResizing}
               >
                 {children.map(child => {
-                  const Element = FLEX_COMPONENTS_ELEMENTS[child.type]
+                  const Element = SOFT_COMPONENTS_ELEMENTS[child.type]
 
                   if (!Element) return null
 
@@ -119,13 +119,13 @@ export function BoardCanvas (props: BoardCanvasProps) {
                     />
                   )
                 })}
-              </MobileScreenFlexComponent>
+              </MobileScreenSoftComponent>
             </Fragment>
           )
         })}
 
         {rootComponents.map(child => {
-          const Element = FLEX_COMPONENTS_ELEMENTS[child.type]
+          const Element = SOFT_COMPONENTS_ELEMENTS[child.type]
 
           if (!Element) return null
 
@@ -141,12 +141,12 @@ export function BoardCanvas (props: BoardCanvasProps) {
           )
         })}
 
-        {selectedFlexComponents && (enableResizing || enableSelection) && (
+        {selectedSoftComponents && (enableResizing || enableSelection) && (
           <ResizeBox boardState={boardState} />
         )}
       </div>
 
-      {selectedFlexComponents && (enableSelection || enableResizing) && (
+      {selectedSoftComponents && (enableSelection || enableResizing) && (
         <AlignmentGuides
           boardState={boardState}
           boardTranslate={boardTranslate}

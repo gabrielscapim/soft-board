@@ -1,14 +1,14 @@
 import { PRIMARY_GUIDE_DISTANCE_TO_SNAP, SECONDARY_GUIDE_DISTANCE_TO_SNAP } from '../../../helpers'
-import { FlexComponent, FlexComponentProperties } from '../../../types'
+import { SoftComponent, SoftComponentProperties } from '../../../types'
 import { Guide } from '../../../types'
 import { getComponentsLineGuidesStops, getDraggingSnappingEdges } from './_methods'
 
 type GetAlignmentBoardGuidesParams = {
-  flexComponents: FlexComponent[]
-  selectedFlexComponents: string[]
+  softComponents: SoftComponent[]
+  selectedSoftComponents: string[]
   dragging: {
     id: string | null
-    properties: FlexComponentProperties
+    properties: SoftComponentProperties
   }
 }
 

@@ -1,7 +1,7 @@
-import { FLEX_COMPONENTS_SCHEMAS } from '@/flex-components'
+import { SOFT_COMPONENTS_SCHEMAS } from '@/soft-components'
 import { useMemo } from 'react'
 import { BoardComponentCardPreview } from './BoardComponentCardPreview'
-import { FlexComponentType } from '@/types'
+import { SoftComponentType } from '@/types'
 import Fuse from 'fuse.js'
 import { useScreenDimensions } from '@/hooks'
 import { BoardController } from '@/lib'
@@ -18,7 +18,7 @@ export function BoardComponentsPreview (props: BoardComponentsPreviewProps) {
   const { width, height } = useScreenDimensions()
 
   const componentsPreview = useMemo(() => {
-    const components = Object.entries(FLEX_COMPONENTS_SCHEMAS)
+    const components = Object.entries(SOFT_COMPONENTS_SCHEMAS)
       .flatMap(([type, schema]) => schema.variations.map(variation => ({ type, variation })))
       .filter(type => type.type !== 'mobileScreen')
 
@@ -48,14 +48,14 @@ export function BoardComponentsPreview (props: BoardComponentsPreviewProps) {
         <BoardComponentCardPreview
           key={component.variation.name}
           disabled={disabled}
-          type={component.type as FlexComponentType}
+          type={component.type as SoftComponentType}
           name={component.variation.name}
           properties={component.variation.properties}
           onClick={() => {
             if (disabled) return
 
-            boardController.onAddFlexComponent({
-              type: component.type as FlexComponentType,
+            boardController.onAddSoftComponent({
+              type: component.type as SoftComponentType,
               properties: component.variation.properties,
               name: component.variation.name,
               position

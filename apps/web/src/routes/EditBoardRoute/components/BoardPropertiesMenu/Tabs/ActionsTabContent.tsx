@@ -15,29 +15,29 @@ import {
 } from '@/components'
 
 import { useMemo, useState } from 'react'
-import { FlexComponent } from '@/types'
+import { SoftComponent } from '@/types'
 import { BoardState } from '@/lib'
 
 export type ActionsTabContentProps = {
-  flexComponent: FlexComponent
+  softComponent: SoftComponent
   boardState: BoardState
   onUpdateConnection: (value: string) => void
 }
 
 export function ActionsTabContent (props: ActionsTabContentProps) {
-  const { flexComponent, boardState, onUpdateConnection } = props
+  const { softComponent, boardState, onUpdateConnection } = props
 
   const [open, setOpen] = useState(true)
 
-  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
+  const softComponents = useBoardStore(boardState, 'softComponentsChanged', state => state.softComponents)
 
   const mobileScreens = useMemo(() => {
-    return flexComponents.filter((component) => component.type === 'mobileScreen')
-  }, [flexComponents])
+    return softComponents.filter((component) => component.type === 'mobileScreen')
+  }, [softComponents])
 
-  const isButton = flexComponent.type === 'button'
-  const isText = flexComponent.type === 'text'
-  const isInsideScreen = Boolean(flexComponent.screenId)
+  const isButton = softComponent.type === 'button'
+  const isText = softComponent.type === 'text'
+  const isInsideScreen = Boolean(softComponent.screenId)
 
   return (
     <>
@@ -57,8 +57,8 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
               className="justify-between w-full"
             >
               <span className="truncate">
-                {flexComponent.connectionId
-                  ? mobileScreens.find((screen) => screen.id === flexComponent.connectionId)?.name
+                {softComponent.connectionId
+                  ? mobileScreens.find((screen) => screen.id === softComponent.connectionId)?.name
                   : 'Select a screen'}
               </span>
               <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -71,7 +71,7 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
                 <CommandEmpty>No screens found.</CommandEmpty>
                 <CommandGroup>
                   {mobileScreens
-                    .filter(screen => screen.id !== flexComponent.screenId)
+                    .filter(screen => screen.id !== softComponent.screenId)
                     .map(screen => (
                       <CommandItem
                         key={screen.id}
@@ -84,7 +84,7 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
                         <CheckIcon
                           className={cn(
                             'mr-2 h-4 w-4',
-                            flexComponent.connectionId === screen.id ? 'opacity-100' : 'opacity-0'
+                            softComponent.connectionId === screen.id ? 'opacity-100' : 'opacity-0'
                           )}
                         />
                         <span className="truncate">

@@ -1,7 +1,7 @@
 import { SmartphoneIcon } from 'lucide-react'
 import { useBoard, useMemberRole, useScreenDimensions } from '@/hooks'
 import { MAX_SCALE, MIN_SCALE } from '@/helpers'
-import { FLEX_COMPONENTS_SCHEMAS } from '@/flex-components'
+import { SOFT_COMPONENTS_SCHEMAS } from '@/soft-components'
 import { TUTORIALS_ANCHORS, useTutorial } from '@/tutorials'
 import { useBoardStore, BoardLink, PreviewModeLink, Button, BoardZoomController, HelpDropdownMenu } from '@/components'
 
@@ -9,10 +9,10 @@ export function EditBoardHeader () {
   const { boardState, boardController } = useBoard()
   const scale = useBoardStore(boardState, 'scaleChanged', state => state.scale)
   const screenDimensions = useScreenDimensions()
-  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
+  const softComponents = useBoardStore(boardState, 'softComponentsChanged', state => state.softComponents)
   const memberRole = useMemberRole()
   const hasPermission = memberRole !== 'member'
-  const currentMobileScreens = flexComponents.filter(fc => fc.type === 'mobileScreen')
+  const currentMobileScreens = softComponents.filter(fc => fc.type === 'mobileScreen')
   const tutorial = useTutorial()
 
   return (
@@ -29,13 +29,13 @@ export function EditBoardHeader () {
             size="sm"
             variant="outline"
             disabled={hasPermission === false}
-            onClick={() => boardController.onAddFlexComponent({
+            onClick={() => boardController.onAddSoftComponent({
               type: 'mobileScreen',
               properties: {
-                ...FLEX_COMPONENTS_SCHEMAS.mobileScreen.variations[0].properties,
+                ...SOFT_COMPONENTS_SCHEMAS.mobileScreen.variations[0].properties,
                 main: currentMobileScreens.length === 0
               },
-              name: FLEX_COMPONENTS_SCHEMAS.mobileScreen.variations[0].name,
+              name: SOFT_COMPONENTS_SCHEMAS.mobileScreen.variations[0].name,
               position: {
                 x: (Math.round((screenDimensions.width / 2) / 10) * 10) - 300,
                 y: (Math.round((screenDimensions.height / 2) / 10) * 10) - 300

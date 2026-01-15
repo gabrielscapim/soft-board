@@ -1,0 +1,24 @@
+export type OnResizingSoftComponentParams = {
+  resizeDirection: string
+  dimension: {
+    roundedDeltaX: number
+    roundedDeltaY: number
+  }
+  position: {
+    roundedDeltaX: number
+    roundedDeltaY: number
+  }
+  screenId: string | null
+  snap?: {
+    type?: string
+    distance?: 'primary' | 'secondary'
+    position?: {
+      x?: number
+      y?: number
+    }
+    dimension?: {
+      x?: number
+      y?: number
+    }
+  }
+}

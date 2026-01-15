@@ -35,10 +35,10 @@ export class SelectionBoard {
     const translate = this.boardState.translate
     const scale = this.boardState.scale
 
-    const selected = this.boardState.flexComponents
-      .filter(flexComponent => flexComponent.type !== 'mobileScreen')
-      .filter(flexComponent => {
-        const { x, y, width, height } = flexComponent.properties
+    const selected = this.boardState.softComponents
+      .filter(softComponent => softComponent.type !== 'mobileScreen')
+      .filter(softComponent => {
+        const { x, y, width, height } = softComponent.properties
 
         return (
           x * scale + translate.x < selectionRect.x + selectionRect.width &&
@@ -47,20 +47,20 @@ export class SelectionBoard {
           (y + height) * scale + translate.y > selectionRect.y
         )
       })
-      .map(flexComponent => flexComponent.id)
+      .map(softComponent => softComponent.id)
 
-    const screenIds = selected.map(id => this.boardState.flexComponents.find(fc => fc.id === id)?.screenId)
+    const screenIds = selected.map(id => this.boardState.softComponents.find(fc => fc.id === id)?.screenId)
 
     if (new Set(screenIds).size !== 1) {
-      this.boardState.setSelectedFlexComponents([])
+      this.boardState.setSelectedSoftComponents([])
     } else {
-      this.boardState.setSelectedFlexComponents(selected)
+      this.boardState.setSelectedSoftComponents(selected)
     }
   }
 
   onMouseDown (event: MouseEvent) {
     const target = event.target as HTMLElement
-    const selected = this.boardState.selectedFlexComponents ?? []
+    const selected = this.boardState.selectedSoftComponents ?? []
 
     if (
       target.closest('.draggable-group') ||
@@ -80,7 +80,7 @@ export class SelectionBoard {
     this.selectionBoxElement.style.height = '0px'
     this.selectionBoxElement.style.display = 'block'
 
-    this.boardState.setSelectedFlexComponents([])
+    this.boardState.setSelectedSoftComponents([])
   }
 
   onMouseMove (event: MouseEvent) {

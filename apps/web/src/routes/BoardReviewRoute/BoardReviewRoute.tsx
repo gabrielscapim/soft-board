@@ -1,7 +1,7 @@
 import { useBoardStore } from '@/components'
-import { FLEX_COMPONENTS_ELEMENTS } from '@/flex-components'
+import { SOFT_COMPONENTS_ELEMENTS } from '@/soft-components'
 import { useBoard } from '@/hooks'
-import { FlexComponent } from '@/types'
+import { SoftComponent } from '@/types'
 import { createElement, useEffect, useMemo, useState } from 'react'
 
 /**
@@ -10,9 +10,9 @@ import { createElement, useEffect, useMemo, useState } from 'react'
  */
 export function BoardReviewRoute () {
   const { boardState } = useBoard()
-  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
-  const [currentScreen, setCurrentScreen] = useState<FlexComponent | null>(
-    flexComponents.find(component => component.type === 'mobileScreen') ?? null
+  const softComponents = useBoardStore(boardState, 'softComponentsChanged', state => state.softComponents)
+  const [currentScreen, setCurrentScreen] = useState<SoftComponent | null>(
+    softComponents.find(component => component.type === 'mobileScreen') ?? null
   )
 
   const children = useMemo(() => {
@@ -20,24 +20,24 @@ export function BoardReviewRoute () {
         return []
       }
 
-      return flexComponents.filter(
+      return softComponents.filter(
         (component) => component.screenId === currentScreen.id
       )
-    }, [currentScreen, flexComponents])
+    }, [currentScreen, softComponents])
 
   useEffect(() => {
-    setCurrentScreen(flexComponents.find(component => component.type === 'mobileScreen') ?? null)
-  }, [flexComponents])
+    setCurrentScreen(softComponents.find(component => component.type === 'mobileScreen') ?? null)
+  }, [softComponents])
 
   // Add event listener to update current screen for Playwright
   useEffect(() => {
     if (window) {
       (window as any).__setCurrentScreen = (screenId: string) => {
-        const screen = flexComponents.find(component => component.id === screenId) ?? null
+        const screen = softComponents.find(component => component.id === screenId) ?? null
         setCurrentScreen(screen)
       }
     }
-  }, [flexComponents])
+  }, [softComponents])
 
   // Cleanup function to remove event listener
   useEffect(() => {
@@ -66,16 +66,16 @@ export function BoardReviewRoute () {
         >
           <div style={{ height: currentScreen.properties.height + 'px' }}>
             {children
-              .filter((flexComponent) => flexComponent.type !== 'mobileScreen')
-              .map((flexComponent) => (
-                createElement(FLEX_COMPONENTS_ELEMENTS[flexComponent.type], {
-                  key: flexComponent.id,
+              .filter((softComponent) => softComponent.type !== 'mobileScreen')
+              .map((softComponent) => (
+                createElement(SOFT_COMPONENTS_ELEMENTS[softComponent.type], {
+                  key: softComponent.id,
                   component: {
-                    ...flexComponent,
+                    ...softComponent,
                     properties: {
-                      ...flexComponent.properties,
-                      x: flexComponent.properties.x - currentScreen.properties.x,
-                      y: flexComponent.properties.y - currentScreen.properties.y
+                      ...softComponent.properties,
+                      x: softComponent.properties.x - currentScreen.properties.x,
+                      y: softComponent.properties.y - currentScreen.properties.y
                     }
                   }
                 })

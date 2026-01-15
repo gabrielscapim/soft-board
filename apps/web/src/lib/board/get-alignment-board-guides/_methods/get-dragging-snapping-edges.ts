@@ -1,9 +1,9 @@
-import { FlexComponentProperties } from '../../../../types'
+import { SoftComponentProperties } from '../../../../types'
 
 type GetDraggingSnappingEdgesParams = {
   dragging: {
     id: string | null
-    properties: FlexComponentProperties
+    properties: SoftComponentProperties
   }
 }
 

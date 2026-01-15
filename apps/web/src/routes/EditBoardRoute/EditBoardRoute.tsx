@@ -5,21 +5,21 @@ import { BoardPropertiesMenu } from './components'
 
 export function EditBoardRoute () {
   const { boardState, boardController, boardManager } = useBoard()
-  const selected = useBoardStore(boardState, 'selectedFlexComponentsChanged', state => state.selectedFlexComponents)
-  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
-  const selectedFlexComponents = flexComponents.filter(component => selected?.includes(component.id))
+  const selected = useBoardStore(boardState, 'selectedSoftComponentsChanged', state => state.selectedSoftComponents)
+  const softComponents = useBoardStore(boardState, 'softComponentsChanged', state => state.softComponents)
+  const selectedSoftComponents = softComponents.filter(component => selected?.includes(component.id))
   const memberRole = useMemberRole()
   const hasPermission = memberRole !== 'member'
   useTutorial('edit-board')
 
   return (
     <>
-      {selectedFlexComponents.length > 0 && hasPermission && (
+      {selectedSoftComponents.length > 0 && hasPermission && (
         <BoardPropertiesMenu
           boardState={boardState}
           boardController={boardController}
-          flexComponents={flexComponents}
-          selectedFlexComponents={selectedFlexComponents}
+          softComponents={softComponents}
+          selectedSoftComponents={selectedSoftComponents}
         />
       )}
       <BoardCanvas

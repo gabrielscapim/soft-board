@@ -1,20 +1,20 @@
-import { Dimensions, FlexComponent, Offset } from '../../../types'
+import { Dimensions, SoftComponent, Offset } from '../../../types'
 
-export type AddFlexComponentsParams = {
-  flexComponents: FlexComponent[]
+export type AddSoftComponentsParams = {
+  softComponents: SoftComponent[]
 }
 
-export type DeleteFlexComponentsParams = {
-  flexComponents: string[]
+export type DeleteSoftComponentsParams = {
+  softComponents: string[]
 }
 
-export type UpdateFlexComponentsParams = {
-  updatedFlexComponents: FlexComponent[]
+export type UpdateSoftComponentsParams = {
+  updatedSoftComponents: SoftComponent[]
   initialProperties?: Map<string, Dimensions & Offset & { screenId?: string | null }> | null
 }
 
 export interface BoardManagerI {
-  addFlexComponents (params: AddFlexComponentsParams): void
-  deleteFlexComponents (params: DeleteFlexComponentsParams): void
-  updateFlexComponents (params: UpdateFlexComponentsParams): void
+  addSoftComponents (params: AddSoftComponentsParams): void
+  deleteSoftComponents (params: DeleteSoftComponentsParams): void
+  updateSoftComponents (params: UpdateSoftComponentsParams): void
 }

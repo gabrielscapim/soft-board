@@ -1,2 +1,2 @@
-CREATE DATABASE flex_board;
-CREATE DATABASE flex_board_test;
+CREATE DATABASE soft_board;
+CREATE DATABASE soft_board_test;

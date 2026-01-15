@@ -1,7 +1,7 @@
 import { SECONDARY_GUIDE_DISTANCE_TO_SNAP } from '../../../../helpers'
 import { useBoardStore } from '../hooks'
 import { BoardState } from '../../../../lib'
-import { FlexComponent, Offset } from '../../../../types'
+import { SoftComponent, Offset } from '../../../../types'
 
 export type AlignmentGuidesProps = {
   boardState: BoardState
@@ -14,15 +14,15 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
   const guides = useBoardStore(boardState, 'guidesChanged', state => state.guides)
   const isDragging = useBoardStore(boardState, 'isDraggingChanged', state => state.isDragging)
   const isResizing = useBoardStore(boardState, 'isResizingChanged', state => state.isResizing)
-  const selectedComponents = useBoardStore(boardState, 'selectedFlexComponentsChanged', state => state.selectedFlexComponents)
-  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
+  const selectedComponents = useBoardStore(boardState, 'selectedSoftComponentsChanged', state => state.selectedSoftComponents)
+  const components = useBoardStore(boardState, 'softComponentsChanged', state => state.softComponents)
 
   if (
     (!isDragging && !isResizing) ||
     !selectedComponents ||
-    !flexComponents ||
+    !components ||
     selectedComponents.length === 0 ||
-    flexComponents.length === 0
+    components.length === 0
   ) {
     return null
   }
@@ -30,7 +30,7 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
   const transform = (value: number) => value * scale
 
   const groupDimensionsBoard = getGroupDimensions(
-    flexComponents.filter(fc => selectedComponents.includes(fc.id))
+    components.filter(fc => selectedComponents.includes(fc.id))
   )
 
   const groupDimensions = {
@@ -45,7 +45,7 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
   const secondaryVerticalGuides = guides.vertical.filter(guide => guide.distance === 'secondary')
   const secondaryHorizontalGuides = guides.horizontal.filter(guide => guide.distance === 'secondary')
 
-  const flexComponentsById = new Map(flexComponents.map(flexComponent => [flexComponent.id, flexComponent]))
+  const softComponentsById = new Map(components.map(softComponent => [softComponent.id, softComponent]))
 
   return (
     <svg
@@ -93,7 +93,7 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
 
       {secondaryHorizontalGuides.map((guide, index) => {
         const yPos = transform(guide.lineGuide) + boardTranslate.y
-        const alignedComponent = flexComponentsById.get(guide.componentToAlign.id)
+        const alignedComponent = softComponentsById.get(guide.componentToAlign.id)
 
         if (!alignedComponent) {
           return null
@@ -146,7 +146,7 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
 
       {secondaryVerticalGuides.map((guide, index) => {
         const xPos = transform(guide.lineGuide) + boardTranslate.x
-        const alignedComponent = flexComponentsById.get(guide.componentToAlign.id)
+        const alignedComponent = softComponentsById.get(guide.componentToAlign.id)
 
         if (!alignedComponent) {
           return null
@@ -201,7 +201,7 @@ export function AlignmentGuides (props: AlignmentGuidesProps) {
 }
 
 function getGroupDimensions (
-  selectedComponents: FlexComponent[]
+  selectedComponents: SoftComponent[]
 ) {
   if (selectedComponents.length === 0) {
     return { x: 0, y: 0, width: 0, height: 0 }

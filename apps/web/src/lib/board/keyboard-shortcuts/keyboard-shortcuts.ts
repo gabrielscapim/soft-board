@@ -1,8 +1,8 @@
-import { FlexComponent } from '../../../types'
+import { SoftComponent } from '../../../types'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import { v4 as uuid } from 'uuid'
-import { CopiedFlexComponent } from './types'
+import { CopiedSoftComponent } from './types'
 
 export type BoardShortcutsOptions = {
   boardState: BoardState
@@ -37,32 +37,32 @@ export class KeyboardShortcuts {
   }
 
   private onDeleteKeyPressed () {
-    this._boardManager.deleteFlexComponents({ flexComponents: this._boardState.selectedFlexComponents ?? [] })
+    this._boardManager.deleteSoftComponents({ softComponents: this._boardState.selectedSoftComponents ?? [] })
   }
 
   private onEscapeKeyPressed () {
-    this._boardState.setSelectedFlexComponents(null)
+    this._boardState.setSelectedSoftComponents(null)
   }
 
   onCopyPressed (event: ClipboardEvent) {
     event.preventDefault()
     event.stopPropagation()
 
-    const selectedSet = new Set(this._boardState.selectedFlexComponents)
+    const selectedSet = new Set(this._boardState.selectedSoftComponents)
 
     if (selectedSet.size === 0) {
       return
     }
 
-    const selected = this._boardState.flexComponents.filter(flexComponent =>
-      selectedSet.has(flexComponent.id)
+    const selected = this._boardState.softComponents.filter(softComponent =>
+      selectedSet.has(softComponent.id)
     )
 
-    const copied: CopiedFlexComponent[] = []
+    const copied: CopiedSoftComponent[] = []
 
     for (const component of selected) {
       if (component.type === 'mobileScreen') {
-        const children = this._boardState.flexComponents.filter(
+        const children = this._boardState.softComponents.filter(
           child => child.screenId === component.id
         )
         copied.push({ ...component, children })
@@ -116,7 +116,7 @@ export class KeyboardShortcuts {
       return
     }
 
-    let copied: CopiedFlexComponent[]
+    let copied: CopiedSoftComponent[]
 
     try {
       copied = JSON.parse(clipboardData)
@@ -128,22 +128,22 @@ export class KeyboardShortcuts {
       return
     }
 
-    const newFlexComponents: FlexComponent[] = []
+    const newSoftComponents: SoftComponent[] = []
 
     const cloneComponent = (
-      component: CopiedFlexComponent,
+      component: CopiedSoftComponent,
       parentScreenId?: string
-    ): FlexComponent => {
+    ): SoftComponent => {
       const newId = uuid() as string
 
-      const cloned: FlexComponent = {
+      const cloned: SoftComponent = {
         ...component,
         id: newId,
         connectionId: null,
         screenId: parentScreenId ?? component.screenId ?? null
       }
 
-      newFlexComponents.push(cloned)
+      newSoftComponents.push(cloned)
 
       if (component.type === 'mobileScreen' && component.children) {
         for (const child of component.children) {
@@ -158,6 +158,6 @@ export class KeyboardShortcuts {
       cloneComponent(component)
     }
 
-    this._boardManager.addFlexComponents({ flexComponents: newFlexComponents })
+    this._boardManager.addSoftComponents({ softComponents: newSoftComponents })
   }
 }

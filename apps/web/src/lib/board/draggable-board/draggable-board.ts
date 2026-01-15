@@ -1,8 +1,8 @@
-import { Dimensions, FlexComponent, Offset } from '../../../types'
+import { Dimensions, SoftComponent, Offset } from '../../../types'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'
 import { getAlignmentBoardGuides } from '../get-alignment-board-guides'
-import { OnStartDragFlexComponentParams, OnDraggingFlexComponentParams } from './types'
+import { OnStartDragSoftComponentParams, OnDraggingSoftComponentParams } from './types'
 
 const DISTANCE_TO_BREAK_SNAP = 5
 const DISTANCE_TO_TRIGGER_DRAG = 0.5
@@ -34,7 +34,7 @@ export class DraggableBoard {
     this.endDrag = this.endDrag.bind(this)
   }
 
-  private getGroupDimensions (selectedComponents: FlexComponent[]) {
+  private getGroupDimensions (selectedComponents: SoftComponent[]) {
     if (selectedComponents.length === 0) {
       return { x: 0, y: 0, width: 0, height: 0 }
     }
@@ -70,10 +70,10 @@ export class DraggableBoard {
     return { x: event.clientX - rect.left, y: event.clientY - rect.top }
   }
 
-  private onDraggingFlexComponent (params: OnDraggingFlexComponentParams) {
+  private onDraggingSoftComponent (params: OnDraggingSoftComponentParams) {
     const { properties, snap, screenId } = params
 
-    const selected = this._boardState.selectedFlexComponents
+    const selected = this._boardState.selectedSoftComponents
 
     if (!selected || selected.length === 0 || !this._initialProperties) {
       return
@@ -111,26 +111,25 @@ export class DraggableBoard {
     const groupDeltaY = useSnapY && snap?.y ? (snap.y - groupInitialY) : properties.roundedDeltaY
 
     const movingMobileScreen = selected.some(id => {
-      const component = this._boardState.flexComponents.find(fc => fc.id === id)
+      const component = this._boardState.softComponents.find(fc => fc.id === id)
       return component?.type === 'mobileScreen'
     })
 
-    const newFlexComponents = this._boardState.flexComponents.map(flexComponent => {
-      if (!selected.includes(flexComponent.id)) {
-        return flexComponent
+    const newSoftComponents = this._boardState.softComponents.map(softComponent => {
+      if (!selected.includes(softComponent.id)) {
+        return softComponent
       }
 
-      const initialProps = this._initialProperties?.get(flexComponent.id)
-
-      if (!initialProps) return flexComponent
+      const initialProps = this._initialProperties?.get(softComponent.id)
+      if (!initialProps) return softComponent
 
       const newX = initialProps.x + groupDeltaX
       const newY = initialProps.y + groupDeltaY
 
-      let newScreenId = flexComponent.screenId
+      let newScreenId = softComponent.screenId
 
 
-      if (flexComponent.type === 'mobileScreen') {
+      if (softComponent.type === 'mobileScreen') {
         newScreenId = null
       } else if (movingMobileScreen && initialProps.screenId) {
         newScreenId = initialProps.screenId
@@ -139,9 +138,9 @@ export class DraggableBoard {
       }
 
       return {
-        ...flexComponent,
+        ...softComponent,
         properties: {
-          ...flexComponent.properties,
+          ...softComponent.properties,
           x: newX,
           y: newY
         },
@@ -149,14 +148,14 @@ export class DraggableBoard {
       }
     })
 
-    this._boardState.setFlexComponents(newFlexComponents)
+    this._boardState.setSoftComponents(newSoftComponents)
   }
 
-  private onStartDragFlexComponent (params: OnStartDragFlexComponentParams) {
-    const currentSelection = this._boardState.selectedFlexComponents ?? []
-    const currentScreenId = this._boardState.flexComponents.find(component => currentSelection[0] === component.id)?.screenId
+  private onStartDragSoftComponent (params: OnStartDragSoftComponentParams) {
+    const currentSelection = this._boardState.selectedSoftComponents ?? []
+    const currentScreenId = this._boardState.softComponents.find(component => currentSelection[0] === component.id)?.screenId
 
-    const clickedComponent = this._boardState.flexComponents.find(component => component.id === params.id)
+    const clickedComponent = this._boardState.softComponents.find(component => component.id === params.id)
     const clickedScreenId = clickedComponent?.screenId
 
     let newSelection = [params.id]
@@ -178,7 +177,7 @@ export class DraggableBoard {
     const initialProperties = new Map<string, Dimensions & Offset & { screenId?: string | null }>()
 
     for (const selectedId of newSelection) {
-      const component = this._boardState.flexComponents.find(flexComponent => flexComponent.id === selectedId)
+      const component = this._boardState.softComponents.find(softComponent => softComponent.id === selectedId)
 
       if (!component) {
         continue
@@ -193,7 +192,7 @@ export class DraggableBoard {
       }))
 
       if (component.type === 'mobileScreen') {
-        const childComponents = this._boardState.flexComponents.filter(c => c.screenId === component.id)
+        const childComponents = this._boardState.softComponents.filter(c => c.screenId === component.id)
 
         for (const child of childComponents) {
           initialProperties.set(child.id, structuredClone({
@@ -210,16 +209,16 @@ export class DraggableBoard {
     }
 
     this._initialProperties = initialProperties
-    this._boardState.setSelectedFlexComponents(newSelection)
+    this._boardState.setSelectedSoftComponents(newSelection)
   }
 
   public endDrag () {
-    const selectedIds = this._boardState.selectedFlexComponents ?? []
-    const selectedComponents = this._boardState.flexComponents.filter(flexComponent => selectedIds.includes(flexComponent.id))
+    const selectedIds = this._boardState.selectedSoftComponents ?? []
+    const selectedComponents = this._boardState.softComponents.filter(softComponent => selectedIds.includes(softComponent.id))
 
     if (selectedComponents.length && this._hasDragged) {
-      this._boardManager.updateFlexComponents({
-        updatedFlexComponents: selectedComponents,
+      this._boardManager.updateSoftComponents({
+        updatedSoftComponents: selectedComponents,
         initialProperties: this._initialProperties
       })
     }
@@ -234,8 +233,8 @@ export class DraggableBoard {
     if (this._offset) {
       event.preventDefault()
 
-      const selectedIds = this._boardState.selectedFlexComponents ?? []
-      const selectedComponents = this._boardState.flexComponents.filter(flexComponent => selectedIds.includes(flexComponent.id))
+      const selectedIds = this._boardState.selectedSoftComponents ?? []
+      const selectedComponents = this._boardState.softComponents.filter(softComponent => selectedIds.includes(softComponent.id))
 
       if (selectedComponents.length === 0) {
         return
@@ -256,7 +255,7 @@ export class DraggableBoard {
       // Verify if the composite dragging is inside some screen
       let screenId: string | null = null
 
-      const screens = this._boardState.flexComponents.filter(component => component.type === 'mobileScreen')
+      const screens = this._boardState.softComponents.filter(component => component.type === 'mobileScreen')
 
       for (const screen of screens) {
         const TOLERANCE = -25
@@ -275,9 +274,9 @@ export class DraggableBoard {
 
       // Get the alignment guides
       const guides = getAlignmentBoardGuides({
-        flexComponents: this._boardState.flexComponents,
+        softComponents: this._boardState.softComponents,
         dragging: compositeDragging,
-        selectedFlexComponents: selectedIds
+        selectedSoftComponents: selectedIds
       })
 
       this._boardState.setGuides({
@@ -312,7 +311,7 @@ export class DraggableBoard {
       }
 
       if (this._selectedElement) {
-        this.onDraggingFlexComponent({
+        this.onDraggingSoftComponent({
           id: this._selectedElement?.id,
           properties: {
             roundedDeltaX: deltaX,
@@ -344,7 +343,7 @@ export class DraggableBoard {
     if (draggableGroupElement) {
       this._selectedElement = draggableGroupElement
       this._offset = this.getMousePosition(event)
-      this.onStartDragFlexComponent({ id: draggableGroupElement.id, event })
+      this.onStartDragSoftComponent({ id: draggableGroupElement.id, event })
 
       return
     }
@@ -355,13 +354,13 @@ export class DraggableBoard {
 
       this._selectedElement = mobileScreenElement
       this._offset = this.getMousePosition(event)
-      this.onStartDragFlexComponent({ id: mobileScreenElement.id, event })
+      this.onStartDragSoftComponent({ id: mobileScreenElement.id, event })
 
       return
     }
 
     if (!mobileScreenBarElement && !draggableGroupElement) {
-      this._boardState.setSelectedFlexComponents([])
+      this._boardState.setSelectedSoftComponents([])
     }
   }
 }

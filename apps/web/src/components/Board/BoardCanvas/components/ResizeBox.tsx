@@ -1,4 +1,4 @@
-import { FLEX_COMPONENTS_SCHEMAS } from '../../../../flex-components'
+import { SOFT_COMPONENTS_SCHEMAS } from '../../../../soft-components'
 import { useBoardStore } from '../hooks'
 import { BoardState } from '../../../../lib'
 
@@ -18,31 +18,30 @@ const RESIZER_SIZE = 8
 export function ResizeBox (props: ResizeBoxProps) {
   const { boardState } = props
 
-  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
-  const selected = useBoardStore(boardState, 'selectedFlexComponentsChanged', state => state.selectedFlexComponents)
-  const minDistance = useBoardStore(boardState, 'flexComponentsChanged', state => state.grid)
+  const softComponents = useBoardStore(boardState, 'softComponentsChanged', state => state.softComponents)
+  const selected = useBoardStore(boardState, 'selectedSoftComponentsChanged', state => state.selectedSoftComponents)
+  const minDistance = useBoardStore(boardState, 'softComponentsChanged', state => state.grid)
 
-  const selectedFlexComponents = flexComponents.filter(flexComponent =>selected?.includes(flexComponent.id))
-
-  if (selectedFlexComponents.length === 0) {
+  const selectedSoftComponents = softComponents.filter(softComponent =>selected?.includes(softComponent.id))
+  if (selectedSoftComponents.length === 0) {
     return null
   }
 
-  const boundingBox = selectedFlexComponents.reduce((acc, flexComponent, index) => {
-    const { x, y, width, height } = flexComponent.properties
+  const boundingBox = selectedSoftComponents.reduce((acc, softComponent, index) => {
+    const { x, y, width, height } = softComponent.properties
 
-    const flexComponentRight = x + width
-    const flexComponentBotoom = y + height
+    const softComponentRight = x + width
+    const softComponentBottom = y + height
 
     if (index === 0) {
-      return { x, y, right: flexComponentRight, bottom: flexComponentBotoom }
+      return { x, y, right: softComponentRight, bottom: softComponentBottom }
     }
 
     return {
       x: Math.min(acc.x, x),
       y: Math.min(acc.y, y),
-      right: Math.max(acc.right, flexComponentRight),
-      bottom: Math.max(acc.bottom, flexComponentBotoom)
+      right: Math.max(acc.right, softComponentRight),
+      bottom: Math.max(acc.bottom, softComponentBottom)
     }
   }, { x: Infinity, y: Infinity, right: -Infinity, bottom: -Infinity })
 
@@ -67,8 +66,8 @@ export function ResizeBox (props: ResizeBoxProps) {
     { left: adjustedX - RESIZER_SIZE / 2, top: adjustedY - RESIZER_SIZE / 2, id: 'nw', cursor: 'nw-resize' }
   ]
 
-  const notHorizontalResizable = selectedFlexComponents.some(flexComponent => FLEX_COMPONENTS_SCHEMAS[flexComponent.type]?.resizable?.horizontal === false)
-  const notVerticalResizable = selectedFlexComponents.some(flexComponent => FLEX_COMPONENTS_SCHEMAS[flexComponent.type]?.resizable?.vertical === false)
+  const notHorizontalResizable = selectedSoftComponents.some(softComponent => SOFT_COMPONENTS_SCHEMAS[softComponent.type]?.resizable?.horizontal === false)
+  const notVerticalResizable = selectedSoftComponents.some(softComponent => SOFT_COMPONENTS_SCHEMAS[softComponent.type]?.resizable?.vertical === false)
 
   return (
     <div>

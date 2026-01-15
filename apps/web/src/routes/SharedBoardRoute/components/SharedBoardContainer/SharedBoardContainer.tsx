@@ -1,6 +1,6 @@
 import { BoardCanvas, PreviewModeContainer, useBoardStore } from '@/components'
 import { BoardState, BoardManager, BoardController } from '@/lib'
-import { FlexComponent } from '@/types'
+import { SoftComponent } from '@/types'
 import { useMemo, useState } from 'react'
 import { GetSharedBoardByTokenResult } from 'types/endpoints'
 import { SharedBoardHeader } from '../SharedBoardHeader'
@@ -17,10 +17,10 @@ export function SharedBoardContainer (props: SharedBoardContainerProps) {
 
   const components = useMemo(() => {
     return (
-      sharedBoard.board.components.map<FlexComponent>(component => ({
+      sharedBoard.board.components.map<SoftComponent>(component => ({
         ...component,
-        type: component.type as FlexComponent['type'],
-        properties: component.properties as FlexComponent['properties']
+        type: component.type as SoftComponent['type'],
+        properties: component.properties as SoftComponent['properties']
       }))
     )
   }, [sharedBoard.board.components])

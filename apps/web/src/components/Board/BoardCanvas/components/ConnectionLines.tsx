@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useBoardStore } from '../hooks'
 import { BoardState } from '../../../../lib'
-import { FlexComponent, Offset } from '../../../../types'
+import { SoftComponent, Offset } from '../../../../types'
 
 export type ConnectionLinesProps = {
   boardState: BoardState
@@ -9,25 +9,25 @@ export type ConnectionLinesProps = {
   scale: number
 }
 
-type FlexComponentWithConnection = FlexComponent & {
-  connection: FlexComponent
+type SoftComponentWithConnection = SoftComponent & {
+  connection: SoftComponent
 }
 
 export function ConnectionLines (props: ConnectionLinesProps) {
   const { boardState, boardTranslate, scale } = props
 
-  const flexComponents = useBoardStore(boardState, 'flexComponentsChanged', state => state.flexComponents)
+  const softComponents = useBoardStore(boardState, 'softComponentsChanged', state => state.softComponents)
 
   const componentsWithConnection = useMemo(() => {
-    return flexComponents
+    return softComponents
       .map(component => {
-        const connection = flexComponents.find(
-          flexComponent => flexComponent.id === component.connectionId
+        const connection = softComponents.find(
+          softComponent => softComponent.id === component.connectionId
         )
         return connection ? { ...component, connection } : null
       })
-      .filter((component): component is FlexComponentWithConnection => component !== null)
-  }, [flexComponents])
+      .filter((component): component is SoftComponentWithConnection => component !== null)
+  }, [softComponents])
 
   return (
     <svg
@@ -82,7 +82,7 @@ export function ConnectionLines (props: ConnectionLinesProps) {
   )
 }
 
-function getCenter (component: FlexComponent) {
+function getCenter (component: SoftComponent) {
   const { x, y, width, height } = component.properties
 
   return {
@@ -96,7 +96,7 @@ function transformCoords (coord: number, scale: number) {
 }
 
 function calculatePathCurve (
-  component: FlexComponentWithConnection,
+  component: SoftComponentWithConnection,
   boardTranslate: Offset,
   scale: number
 ) {
@@ -145,7 +145,7 @@ function calculatePathCurve (
 }
 
 function getBoundaryPoint (
-  component: FlexComponent,
+  component: SoftComponent,
   target: Offset,
   boardTranslate: Offset,
   scale: number

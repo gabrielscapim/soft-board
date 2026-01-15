@@ -1,15 +1,15 @@
-import { FlexComponent, MobileScreenFlexComponent } from '@/types'
+import { SoftComponent, MobileScreenSoftComponent } from '@/types'
 import { createElement, useEffect, useMemo, useState } from 'react'
-import { FLEX_COMPONENTS_ELEMENTS } from '@/flex-components'
+import { SOFT_COMPONENTS_ELEMENTS } from '@/soft-components'
 import clsx from 'clsx'
 import { MobileScreenContainerTopBar, TouchCursor } from './components'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export type MobileScreenContainerProps = {
-  screens: MobileScreenFlexComponent[]
-  currentScreen: MobileScreenFlexComponent
-  components?: FlexComponent[]
-  onChangeScreen?: (screen: MobileScreenFlexComponent) => void
+  screens: MobileScreenSoftComponent[]
+  currentScreen: MobileScreenSoftComponent
+  components?: SoftComponent[]
+  onChangeScreen?: (screen: MobileScreenSoftComponent) => void
 }
 
 export function MobileScreenContainer (props: MobileScreenContainerProps) {
@@ -100,32 +100,30 @@ export function MobileScreenContainer (props: MobileScreenContainerProps) {
           >
             <div style={{ height: currentScreen.properties.height + 'px' }}>
               {children
-                .filter((flexComponent) => flexComponent.type !== 'mobileScreen')
-                .map((flexComponent) => (
-                  createElement(FLEX_COMPONENTS_ELEMENTS[flexComponent.type], {
-                    key: flexComponent.id,
+                .filter((component) => component.type !== 'mobileScreen')
+                .map((component) => (
+                  createElement(SOFT_COMPONENTS_ELEMENTS[component.type], {
+                    key: component.id,
                     className: clsx(
                       highlightConnections &&
-                        flexComponent.connectionId &&
+                        component.connectionId &&
                         'shadow-[0_0_0_4px_rgba(59,130,246,0.7)] rounded animate-[pulse_1s_ease-in-out]'
                     ),
                     component: {
-                      ...flexComponent,
+                      ...component,
                       properties: {
-                        ...flexComponent.properties,
-                        x: flexComponent.properties.x - currentScreen.properties.x,
-                        y: flexComponent.properties.y - currentScreen.properties.y
+                        ...component.properties,
+                        x: component.properties.x - currentScreen.properties.x,
+                        y: component.properties.y - currentScreen.properties.y
                       }
                     },
                     handleAction: (_, event) => {
                       if (
-                        flexComponent.type === 'button' &&
+                        component.type === 'button' &&
                         event === 'onClick'
                       ) {
-                        const connection = components.find(
-                          (component) =>
-                            component.id === flexComponent.connectionId
-                        )
+                        const connection = components.find((c) => c.id === component.connectionId)
+
                         if (connection?.type === 'mobileScreen') {
                           onChangeScreen?.(connection)
                         }

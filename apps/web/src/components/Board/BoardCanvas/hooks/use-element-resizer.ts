@@ -4,13 +4,13 @@ import { useEffect } from 'react'
 export function useElementResizer (
   boardState: BoardState,
   boardManager: BoardManager,
-  flexBoardContainerRef: React.RefObject<HTMLDivElement>,
+  softBoardContainerRef: React.RefObject<HTMLDivElement>,
   enable = true
 ) {
   useEffect(() => {
     if (!enable) return
 
-    const element = flexBoardContainerRef.current
+    const element = softBoardContainerRef.current
 
     if (!element) return
 
@@ -31,5 +31,5 @@ export function useElementResizer (
       element.removeEventListener('mouseup', elementResizer.endResize)
       element.removeEventListener('mouseleave', elementResizer.endResize)
     }
-  }, [flexBoardContainerRef, boardState, boardManager, enable])
+  }, [softBoardContainerRef, boardState, boardManager, enable])
 }

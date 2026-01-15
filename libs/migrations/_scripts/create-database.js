@@ -4,7 +4,7 @@ const connectionString = process.env.DATABASE_URL
 const isTest = process.env.NODE_ENV === 'test'
 
 async function createDatabase () {
-  const dbName = isTest ? 'flex_board_test' : 'flex_board'
+  const dbName = isTest ? 'soft_board_test' : 'soft_board'
   const client = new Client({ connectionString })
 
   await client.connect()
