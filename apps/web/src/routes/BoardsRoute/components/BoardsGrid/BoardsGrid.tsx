@@ -14,7 +14,7 @@ export function BoardsGrid (props: BoardsGridProps) {
   const { hasPermission, loading, boards = [], handleEdit, handleDelete } = props
 
   return (
-    <div className="grid gap-8 w-full lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-1">
+    <div className="grid gap-8 w-full lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-3 xs:grid-cols-1">
       {!loading && boards.map(board => (
         <BoardCard
           key={board.id}
