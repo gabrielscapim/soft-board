@@ -1,4 +1,4 @@
-import { Board, PreviewModeContainer, useBoardStore } from '@/components'
+import { BoardCanvas, PreviewModeContainer, useBoardStore } from '@/components'
 import { BoardState, BoardManager, BoardController } from '@/lib'
 import { FlexComponent } from '@/types'
 import { useMemo, useState } from 'react'
@@ -47,7 +47,7 @@ export function SharedBoardContainer (props: SharedBoardContainerProps) {
 
       <main className="flex grow w-full h-[calc(100vh-60px)]">
         {mode === 'board' && (
-          <Board
+          <BoardCanvas
             enableDraggable={false}
             enableKeyboardShortcuts={false}
             enableResizing={false}

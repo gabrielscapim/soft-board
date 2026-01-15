@@ -1,10 +1,7 @@
 import { useTutorial } from '@/tutorials'
-import {
-  Board,
-  BoardPropertiesMenu,
-  useBoardStore
-} from '../../components'
+import { BoardCanvas, useBoardStore } from '../../components'
 import { useBoard, useMemberRole } from '../../hooks'
+import { BoardPropertiesMenu } from './components'
 
 export function EditBoardRoute () {
   const { boardState, boardController, boardManager } = useBoard()
@@ -25,7 +22,7 @@ export function EditBoardRoute () {
           selectedFlexComponents={selectedFlexComponents}
         />
       )}
-      <Board
+      <BoardCanvas
         enableSelection={hasPermission}
         enableResizing={hasPermission}
         enableDraggable={hasPermission}
