@@ -4,14 +4,6 @@ import './driver.css'
 import 'driver.js/dist/driver.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import {
-  AuthenticationGuardLayout,
-  BoardWizardLayout,
-  EditBoardLayout,
-  PreviewModeLayout,
-  RootLayout,
-  UnauthenticatedGuardLayout
-} from './components'
-import {
   BoardReviewRoute,
   ErrorRoute,
   SignInRoute,
@@ -33,6 +25,14 @@ import {
   TeamProvider
 } from './contexts'
 import { Client } from './client'
+import {
+  UnauthenticatedGuardLayout,
+  AuthenticationGuardLayout,
+  RootLayout,
+  BoardWizardLayout,
+  EditBoardLayout,
+  PreviewModeLayout
+} from './layouts'
 
 const client = new Client()
 const queryClient = new QueryClient()
