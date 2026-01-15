@@ -22,7 +22,7 @@ export function useTutorial (name?: TutorialName | null) {
   const driverRef = useRef<Driver | null>(null)
 
   const [tutorialState, setTutorialState] = useLocalStorage<TutorialState>(
-    'fb-tutorial-state',
+    'sf-tutorial-state',
     {
       allowed: null,
       tutorials: {
