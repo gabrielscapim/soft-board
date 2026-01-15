@@ -7,9 +7,9 @@ export const boardInitTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardHeaderSteps'),
       popover: {
-        title: 'Your progress steps',
+        title: '✔️ Your progress',
         description:
-          'This flow guides you from idea to a clear MVP, moving step by step.',
+          'This flow guides you from idea to MVP, step by step, with a clear sense of progress.',
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -17,9 +17,9 @@ export const boardInitTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('InitWizardStepRequirements'),
       popover: {
-        title: 'Requirements',
+        title: '📝 Define requirements',
         description:
-          'Start by defining and prioritizing the core features of your MVP.',
+          'List and prioritize the core features your MVP needs to succeed.',
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -27,9 +27,9 @@ export const boardInitTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('InitWizardStepWireflows'),
       popover: {
-        title: 'Wireflows',
+        title: '🧩 Build wireflows',
         description:
-          'Create simple screens to visualize how users will interact with your product.',
+          'Sketch simple screens to visualize how users move through your product.',
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -37,9 +37,9 @@ export const boardInitTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('InitWizardStepReview'),
       popover: {
-        title: 'Review & refine',
+        title: '🔍 Review and refine',
         description:
-          'Validate your flow, remove friction, and polish the experience.',
+          'Validate your flow, remove friction, and polish the overall experience.',
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -47,17 +47,18 @@ export const boardInitTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardFooter'),
       popover: {
-        title: 'Navigation controls',
-        description: 'Use these buttons to move through the steps of your board.',
+        title: '➡️ Navigation',
+        description:
+          'Use these controls to move forward or backward through the steps.',
         side: 'left'
       },
       disableActiveInteraction: true
     },
     {
       popover: {
-        title: 'Let’s get started ✨',
+        title: '🚀 Let’s get started',
         description:
-          'Click "Start" to begin your journey towards building a successful MVP!',
+          'Click “Start” to begin shaping your MVP from idea to structure.',
         side: 'left',
         nextBtnText: 'Got it'
       },

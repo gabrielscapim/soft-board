@@ -7,9 +7,9 @@ export const boardWireflowsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardWireflowsContainer'),
       popover: {
-        title: 'Your wireflow canvas',
+        title: '🧩 Wireflow canvas',
         description:
-          'This is where your components and screens come together to form user flows.',
+          'This is where screens and components connect to form user flows.',
         side: 'left'
       },
       disableActiveInteraction: true
@@ -17,42 +17,43 @@ export const boardWireflowsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardZoomController'),
       popover: {
-        title: 'Zoom in and out',
+        title: '🔍 Zoom controls',
         description:
-          'Use zoom controls to focus on details or see the full user journey.',
+          'Zoom in to focus on details or zoom out to see the full journey.',
         side: 'left'
       },
-      disableActiveInteraction: false
+      disableActiveInteraction: true
     },
     {
       element: getPopoverAnchorSelector('PreviewModeLink'),
       popover: {
-        title: 'Preview mode 👀',
+        title: '👀 Preview experience',
         description:
-          'Test your wireflows in preview mode to experience the user journey firsthand.',
+          'Enter preview mode to experience the flow as a real user.',
         side: 'bottom'
       },
-      disableActiveInteraction: false
+      disableActiveInteraction: true
     },
     {
       element: getPopoverAnchorSelector('EditBoardLink'),
       popover: {
-        title: 'Edit your board ✏️',
+        title: '✏️ Edit mode',
         description:
-          'Edit mode lets you add and modify wireflow components as needed.',
+          'Switch back to editing to add or adjust screens and components.',
         side: 'bottom'
       },
-      disableActiveInteraction: false
+      disableActiveInteraction: true
     },
     {
       element: getPopoverAnchorSelector('BoardWizardChatContainer'),
       popover: {
-        title: 'Wants a hand? 💬',
-        description: 'Talk to your board to create screens and components using natural language.',
+        title: '💬 Build with chat',
+        description:
+          'Create screens and components using simple natural language.',
         side: 'top',
         nextBtnText: 'Got it'
       },
-      disableActiveInteraction: false
+      disableActiveInteraction: true
     }
   ]
 }

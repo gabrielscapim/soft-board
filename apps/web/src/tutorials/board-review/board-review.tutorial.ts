@@ -7,21 +7,22 @@ export const boardReviewTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardReviewContainer'),
       popover: {
-        title: 'Review your board',
-        // cannot update only see
-        description: 'In review mode, you can explore the board and its wireflows, but editing is disabled to maintain the integrity of the design.',
+        title: '👀 Review mode',
+        description:
+          'Explore your board and wireflows in read-only mode to preserve the design.',
         side: 'left'
       },
-      disableActiveInteraction: false
+      disableActiveInteraction: true
     },
     {
       element: getPopoverAnchorSelector('BoardWizardChatContainer'),
       popover: {
-        title: 'Generate a review',
-        description: 'Use the chat to generate a comprehensive review of your board based on established usability heuristics.',
+        title: '💬 Get a review from chat',
+        description:
+          'Use the chat to generate a usability review based on proven heuristics.',
         side: 'right'
       },
-      disableActiveInteraction: false
+      disableActiveInteraction: true
     }
   ]
 }

@@ -7,9 +7,9 @@ export const onboardingTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('RootSidebar'),
       popover: {
-        title: 'Main navigation',
+        title: '🧭 Main navigation',
         description:
-          'This sidebar helps you move around the app and access all the main sections.',
+          'Use this sidebar to access all main areas of the app.',
         side: 'right'
       },
       disableActiveInteraction: true
@@ -17,19 +17,19 @@ export const onboardingTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('TeamSwitcher'),
       popover: {
-        title: 'Switch teams',
+        title: '👥 Team switcher',
         description:
-          'Working with multiple teams? Use this to quickly switch between them or create a new one.',
+          'Switch between teams or create a new one anytime.',
         side: 'bottom'
       },
-      disableActiveInteraction: false
+      disableActiveInteraction: true
     },
     {
       element: getPopoverAnchorSelector('RootSidebarBoardsItem'),
       popover: {
-        title: 'Boards',
+        title: '🗂️ Boards',
         description:
-          'This is where you’ll find and manage all your boards and projects.',
+          'Access and manage all your boards and projects here.',
         side: 'right'
       },
       disableActiveInteraction: true
@@ -37,9 +37,9 @@ export const onboardingTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('RootSidebarMembersItem'),
       popover: {
-        title: 'Team members',
+        title: '👤 Team members',
         description:
-          'Invite new people and manage who has access to your team.',
+          'Invite people and manage team access.',
         side: 'right'
       },
       disableActiveInteraction: true
@@ -47,9 +47,9 @@ export const onboardingTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('RootSidebarSettingsItem'),
       popover: {
-        title: 'Team settings',
+        title: '⚙️ Team settings',
         description:
-          'Manage your team’s preferences and configurations here.',
+          'Configure preferences and team-level options.',
         side: 'right'
       },
       disableActiveInteraction: true
@@ -57,19 +57,19 @@ export const onboardingTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('NavUser'),
       popover: {
-        title: 'Your account',
+        title: '🙋 Your account',
         description:
-          'Access your profile info, leave the team, or log out.',
+          'View your profile, leave the team, or log out.',
         side: 'top'
       },
-      disableActiveInteraction: false
+      disableActiveInteraction: true
     },
     {
       element: getPopoverAnchorSelector('BoardsRoute'),
       popover: {
-        title: 'Your boards',
+        title: '📌 Your boards',
         description:
-          'This is the main area where all your boards are displayed.',
+          'This is where all your boards live.',
         side: 'top'
       },
       disableActiveInteraction: true
@@ -77,9 +77,9 @@ export const onboardingTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('CreateBoardButton'),
       popover: {
-        title: 'Create a board',
+        title: '➕ Create a board',
         description:
-          'Click here to create a new board and get things started.',
+          'Start something new by creating your first board.',
         side: 'left',
         nextBtnText: 'I created it'
       },
@@ -88,9 +88,9 @@ export const onboardingTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardCard'),
       popover: {
-        title: 'All set! 🎉',
+        title: '🎉 You’re ready',
         description:
-          'Nice! Now click on your board to jump in and start working.',
+          'Open your board and start building your product.',
         side: 'bottom',
         nextBtnText: 'Got it'
       }

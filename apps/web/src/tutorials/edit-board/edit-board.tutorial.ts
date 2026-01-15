@@ -7,18 +7,19 @@ export const editBoardTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('Board'),
       popover: {
-        title: 'Your board canvas',
-        description: 'You can drag, resize, and position components on your board as you like.',
+        title: '🧩 Board canvas',
+        description:
+          'Drag, resize, and position components freely on your board.',
         side: 'left'
       },
-      disableActiveInteraction: false
+      disableActiveInteraction: true
     },
     {
       element: getPopoverAnchorSelector('EditBoardHeaderAddScreenButton'),
       popover: {
-        title: 'Add a new screen',
+        title: '📱 Add a screen',
         description:
-          'Click this button to add a new mobile screen to your board.',
+          'Click here to add a new mobile screen to your board.',
         side: 'bottom',
         onNextClick: async (element, _step, { driver }) => {
           const button = element as HTMLElement
@@ -35,14 +36,14 @@ export const editBoardTutorial: Tutorial = {
           driver.moveNext()
         }
       },
-      disableActiveInteraction: false
+      disableActiveInteraction: true
     },
     {
       element: getPopoverAnchorSelector('CollapsibleEditBoardSidebar'),
       popover: {
-        title: 'List of the components',
+        title: '🗂️ Component library',
         description:
-          'Here you can find all the components available to add to your board.',
+          'Browse all available components you can add to your board.',
         side: 'right'
       },
       disableActiveInteraction: true
@@ -50,9 +51,9 @@ export const editBoardTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardComponentCardPreview'),
       popover: {
-        title: 'Component',
+        title: '➕ Add a component',
         description:
-          'Just click on a component to add it to your board canvas.',
+          'Click a component to instantly place it on the canvas.',
         side: 'right',
         onNextClick: async (element, _step, { driver }) => {
           const card = element as HTMLElement
@@ -70,9 +71,9 @@ export const editBoardTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardPropertiesMenu'),
       popover: {
-        title: 'Component properties',
+        title: '⚙️ Component settings',
         description:
-          'You can edit the properties of the selected component here.',
+          'Customize the selected component’s properties here.',
         side: 'left',
         onNextClick: async (_element, _step, { driver }) => {
           const actionsTabTrigger = document.querySelector(
@@ -87,13 +88,14 @@ export const editBoardTutorial: Tutorial = {
           driver.moveNext()
         }
       },
-      disableActiveInteraction: false
+      disableActiveInteraction: true
     },
     {
       element: getPopoverAnchorSelector('BoardPropertiesMenu'),
       popover: {
-        title: 'Actions tab',
-        description: 'You can connect a screen and navigate to it in the preview mode.',
+        title: '🔗 Actions & navigation',
+        description:
+          'Define interactions and connect screens for preview mode.',
         side: 'bottom',
         onNextClick: async (_element, _step, { driver }) => {
           // Press "esc"
@@ -104,15 +106,7 @@ export const editBoardTutorial: Tutorial = {
           driver.moveNext()
         }
       },
-      disableActiveInteraction: false
+      disableActiveInteraction: true
     }
   ]
 }
-
-
-  // CollapsibleEditBoardSidebar: 'board.sidebar.edit.collapsible',
-  // BoardComponentCardPreview: 'board.component.card.preview',
-  // BoardPropertiesMenu: 'board.properties.menu',
-  // BoardPropertiesMenuActionsTab: 'board.properties.menu.actions.tab', // click
-
-  // EditBoardHeaderAddScreenButton: 'board.header.add.screen.button'

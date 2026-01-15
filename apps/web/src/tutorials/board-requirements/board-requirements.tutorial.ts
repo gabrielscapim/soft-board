@@ -7,9 +7,9 @@ export const boardRequirementsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardRequirementsContainer'),
       popover: {
-        title: 'Requirements panel',
+        title: '📝 Requirements overview',
         description:
-          'Here you can see, manage, and organize all your product requirements.',
+          'View, organize, and manage all the requirements for your product.',
         side: 'left'
       },
       disableActiveInteraction: true
@@ -17,23 +17,23 @@ export const boardRequirementsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardRequirementsContainerCreateButton'),
       popover: {
-        title: 'Add requirements manually',
+        title: '➕ Add a requirement',
         description:
-          'Click here to create a requirement yourself whenever you want.',
+          'Create a new requirement manually whenever you need.',
         side: 'bottom'
       },
-      disableActiveInteraction: false
+      disableActiveInteraction: true
     },
     {
       element: getPopoverAnchorSelector('BoardWizardChatContainer'),
       popover: {
-        title: 'Or just talk to your board 💬',
+        title: '💬 Describe it in words',
         description:
-          'You can describe features in natural language and your board will turn them into requirements.',
+          'Explain features in natural language and let your board turn them into requirements.',
         side: 'top',
         nextBtnText: 'Try it'
       },
-      disableActiveInteraction: false
+      disableActiveInteraction: true
     }
   ]
 }

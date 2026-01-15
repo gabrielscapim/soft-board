@@ -7,17 +7,19 @@ export const boardPreviewTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('PreviewModeMobileScreenContainerTopBarScreenSelector'),
       popover: {
-        title: 'Screen Selector',
-        description: 'Use this button to switch between different mobile screens in your board preview.',
+        title: '📱 Screen selector',
+        description:
+          'Switch between the different mobile screens in your board preview.',
         side: 'left'
       },
-      disableActiveInteraction: false
+      disableActiveInteraction: true
     },
     {
       element: getPopoverAnchorSelector('PreviewModeContainerMobileScreenContainer'),
       popover: {
-        title: 'Interacting with Screens',
-        description: 'You can interact with the mobile screens just like you would on a real device. Click, scroll, and explore!',
+        title: '👆 Interact with screens',
+        description:
+          'Click, scroll, and explore the screens just like on a real device.',
         side: 'left'
       },
       disableActiveInteraction: false
