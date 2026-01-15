@@ -55,15 +55,6 @@ export function ButtonPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
       </Label>
 
       <Label className="flex flex-col items-start">
-        Label
-        <Input
-          type="text"
-          value={properties.label ?? ''}
-          onChange={event => props.onUpdateProperties('label', event.target.value)}
-        />
-      </Label>
-
-      <Label className="flex flex-col items-start">
         Font size
         <Input
           type="number"

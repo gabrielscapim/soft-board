@@ -1,10 +1,19 @@
 import clsx from 'clsx'
 import { SoftComponentProps } from '../../../types'
-import { ButtonSoftComponentProperties } from '../../../../types'
+import { ButtonSoftComponentProperties, SoftComponentProperties } from '../../../../types'
 import { DynamicIcon, IconName } from 'lucide-react/dynamic'
+import { ContentEditableText } from '@/components/common/ContentEditableText/ContentEditableText'
 
 export function ButtonSoftComponent (props: SoftComponentProps) {
-  const { component, className, handleAction } = props
+  const {
+    component,
+    boardController,
+    editable,
+    className,
+    isDragging,
+    isResizing,
+    handleAction
+  } = props
 
   const properties = component.properties as ButtonSoftComponentProperties
   const color = properties.color ?? 'primary'
@@ -50,7 +59,19 @@ export function ButtonSoftComponent (props: SoftComponentProps) {
         />
       )}
       {properties.label && (
-        <span>{properties.label}</span>
+        <ContentEditableText
+          text={properties.label}
+          editable={editable && !isDragging && !isResizing}
+          inline={false}
+          className="w-full outline-none"
+          onBlur={text => {
+            boardController?.onUpdateSoftComponentProperty({
+              id: component.id,
+              property: 'label' as keyof SoftComponentProperties,
+              value: text
+            })
+          }}
+        />
       )}
     </div>
   )
