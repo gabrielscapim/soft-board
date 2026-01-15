@@ -1,4 +1,4 @@
-import { Board, BoardProps, BoardZoomController, EditBoardLink, PreviewModeLink, useBoardStore } from '@/components'
+import { BoardCanvas, BoardCanvasProps, BoardZoomController, EditBoardLink, PreviewModeLink, useBoardStore } from '@/components'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { MAX_SCALE, MIN_SCALE } from '@/helpers'
@@ -10,7 +10,7 @@ import { GetBoardResult } from 'types/endpoints'
 import { AddGenerationToBoardDialog } from './AddGenerationToBoardDialog'
 import { toast } from 'sonner'
 
-export type BoardContainerProps = BoardProps & {
+export type BoardContainerProps = BoardCanvasProps & {
   hasPermission?: boolean
   board?: GetBoardResult
   onReturnToBoard?: () => void
@@ -105,7 +105,7 @@ export function BoardContainer (props: BoardContainerProps) {
         onConfirm={() => addGenerationToBoard.mutate()}
       />
 
-      <Board
+      <BoardCanvas
         boardState={boardState}
         boardController={boardController}
         boardManager={boardManager}
