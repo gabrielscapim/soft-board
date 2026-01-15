@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:17
-    container_name: flex-board-postgres
+    container_name: soft-board-postgres
     environment:
       POSTGRES_PASSWORD: "postgres"
     ports:
@@ -10,21 +10,21 @@ services:
       - ./postgres:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      - flex-board-network
+      - soft-board-network
 
   rabbitmq:
     image: rabbitmq:3.8-management-alpine
-    container_name: flex-board-rabbitmq
+    container_name: soft-board-rabbitmq
     ports:
       - 5672:5672
       - 15672:15672
     volumes:
       - ./rabbitmq:/var/lib/rabbitmq
     networks:
-      - flex-board-network
+      - soft-board-network
 
 networks:
-  flex-board-network:
+  soft-board-network:
 
 volumes:
-  flex-board-volume:
+  soft-board-volume:

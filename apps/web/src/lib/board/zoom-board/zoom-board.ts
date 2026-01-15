@@ -5,16 +5,16 @@ export class ZoomBoard {
   private _boardState: BoardState
   private _startX: number
   private _startY: number
-  private _flexBoardContainer: HTMLElement | undefined
+  private _softBoardContainer: HTMLElement | undefined
 
   constructor (
     boardState: BoardState,
-    flexBoardContainer: HTMLElement
+    softBoardContainer: HTMLElement
   ) {
     this._boardState = boardState
     this._startX = 0
     this._startY = 0
-    this._flexBoardContainer = flexBoardContainer
+    this._softBoardContainer = softBoardContainer
 
     this.applyZoom = this.applyZoom.bind(this)
     this.endMove = this.endMove.bind(this)
@@ -25,9 +25,9 @@ export class ZoomBoard {
   public applyZoom = (event: WheelEvent) => {
     event.preventDefault()
 
-    if (!this._flexBoardContainer) return
+    if (!this._softBoardContainer) return
 
-    const rect = this._flexBoardContainer.getBoundingClientRect()
+    const rect = this._softBoardContainer.getBoundingClientRect()
     const mouseX = event.clientX - rect.left
     const mouseY = event.clientY - rect.top
 
@@ -48,10 +48,10 @@ export class ZoomBoard {
   }
 
   public endMove = () => {
-    if (!this._flexBoardContainer) return
+    if (!this._softBoardContainer) return
 
     this._boardState.setIsBoardMoving(false)
-    this._flexBoardContainer.style.cursor = 'default'
+    this._softBoardContainer.style.cursor = 'default'
   }
 
   public moveBoard = (event: MouseEvent) => {
@@ -72,11 +72,11 @@ export class ZoomBoard {
 
     if (!clickedElement?.id?.includes('grid')) return
 
-    if (event.button === 1 && this._flexBoardContainer) {
+    if (event.button === 1 && this._softBoardContainer) {
       this._boardState.setIsBoardMoving(true)
       this._startX = event.clientX
       this._startY = event.clientY
-      this._flexBoardContainer.style.cursor = 'grabbing'
+      this._softBoardContainer.style.cursor = 'grabbing'
     }
   }
 }

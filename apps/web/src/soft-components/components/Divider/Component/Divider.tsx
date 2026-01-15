@@ -14,9 +14,9 @@ export function DividerSoftComponent (props: SoftComponentProps) {
       className={clsx(
         'draggable-group',
         properties.absolute === false ? 'static' : 'absolute',
-        color === 'primary' && 'bg-flex-component-gray-medium',
-        color === 'secondary' && 'bg-flex-component-gray-light',
-        color === 'tertiary' && 'bg-flex-component-black',
+        color === 'primary' && 'bg-soft-component-gray-medium',
+        color === 'secondary' && 'bg-soft-component-gray-light',
+        color === 'tertiary' && 'bg-soft-component-black',
         className
       )}
       style={{

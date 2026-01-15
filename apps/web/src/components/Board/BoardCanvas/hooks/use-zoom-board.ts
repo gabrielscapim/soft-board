@@ -3,15 +3,15 @@ import { BoardState, ZoomBoard } from '@/lib'
 
 export function useZoomBoard (
   boardState: BoardState,
-  flexBoardContainerRef: React.RefObject<HTMLDivElement>,
-  flexBoardRef: React.RefObject<HTMLDivElement>,
+  softBoardContainerRef: React.RefObject<HTMLDivElement>,
+  softBoardRef: React.RefObject<HTMLDivElement>,
   enable = true
 ) {
   useEffect(() => {
     if (!enable) return
 
-    const containerElement = flexBoardContainerRef.current
-    const boardElement = flexBoardRef.current
+    const containerElement = softBoardContainerRef.current
+    const boardElement = softBoardRef.current
 
     if (!containerElement || !boardElement) return
 
@@ -28,5 +28,5 @@ export function useZoomBoard (
       containerElement.removeEventListener('mousemove', zoomBoard.moveBoard)
       document.removeEventListener('mouseup', zoomBoard.endMove)
     }
-  }, [boardState, flexBoardContainerRef, flexBoardRef, enable])
+  }, [boardState, softBoardContainerRef, softBoardRef, enable])
 }

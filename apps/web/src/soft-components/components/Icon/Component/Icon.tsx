@@ -16,7 +16,7 @@ export function IconSoftComponent (props: SoftComponentProps) {
       className={clsx(
         'draggable-group',
         properties.absolute === false ? 'static' : 'absolute',
-        color === 'primary' ? 'text-flex-component-black' : 'text-flex-component-gray-medium',
+        color === 'primary' ? 'text-soft-component-black' : 'text-soft-component-gray-medium',
         className
       )}
       style={{

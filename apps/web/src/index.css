@@ -15,10 +15,10 @@
 }
 
 @theme {
-  --color-flex-component-black: #1C1B1F;
-  --color-flex-component-gray-light: #EFF1F5;
-  --color-flex-component-gray-medium: #A19CAC;
-  --color-flex-component-white: #FFFFFF;
+  --color-soft-component-black: #1C1B1F;
+  --color-soft-component-gray-light: #EFF1F5;
+  --color-soft-component-gray-medium: #A19CAC;
+  --color-soft-component-white: #FFFFFF;
 }
 
 @theme inline {

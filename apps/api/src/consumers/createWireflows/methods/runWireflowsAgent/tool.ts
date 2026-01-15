@@ -15,7 +15,7 @@ type Arguments = {
   }>
 }
 
-type FlexComponent = {
+type SoftComponent = {
   id: string
   screenId: string | null
   connectionId: string | null
@@ -41,7 +41,7 @@ export class CreateWireflowTool extends Tool {
       id: randomUUID()
     }))
 
-    const screens = screensWithId.map<FlexComponent>((screen, index) => ({
+    const screens = screensWithId.map<SoftComponent>((screen, index) => ({
       id: screen.id,
       screenId: null,
       connectionId: null,
@@ -56,7 +56,7 @@ export class CreateWireflowTool extends Tool {
       }
     }))
 
-    const components = screensWithId.flatMap<FlexComponent>((screen, index) =>
+    const components = screensWithId.flatMap<SoftComponent>((screen, index) =>
       screen.components.map(component => ({
         id: randomUUID(),
         screenId: screen.id,
@@ -70,7 +70,7 @@ export class CreateWireflowTool extends Tool {
       }))
     )
 
-    const flexComponents = [...screens, ...components]
+    const softComponents = [...screens, ...components]
 
     await pool.transaction(async pool => {
       const boardGeneration = await pool
@@ -79,7 +79,7 @@ export class CreateWireflowTool extends Tool {
         .WHERE`tool_call_id = ${boardGenerationToolCallId}`
         .find()
 
-      for (const component of flexComponents) {
+      for (const component of softComponents) {
         await pool
           .INSERT_INTO`component`
           .VALUES({

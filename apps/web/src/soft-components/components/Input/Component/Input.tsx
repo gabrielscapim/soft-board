@@ -23,14 +23,14 @@ export function InputSoftComponent (props: SoftComponentProps) {
         'select-none',
         'font-light',
         'overflow-hidden',
-        'text-flex-component-gray-medium',
+        'text-soft-component-gray-medium',
         properties.absolute === false ? 'static' : 'absolute',
-        primary && 'bg-flex-component-gray-light',
-        (secondary || tertiary) && 'bg-flex-component-white',
+        primary && 'bg-soft-component-gray-light',
+        (secondary || tertiary) && 'bg-soft-component-white',
         secondary && 'border-2',
-        secondary && 'border-flex-component-gray-light',
+        secondary && 'border-soft-component-gray-light',
         tertiary && 'border-b-2',
-        tertiary && 'border-flex-component-gray-light',
+        tertiary && 'border-soft-component-gray-light',
         className
       )}
       style={{

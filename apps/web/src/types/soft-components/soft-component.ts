@@ -12,7 +12,7 @@ import {
   ToggleSoftComponentProperties
 } from './properties'
 
-export type BaseFlexComponent<T extends SoftComponentType, P extends SoftComponentProperties> = {
+export type BaseSoftComponent<T extends SoftComponentType, P extends SoftComponentProperties> = {
   id: string
   name: string
   type: T
@@ -21,15 +21,15 @@ export type BaseFlexComponent<T extends SoftComponentType, P extends SoftCompone
   screenId?: string | null
 }
 
-export type ButtonSoftComponent = BaseFlexComponent<'button', ButtonSoftComponentProperties>
-export type DividerSoftComponent = BaseFlexComponent<'divider', DividerSoftComponentProperties>
-export type IconSoftComponent = BaseFlexComponent<'icon', IconSoftComponentProperties>
-export type InputSoftComponent = BaseFlexComponent<'input', InputSoftComponentProperties>
-export type MobileScreenSoftComponent = BaseFlexComponent<'mobileScreen', MobileScreenSoftComponentProperties>
-export type RadioButtonSoftComponent = BaseFlexComponent<'radioButton', RadioButtonSoftComponentProperties>
-export type ShapeSoftComponent = BaseFlexComponent<'shape', ShapeSoftComponentProperties>
-export type TextSoftComponent = BaseFlexComponent<'text', TextSoftComponentProperties>
-export type ToggleSoftComponent = BaseFlexComponent<'toggle', ToggleSoftComponentProperties>
+export type ButtonSoftComponent = BaseSoftComponent<'button', ButtonSoftComponentProperties>
+export type DividerSoftComponent = BaseSoftComponent<'divider', DividerSoftComponentProperties>
+export type IconSoftComponent = BaseSoftComponent<'icon', IconSoftComponentProperties>
+export type InputSoftComponent = BaseSoftComponent<'input', InputSoftComponentProperties>
+export type MobileScreenSoftComponent = BaseSoftComponent<'mobileScreen', MobileScreenSoftComponentProperties>
+export type RadioButtonSoftComponent = BaseSoftComponent<'radioButton', RadioButtonSoftComponentProperties>
+export type ShapeSoftComponent = BaseSoftComponent<'shape', ShapeSoftComponentProperties>
+export type TextSoftComponent = BaseSoftComponent<'text', TextSoftComponentProperties>
+export type ToggleSoftComponent = BaseSoftComponent<'toggle', ToggleSoftComponentProperties>
 
 export type SoftComponent =
   ButtonSoftComponent |
