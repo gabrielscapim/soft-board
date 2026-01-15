@@ -1,5 +1,5 @@
 import { Input, Label } from '@/components'
-import { SOFT_COMPONENT_MIN_DIMENSIONS, SOFT_COMPONENTS_PROPERTIES_MENU } from '@/flex-components'
+import { SOFT_COMPONENT_MIN_DIMENSIONS, SOFT_COMPONENTS_PROPERTIES_MENU } from '@/soft-components'
 import { BoardState } from '@/lib'
 import { SoftComponent } from '@/types'
 

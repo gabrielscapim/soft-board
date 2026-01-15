@@ -1,5 +1,5 @@
 export * from './use-board-store'
-export * from './use-dragglabe-flex-board'
+export * from './use-dragglabe-soft-board'
 export * from './use-element-resizer'
 export * from './use-keyboard-shortcuts'
 export * from './use-selection-board'

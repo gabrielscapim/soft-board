@@ -1,5 +1,5 @@
 import { useBoardStore } from '@/components'
-import { SOFT_COMPONENTS_ELEMENTS } from '@/flex-components'
+import { SOFT_COMPONENTS_ELEMENTS } from '@/soft-components'
 import { useBoard } from '@/hooks'
 import { SoftComponent } from '@/types'
 import { createElement, useEffect, useMemo, useState } from 'react'

@@ -1,1 +1,1 @@
-export * from './on-resizing-flex-component'
+export * from './on-resizing-soft-component'

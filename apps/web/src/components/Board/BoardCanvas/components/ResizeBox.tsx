@@ -1,4 +1,4 @@
-import { SOFT_COMPONENTS_SCHEMAS } from '../../../../flex-components'
+import { SOFT_COMPONENTS_SCHEMAS } from '../../../../soft-components'
 import { useBoardStore } from '../hooks'
 import { BoardState } from '../../../../lib'
 

@@ -1,6 +1,6 @@
 import { SoftComponent, MobileScreenSoftComponent } from '@/types'
 import { createElement, useEffect, useMemo, useState } from 'react'
-import { SOFT_COMPONENTS_ELEMENTS } from '@/flex-components'
+import { SOFT_COMPONENTS_ELEMENTS } from '@/soft-components'
 import clsx from 'clsx'
 import { MobileScreenContainerTopBar, TouchCursor } from './components'
 import { TUTORIALS_ANCHORS } from '@/tutorials'

@@ -9,7 +9,7 @@ import {
   useSelectionBoard,
   useZoomBoard
 } from './hooks'
-import { SOFT_COMPONENTS_ELEMENTS, MobileScreenSoftComponent } from '../../../flex-components'
+import { SOFT_COMPONENTS_ELEMENTS, MobileScreenSoftComponent } from '../../../soft-components'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
 
 export type BoardCanvasProps = {

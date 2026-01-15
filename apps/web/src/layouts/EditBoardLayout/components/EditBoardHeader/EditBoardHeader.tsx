@@ -1,7 +1,7 @@
 import { SmartphoneIcon } from 'lucide-react'
 import { useBoard, useMemberRole, useScreenDimensions } from '@/hooks'
 import { MAX_SCALE, MIN_SCALE } from '@/helpers'
-import { SOFT_COMPONENTS_SCHEMAS } from '@/flex-components'
+import { SOFT_COMPONENTS_SCHEMAS } from '@/soft-components'
 import { TUTORIALS_ANCHORS, useTutorial } from '@/tutorials'
 import { useBoardStore, BoardLink, PreviewModeLink, Button, BoardZoomController, HelpDropdownMenu } from '@/components'
 

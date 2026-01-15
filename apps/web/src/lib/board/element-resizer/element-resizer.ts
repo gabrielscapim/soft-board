@@ -1,4 +1,4 @@
-import { SOFT_COMPONENT_MIN_DIMENSIONS } from '@/flex-components'
+import { SOFT_COMPONENT_MIN_DIMENSIONS } from '@/soft-components'
 import { Dimensions, SoftComponent, Guide, Offset, ResizeDirection } from '../../../types'
 import { BoardManager } from '../board-manager'
 import { BoardState } from '../board-state'

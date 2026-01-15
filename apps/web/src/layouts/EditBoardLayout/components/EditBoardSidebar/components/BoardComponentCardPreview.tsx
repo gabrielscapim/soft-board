@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardFooter } from '@/components/ui/card'
-import { SOFT_COMPONENTS_ELEMENTS } from '@/flex-components'
+import { SOFT_COMPONENTS_ELEMENTS } from '@/soft-components'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
 import { SoftComponentProperties, SoftComponentType } from '@/types'
 import clsx from 'clsx'

@@ -1,1 +1,1 @@
-export * from './copied-flex-component'
+export * from './copied-soft-component'

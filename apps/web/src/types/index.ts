@@ -1,2 +1,2 @@
 export * from './flex-board'
-export * from './flex-components'
+export * from './soft-components'
