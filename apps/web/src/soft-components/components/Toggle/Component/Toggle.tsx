@@ -30,7 +30,7 @@ export function ToggleSoftComponent (props: SoftComponentProps) {
           'h-full',
           'pointer-events-none',
           'rounded-full',
-          properties.activated ? 'bg-flex-component-black' : 'bg-flex-component-gray-medium'
+          properties.activated ? 'bg-soft-component-black' : 'bg-soft-component-gray-medium'
         )}
         style={{
           width: `${properties.width}px`,
@@ -44,7 +44,7 @@ export function ToggleSoftComponent (props: SoftComponentProps) {
             'left-[3px]',
             '-translate-y-1/2',
             'rounded-full',
-            'bg-flex-component-white',
+            'bg-soft-component-white',
             properties.activated ? 'left-[calc(100%-calc(50%+6px))]' : 'left-[3px]'
           )}
           style={{

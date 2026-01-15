@@ -17,8 +17,8 @@ export function TextSoftComponent (props: SoftComponentProps) {
         'outline-none',
         'text-black',
         properties.absolute === false ? 'static' : 'absolute',
-        color === 'primary' && 'text-flex-component-black',
-        color === 'secondary' && 'text-flex-component-gray-medium',
+        color === 'primary' && 'text-soft-component-black',
+        color === 'secondary' && 'text-soft-component-gray-medium',
         className
       )}
       style={{

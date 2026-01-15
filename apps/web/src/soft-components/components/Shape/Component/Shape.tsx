@@ -17,10 +17,10 @@ export function ShapeSoftComponent (props: SoftComponentProps) {
         'border',
         'border-2',
         properties.absolute === false ? 'static' : 'absolute',
-        color === 'primary' && 'border-flex-component-gray-light',
-        color === 'secondary' && 'border-flex-component-gray-medium',
-        color === 'primary' && fill && 'bg-flex-component-gray-light',
-        color === 'secondary' && fill && 'bg-flex-component-gray-medium',
+        color === 'primary' && 'border-soft-component-gray-light',
+        color === 'secondary' && 'border-soft-component-gray-medium',
+        color === 'primary' && fill && 'bg-soft-component-gray-light',
+        color === 'secondary' && fill && 'bg-soft-component-gray-medium',
         className
       )}
       style={{

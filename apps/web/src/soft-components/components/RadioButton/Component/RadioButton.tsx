@@ -30,7 +30,7 @@ export function RadioButtonSoftComponent (props: SoftComponentProps) {
             'pointer-events-none',
             'rounded-full',
             'border-2',
-            'border-flex-component-gray-medium',
+            'border-soft-component-gray-medium',
             'flex-shrink-0'
           )}
           style={{
@@ -47,7 +47,7 @@ export function RadioButtonSoftComponent (props: SoftComponentProps) {
                 '-translate-x-1/2',
                 '-translate-y-1/2',
                 'rounded-full',
-                'bg-flex-component-gray-medium'
+                'bg-soft-component-gray-medium'
               )}
               style={{
                 width: 0.45 * properties.width,
