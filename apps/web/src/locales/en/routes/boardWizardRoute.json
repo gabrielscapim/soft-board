@@ -1,0 +1,149 @@
+{
+  "addGenerationDialog": {
+    "title": "Add generated wireflow to board",
+    "description": "Add the genereated components to your board. This will not overwrite the current wireflow on the board and you will be able to edit it.",
+    "cancel": "Cancel",
+    "confirm": "Add to board"
+  },
+
+  "deleteRequirementDialog": {
+    "title": "Are you sure you want to delete this requirement?",
+    "description": "This action cannot be undone. This will permanently delete the requirement and all its data.",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  },
+
+  "editRequirementDialog": {
+    "title": "Edit requirement",
+    "description": "Make changes to your requirement here. Click save when you're done.",
+    "form": {
+      "title": {
+        "label": "Title"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Describe the requirement in detail (optional)"
+      },
+      "validation": {
+        "titleRequired": "Title is required",
+        "titleMax": "Title must be at most 100 characters",
+        "descriptionMax": "Description must be at most 500 characters"
+      }
+    },
+    "cancel": "Cancel",
+    "confirm": "Save changes"
+  },
+
+  "requirementCard": {
+    "emptyDescription": "No description provided"
+  },
+
+  "requirementsList": {
+    "description": "List and prioritize the main features and user needs for your MVP. You can add, edit, and delete requirements by yourself or talking with your board with in the chat."
+  },
+
+  "endWizard": {
+    "title": "End of the Board",
+    "description": "Thank you for completing all the steps!"
+  },
+
+  "initWizard": {
+    "title": "Let’s get started with your board!",
+    "description": "You will follow the <strong>StartFlow</strong> method step-by-step. By the end, you’ll have a low-fidelity MVP ready to present, test, and refine.",
+    "steps": {
+      "features": {
+        "title": "Understand & organize features",
+        "description": "List and prioritize the main functionalities you want in your MVP."
+      },
+      "wireflows": {
+        "title": "Build your wireflows",
+        "description": "Create simple, low-fidelity screens showing how users will interact."
+      },
+      "review": {
+        "title": "Review & refine",
+        "description": "Check your flows for clarity, efficiency, and a great user experience."
+      }
+    }
+  },
+
+  "actions": {
+    "addRequirement": "Add requirement",
+    "addFirstRequirement": "Add your first requirement",
+    "addGeneration": "Add to board",
+    "generateShareLink": "Generate share link",
+    "shareBoard": "Share board"
+  },
+
+  "generation": {
+    "label": "Wireflow Generation",
+    "status": {
+      "title": {
+        "completed": "Wireflow created",
+        "error": "Failed to create wireflow",
+        "pending": "Creating wireflow..."
+      },
+      "description": {
+        "completed": "You can click to view your new wireflow.",
+        "error": "There was an error while creating the wireflow.",
+        "pending": "Your wireflow is being created."
+      }
+    }
+  },
+
+  "shareBoardDialog": {
+    "title": "Share Board",
+    "description": "Anyone with this link will be able to view your board.",
+    "status": {
+      "shared": {
+        "title": "This board is publicly shared!",
+        "description": "Anyone with the link can view this board."
+      },
+      "unshared": {
+        "title": "This Board is not shared yet",
+        "description": "Generate a public link to allow others to view your board."
+      }
+    }
+  },
+
+  "boardReview": {
+    "title": "Board Review",
+    "description": "Detailed feedback across {{count}} evaluation criteria."
+  },
+
+  "review": {
+    "overallScore": "Overall score",
+    "status": {
+      "completed": {
+        "title": "Review completed",
+        "description": "You can click to view the detailed board review."
+      },
+      "error": {
+        "title": "Failed to review board",
+        "description": "There was an error while reviewing the board."
+      },
+      "pending": {
+        "title": "Reviewing board...",
+        "description": "Your board is being reviewed."
+      }
+    },
+    "scoreDescription": {
+      "excellent": "Outstanding performance across evaluated heuristics",
+      "good": "Strong performance across evaluated heuristics",
+      "average": "Acceptable performance with room for improvement",
+      "poor": "Below-average performance across evaluated heuristics",
+      "bad": "Significantly below expectations across evaluated heuristics"
+    }
+  },
+
+  "toast": {
+    "addGenerationSuccess": "Generation added to board successfully",
+    "addGenerationError": "Failed to add generation to board",
+    "sendMessageError": "Failed to send message",
+    "createRequirementSuccess": "Requirement created successfully",
+    "createRequirementError": "Failed to create requirement",
+    "editRequirementSuccess": "Requirement updated successfully",
+    "editRequirementError": "Failed to update requirement",
+    "deleteRequirementSuccess": "Requirement deleted successfully",
+    "deleteRequirementError": "Failed to delete requirement"
+  }
+}

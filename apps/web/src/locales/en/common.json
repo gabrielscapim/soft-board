@@ -1,7 +1,12 @@
 {
   "actions": "Actions",
+  "close": "Close",
   "delete": "Delete",
   "edit": "Edit",
+  "return": "Return",
+  "requirements": "Requirements",
+  "suggestions_one": "Suggestion",
+  "suggestions_other": "Suggestions",
   "untitled": "Untitled",
   "updated": "Updated"
 }

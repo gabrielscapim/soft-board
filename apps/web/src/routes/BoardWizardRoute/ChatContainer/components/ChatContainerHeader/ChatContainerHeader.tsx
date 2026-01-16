@@ -1,5 +1,6 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { getRootImage } from '@/helpers'
+import { useTranslation } from 'react-i18next'
 import { GetBoardResult } from 'types/endpoints'
 
 export type ChatContainerHeaderProps = {
@@ -8,6 +9,8 @@ export type ChatContainerHeaderProps = {
 
 export function ChatContainerHeader (props: ChatContainerHeaderProps) {
   const { board } = props
+
+  const { t } = useTranslation('routes.boardWizard')
 
   return (
     <div
@@ -18,7 +21,7 @@ export function ChatContainerHeader (props: ChatContainerHeaderProps) {
         <AvatarImage src={getRootImage(board?.image)} />
       </Avatar>
       <span className="text-sm font-medium">
-        {board?.title ?? <span className="opacity-30">Untitled Board</span>}
+        {board?.title ?? <span className="opacity-30">{t('common:untitled')} Board</span>}
       </span>
     </div>
   )

@@ -4,12 +4,14 @@ import commonEn from './en/common.json'
 import commonPtBr from './pt-BR/common.json'
 import boardsRouteEn from './en/routes/boardsRoute.json'
 import boardsRoutePtBr from './pt-BR/routes/boardsRoute.json'
+import boardsWizardRouteEn from './en/routes/boardWizardRoute.json'
+import boardsWizardRoutePtBr from './pt-BR/routes/boardWizardRoute.json'
 
 i18n
   .use(initReactI18next)
   .init({
     lng: 'pt-BR',
-    fallbackLng: 'en',
+    fallbackLng: 'pt-BR',
     nsSeparator: ':',
     saveMissing: true,
     returnNull: false,
@@ -23,11 +25,13 @@ i18n
     resources: {
       'pt-BR': {
         common: commonPtBr,
-        'routes.boards':  boardsRoutePtBr
+        'routes.boards':  boardsRoutePtBr,
+        'routes.boardWizard': boardsWizardRoutePtBr
       },
       en: {
         common: commonEn,
-        'routes.boards': boardsRouteEn
+        'routes.boards': boardsRouteEn,
+        'routes.boardWizard': boardsWizardRouteEn
       }
     },
     ns: [],

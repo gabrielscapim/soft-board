@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import clsx from 'clsx'
+import { useTranslation } from 'react-i18next'
 
 export type OverallScoreProps = {
   score: number
@@ -11,6 +12,8 @@ export function OverallScore (props: OverallScoreProps) {
   const percentage = (score / 5) * 100
   const color = getFromMap(score, colorMap)
   const description = getFromMap(score, descriptionMap)
+
+  const { t } = useTranslation('routes.boardWizard')
 
   return (
     <Card className="flex flex-row gap-0 items-center">
@@ -48,8 +51,8 @@ export function OverallScore (props: OverallScoreProps) {
 
       <div className="flex-1 items-center justify-center">
         <CardHeader>
-          <CardTitle>Overall Score</CardTitle>
-          <CardDescription>{description}</CardDescription>
+          <CardTitle>{t('review.overallScore')}</CardTitle>
+          <CardDescription>{t(`review.scoreDescription.${description}`)}</CardDescription>
         </CardHeader>
       </div>
     </Card>
@@ -57,11 +60,11 @@ export function OverallScore (props: OverallScoreProps) {
 }
 
 const descriptionMap: { min: number, max: number, value: string }[] = [
-  { min: 5, max: 5, value: 'Outstanding performance across evaluated heuristics' },
-  { min: 4, max: 4.99, value: 'Strong performance across evaluated heuristics' },
-  { min: 3, max: 3.99, value: 'Acceptable performance with room for improvement' },
-  { min: 2, max: 2.99, value: 'Below-average performance across evaluated heuristics' },
-  { min: 1, max: 1.99, value: 'Significantly below expectations across evaluated heuristics' }
+  { min: 5, max: 5, value: 'excellent' },
+  { min: 4, max: 4.99, value: 'good' },
+  { min: 3, max: 3.99, value: 'average' },
+  { min: 2, max: 2.99, value: 'poor' },
+  { min: 1, max: 1.99, value: 'bad' }
 ]
 
 const colorMap: { min: number, max: number, value: string }[] = [

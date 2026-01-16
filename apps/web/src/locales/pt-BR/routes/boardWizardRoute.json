@@ -1,0 +1,149 @@
+{
+  "addGenerationDialog": {
+    "title": "Adicionar wireflow gerado ao board",
+    "description": "Adicione os componentes gerados ao seu board. Isso não substituirá o wireflow atual do board e você poderá editá-lo.",
+    "cancel": "Cancelar",
+    "confirm": "Adicionar ao board"
+  },
+
+  "deleteRequirementDialog": {
+    "title": "Tem certeza de que deseja excluir este requisito?",
+    "description": "Esta ação não pode ser desfeita. Isso excluirá permanentemente o requisito e todos os seus dados.",
+    "cancel": "Cancelar",
+    "confirm": "Excluir"
+  },
+
+  "editRequirementDialog": {
+    "title": "Editar requisito",
+    "description": "Faça alterações no seu requisito aqui. Clique em salvar quando terminar.",
+    "form": {
+      "title": {
+        "label": "Título"
+      },
+      "description": {
+        "label": "Descrição",
+        "placeholder": "Descreva o requisito em detalhes (opcional)"
+      },
+      "validation": {
+        "titleRequired": "O título é obrigatório",
+        "titleMax": "O título deve ter no máximo 100 caracteres",
+        "descriptionMax": "A descrição deve ter no máximo 500 caracteres"
+      }
+    },
+    "cancel": "Cancelar",
+    "confirm": "Salvar alterações"
+  },
+
+  "requirementCard": {
+    "emptyDescription": "Nenhuma descrição fornecida"
+  },
+
+  "requirementsList": {
+    "description": "Liste e priorize as principais funcionalidades e necessidades dos usuários para o seu MVP. Você pode adicionar, editar e excluir requisitos sozinho ou conversando com o seu board pelo chat."
+  },
+
+  "endWizard": {
+    "title": "Fim do Board",
+    "description": "Obrigado por concluir todas as etapas!"
+  },
+
+  "initWizard": {
+    "title": "Vamos começar com o seu board!",
+    "description": "Você seguirá o método <strong>StartFlow</strong> passo a passo. Ao final, você terá um MVP de baixa fidelidade pronto para apresentar, testar e refinar.",
+    "steps": {
+      "features": {
+        "title": "Entenda e organize as funcionalidades",
+        "description": "Liste e priorize as principais funcionalidades que você deseja no seu MVP."
+      },
+      "wireflows": {
+        "title": "Construa seus wireflows",
+        "description": "Crie telas simples, de baixa fidelidade, mostrando como os usuários irão interagir."
+      },
+      "review": {
+        "title": "Revisar e refinar",
+        "description": "Avalie seus fluxos quanto à clareza, eficiência e uma ótima experiência do usuário."
+      }
+    }
+  },
+
+  "actions": {
+    "addRequirement": "Adicionar requisito",
+    "addFirstRequirement": "Adicionar seu primeiro requisito",
+    "addGeneration": "Adicionar ao board",
+    "generateShareLink": "Gerar link de compartilhamento",
+    "shareBoard": "Compartilhar board"
+  },
+
+  "generation": {
+    "label": "Geração de Wireflow",
+    "status": {
+      "title": {
+        "completed": "Wireflow criado",
+        "error": "Falha ao criar o wireflow",
+        "pending": "Criando wireflow..."
+      },
+      "description": {
+        "completed": "Você pode clicar para visualizar o novo wireflow.",
+        "error": "Ocorreu um erro ao criar o wireflow.",
+        "pending": "Seu wireflow está sendo criado."
+      }
+    }
+  },
+
+  "shareBoardDialog": {
+    "title": "Compartilhar Board",
+    "description": "Qualquer pessoa com este link poderá visualizar o seu board.",
+    "status": {
+      "shared": {
+        "title": "Este board está compartilhado publicamente!",
+        "description": "Qualquer pessoa com o link pode visualizar este board."
+      },
+      "unshared": {
+        "title": "Este board ainda não está compartilhado",
+        "description": "Gere um link público para permitir que outras pessoas visualizem o seu board."
+      }
+    }
+  },
+
+  "boardReview": {
+    "title": "Revisão do Board",
+    "description": "Feedback detalhado com base em {{count}} critérios de avaliação."
+  },
+
+  "review": {
+    "overallScore": "Pontuação geral",
+    "status": {
+      "completed": {
+        "title": "Revisão concluída",
+        "description": "Você pode clicar para visualizar a revisão detalhada do board."
+      },
+      "error": {
+        "title": "Falha ao revisar o board",
+        "description": "Ocorreu um erro ao revisar o board."
+      },
+      "pending": {
+        "title": "Revisando o board...",
+        "description": "Seu board está sendo revisado."
+      }
+    },
+    "scoreDescription": {
+      "excellent": "Desempenho excelente em todas as heurísticas avaliadas",
+      "good": "Bom desempenho nas heurísticas avaliadas",
+      "average": "Desempenho aceitável, com espaço para melhorias",
+      "poor": "Desempenho abaixo da média nas heurísticas avaliadas",
+      "bad": "Desempenho significativamente abaixo do esperado nas heurísticas avaliadas"
+    }
+  },
+
+  "toast": {
+    "addGenerationSuccess": "Geração adicionada ao board com sucesso",
+    "addGenerationError": "Falha ao adicionar a geração ao board",
+    "sendMessageError": "Falha ao enviar a mensagem",
+    "createRequirementSuccess": "Requisito criado com sucesso",
+    "createRequirementError": "Falha ao criar o requisito",
+    "editRequirementSuccess": "Requisito atualizado com sucesso",
+    "editRequirementError": "Falha ao atualizar o requisito",
+    "deleteRequirementSuccess": "Requisito excluído com sucesso",
+    "deleteRequirementError": "Falha ao excluir o requisito"
+  }
+}

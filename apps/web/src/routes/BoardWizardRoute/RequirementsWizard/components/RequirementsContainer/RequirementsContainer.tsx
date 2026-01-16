@@ -4,6 +4,7 @@ import { RequirementCard } from '../RequirementCard'
 import { PlusIcon } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
+import { useTranslation } from 'react-i18next'
 
 export type RequirementsContainerProps = {
   hasPermission?: boolean
@@ -24,12 +25,14 @@ export function RequirementsContainer (props: RequirementsContainerProps) {
     handleEdit
   } = props
 
+  const { t } = useTranslation('routes.boardWizard')
+
   return (
     <div data-tutorial={TUTORIALS_ANCHORS.BoardWizardRequirementsContainer}>
       <div className="mb-4 flex flex-row justify-between items-center">
         <div>
           <div className="flex items-center justify-between pb-2">
-            <h1 className="text-md font-semibold">Requirements</h1>
+            <h1 className="text-md font-semibold">{t('common:requirements')}</h1>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -44,14 +47,13 @@ export function RequirementsContainer (props: RequirementsContainerProps) {
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                Add Requirement
+                {t('actions.addRequirement')}
               </TooltipContent>
             </Tooltip>
           </div>
 
           <p className="text-xs text-muted-foreground leading-relaxed">
-            List and prioritize the main features and user needs for your MVP.
-            You can add, edit, and delete requirements by yourself or talking with your board with in the chat.
+            {t('requirementsList.description')}
           </p>
         </div>
       </div>
@@ -77,7 +79,7 @@ export function RequirementsContainer (props: RequirementsContainerProps) {
             onClick={handleCreate}
           >
             <PlusIcon className="mr-2" />
-            Add your first requirement
+            {t('actions.addFirstRequirement')}
           </Button>
         )}
       </div>

@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible'
 import clsx from 'clsx'
 import { Info, Lightbulb, ChevronsUpDown } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { GetMessagesResultBoardReview } from 'types/endpoints'
 
 export type ReviewCardProps = {
@@ -11,6 +12,8 @@ export type ReviewCardProps = {
 
 export function ReviewCard (props: ReviewCardProps) {
   const { review } = props
+
+  const { t } = useTranslation()
 
   return (
     <Card>
@@ -45,7 +48,7 @@ export function ReviewCard (props: ReviewCardProps) {
               <div className="flex items-center gap-2">
                 <Lightbulb size={16} />
                 <h4 className="text-sm font-semibold">
-                  {review.suggestions.length} suggestion{review.suggestions.length > 1 ? 's' : ''}
+                  {t('common.suggestions', { count: review.suggestions.length })}
                 </h4>
               </div>
 

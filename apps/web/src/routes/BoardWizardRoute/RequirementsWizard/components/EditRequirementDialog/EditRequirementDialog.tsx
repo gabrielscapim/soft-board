@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { useFormik } from 'formik'
+import { useTranslation } from 'react-i18next'
 import { GetRequirementsResultData } from 'types/endpoints'
 import * as yup from 'yup'
 
@@ -37,6 +38,8 @@ export function EditRequirementDialog (props: EditRequirementDialogProps) {
     onConfirm
   } = props
 
+  const { t } = useTranslation('routes.boardWizard.editRequirementDialog')
+
   const formik = useFormik({
     validationSchema: schema,
     initialValues: {
@@ -59,14 +62,14 @@ export function EditRequirementDialog (props: EditRequirementDialogProps) {
       <div>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit requirement</DialogTitle>
+            <DialogTitle>{t('title')}</DialogTitle>
             <DialogDescription>
-              Make changes to your requirement here. Click save when you're done.
+              {t('description')}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={formik.handleSubmit}>
             <div className="grid gap-3 mb-4">
-              <Label htmlFor="name">Title</Label>
+              <Label htmlFor="name">{t('form.title.label')}</Label>
               <Input
                 id="title"
                 type="text"
@@ -79,12 +82,12 @@ export function EditRequirementDialog (props: EditRequirementDialogProps) {
               />
             </div>
             <div className="grid gap-3 mb-4">
-              <Label htmlFor="name">Description</Label>
+              <Label htmlFor="name">{t('form.description.label')}</Label>
               <Textarea
                 id="description"
                 minLength={0}
                 maxLength={500}
-                placeholder="Describe the requirement in detail (optional)"
+                placeholder={t('form.description.placeholder')}
                 className="resize-none"
                 disabled={isMutating}
                 value={formik.values.description}

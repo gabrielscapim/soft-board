@@ -6,6 +6,7 @@ import { useBoard, useClient, useMemberRole } from '@/hooks'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { Spinner } from '@/components/ui/spinner'
+import { useTranslation } from 'react-i18next'
 
 export function EndWizard () {
   const [shareDialogOpen, setShareDialogOpen] = useState(false)
@@ -13,6 +14,7 @@ export function EndWizard () {
   const { board } = useBoard()
   const client = useClient()
   const memberRole = useMemberRole()
+  const { t } = useTranslation('routes.boardWizard')
 
   const getSharedBoardByBoardId = useQuery({
     queryKey: ['getSharedBoardByBoardId', { boardId: board?.id }],
@@ -32,10 +34,10 @@ export function EndWizard () {
 
   return (
     <div className="w-full flex flex-col items-center justify-center h-full gap-8">
-      <h1 className="text-5xl font-bold">End of the Board</h1>
+      <h1 className="text-5xl font-bold">{t('endWizard.title')}</h1>
 
       <p className="text-md text-muted-foreground">
-        Thank you for completing all the steps of the <strong>StartFlow</strong> method!
+        {t('endWizard.description')}
       </p>
 
       <Button
@@ -44,7 +46,7 @@ export function EndWizard () {
         onClick={() => setShareDialogOpen(true)}
       >
         {getSharedBoardByBoardId.isPending ? <Spinner variant="circle" /> : <ExternalLink />}
-        Share board
+        {t('actions.shareBoard')}
       </Button>
 
       <ShareBoardDialog

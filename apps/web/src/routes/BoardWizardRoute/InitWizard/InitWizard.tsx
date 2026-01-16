@@ -1,39 +1,37 @@
 import { Separator } from '@/components/ui/separator'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
+import { useTranslation } from 'react-i18next'
 import { Fragment } from 'react/jsx-runtime'
 
 const STEPS = [
   {
-    title: 'Understand & organize features',
-    description: 'List and prioritize the main functionalities you want in your MVP.',
+    title: 'initWizard.steps.features.title',
+    description: 'initWizard.steps.features.description',
     'data-tutorial': TUTORIALS_ANCHORS.InitWizardStepRequirements
   },
   {
-    title: 'Build your wireflows',
-    description: 'Create simple, low-fidelity screens showing how users will interact.',
+    title: 'initWizard.steps.wireflows.title',
+    description: 'initWizard.steps.wireflows.description',
     'data-tutorial': TUTORIALS_ANCHORS.InitWizardStepWireflows
   },
   {
-    title: 'Review & refine',
-    description: 'Check your flows for clarity, efficiency, and a great user experience.',
+    title: 'initWizard.steps.review.title',
+    description: 'initWizard.steps.review.description',
     'data-tutorial': TUTORIALS_ANCHORS.InitWizardStepReview
   }
 ]
 
 export function InitWizard () {
+  const { t } = useTranslation('routes.boardWizard')
+
   return (
     <div className="grid lg:grid-cols-2 w-full">
       <div className="flex flex-1 items-start justify-center flex-col p-16 gap-10">
         <h1 className="text-5xl font-bold">
-          Let’s get started with your board!
+          {t('initWizard.title')}
         </h1>
         <div className="text-md text-muted-foreground flex flex-col gap-2">
-          <p>
-            You will follow the <strong>StartFlow</strong> method step-by-step.
-          </p>
-          <p>
-            By the end, you’ll have a low-fidelity MVP ready to present, test, and refine.
-          </p>
+          {t('initWizard.description')}
         </div>
       </div>
       <div className="flex flex-1 items-start justify-center flex-col p-16 gap-10">
@@ -45,11 +43,11 @@ export function InitWizard () {
                   {index + 1}
                 </span>
                 <span>
-                  {step.title}
+                  {t(step.title)}
                 </span>
               </div>
               <span className="text-muted-foreground ml-6">
-                {step.description}
+                {t(step.description)}
               </span>
             </div>
             {index < STEPS.length - 1 && <Separator />}

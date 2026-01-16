@@ -1,7 +1,12 @@
 {
   "actions": "Ações",
+  "close": "Fechar",
   "delete": "Excluir",
   "edit": "Editar",
+  "return": "Voltar",
+  "requirements": "Requisitos",
+  "suggestions_one": "Sugestão",
+  "suggestions_other": "Sugestões",
   "untitled": "Sem título",
   "updated": "Atualizado"
 }
