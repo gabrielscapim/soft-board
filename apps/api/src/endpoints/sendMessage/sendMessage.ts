@@ -5,7 +5,7 @@ import { OpenAIError } from 'openai'
 import * as yup from 'yup'
 import { DatabasePool } from 'pg-script'
 import { ChatCompletionMessageFunctionToolCall, ChatCompletionMessageParam } from 'openai/resources/index'
-import { BoardDatabase, MessageDatabase } from 'types/database'
+import { BoardDatabase, MessageDatabase, RequirementDatabase } from 'types/database'
 import { AgentContext, StartFlowAgent, Tool } from '../../startflow-agent'
 import { REQUIREMENTS_AGENT_PROMPT, WIREFLOWS_AGENT_PROMPT, REVIEW_AGENT_PROMPT } from './prompts'
 import {
@@ -17,12 +17,15 @@ import {
   ReviewWireflowsTool
 } from './tools'
 import { ApplicationDependencies, GetApplicationDependencies, IPublisher } from '../../types'
+import { BadRequest } from 'http-errors'
 
 type Handler = RequestHandler<unknown, SendMessageResult, SendMessageCommand>
 
 type MessageRow = Pick<MessageDatabase, 'id' | 'role' | 'content' | 'toolCallId' | 'toolCalls'> & { userName: string | null }
 
-type BoardRow = Pick<BoardDatabase, 'id' | 'step'>
+type BoardRow = Pick<BoardDatabase, 'id' | 'step' | 'teamId'>
+
+type RequirementRow = Pick<RequirementDatabase, 'title' | 'description'>
 
 const schema = yup.object({
   content: yup.string().required('Message is required'),
@@ -49,7 +52,7 @@ export function handler (getDeps: GetApplicationDependencies): Handler {
       .find({ error: `Team with id ${teamId} not found` })
 
     const board = await pool
-      .SELECT<BoardRow>`id, step`
+      .SELECT<BoardRow>`id, step, team_id`
       .FROM`board`
       .WHERE`id = ${boardId}`
       .AND`team_id = ${teamId}`
@@ -71,7 +74,7 @@ export function handler (getDeps: GetApplicationDependencies): Handler {
       .list()
 
     const tools = getTools(board, pool, publishers, websocketEmitters)
-    const prompt = getPrompt(board)
+    const prompt = await getPrompt(pool, board)
 
     const context: AgentContext = {
       board: {
@@ -213,14 +216,39 @@ function getTools (
   return []
 }
 
-function getPrompt (board: BoardRow): string {
+async function getPrompt (
+  pool: DatabasePool,
+  board: BoardRow
+): Promise<string> {
+  const requirementsPrompt = await getRequirementsPrompt(pool, board)
+  const prompt: string[] = [requirementsPrompt]
+
   if (board.step === 'requirements') {
-    return REQUIREMENTS_AGENT_PROMPT
+    prompt.unshift(REQUIREMENTS_AGENT_PROMPT)
   } else if (board.step === 'wireflows') {
-    return WIREFLOWS_AGENT_PROMPT
+    prompt.unshift(WIREFLOWS_AGENT_PROMPT)
   } else if (board.step === 'review') {
-    return REVIEW_AGENT_PROMPT
+    prompt.unshift(REVIEW_AGENT_PROMPT)
+  } else {
+    throw new BadRequest(`Unsupported board step: ${board.step}`)
   }
 
-  return 'You are a helpful assistant.'
+  return prompt.join('\n')
+}
+
+async function getRequirementsPrompt (
+  pool: DatabasePool,
+  board: BoardRow
+): Promise<string> {
+  const requirements = await pool
+    .SELECT<RequirementRow>`requirement.title, requirement.description`
+    .FROM`requirement`
+    .WHERE`requirement.board_id = ${board.id}`
+    .AND`requirement.team_id = ${board.teamId}`
+    .ORDER_BY`requirement."order" ASC`
+    .list()
+
+  const requirementsPrompt = requirements.map(req => `- ${req.title}: ${req.description}`).join('\n')
+
+  return `### The current requirements are:\n${requirementsPrompt}\n`
 }
