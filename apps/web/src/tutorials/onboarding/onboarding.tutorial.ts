@@ -86,7 +86,6 @@ export const onboardingTutorial: Tutorial = {
       disableActiveInteraction: false
     },
     {
-      element: getPopoverAnchorSelector('BoardCard'),
       popover: {
         title: '🎉 You’re ready',
         description:
