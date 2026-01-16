@@ -8,6 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
+import { useTranslation } from 'react-i18next'
 
 export type DeleteBoardDialogProps = {
   open?: boolean
@@ -19,6 +20,8 @@ export type DeleteBoardDialogProps = {
 export function DeleteBoardDialog (props: DeleteBoardDialogProps) {
   const { open, isMutating, onConfirm, onCancel } = props
 
+  const { t } = useTranslation('routes.boards')
+
   return (
     <AlertDialog
       open={open}
@@ -26,10 +29,10 @@ export function DeleteBoardDialog (props: DeleteBoardDialogProps) {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure you want to delete this board?
+            {t('deleteDialog.title')}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the board and all its data.
+            {t('deleteDialog.description')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -42,13 +45,13 @@ export function DeleteBoardDialog (props: DeleteBoardDialogProps) {
                 }
               }}
             >
-              Cancel
+              {t('deleteDialog.cancel')}
             </AlertDialogCancel>
             <AlertDialogAction
               disabled={isMutating}
               onClick={onConfirm}
             >
-              Delete
+              {t('deleteDialog.confirm')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogFooter>

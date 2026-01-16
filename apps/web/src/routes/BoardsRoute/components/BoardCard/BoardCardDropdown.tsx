@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { EllipsisVerticalIcon, PencilIcon, TrashIcon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export type BoardCardDropdownProps = {
   hasPermission?: boolean
@@ -17,13 +18,15 @@ export type BoardCardDropdownProps = {
 export function BoardCardDropdown (props: BoardCardDropdownProps) {
   const { hasPermission, onEdit, onDelete } = props
 
+  const { t } = useTranslation('common')
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer">
         <EllipsisVerticalIcon size={16} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
-        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuLabel>{t('actions')}</DropdownMenuLabel>
         <DropdownMenuGroup>
           <DropdownMenuItem
             disabled={!hasPermission}
@@ -33,7 +36,7 @@ export function BoardCardDropdown (props: BoardCardDropdownProps) {
             }}
           >
             <PencilIcon />
-            Edit
+            {t('edit')}
           </DropdownMenuItem>
           <DropdownMenuItem
             disabled={!hasPermission}
@@ -44,7 +47,7 @@ export function BoardCardDropdown (props: BoardCardDropdownProps) {
             }}
           >
             <TrashIcon />
-            Delete
+            {t('delete')}
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

@@ -11,6 +11,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useFormik } from 'formik'
+import { useTranslation } from 'react-i18next'
 import { GetBoardsResultData } from 'types/endpoints'
 import * as yup from 'yup'
 
@@ -31,13 +32,15 @@ export function EditBoardDialog (props: EditBoardDialogProps) {
     onConfirm
   } = props
 
+  const { t } = useTranslation('routes.boards')
+
   const formik = useFormik({
     validationSchema: yup.object({
       name: yup
         .string()
-        .min(1, 'Name must be at least 1 character')
-        .max(255, 'Name must be at most 255 characters')
-        .required('Name is required')
+        .min(3, t('editDialog.form.validation.nameMin'))
+        .max(50, t('editDialog.form.validation.nameMax'))
+        .required(t('editDialog.form.validation.nameRequired'))
     }),
     initialValues: {
       name: board?.title ?? ''
@@ -58,14 +61,16 @@ export function EditBoardDialog (props: EditBoardDialogProps) {
       <div>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit board</DialogTitle>
+            <DialogTitle>
+              {t('editDialog.title')}
+            </DialogTitle>
             <DialogDescription>
-              Make changes to your board here. Click save when you're done.
+              {t('editDialog.description')}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={formik.handleSubmit}>
             <div className="grid gap-3 mb-4">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">{t('editDialog.form.name.label')}</Label>
               <Input
                 id="name"
                 type="text"
@@ -85,14 +90,14 @@ export function EditBoardDialog (props: EditBoardDialogProps) {
                   disabled={isMutating}
                   onClick={onCancel}
                 >
-                  Cancel
+                  {t('editDialog.cancel')}
                 </Button>
               </DialogClose>
               <Button
                 type="submit"
                 disabled={isMutating}
               >
-                Save changes
+                {t('editDialog.confirm')}
               </Button>
             </DialogFooter>
           </form>

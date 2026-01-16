@@ -8,11 +8,13 @@ import { useState } from 'react'
 import { GetBoardsResultData } from 'types/endpoints'
 import { TUTORIALS_ANCHORS, useTutorial } from '@/tutorials'
 import { ConfirmationDialog } from '@/components'
+import { useTranslation } from 'react-i18next'
 
 export function BoardsRoute () {
   const client = useClient()
   const memberRole = useMemberRole()
   const tutorial = useTutorial('onboarding')
+  const { t } = useTranslation('routes.boards')
 
   const [selectedBoard, setSelectedBoard] = useState<(GetBoardsResultData & { to: 'edit' | 'delete' }) | null>(null)
   const getBoards = useQuery({
@@ -23,27 +25,27 @@ export function BoardsRoute () {
     mutationFn: () => client.createBoard({}),
     onSuccess: () => {
       getBoards.refetch()
-      toast.success('Board created successfully')
+      toast.success(t('toast.createSuccess'))
     },
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to create board')
+    onError: (error: any) => toast.error(error?.response?.data?.detail ?? t('toast.createError'))
   })
   const deleteBoard = useMutation({
     mutationFn: () => client.deleteBoard({ id: selectedBoard!.id }),
     onSuccess: () => {
       getBoards.refetch()
       setSelectedBoard(null)
-      toast.success('Board deleted successfully')
+      toast.success(t('toast.deleteSuccess'))
     },
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to delete board')
+    onError: (error: any) => toast.error(error?.response?.data?.detail ?? t('toast.deleteError'))
   })
   const editBoard = useMutation({
     mutationFn: (title: string) => client.updateBoard({ id: selectedBoard!.id, title }),
     onSuccess: () => {
       getBoards.refetch()
       setSelectedBoard(null)
-      toast.success('Board updated successfully')
+      toast.success(t('toast.updateSuccess'))
     },
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to update board')
+    onError: (error: any) => toast.error(error?.response?.data?.detail ?? t('toast.updateError'))
   })
   const boards = getBoards.data?.data ?? []
 
@@ -54,9 +56,11 @@ export function BoardsRoute () {
     >
       <div className="mb-6 flex flex-row justify-between items-center">
         <div className="space-y-0.5">
-          <h1 className="text-2xl font-semibold">Team boards</h1>
+          <h1 className="text-2xl font-semibold">
+            {t('title')}
+          </h1>
           <p className="text-sm text-muted-foreground">
-            Create and manage boards for your team.
+            {t('description')}
           </p>
         </div>
 
@@ -68,7 +72,7 @@ export function BoardsRoute () {
           onClick={() => createBoard.mutate()}
         >
           <PlusIcon />
-          New board
+          {t('actions.newBoard')}
         </Button>
       </div>
 
@@ -83,10 +87,10 @@ export function BoardsRoute () {
       {getBoards.error && (
         <div className="flex flex-col items-center justify-center">
           <h2 className="text-lg font-semibold mb-1">
-            Failed to load boards
+            {t('errors.loadTitle')}
           </h2>
           <p className="text-xs text-muted-foreground">
-            There was an error fetching the boards
+            {t('errors.loadDescription')}
           </p>
           <Button
             variant="outline"
@@ -103,10 +107,10 @@ export function BoardsRoute () {
       {!getBoards.isPending && !getBoards.isError && boards.length === 0 && (
         <div className="flex flex-col items-center justify-center">
           <h2 className="text-lg font-semibold mb-1">
-            No boards found
+            {t('emptyState.title')}
           </h2>
           <p className="text-xs text-muted-foreground mb-4">
-            Create a new board to get started
+            {t('emptyState.description')}
           </p>
           <Button
             variant="outline"
@@ -140,10 +144,10 @@ export function BoardsRoute () {
       )}
 
       <ConfirmationDialog
-        title="Welcome to SoftBoard! 👋"
-        description="Would you like to enable guided tutorials to help you get started?"
-        confirmLabel="Yes, enable tutorials"
-        cancelLabel="No, thanks"
+        title={t('tutorialDialog.title')}
+        description={t('tutorialDialog.description')}
+        confirmLabel={t('tutorialDialog.confirm')}
+        cancelLabel={t('tutorialDialog.cancel')}
         open={!tutorial.isRunning && tutorial.state.allowed === null}
         onCancel={() => tutorial.onChange('allowed', false)}
         onConfirm={() => tutorial.onChange('allowed', true)}

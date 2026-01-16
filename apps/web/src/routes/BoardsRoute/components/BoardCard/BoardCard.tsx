@@ -6,6 +6,7 @@ import clsx from 'clsx'
 import { getRootImage } from '@/helpers'
 import { Link } from 'react-router'
 import { BoardCardDropdown } from './BoardCardDropdown'
+import { useTranslation } from 'react-i18next'
 
 export type BoardCardProps = {
   board: GetBoardsResultData
@@ -16,6 +17,8 @@ export type BoardCardProps = {
 
 export function BoardCard (props: BoardCardProps) {
   const { board, hasPermission, handleEdit, handleDelete } = props
+
+  const { t } = useTranslation('common')
 
   return (
     <Card
@@ -37,7 +40,7 @@ export function BoardCard (props: BoardCardProps) {
               'font-normal truncate overflow-hidden text-ellipsis whitespace-nowrap pb-1'
             )}
           >
-            {board.title ?? 'Untitled'}
+            {board.title ?? t('untitled')}
           </CardTitle>
 
           <BoardCardDropdown
@@ -48,7 +51,11 @@ export function BoardCard (props: BoardCardProps) {
         </CardHeader>
         <CardContent className="px-3 pb-3">
           <span className="text-xs text-muted-foreground">
-            Updated <FormattedDate date={board.updateDate} format="dd/MM/yyyy HH:mm" />
+            {t('updated')}{' '}
+            <FormattedDate
+              date={board.updateDate}
+              format="dd/MM/yyyy HH:mm"
+            />
           </span>
         </CardContent>
       </Link>
