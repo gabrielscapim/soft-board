@@ -2,6 +2,7 @@ import { Input, Label } from '@/components'
 import { SOFT_COMPONENT_MIN_DIMENSIONS, SOFT_COMPONENTS_PROPERTIES_MENU } from '@/soft-components'
 import { BoardState } from '@/lib'
 import { SoftComponent } from '@/types'
+import { useTranslation } from 'react-i18next'
 
 export type PropertiesTabContentProps = {
   softComponent: SoftComponent
@@ -14,15 +15,18 @@ export type PropertiesTabContentProps = {
 export function PropertiesTabContent (props: PropertiesTabContentProps) {
   const { softComponent, screen, boardState, onUpdateProperties, onUpdateName } = props
 
+  const { t } = useTranslation('routes.editBoard.propertiesTab')
+
   const Menu = SOFT_COMPONENTS_PROPERTIES_MENU[softComponent.type]
   const minDimensions = SOFT_COMPONENT_MIN_DIMENSIONS[softComponent.type]
 
   const relX = screen ? softComponent.properties.x - screen.properties.x : softComponent.properties.x
   const relY = screen ? softComponent.properties.y - screen.properties.y : softComponent.properties.y
+
   return (
     <>
       <Label className="flex flex-col items-start">
-        Name
+        {t('common:name')}
         <Input
           value={softComponent.name}
           onChange={event => onUpdateName(event.target.value)}
@@ -31,11 +35,11 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
 
       <div>
         <p className="text-sm leading-none font-medium select-none pb-3">
-          Dimension
+          {t('common:dimension')}
         </p>
         <div className="grid grid-cols-2 gap-2">
           <Label className="text-xs">
-            W
+            {t('widthChar')}
             <Input
               type="number"
               step="1"
@@ -46,7 +50,7 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
             />
           </Label>
           <Label className="text-xs">
-            H
+            {t('heightChar')}
             <Input
               type="number"
               step="1"
@@ -60,11 +64,11 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
 
       <div>
         <p className="text-sm leading-none font-medium select-none pb-3">
-          Position
+          {t('common:position')}
         </p>
         <div className="grid grid-cols-2 gap-2">
           <Label className="text-xs">
-            X
+            {t('xChar')}
             <Input
               type="number"
               step="1"
@@ -73,7 +77,7 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
             />
           </Label>
           <Label className="text-xs">
-            Y
+            {t('yChar')}
             <Input
               type="number"
               step="1"

@@ -1,0 +1,30 @@
+{
+  "actionsTab": {
+    "title": "Conectar a uma tela",
+    "description": "Isso permitirá navegar entre telas no modo de visualização.",
+    "emptyScreens": "Nenhuma tela encontrada",
+    "searchScreen": "Buscar tela",
+    "helperText": {
+      "onlyButtonsAndText": "Apenas componentes de botão ou texto podem ser conectados a uma tela.",
+      "onlyInsideScreen": "Apenas componentes dentro de uma tela podem ser conectados a outra tela."
+    }
+  },
+
+  "layoutTab": {
+    "order": {
+      "title": "Ordem",
+      "description": "Altere a ordem dos componentes selecionados no board."
+    },
+    "alignment": {
+      "title": "Alinhamento",
+      "description": "Alinhe os componentes selecionados no board."
+    }
+  },
+
+  "propertiesTab": {
+    "widthChar": "L",
+    "heightChar": "A",
+    "xChar": "X",
+    "yChar": "Y"
+  }
+}

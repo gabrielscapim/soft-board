@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { Button } from '@/components'
 import { BoardController } from '@/lib'
+import { useTranslation } from 'react-i18next'
 
 const ORDER_OPTIONS: { name: string; label: string; icon: ReactNode }[] = [
   {
@@ -119,14 +120,16 @@ export type LayoutTabContentProps = {
 export function LayoutTabContent (props: LayoutTabContentProps) {
   const { boardController } = props
 
+  const { t } = useTranslation('routes.editBoard')
+
   return (
     <>
       <div>
         <p className="text-sm leading-none font-medium select-none">
-          Order
+          {t('order.title')}
         </p>
         <p className="text-xs text-muted-foreground pb-3 pt-2">
-          Change the order of selected components in the board.
+          {t('order.description')}
         </p>
         <div className="grid grid-cols-4 gap-3">
           {ORDER_OPTIONS.map(option => (
@@ -153,10 +156,10 @@ export function LayoutTabContent (props: LayoutTabContentProps) {
       </div>
       <div>
         <p className="text-sm leading-none font-medium select-none">
-          Alignment
+          {t('alignment.title')}
         </p>
         <p className="text-xs text-muted-foreground pb-3 pt-2">
-          Align selected components in the board.
+          {t('alignment.description')}
         </p>
         <div className="grid grid-cols-4 gap-3">
           {ALIGNMENT_OPTIONS.map(option => (

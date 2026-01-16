@@ -6,6 +6,7 @@ import { useDebouncedCallback } from 'use-debounce'
 import { ActionsTabContent, LayoutTabContent, PropertiesTabContent } from './Tabs'
 import { BoardController, BoardState } from '@/lib'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
+import { useTranslation } from 'react-i18next'
 
 export type BoardPropertiesMenuProps = {
   boardState: BoardState
@@ -24,6 +25,7 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
     className
   } = props
 
+  const { t } = useTranslation('routes.editBoard')
   const [tab, setTab] = useState('properties')
   const [softComponent, setSoftComponent] = useState<SoftComponent | null>(() => {
     const mobileScreen = selectedSoftComponents.find(c => c.type === 'mobileScreen')
@@ -101,20 +103,20 @@ export function BoardPropertiesMenu (props: BoardPropertiesMenuProps) {
               value="properties"
               disabled={!softComponent}
             >
-              Properties
+              {t('common:properties')}
             </TabsTrigger>
             <TabsTrigger
               value="layout"
               disabled={!softComponent}
             >
-              Layout
+              {t('common:layout')}
             </TabsTrigger>
             <TabsTrigger
               data-tutorial={TUTORIALS_ANCHORS.BoardPropertiesMenuActionsTab}
               value="actions"
               disabled={!softComponent}
             >
-              Actions
+              {t('common:actions')}
             </TabsTrigger>
           </TabsList>
         </div>

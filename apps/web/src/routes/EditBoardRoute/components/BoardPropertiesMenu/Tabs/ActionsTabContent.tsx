@@ -17,6 +17,7 @@ import {
 import { useMemo, useState } from 'react'
 import { SoftComponent } from '@/types'
 import { BoardState } from '@/lib'
+import { useTranslation } from 'react-i18next'
 
 export type ActionsTabContentProps = {
   softComponent: SoftComponent
@@ -27,6 +28,7 @@ export type ActionsTabContentProps = {
 export function ActionsTabContent (props: ActionsTabContentProps) {
   const { softComponent, boardState, onUpdateConnection } = props
 
+  const { t } = useTranslation('routes.editBoard')
   const [open, setOpen] = useState(true)
 
   const softComponents = useBoardStore(boardState, 'softComponentsChanged', state => state.softComponents)
@@ -43,10 +45,10 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
     <>
       <div className="w-full">
         <p className="text-sm leading-none font-medium select-none">
-          Connect to a screen
+          {t('actionsTab.title')}
         </p>
         <p className="text-xs text-muted-foreground pb-3 pt-2">
-          This will allow to navigate between screens in the preview mode.
+          {t('actionsTab.description')}
         </p>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild disabled={!isButton && !isText || !isInsideScreen}>
@@ -59,16 +61,16 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
               <span className="truncate">
                 {softComponent.connectionId
                   ? mobileScreens.find((screen) => screen.id === softComponent.connectionId)?.name
-                  : 'Select a screen'}
+                  : t('actionsTab.emptyScreens')}
               </span>
               <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-2xs p-0" style={{ zIndex: 200_000 }}>
             <Command>
-              <CommandInput placeholder="Search screen" />
+              <CommandInput placeholder={t('actionsTab.searchScreen')} />
               <CommandList>
-                <CommandEmpty>No screens found.</CommandEmpty>
+                <CommandEmpty>{t('actionsTab.emptyScreens')}</CommandEmpty>
                 <CommandGroup>
                   {mobileScreens
                     .filter(screen => screen.id !== softComponent.screenId)
@@ -99,13 +101,13 @@ export function ActionsTabContent (props: ActionsTabContentProps) {
         </Popover>
         {!isButton && !isText && (
           <p className="text-xs text-yellow-600 pt-2">
-            Only buttons or text components can be connected to a screen.
+            {t('actionsTab.helperText.onlyButtonsAndText')}
           </p>
         )}
 
         {(isButton || isText) && !isInsideScreen && (
           <p className="text-xs text-yellow-600 pt-2">
-            Only components inside a screen can be connected to another screen.
+            {t('actionsTab.helperText.onlyInsideScreen')}
           </p>
         )}
       </div>
