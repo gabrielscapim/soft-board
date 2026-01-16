@@ -1,0 +1,71 @@
+{
+  "createMemberDialog": {
+    "title": "Criar membro",
+    "description": "Adicione um novo membro à sua equipe. Informe o email e o cargo.",
+    "form": {
+      "email": {
+        "label": "Email"
+      },
+      "role": {
+        "label": "Cargo",
+        "placeholder": "Selecione um cargo"
+      },
+      "validation": {
+        "invalidEmail": "Endereço de email inválido",
+        "requiredEmail": "O email é obrigatório",
+        "invalidRole": "Cargo inválido",
+        "requiredRole": "O cargo é obrigatório"
+      }
+    },
+    "cancel": "Cancelar",
+    "confirm": "Criar membro"
+  },
+
+  "deleteMemberDialog": {
+    "title": "Tem certeza de que deseja excluir este membro?",
+    "description": "Esta ação não pode ser desfeita. Isso removerá permanentemente o membro da equipe.",
+    "cancel": "Cancelar",
+    "confirm": "Excluir"
+  },
+
+  "table": {
+    "columns": {
+      "you": "Você",
+      "name": "Nome",
+      "role": "Cargo",
+      "email": "Email",
+      "addedAt": "Adicionado em",
+      "updatedAt": "Atualizado em",
+      "actions": "Ações"
+    },
+    "roles": {
+      "owner": "Proprietário",
+      "admin": "Administrador",
+      "member": "Membro"
+    }
+  },
+
+  "toast": {
+    "createMemberSuccess": "Membro criado com sucesso.",
+    "memberAlreadyExistsError": "O membro já existe na equipe.",
+    "userNotFoundError": "Usuário não encontrado.",
+    "createMemberError": "Falha ao criar o membro.",
+    "deleteMemberSuccess": "Membro excluído com sucesso.",
+    "deleteMemberError": "Falha ao excluir o membro.",
+    "updateMemberRoleSuccess": "Cargo do membro atualizado com sucesso.",
+    "updateMemberRoleError": "Falha ao atualizar o cargo do membro."
+  },
+
+  "actions": {
+    "addMember": "Adicionar membro",
+    "search": "Buscar membros por nome ou email"
+  },
+
+  "title": "Membros da equipe",
+  "description": "Gerencie os membros da sua equipe, seus cargos e permissões.",
+
+  "errors": {
+    "loadTitle": "Falha ao carregar os membros",
+    "loadDescription": "Ocorreu um erro ao buscar os membros"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "createMemberDialog": {
+    "title": "Create member",
+    "description": "Add a new member to your team. Specify their email and role.",
+    "form": {
+      "email": {
+        "label": "Email"
+      },
+      "role": {
+        "label": "Role",
+        "placeholder": "Select a role"
+      },
+      "validation": {
+        "invalidEmail": "Invalid email address",
+        "requiredEmail": "Email is required",
+        "invalidRole": "Invalid role",
+        "requiredRole": "Role is required"
+      }
+    },
+    "cancel": "Cancel",
+    "confirm": "Create member"
+  },
+
+  "deleteMemberDialog": {
+    "title": "Are you sure you want to delete this member?",
+    "description": "This action cannot be undone. This will permanently remove the member from the team.",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  },
+
+  "table": {
+    "columns": {
+      "you": "You",
+      "name": "Name",
+      "role": "Role",
+      "email": "Email",
+      "addedAt": "Added At",
+      "updatedAt": "Updated At",
+      "actions": "Actions"
+    },
+    "roles": {
+      "owner": "Owner",
+      "admin": "Admin",
+      "member": "Member"
+    }
+  },
+
+  "toast": {
+    "createMemberSuccess": "Member created successfully.",
+    "memberAlreadyExistsError": "Member already exists in the team.",
+    "userNotFoundError": "User not found.",
+    "createMemberError": "Failed to create member.",
+    "deleteMemberSuccess": "Member deleted successfully.",
+    "deleteMemberError": "Failed to delete member.",
+    "updateMemberRoleSuccess": "Member role updated successfully.",
+    "updateMemberRoleError": "Failed to update member role."
+  },
+
+  "actions": {
+    "addMember": "Add member",
+    "search": "Search members by name or email"
+  },
+
+  "title": "Team members",
+  "description": "Manage your team members, their roles, and permissions.",
+
+  "errors": {
+    "loadTitle": "Failed to load members",
+    "loadDescription": "There was an error fetching the members"
+  }
+}

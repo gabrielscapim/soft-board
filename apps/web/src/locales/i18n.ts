@@ -8,6 +8,7 @@ import boardsWizardRouteEn from './en/routes/boardWizardRoute.json'
 import boardsWizardRoutePtBr from './pt-BR/routes/boardWizardRoute.json'
 import editBoardRouteEn from './en/routes/editBoardRoute.json'
 import editBoardRoutePtBr from './pt-BR/routes/editBoardRoute.json'
+import membersRouteEn from './en/routes/membersRoute.json'
 
 i18n
   .use(initReactI18next)
@@ -35,7 +36,8 @@ i18n
         common: commonEn,
         'routes.boards': boardsRouteEn,
         'routes.boardWizard': boardsWizardRouteEn,
-        'routes.editBoard': editBoardRouteEn
+        'routes.editBoard': editBoardRouteEn,
+        'routes.members': membersRouteEn
       }
     },
     ns: [],
