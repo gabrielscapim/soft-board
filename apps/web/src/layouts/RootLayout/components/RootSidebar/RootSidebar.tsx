@@ -52,7 +52,7 @@ export function RootSidebar () {
   const activeTeam = useTeam()
   const role = useMemberRole()
   const navigate = useNavigate()
-  const { t } = useTranslation('layouts.rootLayout')
+  const { t, i18n } = useTranslation('layouts.rootLayout')
 
   const getTeams = useQuery({
     queryKey: ['getTeams', authenticatedUser?.userId],
@@ -146,8 +146,9 @@ export function RootSidebar () {
               email: authenticatedUser.email
             }}
             isOwner={role === 'owner'}
-            handleSignOut={() => setLogOutDialogOpen(true)}
-            handleLeaveTeam={() => setLeaveTeamDialogOpen(true)}
+            onSignOut={() => setLogOutDialogOpen(true)}
+            onLeaveTeam={() => setLeaveTeamDialogOpen(true)}
+            onLanguageChange={(lang) => i18n.changeLanguage(lang)}
           />
         </SidebarFooter>
       )}
