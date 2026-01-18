@@ -1,9 +1,8 @@
 import { RequestHandler } from 'express'
 import { UpdateTeamCommand, UpdateTeamResult } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, getPool } from '../../libs'
+import { assertMemberPermission, createAppHttpError, getPool } from '../../libs'
 import slugify from 'slugify'
-import { Conflict } from 'http-errors'
 
 type Handler = RequestHandler<unknown, UpdateTeamResult, UpdateTeamCommand>
 
@@ -29,7 +28,7 @@ export function handler (): Handler {
       .first()
 
     if (existingTeam) {
-      throw new Conflict(`A team with the slug "${slug}" already exists`)
+      throw createAppHttpError(409, 'TEAM_CONFLICT', 'A team with this name already exists.')
     }
 
     await pool

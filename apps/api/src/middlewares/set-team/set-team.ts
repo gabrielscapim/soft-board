@@ -1,6 +1,5 @@
 import { RequestHandler } from 'express'
-import { getPool } from '../../libs'
-import { Forbidden } from 'http-errors'
+import { createAppHttpError, getPool } from '../../libs'
 
 export const setTeam: RequestHandler = async (req, res, next) => {
   // If the request has no authentication data, skip setting the team. The require-auth middleware will handle this
@@ -29,7 +28,7 @@ export const setTeam: RequestHandler = async (req, res, next) => {
     .first()
 
   if (!team) {
-    throw new Forbidden(`User is not a member of the team with slug ${slug}`)
+    throw createAppHttpError(403, 'FORBIDDEN', 'User is not a member of the team')
   }
 
   req.team = {

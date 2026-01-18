@@ -89,6 +89,14 @@ export class Client {
     return axios.isAxiosError(error) && error.response?.status === 404
   }
 
+  static getErrorCode (error: unknown): string | undefined {
+    if (axios.isAxiosError(error)) {
+      return error.response?.data?.code
+    }
+
+    return undefined
+  }
+
   static getError (error: any): AxiosError | null {
     if (axios.isAxiosError(error)) {
       return error

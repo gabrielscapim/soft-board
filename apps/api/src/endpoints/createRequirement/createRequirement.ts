@@ -1,8 +1,7 @@
 import { RequestHandler } from 'express'
 import { CreateRequirementCommand, CreateRequirementResult } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, getPool } from '../../libs'
-import { BadRequest } from 'http-errors'
+import { assertMemberPermission, createAppHttpError, getPool } from '../../libs'
 
 type Handler = RequestHandler<unknown, CreateRequirementResult, CreateRequirementCommand>
 
@@ -38,7 +37,7 @@ export function handler (): Handler {
       .AND`team_id = ${teamId}`
 
     if (count >= MAX_REQUIREMENTS_PER_BOARD) {
-      throw new BadRequest(`Maximum of ${MAX_REQUIREMENTS_PER_BOARD} requirements per board reached`)
+      throw createAppHttpError(400, 'MAX_REQUIREMENTS_REACHED', 'The maximum number of requirements for this board has been reached')
     }
 
     const { rows: [max] } = await pool

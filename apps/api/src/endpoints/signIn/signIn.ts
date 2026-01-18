@@ -3,8 +3,7 @@ import { SignInCommand, SignInResult } from 'types/endpoints'
 import { UserDatabase } from 'types/database'
 import * as yup from 'yup'
 import * as bcrypt from 'bcrypt'
-import { getPool } from '../../libs'
-import { Unauthorized } from 'http-errors'
+import { createAppHttpError, getPool } from '../../libs'
 import { AuthenticationData, GetApplicationDependencies } from '../../types'
 import { AUTHENTICATION_COOKIE_NAME, NODE_ENV } from '../../constants'
 
@@ -41,7 +40,7 @@ export function handler (getDeps: GetApplicationDependencies): Handler {
       : await bcrypt.compare(password, '$2b$10$invalidhashfornonexistentuser')
 
     if (!user || !isPasswordValid) {
-      throw new Unauthorized('Invalid email or password')
+      throw createAppHttpError(401, 'INVALID_CREDENTIALS', 'Invalid email or password')
     }
 
     const fallbackTeam = await pool

@@ -1,8 +1,7 @@
 import { RequestHandler } from 'express'
 import { DeleteMemberCommand } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, getPool } from '../../libs'
-import { BadRequest } from 'http-errors'
+import { assertMemberPermission, createAppHttpError, getPool } from '../../libs'
 import { MemberDatabase } from 'types/database'
 
 type Handler = RequestHandler<unknown, unknown, DeleteMemberCommand>
@@ -31,7 +30,7 @@ export function handler (): Handler {
       .find()
 
     if (clientMember.id === memberId) {
-      throw new BadRequest('You cannot delete yourself from the team')
+      throw createAppHttpError(400, 'CANNOT_DELETE_SELF', 'You cannot delete yourself from the team')
     }
 
     const memberToDelete = await pool
@@ -42,7 +41,7 @@ export function handler (): Handler {
       .find({ error: 'Member not found' })
 
     if (memberToDelete.role === 'owner') {
-      throw new BadRequest('You cannot delete a team owner')
+      throw createAppHttpError(400, 'CANNOT_DELETE_OWNER', 'You cannot delete a team owner')
     }
 
     await pool

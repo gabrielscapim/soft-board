@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express'
-import { getPool } from '../../libs'
+import { createAppHttpError, getPool } from '../../libs'
 import { MemberDatabase } from 'types/database'
-import { BadRequest } from 'http-errors'
 
 type MemberRow = Pick<MemberDatabase, 'id' | 'role'>
 
@@ -20,7 +19,7 @@ export function handler (): RequestHandler {
       .find({ error: 'You are not a member of this team' })
 
     if (member.role === 'owner') {
-      throw new BadRequest('You cannot leave a team if you are the owner.')
+      throw createAppHttpError(400, 'CANNOT_LEAVE_AS_OWNER', 'You cannot leave a team if you are the owner.')
     }
 
     await pool

@@ -1,4 +1,5 @@
 export * from './assert-member-permission'
+export * from './create-app-http-error'
 export * from './database-factory'
 export * from './get-pool'
 export * from './logger'

@@ -2,8 +2,7 @@ import { RequestHandler } from 'express'
 import { BoardDatabase } from 'types/database'
 import { CreateBoardCommand, CreateBoardResult } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, getPool } from '../../libs'
-import { BadRequest } from 'http-errors'
+import { assertMemberPermission, createAppHttpError, getPool } from '../../libs'
 
 type Handler = RequestHandler<unknown, CreateBoardResult, CreateBoardCommand>
 
@@ -37,7 +36,7 @@ export function handler (): Handler {
       .count()
 
     if (count >= MAX_BOARD_COUNT) {
-      throw new BadRequest(`Maximum of ${MAX_BOARD_COUNT} boards per team reached`)
+      throw createAppHttpError(400, 'MAX_BOARDS_REACHED', 'The maximum number of boards for this team has been reached')
     }
 
     const created = await pool.transaction(async pool => {

@@ -1,6 +1,6 @@
 import { SendMessageResultMessage, SendMessageCommand, SendMessageResult } from 'types/endpoints'
 import { RequestHandler } from 'express'
-import { assertMemberPermission, getPool, logger } from '../../libs'
+import { assertMemberPermission, createAppHttpError, getPool, logger } from '../../libs'
 import { OpenAIError } from 'openai'
 import * as yup from 'yup'
 import { DatabasePool } from 'pg-script'
@@ -17,7 +17,6 @@ import {
   ReviewWireflowsTool
 } from './tools'
 import { ApplicationDependencies, GetApplicationDependencies, IPublisher } from '../../types'
-import { BadRequest } from 'http-errors'
 
 type Handler = RequestHandler<unknown, SendMessageResult, SendMessageCommand>
 
@@ -230,7 +229,7 @@ async function getPrompt (
   } else if (board.step === 'review') {
     prompt.unshift(REVIEW_AGENT_PROMPT)
   } else {
-    throw new BadRequest(`Unsupported board step: ${board.step}`)
+    throw createAppHttpError(400, 'INVALID_BOARD_STEP', 'Unsupported board step')
   }
 
   return prompt.join('\n')

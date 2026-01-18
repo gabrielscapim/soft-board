@@ -1,8 +1,7 @@
 import { RequestHandler } from 'express'
 import { UpdateBoardStepCommand } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, getPool } from '../../libs'
-import { BadRequest } from 'http-errors'
+import { assertMemberPermission, createAppHttpError, getPool } from '../../libs'
 import { DatabasePool } from 'pg-script'
 import { RequirementDatabase } from 'types/database'
 
@@ -38,7 +37,7 @@ export function handler (): Handler {
       : STEPS_ORDER[STEPS_ORDER.indexOf(currentStep) - 1]
 
     if (!nextStep) {
-      throw new BadRequest(`Cannot go ${step} from step ${currentStep}`)
+      throw createAppHttpError(400, 'INVALID_BOARD_STEP', 'Cannot go to the requested step')
     }
 
     // If moving from requirements to wireflows, ensure at least 1 requirement exists
@@ -77,11 +76,12 @@ async function validateRequirements (
   const count = requirements.length
 
   if (count < 1) {
-    throw new BadRequest('Cannot move to wireflows step without at least 1 requirement.')
+    // cria code diferente
+    throw createAppHttpError(400, 'REQUIREMENTS_REQUIRED', 'Cannot move to wireflows step without at least 1 requirement.')
   }
 
   if (requirements.some(r => !r.title)) {
-    throw new BadRequest('All requirements must have a title before moving to wireflows step.')
+    throw createAppHttpError(400, 'REQUIREMENTS_TITLE_REQUIRED', 'All requirements must have a title before moving to wireflows step.')
   }
 }
 
@@ -104,10 +104,10 @@ async function validateScreens (
     .first()
 
   if (!screen) {
-    throw new BadRequest('Cannot move to review step without at least 1 screen.')
+    throw createAppHttpError(400, 'SCREENS_REQUIRED', 'Cannot move to review step without at least 1 screen.')
   }
 
   if (!component) {
-    throw new BadRequest('Cannot move to review step without at least 1 component.')
+    throw createAppHttpError(400, 'COMPONENTS_REQUIRED', 'Cannot move to review step without at least 1 component.')
   }
 }
