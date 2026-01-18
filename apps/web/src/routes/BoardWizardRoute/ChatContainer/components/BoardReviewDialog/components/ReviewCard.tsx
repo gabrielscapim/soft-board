@@ -48,7 +48,7 @@ export function ReviewCard (props: ReviewCardProps) {
               <div className="flex items-center gap-2">
                 <Lightbulb size={16} />
                 <h4 className="text-sm font-semibold">
-                  {t('common.suggestions', { count: review.suggestions.length })}
+                  {t('common:suggestions', { count: review.suggestions.length })}
                 </h4>
               </div>
 
