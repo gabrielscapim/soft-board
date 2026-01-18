@@ -1,0 +1,148 @@
+{
+  "boardInit": {
+    "footer": {
+      "description": "Use these controls to move forward or backward through the steps.",
+      "title": "➡️ Navigation"
+    },
+    "getStarted": {
+      "description": "Click “Start” to begin shaping your MVP from idea to structure.",
+      "title": "🚀 Let’s get started"
+    },
+    "headerSteps": {
+      "description": "This flow guides you from idea to MVP, step by step, with a clear sense of progress.",
+      "title": "✔️ Your progress"
+    },
+    "stepRequirements": {
+      "description": "List and prioritize the core features your MVP needs to succeed.",
+      "title": "📝 Define requirements"
+    },
+    "stepReview": {
+      "description": "Validate your flow, remove friction, and polish the overall experience.",
+      "title": "🔍 Review and refine"
+    },
+    "stepWireflows": {
+      "description": "Sketch simple screens to visualize how users move through your product.",
+      "title": "🧩 Build wireflows"
+    }
+  },
+  "boardPreview": {
+    "interactiveScreens": {
+      "description": "Click, scroll, and explore the screens just like on a real device.",
+      "title": "👆 Interact with screens"
+    },
+    "screenSelector": {
+      "description": "Switch between the different mobile screens in your board preview.",
+      "title": "📱 Screen selector"
+    }
+  },
+  "boardRequirements": {
+    "addRequirementButton": {
+      "description": "Click here to create a new requirement manually.",
+      "title": "➕ Add requirement"
+    },
+    "chatInput": {
+      "description": "Describe features in natural language and let your board turn them into requirements.",
+      "title": "💬 Describe it in words"
+    },
+    "requirementsList": {
+      "description": "View and manage all the requirements for your product in one place.",
+      "title": "📝 Requirements list"
+    }
+  },
+  "boardReview": {
+    "chatInput": {
+      "description": "Use the chat to generate a usability review based on proven heuristics.",
+      "title": "💬 Get a review from chat"
+    },
+    "reviewMode": {
+      "description": "Explore your board and wireflows in read-only mode to preserve the design.",
+      "title": "👀 Review mode"
+    }
+  },
+  "boardWireflows": {
+    "chatContainer": {
+      "description": "Create screens and components using simple natural language.",
+      "title": "💬 Build with chat"
+    },
+    "editMode": {
+      "description": "Switch back to editing to add or adjust screens and components.",
+      "title": "✏️ Edit mode"
+    },
+    "previewMode": {
+      "description": "Enter preview mode to experience the flow as a real user.",
+      "title": "👀 Preview experience"
+    },
+    "wireflowCanvas": {
+      "description": "This is where screens and components connect to form user flows.",
+      "title": "🧩 Wireflow canvas"
+    },
+    "zoomControls": {
+      "description": "Zoom in to focus on details or zoom out to see the full journey.",
+      "title": "🔍 Zoom controls"
+    }
+  },
+  "editBoard": {
+    "actionsAndNavigation": {
+      "description": "Define interactions and connect screens for preview mode.",
+      "title": "🔗 Actions & navigation"
+    },
+    "addComponentCard": {
+      "description": "Click a component to instantly place it on the canvas.",
+      "title": "➕ Add a component"
+    },
+    "addScreenButton": {
+      "description": "Click here to add a new mobile screen to your board.",
+      "title": "📱 Add a screen"
+    },
+    "boardCanvas": {
+      "description": "Drag, resize, and position components freely on your board.",
+      "title": "🧩 Board canvas"
+    },
+    "componentLibrary": {
+      "description": "Browse all available components you can add to your board.",
+      "title": "🗂️ Component library"
+    },
+    "componentSettings": {
+      "description": "Customize the selected component’s properties here.",
+      "title": "⚙️ Component settings"
+    }
+  },
+  "onboarding": {
+    "boards": {
+      "description": "Access and manage all your boards and projects here.",
+      "title": "🗂️ Boards"
+    },
+    "createBoard": {
+      "description": "Start something new by creating your first board.",
+      "title": "➕ Create a board"
+    },
+    "mainNavigation": {
+      "description": "Use this sidebar to access all main areas of the app.",
+      "title": "🧭 Main navigation"
+    },
+    "ready": {
+      "description": "Open your board and start building your product.",
+      "title": "🎉 You’re ready"
+    },
+    "teamMembers": {
+      "description": "Invite people and manage team access.",
+      "title": "👤 Team members"
+    },
+    "teamSettings": {
+      "description": "Configure preferences and team-level options.",
+      "title": "⚙️ Team settings"
+    },
+    "teamSwitcher": {
+      "description": "Switch between teams or create a new one anytime.",
+      "title": "👥 Team switcher"
+    },
+    "yourAccount": {
+      "description": "View your profile, leave the team, or log out.",
+      "title": "🙋 Your account"
+    },
+    "yourBoards": {
+      "description": "This is where all your boards live.",
+      "title": "📌 Your boards"
+    }
+  }
+}

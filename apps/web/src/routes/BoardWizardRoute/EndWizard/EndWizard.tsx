@@ -7,6 +7,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { Spinner } from '@/components/ui/spinner'
 import { useTranslation } from 'react-i18next'
+import { Client } from '@/client/client'
 
 export function EndWizard () {
   const [shareDialogOpen, setShareDialogOpen] = useState(false)
@@ -29,7 +30,10 @@ export function EndWizard () {
   const shareBoard = useMutation({
     mutationFn: () => client.shareBoard({ boardId: board!.id }),
     onSuccess: (result) => setSharedLink(result.link),
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to share board')
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.shareBoardError'))
+    }
   })
 
   return (

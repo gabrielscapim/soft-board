@@ -9,36 +9,39 @@ import {
 } from '@/components/ui/select'
 import { SoftComponentPropertiesMenuProps } from '@/soft-components/types'
 import { IconSoftComponentProperties } from '@/types'
+import { useTranslation } from 'react-i18next'
 
 const COLORS = [
   {
     value: 'primary',
-    label: 'Primary'
+    label: 'primary'
   },
   {
     value: 'secondary',
-    label: 'Secondary'
+    label: 'secondary'
   }
 ]
 
 export function IconPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
   const properties = props.properties as IconSoftComponentProperties
 
+  const { t } = useTranslation('soft-components')
+
   return (
     <>
       <Label className="grid gap-2">
-        Color
+        {t('color')}
         <Select
           value={properties.color ?? 'primary'}
           onValueChange={value => props.onUpdateProperties('color', value)}
         >
           <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select color" />
+            <SelectValue placeholder={t('color')} />
           </SelectTrigger>
           <SelectContent className="max-h-72">
             {COLORS.map(color => (
               <SelectItem key={color.value} value={color.value}>
-                {color.label}
+                {t(color.label)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -46,7 +49,7 @@ export function IconPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
       </Label>
 
       <Label className="flex flex-col items-start">
-        Icon
+        {t('icon')}
         <Input
           type="text"
           value={properties.icon ?? ''}

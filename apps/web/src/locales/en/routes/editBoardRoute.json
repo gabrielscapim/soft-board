@@ -1,29 +1,39 @@
 {
   "actionsTab": {
-    "title": "Connect to a screen",
     "description": "This will allow to navigate between screens in the preview mode.",
     "emptyScreens": "No screens found",
-    "searchScreen": "Search screen",
     "helperText": {
       "onlyButtonsAndText": "Only buttons or text components can be connected to a screen.",
       "onlyInsideScreen": "Only components inside a screen can be connected to another screen."
-    }
-  },
-
-  "layoutTab": {
-    "order": {
-      "title": "Order",
-      "description": "Change the order of selected components in the board."
     },
-    "alignment": {
-      "title": "Alignment",
-      "description": "Align selected components in the board."
-    }
+    "searchScreen": "Search screen",
+    "title": "Connect to a screen"
   },
-
+  "layoutTab": {
+    "alignment": {
+      "description": "Align selected components in the board.",
+      "title": "Alignment"
+    },
+    "back": "Back",
+    "backward": "Backward",
+    "bottom": "Bottom",
+    "center": "Center",
+    "forward": "Forward",
+    "front": "Front",
+    "fullHeight": "Full Height",
+    "fullWidth": "Full Width",
+    "left": "Left",
+    "middle": "Middle",
+    "order": {
+      "description": "Change the order of selected components in the board.",
+      "title": "Order"
+    },
+    "right": "Right",
+    "top": "Top"
+  },
   "propertiesTab": {
-    "widthChar": "W",
     "heightChar": "H",
+    "widthChar": "W",
     "xChar": "X",
     "yChar": "Y"
   }

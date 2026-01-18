@@ -5,6 +5,7 @@ import { SoftComponentType } from '@/types'
 import Fuse from 'fuse.js'
 import { useScreenDimensions } from '@/hooks'
 import { BoardController } from '@/lib'
+import { useTranslation } from 'react-i18next'
 
 export type BoardComponentsPreviewProps = {
   boardController: BoardController
@@ -16,6 +17,7 @@ export function BoardComponentsPreview (props: BoardComponentsPreviewProps) {
   const { boardController, search, disabled } = props
 
   const { width, height } = useScreenDimensions()
+  const { t } = useTranslation('layouts.editBoardLayout')
 
   const componentsPreview = useMemo(() => {
     const components = Object.entries(SOFT_COMPONENTS_SCHEMAS)
@@ -43,13 +45,13 @@ export function BoardComponentsPreview (props: BoardComponentsPreviewProps) {
 
   return (
     <>
-      {!componentsPreview.length && <span className="opacity-40">No components found</span>}
+      {!componentsPreview.length && <span className="opacity-40">{t('boardComponentsPreview.noComponents')}</span>}
       {componentsPreview.map(component => (
         <BoardComponentCardPreview
           key={component.variation.name}
           disabled={disabled}
           type={component.type as SoftComponentType}
-          name={component.variation.name}
+          name={t(`schema.${component.variation.name}`, { ns: 'soft-components' })}
           properties={component.variation.properties}
           onClick={() => {
             if (disabled) return

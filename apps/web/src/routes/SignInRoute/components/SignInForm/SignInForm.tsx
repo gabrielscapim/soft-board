@@ -7,6 +7,7 @@ import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router'
 import { Client } from '@/client'
+import { useTranslation } from 'react-i18next'
 
 const formSchema = yup.object({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -17,6 +18,7 @@ export function SignInForm () {
   const client = useClient()
   const authentication = useAuthentication()
   const navigate = useNavigate()
+  const { t } = useTranslation('routes.signIn')
   const formik = useFormik({
     validationSchema: formSchema,
     initialValues: {
@@ -29,11 +31,9 @@ export function SignInForm () {
         authentication.setAuthenticatedUser({ ...result, email: values.email })
         navigate('/', { replace: true })
       } catch (error: any) {
-        const message = Client.getError(error)
-          ? error?.response?.data?.detail
-          : 'An unexpected error occurred'
+        const code = Client.getErrorCode(error)
 
-        toast.error(message)
+        toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : 'An unexpected error occurred.')
       }
     }
   })
@@ -42,13 +42,15 @@ export function SignInForm () {
     <form className="px-8 md:px-8 py-14 md:py-14" onSubmit={formik.handleSubmit}>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col items-center text-center">
-          <h1 className="text-2xl font-bold">Welcome back</h1>
+          <h1 className="text-2xl font-bold">
+            {t('form.title')}
+          </h1>
           <p className="text-muted-foreground text-balance text-sm">
-            Login to your SoftBoard account
+            {t('form.description')}
           </p>
         </div>
         <div className="grid gap-3">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t('form.email.label')}</Label>
           <Input
             id="email"
             type="email"
@@ -58,7 +60,7 @@ export function SignInForm () {
           />
         </div>
         <div className="grid gap-3">
-          <Label htmlFor="email">Password</Label>
+          <Label htmlFor="email">{t('form.password.label')}</Label>
           <Input
             id="password"
             type="password"
@@ -73,7 +75,7 @@ export function SignInForm () {
           className="w-full"
           disabled={formik.isSubmitting}
         >
-          Login
+          {t('form.submit')}
         </Button>
       </div>
     </form>

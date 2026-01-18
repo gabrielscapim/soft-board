@@ -4,6 +4,7 @@ import { MAX_SCALE, MIN_SCALE } from '@/helpers'
 import { SOFT_COMPONENTS_SCHEMAS } from '@/soft-components'
 import { TUTORIALS_ANCHORS, useTutorial } from '@/tutorials'
 import { useBoardStore, BoardLink, PreviewModeLink, Button, BoardZoomController, HelpDropdownMenu } from '@/components'
+import { useTranslation } from 'react-i18next'
 
 export function EditBoardHeader () {
   const { boardState, boardController } = useBoard()
@@ -14,6 +15,7 @@ export function EditBoardHeader () {
   const hasPermission = memberRole !== 'member'
   const currentMobileScreens = softComponents.filter(fc => fc.type === 'mobileScreen')
   const tutorial = useTutorial()
+  const { t } = useTranslation('layouts.editBoardLayout')
 
   return (
     <header className="bg-background sticky top-0 shrink-0 p-3 h-15 flex justify-between items-center w-full border-b-1">
@@ -43,7 +45,7 @@ export function EditBoardHeader () {
             })}
           >
             <SmartphoneIcon />
-            Add screen
+            {t('actions.addScreen')}
           </Button>
           <BoardZoomController
             scale={scale}

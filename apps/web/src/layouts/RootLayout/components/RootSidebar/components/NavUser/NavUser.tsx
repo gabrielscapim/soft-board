@@ -15,6 +15,7 @@ import {
   SidebarMenuItem,
   useSidebar
 } from '@/components'
+import { useTranslation } from 'react-i18next'
 
 export type NavUserProps = {
   user: {
@@ -30,6 +31,7 @@ export function NavUser (props: NavUserProps) {
   const { user, isOwner, handleSignOut, handleLeaveTeam } = props
   const { isMobile } = useSidebar()
 
+  const { t } = useTranslation('layouts.rootLayout')
   const avatar = getAvatarFallbackName(user.name)
 
   return (
@@ -76,11 +78,11 @@ export function NavUser (props: NavUserProps) {
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLeaveTeam} disabled={isOwner}>
               <DoorOpen />
-              Leave team
+              {t('navUser.leaveTeam')}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleSignOut}>
               <LogOut />
-              Log out
+              {t('navUser.logOut')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

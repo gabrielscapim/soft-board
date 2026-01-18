@@ -3,13 +3,10 @@ import { CollapsibleEditBoardSidebar, FixedEditBoardSidebar } from './components
 import { useBoard, useMemberRole } from '@/hooks'
 import { Sidebar, useSidebar } from '@/components'
 
-export type EditBoardSidebarSection =
-  'Components' |
-  'Templates' |
-  'Screens'
+export type EditBoardSidebarSection = 'components'
 
 export function EditBoardSidebar () {
-  const [selectedSection, setSelectedSection] = useState<EditBoardSidebarSection>('Components')
+  const [selectedSection, setSelectedSection] = useState<EditBoardSidebarSection>('components')
   const [search, setSearch] = useState('')
   const { setOpen } = useSidebar()
   const { boardController } = useBoard()

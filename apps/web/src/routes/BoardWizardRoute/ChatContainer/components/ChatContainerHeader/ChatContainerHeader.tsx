@@ -21,7 +21,7 @@ export function ChatContainerHeader (props: ChatContainerHeaderProps) {
         <AvatarImage src={getRootImage(board?.image)} />
       </Avatar>
       <span className="text-sm font-medium">
-        {board?.title ?? <span className="opacity-30">{t('common:untitled')} Board</span>}
+        {board?.title ?? <span className="opacity-30">{t('common:untitled')}</span>}
       </span>
     </div>
   )

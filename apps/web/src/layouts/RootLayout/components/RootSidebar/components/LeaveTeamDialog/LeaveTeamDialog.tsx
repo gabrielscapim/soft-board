@@ -8,6 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@/components'
+import { useTranslation } from 'react-i18next'
 import { GetTeamResult } from 'types/endpoints'
 
 export type LeaveTeamDialogProps = {
@@ -27,6 +28,8 @@ export function LeaveTeamDialog (props: LeaveTeamDialogProps) {
     onConfirm
   } = props
 
+  const { t } = useTranslation('layouts.rootLayout')
+
   return (
     <AlertDialog
       open={open}
@@ -34,10 +37,10 @@ export function LeaveTeamDialog (props: LeaveTeamDialogProps) {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure you want to leave the team "{team?.name}"?
+            {t('leaveTeamDialog.title', { teamName: team?.name })}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. You will no longer have access to the team's boards and members.
+            {t('leaveTeamDialog.description')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -45,13 +48,13 @@ export function LeaveTeamDialog (props: LeaveTeamDialogProps) {
             disabled={isMutating}
             onClick={onCancel}
           >
-            Cancel
+            {t('leaveTeamDialog.cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             disabled={isMutating}
             onClick={onConfirm}
           >
-            Leave Team
+            {t('leaveTeamDialog.confirm')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

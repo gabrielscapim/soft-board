@@ -1,29 +1,44 @@
 {
   "actionsTab": {
-    "title": "Conectar a uma tela",
     "description": "Isso permitirá navegar entre telas no modo de visualização.",
     "emptyScreens": "Nenhuma tela encontrada",
-    "searchScreen": "Buscar tela",
     "helperText": {
       "onlyButtonsAndText": "Apenas componentes de botão ou texto podem ser conectados a uma tela.",
       "onlyInsideScreen": "Apenas componentes dentro de uma tela podem ser conectados a outra tela."
-    }
-  },
-
-  "layoutTab": {
-    "order": {
-      "title": "Ordem",
-      "description": "Altere a ordem dos componentes selecionados no board."
     },
-    "alignment": {
-      "title": "Alinhamento",
-      "description": "Alinhe os componentes selecionados no board."
-    }
+    "searchScreen": "Buscar tela",
+    "title": "Conectar a uma tela"
   },
-
+  "layoutTab": {
+    "alignment": {
+      "description": "Alinhe os componentes selecionados no board.",
+      "title": "Alinhamento"
+    },
+    "back": "Atrás",
+    "backward": "Recuar",
+    "bottom": "Inferior",
+    "center": "Centro",
+    "forward": "Avançar",
+    "front": "Frente",
+    "fullHeight": "Altura total",
+    "fullWidth": "Largura total",
+    "left": "Esquerda",
+    "middle": "Meio",
+    "order": {
+      "description": "Altere a ordem dos componentes selecionados no board.",
+      "title": "Ordem"
+    },
+    "right": "Direita",
+    "top": "Superior"
+  },
   "propertiesTab": {
-    "widthChar": "L",
+    "bottom": "Inferior",
     "heightChar": "A",
+    "left": "Esquerda",
+    "right": "Direita",
+    "rotation": "Rotação",
+    "top": "Superior",
+    "widthChar": "L",
     "xChar": "X",
     "yChar": "Y"
   }

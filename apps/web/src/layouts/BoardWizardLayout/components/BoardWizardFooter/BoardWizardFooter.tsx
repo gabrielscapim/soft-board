@@ -4,6 +4,8 @@ import { toast } from 'sonner'
 import { useParams } from 'react-router'
 import { useClient, useBoard, useMemberRole } from '@/hooks'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
+import { useTranslation } from 'react-i18next'
+import { Client } from '@/client'
 
 export function BoardWizardFooter () {
   const params = useParams<{ boardId?: string }>()
@@ -11,17 +13,24 @@ export function BoardWizardFooter () {
   const { board, refetch, refetchWithQuery } = useBoard()
   const client = useClient()
   const memberRole = useMemberRole()
+  const { t } = useTranslation('layouts.boardWizard')
   const currentStep = board?.step
 
   const handleNext = useMutation({
     mutationFn: async () => client.updateBoardStep({ id: boardId!, step: 'next' }),
     onSuccess: () => onHandleStep(),
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to update board step')
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.updateBoardError'))
+    }
   })
   const handlePrevious = useMutation({
     mutationFn: async () => client.updateBoardStep({ id: boardId!, step: 'previous' }),
     onSuccess: () => onHandleStep(),
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to update board step')
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.updateBoardError'))
+    }
   })
 
   const onHandleStep = () => {
@@ -44,10 +53,10 @@ export function BoardWizardFooter () {
           disabled={handlePrevious.isPending || handleNext.isPending || memberRole === 'member'}
           onClick={() => handlePrevious.mutate()}
         >
-          {currentStep === 'requirements' && 'Back'}
-          {currentStep === 'wireflows' && 'Back'}
-          {currentStep === 'review' && 'Back'}
-          {currentStep === 'end' && 'Back'}
+          {currentStep === 'requirements' && t('footer.back')}
+          {currentStep === 'wireflows' && t('footer.back')}
+          {currentStep === 'review' && t('footer.back')}
+          {currentStep === 'end' && t('footer.back')}
         </Button>
       )}
       {currentStep && currentStep !== 'end' && (
@@ -58,10 +67,10 @@ export function BoardWizardFooter () {
           disabled={handleNext.isPending || handlePrevious.isPending || memberRole === 'member'}
           onClick={() => handleNext.mutate()}
         >
-          {currentStep === 'init' && 'Start'}
-          {currentStep === 'requirements' && 'Next'}
-          {currentStep === 'wireflows' && 'Next'}
-          {currentStep === 'review' && 'Complete'}
+          {currentStep === 'init' && t('footer.start')}
+          {currentStep === 'requirements' && t('footer.next')}
+          {currentStep === 'wireflows' && t('footer.next')}
+          {currentStep === 'review' && t('footer.complete')}
         </Button>
       )}
     </footer>

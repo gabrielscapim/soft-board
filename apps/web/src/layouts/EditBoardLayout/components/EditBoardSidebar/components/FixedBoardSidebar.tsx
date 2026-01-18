@@ -9,10 +9,11 @@ import {
 } from '@/components/ui/sidebar'
 import { Component } from 'lucide-react'
 import { EditBoardSidebarSection } from '../EditBoardSidebar'
+import { useTranslation } from 'react-i18next'
 
 const sections = [
   {
-    title: 'Components',
+    title: 'components',
     icon: Component
   }
 ] as const
@@ -23,6 +24,8 @@ export type FixedEditBoardSidebarProps = {
 
 export function FixedEditBoardSidebar (props: FixedEditBoardSidebarProps) {
   const { onSectionClick } = props
+
+  const { t } = useTranslation()
 
   return (
     <Sidebar
@@ -37,14 +40,14 @@ export function FixedEditBoardSidebar (props: FixedEditBoardSidebarProps) {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     tooltip={{
-                    children: item.title,
+                    children: t(`common:${item.title}`),
                       hidden: false
                     }}
                     className="px-2.5 md:px-2 cursor-pointer"
                     onClick={() => onSectionClick?.(item.title)}
                   >
                     <item.icon />
-                    <span>{item.title}</span>
+                    <span>{t(`common:${item.title}`)}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

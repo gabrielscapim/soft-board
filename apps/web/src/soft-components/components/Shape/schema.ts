@@ -42,7 +42,7 @@ export const shapeSoftComponentSchema = {
       }
     },
     {
-      name: 'Circle',
+      name: 'Circle Shape',
       properties: {
         x: 0,
         y: 0,
@@ -55,7 +55,7 @@ export const shapeSoftComponentSchema = {
       }
     },
     {
-      name: 'Rectangle',
+      name: 'Rectangle Shape',
       properties: {
         x: 0,
         y: 0,

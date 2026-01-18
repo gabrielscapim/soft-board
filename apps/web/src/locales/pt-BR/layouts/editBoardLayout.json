@@ -1,0 +1,11 @@
+{
+  "actions": {
+    "addScreen": "Adicionar tela"
+  },
+  "boardComponentsPreview": {
+    "noComponents": "Nenhum componente encontrado"
+  },
+  "collapsibleEditBoardSidebar": {
+    "noTemplates": "Nenhum template encontrado"
+  }
+}

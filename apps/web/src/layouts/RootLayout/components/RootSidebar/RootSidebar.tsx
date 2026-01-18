@@ -19,22 +19,24 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
+import { useTranslation } from 'react-i18next'
+import { Client } from '@/client'
 
 const items = [
   {
-    title: 'Boards',
+    title: 'common:boards',
     url: 'boards',
     icon: SquareMousePointer,
     'data-tutorial': TUTORIALS_ANCHORS.RootSidebarBoardsItem
   },
   {
-    title: 'Members',
+    title: 'common:members',
     url: 'members',
     icon: UsersRound,
     'data-tutorial': TUTORIALS_ANCHORS.RootSidebarMembersItem
   },
   {
-    title: 'Settings',
+    title: 'common:settings',
     url: 'settings',
     icon: Settings,
     'data-tutorial': TUTORIALS_ANCHORS.RootSidebarSettingsItem
@@ -50,6 +52,7 @@ export function RootSidebar () {
   const activeTeam = useTeam()
   const role = useMemberRole()
   const navigate = useNavigate()
+  const { t } = useTranslation('layouts.rootLayout')
 
   const getTeams = useQuery({
     queryKey: ['getTeams', authenticatedUser?.userId],
@@ -58,11 +61,14 @@ export function RootSidebar () {
   const createTeam = useMutation({
     mutationFn: (name: string) => client.createTeam({ name }),
     onSuccess: (data) => {
-      toast.success('Team created successfully')
+      toast.success(t('toast.createTeamSuccess'))
       setCreateTeamDialogOpen(false)
       navigate(`/${data.slug}`)
     },
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to create team')
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.createTeamError'))
+    }
   })
   const signOut = useMutation({
     mutationFn: () => client.signOut(),
@@ -70,17 +76,23 @@ export function RootSidebar () {
       setAuthenticatedUser(null)
       window.location.reload()
     },
-    onError: () => toast.error('Failed to sign out')
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.signOutError'))
+    }
   })
   const leaveTeam = useMutation({
     mutationFn: () => client.leaveTeam(),
     onSuccess: () => {
       setLeaveTeamDialogOpen(false)
-      toast.success('You have left the team')
+      toast.success(t('toast.leaveTeamSuccess'))
       getTeams.refetch()
       window.location.reload()
     },
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to leave team')
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.leaveTeamError'))
+    }
   })
 
   const teams = getTeams.data?.data ?? []
@@ -105,7 +117,7 @@ export function RootSidebar () {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Team</SidebarGroupLabel>
+          <SidebarGroupLabel>{t('common:teams', { count: 1 })}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -116,7 +128,7 @@ export function RootSidebar () {
                   <SidebarMenuButton asChild>
                     <Link to={item.url}>
                       <item.icon />
-                      <span>{item.title}</span>
+                      <span>{t(item.title)}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

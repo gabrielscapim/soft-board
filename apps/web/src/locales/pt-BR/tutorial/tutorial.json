@@ -1,0 +1,148 @@
+{
+  "boardInit": {
+    "footer": {
+      "description": "Use estes controles para avançar ou voltar entre as etapas.",
+      "title": "➡️ Navegação"
+    },
+    "getStarted": {
+      "description": "Clique em “Start” para começar a estruturar seu MVP, da ideia à forma.",
+      "title": "🚀 Vamos começar"
+    },
+    "headerSteps": {
+      "description": "Este fluxo guia você da ideia ao MVP, passo a passo, com uma noção clara de progresso.",
+      "title": "✔️ Seu progresso"
+    },
+    "stepRequirements": {
+      "description": "Liste e priorize as funcionalidades essenciais que seu MVP precisa para ter sucesso.",
+      "title": "📝 Definir requisitos"
+    },
+    "stepReview": {
+      "description": "Valide seu fluxo, remova atritos e refine a experiência geral.",
+      "title": "🔍 Revisar e refinar"
+    },
+    "stepWireflows": {
+      "description": "Esboce telas simples para visualizar como os usuários navegam pelo seu produto.",
+      "title": "🧩 Construir wireflows"
+    }
+  },
+  "boardPreview": {
+    "interactiveScreens": {
+      "description": "Clique, role e explore as telas como se estivesse em um dispositivo real.",
+      "title": "👆 Interaja com as telas"
+    },
+    "screenSelector": {
+      "description": "Alterne entre as diferentes telas no preview do board.",
+      "title": "📱 Seletor de telas"
+    }
+  },
+  "boardRequirements": {
+    "addRequirementButton": {
+      "description": "Clique aqui para criar um novo requisito manualmente.",
+      "title": "➕ Adicionar requisito"
+    },
+    "chatInput": {
+      "description": "Descreva funcionalidades em linguagem natural e deixe o board transformá-las em requisitos.",
+      "title": "💬 Descreva com palavras"
+    },
+    "requirementsList": {
+      "description": "Visualize e gerencie todos os requisitos do seu produto em um só lugar.",
+      "title": "📝 Lista de requisitos"
+    }
+  },
+  "boardReview": {
+    "chatInput": {
+      "description": "Use o chat para gerar uma revisão de usabilidade baseada em heurísticas consolidadas.",
+      "title": "💬 Obtenha uma revisão pelo chat"
+    },
+    "reviewMode": {
+      "description": "Explore seu board e wireflows em modo somente leitura para preservar o design.",
+      "title": "👀 Modo de revisão"
+    }
+  },
+  "boardWireflows": {
+    "chatContainer": {
+      "description": "Crie telas e componentes usando linguagem natural simples.",
+      "title": "💬 Construa com o chat"
+    },
+    "editMode": {
+      "description": "Volte para a edição para adicionar ou ajustar telas e componentes.",
+      "title": "✏️ Modo de edição"
+    },
+    "previewMode": {
+      "description": "Entre no modo preview para vivenciar o fluxo como um usuário real.",
+      "title": "👀 Experiência de preview"
+    },
+    "wireflowCanvas": {
+      "description": "Aqui é onde telas e componentes se conectam para formar os fluxos do usuário.",
+      "title": "🧩 Canvas de wireflow"
+    },
+    "zoomControls": {
+      "description": "Aproxime para focar nos detalhes ou afaste para ver toda a jornada.",
+      "title": "🔍 Controles de zoom"
+    }
+  },
+  "editBoard": {
+    "actionsAndNavigation": {
+      "description": "Defina interações e conecte telas para o modo preview.",
+      "title": "🔗 Ações e navegação"
+    },
+    "addComponentCard": {
+      "description": "Clique em um componente para colocá-lo instantaneamente no canvas.",
+      "title": "➕ Adicionar um componente"
+    },
+    "addScreenButton": {
+      "description": "Clique aqui para adicionar uma nova tela mobile ao seu board.",
+      "title": "📱 Adicionar uma tela"
+    },
+    "boardCanvas": {
+      "description": "Arraste, redimensione e posicione componentes livremente no seu board.",
+      "title": "🧩 Canvas do board"
+    },
+    "componentLibrary": {
+      "description": "Explore todos os componentes disponíveis para adicionar ao seu board.",
+      "title": "🗂️ Biblioteca de componentes"
+    },
+    "componentSettings": {
+      "description": "Personalize aqui as propriedades do componente selecionado.",
+      "title": "⚙️ Configurações do componente"
+    }
+  },
+  "onboarding": {
+    "boards": {
+      "description": "Acesse e gerencie todos os seus boards e projetos aqui.",
+      "title": "🗂️ Boards"
+    },
+    "createBoard": {
+      "description": "Comece algo novo criando seu primeiro board.",
+      "title": "➕ Criar um board"
+    },
+    "mainNavigation": {
+      "description": "Use esta barra lateral para acessar todas as áreas principais do app.",
+      "title": "🧭 Navegação principal"
+    },
+    "ready": {
+      "description": "Abra seu board e comece a construir seu produto.",
+      "title": "🎉 Tudo pronto"
+    },
+    "teamMembers": {
+      "description": "Convide pessoas e gerencie o acesso do time.",
+      "title": "👤 Membros do time"
+    },
+    "teamSettings": {
+      "description": "Configure preferências e opções no nível do time.",
+      "title": "⚙️ Configurações do time"
+    },
+    "teamSwitcher": {
+      "description": "Alterne entre times ou crie um novo a qualquer momento.",
+      "title": "👥 Seletor de times"
+    },
+    "yourAccount": {
+      "description": "Veja seu perfil, saia do time ou faça logout.",
+      "title": "🙋 Sua conta"
+    },
+    "yourBoards": {
+      "description": "É aqui que todos os seus boards ficam.",
+      "title": "📌 Seus boards"
+    }
+  }
+}

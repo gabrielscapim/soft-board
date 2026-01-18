@@ -33,16 +33,8 @@ export function MembersRoute () {
       toast.success(t('toast.createMemberSuccess'))
     },
     onError: (error) => {
-      const isConflict = Client.isConflict(error)
-      const isNotFound = Client.isNotFound(error)
-
-      if (isConflict) {
-        toast.error(t('toast.memberAlreadyExistsError'))
-      } else if (isNotFound) {
-        toast.error(t('toast.userNotFoundError'))
-      } else {
-        toast.error(t('toast.createMemberError'))
-      }
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.createMemberError'))
     }
   })
   const deleteMember = useMutation({
@@ -52,7 +44,10 @@ export function MembersRoute () {
       setMemberToDelete(null)
       toast.success(t('toast.deleteMemberSuccess'))
     },
-    onError: () => toast.error(t('toast.deleteMemberError'))
+    onError: (error) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.deleteMemberError'))
+    }
   })
   const updateMemberRole = useMutation({
     mutationFn: (data: UpdateMemberRoleCommand) => client.updateMemberRole(data),
@@ -60,7 +55,10 @@ export function MembersRoute () {
       getMembers.refetch()
       toast.success(t('toast.updateMemberRoleSuccess'))
     },
-    onError: () => toast.error(t('toast.updateMemberRoleError'))
+    onError: (error) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.updateMemberRoleError'))
+    }
   })
   const members = getMembers.data?.data ?? []
 

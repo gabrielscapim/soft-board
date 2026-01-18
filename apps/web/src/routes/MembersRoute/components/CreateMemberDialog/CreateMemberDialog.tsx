@@ -35,7 +35,7 @@ const ROLES = [
 export function CreateMemberDialog (props: CreateMemberDialogProps) {
   const { open, isMutating, onCancel, onConfirm } = props
 
-  const { t } = useTranslation('routes.members.createMemberDialog')
+  const { t } = useTranslation('routes.members')
   const formik = useFormik({
     validationSchema: schema,
     initialValues: {
@@ -58,14 +58,14 @@ export function CreateMemberDialog (props: CreateMemberDialogProps) {
       <div>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{t('title')}</DialogTitle>
+            <DialogTitle>{t('createMemberDialog.title')}</DialogTitle>
             <DialogDescription>
-              {t('description')}
+              {t('createMemberDialog.description')}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={formik.handleSubmit}>
             <div className="grid gap-3 mb-4">
-              <Label htmlFor="name">{t('form.email.label')}</Label>
+              <Label htmlFor="name">{t('createMemberDialog.form.email.label')}</Label>
               <Input
                 id="email"
                 type="email"
@@ -76,18 +76,18 @@ export function CreateMemberDialog (props: CreateMemberDialogProps) {
               />
             </div>
             <Label className="grid gap-2 mb-4">
-              {t('form.role.label')}
+              {t('createMemberDialog.form.role.label')}
               <Select
                 value={formik.values.role}
                 onValueChange={value => formik.setFieldValue('role', value)}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder={t('form.role.placeholder')} />
+                  <SelectValue placeholder={t('createMemberDialog.form.role.placeholder')} />
                 </SelectTrigger>
                 <SelectContent className="max-h-72">
                   {ROLES.map(role => (
                     <SelectItem key={role.value} value={role.value}>
-                      {role.label}
+                      {t(`common:${role.value}`)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -101,14 +101,14 @@ export function CreateMemberDialog (props: CreateMemberDialogProps) {
                   disabled={isMutating}
                   onClick={onCancel}
                 >
-                  {t('cancel')}
+                  {t('createMemberDialog.cancel')}
                 </Button>
               </DialogClose>
               <Button
                 type="submit"
                 disabled={isMutating}
               >
-                {t('confirm')}
+                {t('createMemberDialog.confirm')}
               </Button>
             </DialogFooter>
           </form>

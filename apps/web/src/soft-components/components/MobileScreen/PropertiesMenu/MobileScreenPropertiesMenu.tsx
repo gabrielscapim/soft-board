@@ -3,10 +3,12 @@ import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { SoftComponentPropertiesMenuProps } from '@/soft-components/types'
 import { MobileScreenSoftComponentProperties } from '@/types'
+import { useTranslation } from 'react-i18next'
 
 export function MobileScreenPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
   const { boardState } = props
 
+  const { t } = useTranslation('soft-components')
   const components = useBoardStore(boardState, 'softComponentsChanged', state => state.softComponents)
 
   const properties = props.properties as MobileScreenSoftComponentProperties
@@ -16,10 +18,9 @@ export function MobileScreenPropertiesMenu (props: SoftComponentPropertiesMenuPr
     <>
       <Label className="flex flex-row items-center justify-between border-input p-3 border rounded-md">
         <div className="flex flex-col gap-1">
-          Main
+          {t('main')}
           <p className="text-xs text-muted-foreground">
-            Designates this screen as the main screen of the mobile app.
-            Only one screen can be set as main.
+            {t('mobileScreenPropertiesMenu.mainDescription')}
           </p>
         </div>
         <Switch

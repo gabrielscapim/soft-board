@@ -9,6 +9,7 @@ import { GetBoardsResultData } from 'types/endpoints'
 import { TUTORIALS_ANCHORS, useTutorial } from '@/tutorials'
 import { ConfirmationDialog } from '@/components'
 import { useTranslation } from 'react-i18next'
+import { Client } from '@/client/client'
 
 export function BoardsRoute () {
   const client = useClient()
@@ -27,7 +28,10 @@ export function BoardsRoute () {
       getBoards.refetch()
       toast.success(t('toast.createSuccess'))
     },
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? t('toast.createError'))
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.createError'))
+    }
   })
   const deleteBoard = useMutation({
     mutationFn: () => client.deleteBoard({ id: selectedBoard!.id }),
@@ -36,7 +40,10 @@ export function BoardsRoute () {
       setSelectedBoard(null)
       toast.success(t('toast.deleteSuccess'))
     },
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? t('toast.deleteError'))
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.deleteError'))
+    }
   })
   const editBoard = useMutation({
     mutationFn: (title: string) => client.updateBoard({ id: selectedBoard!.id, title }),
@@ -45,7 +52,10 @@ export function BoardsRoute () {
       setSelectedBoard(null)
       toast.success(t('toast.updateSuccess'))
     },
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? t('toast.updateError'))
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.updateError'))
+    }
   })
   const boards = getBoards.data?.data ?? []
 
@@ -119,7 +129,7 @@ export function BoardsRoute () {
             onClick={() => createBoard.mutate()}
           >
             <PlusIcon />
-            New board
+            {t('actions.newBoard')}
           </Button>
         </div>
       )}

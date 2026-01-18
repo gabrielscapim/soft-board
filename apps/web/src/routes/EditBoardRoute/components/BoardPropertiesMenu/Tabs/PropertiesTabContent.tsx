@@ -15,7 +15,7 @@ export type PropertiesTabContentProps = {
 export function PropertiesTabContent (props: PropertiesTabContentProps) {
   const { softComponent, screen, boardState, onUpdateProperties, onUpdateName } = props
 
-  const { t } = useTranslation('routes.editBoard.propertiesTab')
+  const { t } = useTranslation('routes.editBoard')
 
   const Menu = SOFT_COMPONENTS_PROPERTIES_MENU[softComponent.type]
   const minDimensions = SOFT_COMPONENT_MIN_DIMENSIONS[softComponent.type]
@@ -35,11 +35,11 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
 
       <div>
         <p className="text-sm leading-none font-medium select-none pb-3">
-          {t('common:dimension')}
+          {t('common:dimensions')}
         </p>
         <div className="grid grid-cols-2 gap-2">
           <Label className="text-xs">
-            {t('widthChar')}
+            {t('propertiesTab.widthChar')}
             <Input
               type="number"
               step="1"
@@ -50,7 +50,7 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
             />
           </Label>
           <Label className="text-xs">
-            {t('heightChar')}
+            {t('propertiesTab.heightChar')}
             <Input
               type="number"
               step="1"
@@ -68,7 +68,7 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
         </p>
         <div className="grid grid-cols-2 gap-2">
           <Label className="text-xs">
-            {t('xChar')}
+            {t('propertiesTab.xChar')}
             <Input
               type="number"
               step="1"
@@ -77,7 +77,7 @@ export function PropertiesTabContent (props: PropertiesTabContentProps) {
             />
           </Label>
           <Label className="text-xs">
-            {t('yChar')}
+            {t('propertiesTab.yChar')}
             <Input
               type="number"
               step="1"

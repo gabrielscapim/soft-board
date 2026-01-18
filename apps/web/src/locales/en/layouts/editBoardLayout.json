@@ -1,0 +1,8 @@
+{
+  "actions": {
+    "addScreen": "Add Screen"
+  },
+  "boardComponentsPreview": {
+    "noComponents": "No components found"
+  }
+}

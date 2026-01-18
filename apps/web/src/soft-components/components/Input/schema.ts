@@ -148,7 +148,7 @@ export const inputSoftComponentSchema = {
       }
     },
     {
-      name: 'Dropdown',
+      name: 'Dropdown Input',
       properties: {
         variant: 'secondary',
         width: 250,

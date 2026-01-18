@@ -38,7 +38,7 @@ export function EditRequirementDialog (props: EditRequirementDialogProps) {
     onConfirm
   } = props
 
-  const { t } = useTranslation('routes.boardWizard.editRequirementDialog')
+  const { t } = useTranslation('routes.boardWizard')
 
   const formik = useFormik({
     validationSchema: schema,
@@ -62,14 +62,14 @@ export function EditRequirementDialog (props: EditRequirementDialogProps) {
       <div>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{t('title')}</DialogTitle>
+            <DialogTitle>{t('editRequirementDialog.title')}</DialogTitle>
             <DialogDescription>
-              {t('description')}
+              {t('editRequirementDialog.description')}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={formik.handleSubmit}>
             <div className="grid gap-3 mb-4">
-              <Label htmlFor="name">{t('form.title.label')}</Label>
+              <Label htmlFor="name">{t('editRequirementDialog.form.title.label')}</Label>
               <Input
                 id="title"
                 type="text"
@@ -82,12 +82,12 @@ export function EditRequirementDialog (props: EditRequirementDialogProps) {
               />
             </div>
             <div className="grid gap-3 mb-4">
-              <Label htmlFor="name">{t('form.description.label')}</Label>
+              <Label htmlFor="name">{t('editRequirementDialog.form.description.label')}</Label>
               <Textarea
                 id="description"
                 minLength={0}
                 maxLength={500}
-                placeholder={t('form.description.placeholder')}
+                placeholder={t('editRequirementDialog.form.description.placeholder')}
                 className="resize-none"
                 disabled={isMutating}
                 value={formik.values.description}
@@ -102,14 +102,14 @@ export function EditRequirementDialog (props: EditRequirementDialogProps) {
                   disabled={isMutating}
                   onClick={onCancel}
                 >
-                  Cancel
+                  {t('editRequirementDialog.cancel')}
                 </Button>
               </DialogClose>
               <Button
                 type="submit"
                 disabled={isMutating}
               >
-                Save changes
+                {t('editRequirementDialog.confirm')}
               </Button>
             </DialogFooter>
           </form>

@@ -5,7 +5,7 @@ import { useAuthentication } from '@/hooks'
 import { Button } from '@/components/ui/button'
 import { MoreHorizontal, TrashIcon } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { getAvatarFallbackName } from '@/helpers'
 import { useTranslation } from 'react-i18next'
@@ -39,7 +39,7 @@ export function MembersDataTable (props: MembersDataTableProps) {
     updateMemberRole
   } = props
 
-  const { t } = useTranslation('routes.members.table')
+  const { t } = useTranslation('routes.members')
   const { authenticatedUser } = useAuthentication()
 
   // Exclude the authenticated user from the list of members
@@ -58,7 +58,7 @@ export function MembersDataTable (props: MembersDataTableProps) {
   const columns: ColumnDef<MemberData>[] = [
     {
       accessorKey: 'name',
-      header: t('columns.name'),
+      header: t('table.columns.name'),
       cell: ({ row }) => {
         const isSameUser = row.original.userId === authenticatedUser?.userId
         const name = row.getValue('name') as MemberData['name']
@@ -71,7 +71,7 @@ export function MembersDataTable (props: MembersDataTableProps) {
               </AvatarFallback>
             </Avatar>
             <span>
-              {isSameUser ? `${name} (${t('columns.you')})` : name}
+              {isSameUser ? `${name} (${t('table.columns.you')})` : name}
             </span>
           </div>
         )
@@ -79,19 +79,19 @@ export function MembersDataTable (props: MembersDataTableProps) {
     },
     {
       accessorKey: 'role',
-      header: t('columns.role'),
+      header: t('table.columns.role'),
       cell: ({ row }) => {
         const role = row.getValue('role') as MemberData['role']
         const isOwner = row.original.role === 'owner'
 
         if (isOwner) {
-          return <span>{t('roles.owner')}</span>
+          return <span>{t('table.roles.owner')}</span>
         }
 
         const isSameUser = row.original.userId === authenticatedUser?.userId
         const roles = [
-          { value: 'admin', label: t('roles.admin') },
-          { value: 'member', label: t('roles.member') }
+          { value: 'admin', label: t('table.roles.admin') },
+          { value: 'member', label: t('table.roles.member') }
         ]
 
         return (
@@ -102,11 +102,13 @@ export function MembersDataTable (props: MembersDataTableProps) {
             <SelectTrigger
               size="sm"
               disabled={updateMemberRoleLoading || isSameUser || memberRole !== 'owner'}
-            />
+            >
+              <SelectValue placeholder="Select a member" />
+            </SelectTrigger>
             <SelectContent className="max-h-72">
               {roles.map(role => (
                 <SelectItem key={role.value} value={role.value}>
-                  {role.label}
+                  {t(`common:${role.value}`)}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -116,21 +118,21 @@ export function MembersDataTable (props: MembersDataTableProps) {
     },
     {
       accessorKey: 'email',
-      header: t('columns.email')
+      header: t('table.columns.email')
     },
     {
       accessorKey: 'createDate',
-      header: t('columns.addedAt'),
+      header: t('table.columns.addedAt'),
       cell: ({ row }) => <FormattedDate date={new Date(row.getValue('createDate'))} />
     },
     {
       accessorKey: 'updateDate',
-      header: t('columns.updatedAt'),
+      header: t('table.columns.updatedAt'),
       cell: ({ row }) => <FormattedDate date={new Date(row.getValue('updateDate'))} />
     },
     {
       id: 'actions',
-      header: t('columns.actions'),
+      header: t('table.columns.actions'),
       cell: ({ row }) => {
         const currentMember = members.find(m => m.user.id === row.original.userId)!
         const isSameUser = currentMember.user.id === authenticatedUser?.userId
@@ -151,7 +153,7 @@ export function MembersDataTable (props: MembersDataTableProps) {
                 onClick={() => handleDelete?.(currentMember)}
               >
                 <TrashIcon />
-                {t('actions.delete')}
+                {t('common:delete')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

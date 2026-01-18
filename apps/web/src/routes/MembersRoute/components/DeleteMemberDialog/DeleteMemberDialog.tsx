@@ -20,7 +20,7 @@ export type DeleteMemberDialogProps = {
 export function DeleteMemberDialog (props: DeleteMemberDialogProps) {
   const { open, isMutating, onConfirm, onCancel } = props
 
-  const { t } = useTranslation('routes.members.deleteMemberDialog')
+  const { t } = useTranslation('routes.members')
 
   return (
     <AlertDialog
@@ -29,10 +29,10 @@ export function DeleteMemberDialog (props: DeleteMemberDialogProps) {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            {t('title')}
+            {t('deleteMemberDialog.title')}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            {t('description')}
+            {t('deleteMemberDialog.description')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -40,13 +40,13 @@ export function DeleteMemberDialog (props: DeleteMemberDialogProps) {
             disabled={isMutating}
             onClick={onCancel}
           >
-            {t('cancel')}
+            {t('deleteMemberDialog.cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             disabled={isMutating}
             onClick={onConfirm}
           >
-            {t('confirm')}
+            {t('deleteMemberDialog.confirm')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

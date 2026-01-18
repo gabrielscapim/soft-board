@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components'
+import { useTranslation } from 'react-i18next'
 
 export type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[]
@@ -21,6 +22,7 @@ export function DataTable<TData, TValue> ({
   data,
   loading = false
 }: DataTableProps<TData, TValue>) {
+  const { t } = useTranslation('components')
   const tableData = useMemo(
     () => (loading ? Array(10).fill({}) : data),
     [loading, data]
@@ -36,7 +38,6 @@ export function DataTable<TData, TValue> ({
     [loading, columns]
 
   )
-
   const table = useReactTable({
     data: tableData,
     columns: tableColumns,
@@ -83,7 +84,7 @@ export function DataTable<TData, TValue> ({
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                  {t('common.dataTable.noResults')}
                 </TableCell>
               </TableRow>
             )}

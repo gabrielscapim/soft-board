@@ -1,0 +1,34 @@
+{
+  "confirmLogOutDialog": {
+    "cancel": "Cancelar",
+    "confirm": "Sair",
+    "description": "Você será desconectado da sua conta e redirecionado para a página de login.",
+    "title": "Tem certeza de que deseja sair?"
+  },
+  "createTeamDialog": {
+    "cancel": "Cancelar",
+    "create": "Criar",
+    "description": "Crie uma nova equipe para colaborar com outras pessoas.",
+    "title": "Criar equipe"
+  },
+  "leaveTeamDialog": {
+    "cancel": "Cancelar",
+    "confirm": "Sair da equipe",
+    "description": "Esta ação não pode ser desfeita. Você não terá mais acesso aos boards e membros da equipe.",
+    "title": "Tem certeza de que deseja sair da equipe \"{{teamName}}\"?"
+  },
+  "navUser": {
+    "leaveTeam": "Sair da equipe",
+    "logOut": "Sair"
+  },
+  "teamSwitcher": {
+    "addTeam": "Adicionar equipe"
+  },
+  "toast": {
+    "createTeamError": "Falha ao criar a equipe",
+    "createTeamSuccess": "Equipe criada com sucesso",
+    "leaveTeamError": "Falha ao sair da equipe",
+    "leaveTeamSuccess": "Você saiu da equipe com sucesso",
+    "signOutError": "Falha ao sair"
+  }
+}

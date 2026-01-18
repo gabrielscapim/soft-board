@@ -15,6 +15,7 @@ import {
 import { MobileScreenSoftComponent } from '@/types'
 import { useState } from 'react'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
+import { useTranslation } from 'react-i18next'
 
 export type MobileScreenContainerTopBarProps = {
   currentScreen: MobileScreenSoftComponent
@@ -25,6 +26,7 @@ export type MobileScreenContainerTopBarProps = {
 export function MobileScreenContainerTopBar (props: MobileScreenContainerTopBarProps) {
   const { currentScreen, screens, onChangeScreen } = props
 
+  const { t } = useTranslation('components')
   const [open, setOpen] = useState(false)
 
   return (
@@ -47,9 +49,11 @@ export function MobileScreenContainerTopBar (props: MobileScreenContainerTopBarP
       </PopoverTrigger>
       <PopoverContent className="p-0">
         <Command>
-          <CommandInput placeholder="Search screen" className="h-9" />
+          <CommandInput placeholder={t('common:search')} className="h-9" />
           <CommandList>
-            <CommandEmpty>No screen found.</CommandEmpty>
+            <CommandEmpty>
+              {t('board.previewModeContainer.noScreensFound')}
+            </CommandEmpty>
             <CommandGroup>
               {screens.map((screen) => (
                 <CommandItem

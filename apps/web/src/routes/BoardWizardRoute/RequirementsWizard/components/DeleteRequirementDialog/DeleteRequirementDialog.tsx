@@ -20,7 +20,7 @@ export type DeleteRequirementDialogProps = {
 export function DeleteRequirementDialog (props: DeleteRequirementDialogProps) {
   const { open, isMutating, onConfirm, onCancel } = props
 
-  const { t } = useTranslation('routes.boardWizard.deleteRequirementDialog')
+  const { t } = useTranslation('routes.boardWizard')
 
   return (
     <AlertDialog
@@ -29,10 +29,10 @@ export function DeleteRequirementDialog (props: DeleteRequirementDialogProps) {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            {t('title')}
+            {t('deleteRequirementDialog.title')}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            {t('description')}
+            {t('deleteRequirementDialog.description')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -40,13 +40,13 @@ export function DeleteRequirementDialog (props: DeleteRequirementDialogProps) {
             disabled={isMutating}
             onClick={onCancel}
           >
-            {t('cancel')}
+            {t('deleteRequirementDialog.cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             disabled={isMutating}
             onClick={onConfirm}
           >
-            {t('confirm')}
+            {t('deleteRequirementDialog.confirm')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

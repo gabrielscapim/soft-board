@@ -92,7 +92,7 @@ export function BoardCanvas (props: BoardCanvasProps) {
 
           return (
             <Fragment key={screen.id}>
-              <MobileScreenBar screen={screen} />
+              <MobileScreenBar screen={screen} enableDraggable={enableDraggable} />
               <MobileScreenSoftComponent
                 component={screen}
                 boardController={boardController}

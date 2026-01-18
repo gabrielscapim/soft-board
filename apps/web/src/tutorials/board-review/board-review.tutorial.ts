@@ -1,5 +1,6 @@
 import { getPopoverAnchorSelector } from '../anchors.tutorials'
 import { Tutorial } from '../types'
+import { t } from 'i18next'
 
 export const boardReviewTutorial: Tutorial = {
   name: 'board-review',
@@ -7,9 +8,8 @@ export const boardReviewTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardReviewContainer'),
       popover: {
-        title: '👀 Review mode',
-        description:
-          'Explore your board and wireflows in read-only mode to preserve the design.',
+        title: t('boardReview.reviewMode.title', { ns: 'tutorial' }),
+        description: t('boardReview.reviewMode.description', { ns: 'tutorial' }),
         side: 'left'
       },
       disableActiveInteraction: true
@@ -17,9 +17,8 @@ export const boardReviewTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardChatContainer'),
       popover: {
-        title: '💬 Get a review from chat',
-        description:
-          'Use the chat to generate a usability review based on proven heuristics.',
+        title: t('boardReview.chatInput.title', { ns: 'tutorial' }),
+        description: t('boardReview.chatInput.description', { ns: 'tutorial' }),
         side: 'right'
       },
       disableActiveInteraction: true

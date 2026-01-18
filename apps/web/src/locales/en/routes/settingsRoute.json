@@ -1,0 +1,16 @@
+{
+  "description": "Manage your team settings.",
+  "form": {
+    "name": {
+      "label": "Name",
+      "placeholder": "This is the name of your team. It will be displayed for all members."
+    },
+    "submit": "Save changes"
+  },
+  "title": "Team settings",
+  "toast": {
+    "nameConflict": "Team name already exists",
+    "updateError": "Failed to update team",
+    "updateSuccess": "Team updated successfully"
+  }
+}

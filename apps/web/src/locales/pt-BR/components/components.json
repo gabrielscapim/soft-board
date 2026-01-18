@@ -1,0 +1,28 @@
+{
+  "board": {
+    "previewModeContainer": {
+      "addScreenTitle": "Adicione uma screen ao board para entrar no modo de visualização.",
+      "noScreensFound": "Nenhuma tela encontrada",
+      "returnToBoard": "Voltar para o Board"
+    },
+    "zoomController": {
+      "zoomIn": "Aumentar zoom",
+      "zoomOut": "Diminuir zoom"
+    }
+  },
+  "common": {
+    "confirmationDialog": {
+      "cancel": "Cancelar",
+      "confirm": "Confirmar",
+      "description": "Esta ação não pode ser desfeita.",
+      "title": "Tem certeza?"
+    },
+    "dataTable": {
+      "noResults": "Nenhum resultado encontrado"
+    },
+    "helpDropdownMenu": {
+      "openDocumentation": "Abrir documentação",
+      "startTutorial": "Iniciar tutorial"
+    }
+  }
+}

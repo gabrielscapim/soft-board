@@ -11,6 +11,7 @@ import {
   Label
 } from '@/components'
 import { useFormik } from 'formik'
+import { useTranslation } from 'react-i18next'
 import * as yup from 'yup'
 
 export type CreateTeamDialogProps = {
@@ -31,6 +32,8 @@ export function CreateTeamDialog (props: CreateTeamDialogProps) {
     onCancel,
     onConfirm
   } = props
+
+  const { t } = useTranslation('layouts.rootLayout')
 
   const formik = useFormik({
     validationSchema: schema,
@@ -53,14 +56,14 @@ export function CreateTeamDialog (props: CreateTeamDialogProps) {
       <div>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create team</DialogTitle>
+            <DialogTitle>{t('createTeamDialog.title')}</DialogTitle>
             <DialogDescription>
-              Create a new team to collaborate with others.
+              {t('createTeamDialog.description')}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={formik.handleSubmit}>
             <div className="grid gap-3 mb-4">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">{t('common:name')}</Label>
               <Input
                 id="name"
                 type="text"
@@ -79,14 +82,14 @@ export function CreateTeamDialog (props: CreateTeamDialogProps) {
                   disabled={isMutating}
                   onClick={onCancel}
                 >
-                  Cancel
+                  {t('createTeamDialog.cancel')}
                 </Button>
               </DialogClose>
               <Button
                 type="submit"
                 disabled={isMutating}
               >
-                Create
+                {t('createTeamDialog.create')}
               </Button>
             </DialogFooter>
           </form>

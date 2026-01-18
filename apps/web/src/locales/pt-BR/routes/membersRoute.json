@@ -1,6 +1,11 @@
 {
+  "actions": {
+    "addMember": "Adicionar membro",
+    "search": "Buscar membros por nome ou email"
+  },
   "createMemberDialog": {
-    "title": "Criar membro",
+    "cancel": "Cancelar",
+    "confirm": "Criar membro",
     "description": "Adicione um novo membro à sua equipe. Informe o email e o cargo.",
     "form": {
       "email": {
@@ -12,60 +17,49 @@
       },
       "validation": {
         "invalidEmail": "Endereço de email inválido",
-        "requiredEmail": "O email é obrigatório",
         "invalidRole": "Cargo inválido",
+        "requiredEmail": "O email é obrigatório",
         "requiredRole": "O cargo é obrigatório"
       }
     },
-    "cancel": "Cancelar",
-    "confirm": "Criar membro"
+    "title": "Criar membro"
   },
-
   "deleteMemberDialog": {
-    "title": "Tem certeza de que deseja excluir este membro?",
-    "description": "Esta ação não pode ser desfeita. Isso removerá permanentemente o membro da equipe.",
     "cancel": "Cancelar",
-    "confirm": "Excluir"
+    "confirm": "Excluir",
+    "description": "Esta ação não pode ser desfeita. Isso removerá permanentemente o membro da equipe.",
+    "title": "Tem certeza de que deseja excluir este membro?"
   },
-
+  "description": "Gerencie os membros da sua equipe, seus cargos e permissões.",
+  "errors": {
+    "loadDescription": "Ocorreu um erro ao buscar os membros",
+    "loadTitle": "Falha ao carregar os membros"
+  },
   "table": {
     "columns": {
-      "you": "Você",
+      "actions": "Ações",
+      "addedAt": "Adicionado em",
+      "email": "Email",
       "name": "Nome",
       "role": "Cargo",
-      "email": "Email",
-      "addedAt": "Adicionado em",
       "updatedAt": "Atualizado em",
-      "actions": "Ações"
+      "you": "Você"
     },
     "roles": {
-      "owner": "Proprietário",
       "admin": "Administrador",
-      "member": "Membro"
+      "member": "Membro",
+      "owner": "Proprietário"
     }
   },
-
-  "toast": {
-    "createMemberSuccess": "Membro criado com sucesso.",
-    "memberAlreadyExistsError": "O membro já existe na equipe.",
-    "userNotFoundError": "Usuário não encontrado.",
-    "createMemberError": "Falha ao criar o membro.",
-    "deleteMemberSuccess": "Membro excluído com sucesso.",
-    "deleteMemberError": "Falha ao excluir o membro.",
-    "updateMemberRoleSuccess": "Cargo do membro atualizado com sucesso.",
-    "updateMemberRoleError": "Falha ao atualizar o cargo do membro."
-  },
-
-  "actions": {
-    "addMember": "Adicionar membro",
-    "search": "Buscar membros por nome ou email"
-  },
-
   "title": "Membros da equipe",
-  "description": "Gerencie os membros da sua equipe, seus cargos e permissões.",
-
-  "errors": {
-    "loadTitle": "Falha ao carregar os membros",
-    "loadDescription": "Ocorreu um erro ao buscar os membros"
+  "toast": {
+    "createMemberError": "Falha ao criar o membro.",
+    "createMemberSuccess": "Membro criado com sucesso.",
+    "deleteMemberError": "Falha ao excluir o membro.",
+    "deleteMemberSuccess": "Membro excluído com sucesso.",
+    "memberAlreadyExistsError": "O membro já existe na equipe.",
+    "updateMemberRoleError": "Falha ao atualizar o cargo do membro.",
+    "updateMemberRoleSuccess": "Cargo do membro atualizado com sucesso.",
+    "userNotFoundError": "Usuário não encontrado."
   }
 }

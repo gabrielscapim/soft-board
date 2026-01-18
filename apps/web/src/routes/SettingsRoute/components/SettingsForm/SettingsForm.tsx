@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useFormik } from 'formik'
+import { useTranslation } from 'react-i18next'
 import { GetTeamResult } from 'types/endpoints'
 import * as yup from 'yup'
 
@@ -18,6 +19,8 @@ const schema = yup.object({
 export function SettingsForm (props: SettingsFormProps) {
   const { team, hasPermission, handleSubmit } = props
 
+  const { t } = useTranslation('routes.settings')
+
   const formik = useFormik({
     validationSchema: schema,
     initialValues: {
@@ -32,7 +35,7 @@ export function SettingsForm (props: SettingsFormProps) {
   return (
     <form className="flex flex-col gap-6" onSubmit={formik.handleSubmit}>
       <div className="grid gap-3">
-        <Label htmlFor="name">Name</Label>
+        <Label htmlFor="name">{t('form.name.label')}</Label>
         <Input
           id="name"
           type="text"
@@ -45,7 +48,7 @@ export function SettingsForm (props: SettingsFormProps) {
           onBlur={formik.handleBlur}
         />
         <span className="text-xs text-muted-foreground">
-          This is the name of your team. It will be displayed for all members.
+          {t('form.name.placeholder')}
         </span>
       </div>
       <Button
@@ -53,7 +56,7 @@ export function SettingsForm (props: SettingsFormProps) {
         className="w-fit self-start"
         disabled={formik.isSubmitting || !hasPermission}
       >
-        Save changes
+        {t('form.submit')}
       </Button>
     </form>
   )

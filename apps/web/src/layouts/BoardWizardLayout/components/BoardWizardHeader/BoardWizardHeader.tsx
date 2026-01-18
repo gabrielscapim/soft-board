@@ -5,6 +5,7 @@ import { ChevronLeftIcon } from 'lucide-react'
 import { useState } from 'react'
 import { ConfirmLeaveBoardDialog } from './ConfirmLeaveBoardDialog'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
+import { useTranslation } from 'react-i18next'
 
 export type BoardWizardHeaderProps = {
   onStartTutorial?: () => void
@@ -17,6 +18,7 @@ export function BoardWizardHeader (props: BoardWizardHeaderProps) {
   const navigate = useNavigate()
   const { team } = useTeam()
   const { board } = useBoard()
+  const { t } = useTranslation('layouts.boardWizard')
   const currentStep = board?.step
 
   return (
@@ -37,11 +39,11 @@ export function BoardWizardHeader (props: BoardWizardHeaderProps) {
       >
         <Stepper
           steps={[
-            { label: 'Init', state: 'init', visible: false },
-            { label: 'Requirements', state: 'requirements', visible: true },
-            { label: 'Wireflows', state: 'wireflows', visible: true },
-            { label: 'Review', state: 'review', visible: true },
-            { label: 'End', state: 'end', visible: false }
+            { label: t('common:init'), state: 'init', visible: false },
+            { label: t('common:requirements'), state: 'requirements', visible: true },
+            { label: t('common:wireflows'), state: 'wireflows', visible: true },
+            { label: t('common:review'), state: 'review', visible: true },
+            { label: t('common:end'), state: 'end', visible: false }
           ]}
           currentStep={currentStep}
         />

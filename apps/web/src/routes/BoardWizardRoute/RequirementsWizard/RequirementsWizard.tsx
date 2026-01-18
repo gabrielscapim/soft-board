@@ -6,6 +6,7 @@ import { GetMessagesResultData, GetRequirementsResultData, UpdateRequirementComm
 import { RequirementsContainer, DeleteRequirementDialog, EditRequirementDialog } from './components'
 import { ChatContainer } from '../ChatContainer'
 import { useTranslation } from 'react-i18next'
+import { Client } from '@/client/client'
 
 export function RequirementsWizard () {
   const { board } = useBoard()
@@ -26,13 +27,19 @@ export function RequirementsWizard () {
       setSendingMessage(content)
       return await client.sendMessage({ boardId: boardId!, content })
     },
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? t('toast.sendMessageError')),
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.sendMessageError'))
+    },
     onSuccess: () => getMessages.refetch(),
     onSettled: () => setSendingMessage(null)
   })
   const createRequirement = useMutation({
     mutationFn: () => client.createRequirement({ boardId: boardId! }),
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? t('toast.createRequirementError')),
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.createRequirementError'))
+    },
     onSuccess: () => {
       toast.success(t('toast.createRequirementSuccess'))
       getRequirements.refetch()
@@ -40,7 +47,10 @@ export function RequirementsWizard () {
   })
   const updateRequirement = useMutation({
     mutationFn: (data: UpdateRequirementCommand) => client.updateRequirement(data),
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? t('toast.editRequirementError')),
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.editRequirementError'))
+    },
     onSuccess: () => {
       toast.success(t('toast.editRequirementSuccess'))
       getRequirements.refetch()
@@ -49,7 +59,10 @@ export function RequirementsWizard () {
   })
   const deleteRequirement = useMutation({
     mutationFn: (requirementId: string) => client.deleteRequirement({ id: requirementId, boardId: boardId! }),
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? t('toast.deleteRequirementError')),
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.deleteRequirementError'))
+    },
     onSuccess: () => {
       getRequirements.refetch()
       toast.success(t('toast.deleteRequirementSuccess'))

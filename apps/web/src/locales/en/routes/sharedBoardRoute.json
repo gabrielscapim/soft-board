@@ -1,0 +1,11 @@
+{
+  "loadError": {
+    "description": "There was an error fetching the board",
+    "title": "Failed to load board"
+  },
+  "noDescription": "No description provided",
+  "notFound": {
+    "description": "The board you are trying to access does not exist or has been removed.",
+    "title": "Board not found"
+  }
+}

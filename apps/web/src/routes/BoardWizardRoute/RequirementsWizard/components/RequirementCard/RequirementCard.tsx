@@ -30,7 +30,7 @@ export function RequirementCard (props: RequirementCardProps) {
           {requirement.title ? requirement.title : <span className="opacity-30">{t('common:untitled')}</span>}
         </CardTitle>
         <CardDescription className="text-xs">
-          {requirement.description ? requirement.description : <span className="opacity-30">{t('requirementCard:emptyDescription')}</span>}
+          {requirement.description ? requirement.description : <span className="opacity-30">{t('requirementCard.emptyDescription')}</span>}
         </CardDescription>
         <CardAction className="flex gap-1 flex-col opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <Button

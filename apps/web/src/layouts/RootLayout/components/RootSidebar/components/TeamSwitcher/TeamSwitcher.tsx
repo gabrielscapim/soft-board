@@ -17,6 +17,7 @@ import {
   Skeleton,
   useSidebar
 } from '@/components'
+import { useTranslation } from 'react-i18next'
 
 export type TeamSwitcherProps = {
   teams: GetTeamsResultData[]
@@ -29,6 +30,7 @@ export type TeamSwitcherProps = {
 export function TeamSwitcher (props: TeamSwitcherProps) {
   const { teams, loading, activeTeam, handleTeamChange, handleCreateTeam } = props
 
+  const { t } = useTranslation('layouts.rootLayout')
   const { isMobile } = useSidebar()
 
   if (!activeTeam) {
@@ -63,7 +65,7 @@ export function TeamSwitcher (props: TeamSwitcherProps) {
             sideOffset={4}
           >
             <DropdownMenuLabel className="text-muted-foreground text-xs">
-              Teams
+              {t('common:teams', { count: 2 })}
             </DropdownMenuLabel>
 
             {!loading && teams.map(team => (
@@ -96,7 +98,7 @@ export function TeamSwitcher (props: TeamSwitcherProps) {
               <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
                 <Plus className="size-4" />
               </div>
-              <div className="text-muted-foreground font-medium">Add team</div>
+              <div className="text-muted-foreground font-medium">{t('teamSwitcher.addTeam')}</div>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

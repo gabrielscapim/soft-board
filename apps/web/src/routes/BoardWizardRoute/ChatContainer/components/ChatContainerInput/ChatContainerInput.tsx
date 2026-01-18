@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { ArrowUpIcon } from 'lucide-react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export type ChatContainerInputProps = {
   hasPermission?: boolean
@@ -13,6 +14,7 @@ export function ChatContainerInput (props: ChatContainerInputProps) {
   const { hasPermission, loading, onSendMessage } = props
 
   const [content, setContent] = useState('')
+  const { t } = useTranslation('routes.boardWizard')
 
   const handleSendMessage = () => {
     onSendMessage?.(content.trim())
@@ -23,7 +25,7 @@ export function ChatContainerInput (props: ChatContainerInputProps) {
     <form className="border-t-1 flex flex-row items-center max-h-64">
       <Textarea
         disabled={hasPermission === false}
-        placeholder="Talk with your board..."
+        placeholder={t('chat.placeholder')}
         className="shadow-none flex-1 resize-none bg-transparent placeholder:text-muted-foreground h-full outline-none border-none p-3 focus-visible:border-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 rounded-none rounded-b-xl"
         value={content}
         onKeyDown={event => {

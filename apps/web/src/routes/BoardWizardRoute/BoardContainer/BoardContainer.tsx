@@ -10,6 +10,7 @@ import { GetBoardResult } from 'types/endpoints'
 import { AddGenerationToBoardDialog } from './AddGenerationToBoardDialog'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
+import { Client } from '@/client/client'
 
 export type BoardContainerProps = BoardCanvasProps & {
   hasPermission?: boolean
@@ -50,7 +51,10 @@ export function BoardContainer (props: BoardContainerProps) {
       onReturnToBoard?.()
       toast.success(t('toast.addGenerationSuccess'))
     },
-    onError: (error: any) => toast.error(error?.response?.data?.detail || t('toast.addGenerationError'))
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.addGenerationError'))
+    }
   })
 
   const generation = board?.generation

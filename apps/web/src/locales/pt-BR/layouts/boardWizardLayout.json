@@ -1,0 +1,22 @@
+{
+  "confirmLeaveBoardDialog": {
+    "cancel": "Cancelar",
+    "confirm": "Sair",
+    "description": "Você pode entrar novamente no board mais tarde se mudar de ideia.",
+    "title": "Tem certeza de que deseja sair deste board?"
+  },
+  "footer": {
+    "back": "Voltar",
+    "complete": "Concluir",
+    "next": "Próximo",
+    "start": "Iniciar"
+  },
+  "invalidBoardStepState": {
+    "description": "Altere o board para a etapa de wireflows para editar os wireflows.",
+    "return": "Voltar",
+    "title": "O board não está na etapa de wireflows"
+  },
+  "toast": {
+    "updateBoardError": "Falha ao atualizar a etapa do board."
+  }
+}

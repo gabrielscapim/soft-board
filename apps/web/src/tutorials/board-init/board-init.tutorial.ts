@@ -1,5 +1,6 @@
 import { getPopoverAnchorSelector } from '../anchors.tutorials'
 import { Tutorial } from '../types'
+import { t } from 'i18next'
 
 export const boardInitTutorial: Tutorial = {
   name: 'board-init',
@@ -7,9 +8,8 @@ export const boardInitTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardHeaderSteps'),
       popover: {
-        title: '✔️ Your progress',
-        description:
-          'This flow guides you from idea to MVP, step by step, with a clear sense of progress.',
+        title: t('boardInit.headerSteps.title', { ns: 'tutorial' }),
+        description: t('boardInit.headerSteps.description', { ns: 'tutorial' }),
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -17,9 +17,8 @@ export const boardInitTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('InitWizardStepRequirements'),
       popover: {
-        title: '📝 Define requirements',
-        description:
-          'List and prioritize the core features your MVP needs to succeed.',
+        title: t('boardInit.stepRequirements.title', { ns: 'tutorial' }),
+        description: t('boardInit.stepRequirements.description', { ns: 'tutorial' }),
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -27,9 +26,8 @@ export const boardInitTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('InitWizardStepWireflows'),
       popover: {
-        title: '🧩 Build wireflows',
-        description:
-          'Sketch simple screens to visualize how users move through your product.',
+        title: t('boardInit.stepWireflows.title', { ns: 'tutorial' }),
+        description: t('boardInit.stepWireflows.description', { ns: 'tutorial' }),
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -37,9 +35,8 @@ export const boardInitTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('InitWizardStepReview'),
       popover: {
-        title: '🔍 Review and refine',
-        description:
-          'Validate your flow, remove friction, and polish the overall experience.',
+        title: t('boardInit.stepReview.title', { ns: 'tutorial' }),
+        description: t('boardInit.stepReview.description', { ns: 'tutorial' }),
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -47,20 +44,17 @@ export const boardInitTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardFooter'),
       popover: {
-        title: '➡️ Navigation',
-        description:
-          'Use these controls to move forward or backward through the steps.',
+        title: t('boardInit.footer.title', { ns: 'tutorial' }),
+        description: t('boardInit.footer.description', { ns: 'tutorial' }),
         side: 'left'
       },
       disableActiveInteraction: true
     },
     {
       popover: {
-        title: '🚀 Let’s get started',
-        description:
-          'Click “Start” to begin shaping your MVP from idea to structure.',
-        side: 'left',
-        nextBtnText: 'Got it'
+        title: t('boardInit.getStarted.title', { ns: 'tutorial' }),
+        description: t('boardInit.getStarted.description', { ns: 'tutorial' }),
+        side: 'left'
       },
       disableActiveInteraction: true
     }

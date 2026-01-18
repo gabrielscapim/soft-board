@@ -7,6 +7,7 @@ import { GetMessagesResultData } from 'types/endpoints'
 import { BoardContainer } from '../BoardContainer'
 import { TUTORIALS_ANCHORS } from '@/tutorials/anchors.tutorials'
 import { useTranslation } from 'react-i18next'
+import { Client } from '@/client/client'
 
 export function ReviewWizard () {
   const { board } = useBoard()
@@ -24,7 +25,10 @@ export function ReviewWizard () {
       setSendingMessage(content)
       return await client.sendMessage({ boardId: boardId!, content })
     },
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? t('toast.sendMessageError')),
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.sendMessageError'))
+    },
     onSuccess: () => getMessages.refetch(),
     onSettled: () => setSendingMessage(null)
   })

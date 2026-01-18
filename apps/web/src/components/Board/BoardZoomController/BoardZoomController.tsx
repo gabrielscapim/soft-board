@@ -1,6 +1,7 @@
 import { MinusIcon, PlusIcon } from 'lucide-react'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui'
+import { useTranslation } from 'react-i18next'
 
 export type BoardZoomControllerProps = {
   scale?: number
@@ -10,6 +11,8 @@ export type BoardZoomControllerProps = {
 
 export function BoardZoomController (props: BoardZoomControllerProps) {
   const { scale = 1, onZoomIn, onZoomOut } = props
+
+  const { t } = useTranslation('components')
 
   return (
     <div
@@ -28,7 +31,7 @@ export function BoardZoomController (props: BoardZoomControllerProps) {
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          Zoom Out
+          {t('board.zoomController.zoomOut')}
         </TooltipContent>
       </Tooltip>
 
@@ -46,7 +49,7 @@ export function BoardZoomController (props: BoardZoomControllerProps) {
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          Zoom In
+          {t('board.zoomController.zoomIn')}
         </TooltipContent>
       </Tooltip>
     </div>
