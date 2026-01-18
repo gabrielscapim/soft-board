@@ -18,8 +18,11 @@
     "title": "Are you sure you want to leave the team \"{{teamName}}\"?"
   },
   "navUser": {
+    "en": "English",
+    "language": "Language",
     "leaveTeam": "Leave Team",
-    "logOut": "Log Out"
+    "logOut": "Log Out",
+    "pt-BR": "Português (Brasil)"
   },
   "teamSwitcher": {
     "addTeam": "Add Team"

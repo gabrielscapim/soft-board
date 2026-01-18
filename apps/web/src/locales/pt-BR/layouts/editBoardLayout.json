@@ -5,7 +5,9 @@
   "boardComponentsPreview": {
     "noComponents": "Nenhum componente encontrado"
   },
-  "collapsibleEditBoardSidebar": {
-    "noTemplates": "Nenhum template encontrado"
+  "invalidBoardStepState": {
+    "description": "Por favor, mude o board para a etapa de wireflows para editar wireflows.",
+    "return": "Voltar",
+    "title": "O board não está na etapa de wireflows"
   }
 }

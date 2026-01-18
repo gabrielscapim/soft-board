@@ -53,7 +53,7 @@
     "label": "Geração de Wireflow",
     "status": {
       "description": {
-        "completed": "Você pode clicar para visualizar o novo wireflow.",
+        "completed": "Clique para visualizar o novo wireflow.",
         "error": "Ocorreu um erro ao criar o wireflow.",
         "pending": "Seu wireflow está sendo criado."
       },
@@ -99,7 +99,7 @@
     },
     "status": {
       "completed": {
-        "description": "Você pode clicar para visualizar a revisão detalhada do board.",
+        "description": "Clique para visualizar a revisão detalhada do board.",
         "title": "Revisão concluída"
       },
       "error": {

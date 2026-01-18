@@ -11,11 +11,6 @@
     "next": "Next",
     "start": "Start"
   },
-  "invalidBoardStepState": {
-    "description": "Please switch the board to wireflows step to edit wireflows.",
-    "return": "Go back",
-    "title": "The board is not in wireflows step"
-  },
   "toast": {
     "updateBoardError": "Failed to update board step."
   }

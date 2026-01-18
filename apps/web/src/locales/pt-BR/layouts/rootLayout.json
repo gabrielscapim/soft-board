@@ -18,8 +18,11 @@
     "title": "Tem certeza de que deseja sair da equipe \"{{teamName}}\"?"
   },
   "navUser": {
+    "en": "English",
+    "language": "Idioma",
     "leaveTeam": "Sair da equipe",
-    "logOut": "Sair"
+    "logOut": "Sair",
+    "pt-BR": "Português (Brasil)"
   },
   "teamSwitcher": {
     "addTeam": "Adicionar equipe"
