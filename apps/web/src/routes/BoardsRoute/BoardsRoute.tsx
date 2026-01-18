@@ -15,7 +15,7 @@ export function BoardsRoute () {
   const client = useClient()
   const memberRole = useMemberRole()
   const tutorial = useTutorial('onboarding')
-  const { t } = useTranslation('routes.boards')
+  const { t, i18n } = useTranslation('routes.boards')
 
   const [selectedBoard, setSelectedBoard] = useState<(GetBoardsResultData & { to: 'edit' | 'delete' }) | null>(null)
   const getBoards = useQuery({
@@ -23,7 +23,7 @@ export function BoardsRoute () {
     queryFn: async () => await client.getBoards({ })
   })
   const createBoard = useMutation({
-    mutationFn: () => client.createBoard({}),
+    mutationFn: () => client.createBoard({ language: i18n.language as 'en' | 'pt-BR' }),
     onSuccess: () => {
       getBoards.refetch()
       toast.success(t('toast.createSuccess'))

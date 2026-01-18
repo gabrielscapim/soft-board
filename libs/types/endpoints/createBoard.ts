@@ -1,4 +1,5 @@
 export type CreateBoardCommand = {
+  language?: 'en' | 'pt-BR'
   title?: string | null
 }
 

@@ -9,6 +9,7 @@ type Handler = RequestHandler<unknown, CreateBoardResult, CreateBoardCommand>
 type BoardRow = Pick<BoardDatabase, 'id'>
 
 const schema = yup.object({
+  language: yup.string().oneOf(['en', 'pt-BR']).default('en'),
   title: yup.string().nullable().optional().default(null)
 })
 
@@ -17,13 +18,16 @@ const IMAGE_IDS = [1, 2, 3, 4, 5, 6, 7, 8]
 
 const MAX_BOARD_COUNT = 20
 
-const ASSISTANT_MESSAGE = 'Hello! I’m your assistant specialized in the StartFlow method, here to help software startups design MVPs quickly, visually, and with a strong focus on user experience.'
+const ASSISTANT_MESSAGE = {
+  en: 'Hello! I’m your assistant specialized in the StartFlow method, here to help you design MVPs quickly, visually, and with a strong focus on user experience.',
+  'pt-BR': 'Olá! Sou seu assistente especializado no método StartFlow, aqui para ajudar você a projetar MVPs de forma rápida, visual e com foco na experiência do usuário.'
+}
 
 export function handler (): Handler {
   return async (req, res) => {
     const teamId = req.team!.teamId
     const userId = req.auth!.userId
-    const { title } = schema.validateSync(req.body)
+    const { language, title } = schema.validateSync(req.body)
 
     assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can create boards')
 
@@ -55,7 +59,7 @@ export function handler (): Handler {
         .VALUES({
           teamId,
           boardId: created.id,
-          content: ASSISTANT_MESSAGE,
+          content: ASSISTANT_MESSAGE[language],
           role: 'assistant'
         })
 
