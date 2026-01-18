@@ -9,7 +9,7 @@ type Handler = RequestHandler<unknown, GetAuthenticatedUserResult>
 
 type UserRow = Pick<UserDatabase, 'id' | 'name' | 'email'>
 
-type UserPreferencesRow = Pick<UserPreferencesDatabase, 'language' | 'acceptedTutorial'>
+type UserPreferencesRow = Pick<UserPreferencesDatabase, 'language'>
 
 export function handler (): Handler {
   return async (req, res) => {
@@ -38,7 +38,7 @@ export function handler (): Handler {
       .first()
 
     const preferences = await pool
-      .SELECT<UserPreferencesRow>`language, accepted_tutorial`
+      .SELECT<UserPreferencesRow>`language`
       .FROM`user_preferences`
       .WHERE`user_id = ${auth.userId}`
       .first()
@@ -49,8 +49,7 @@ export function handler (): Handler {
       email: user.email,
       fallbackTeam: fallbackTeam ? { slug: fallbackTeam.slug } : null,
       preferences: {
-        language: preferences ? preferences.language : 'en',
-        acceptedTutorial: preferences ? preferences.acceptedTutorial : null
+        language: preferences ? preferences.language : 'en'
       }
     }
 

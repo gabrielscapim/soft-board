@@ -198,7 +198,6 @@ export class DatabaseFactory {
       id: userPreferences.id ?? randomUUID(),
       userId: userPreferences.userId ?? randomUUID(),
       language: userPreferences.language ?? 'en',
-      acceptedTutorial: userPreferences.acceptedTutorial ?? false,
       createDate: userPreferences.createDate ?? now,
       updateDate: userPreferences.updateDate ?? now
     }

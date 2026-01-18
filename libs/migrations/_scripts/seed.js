@@ -69,7 +69,7 @@ async function seed () {
       )
 
       await client.query(
-        `INSERT INTO user_preferences (user_id, language, accepted_tutorial)
+        `INSERT INTO user_preferences (user_id, language)
          VALUES ($1, $2, $3)`,
         [user.id, 'en', false]
       )

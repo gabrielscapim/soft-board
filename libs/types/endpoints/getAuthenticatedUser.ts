@@ -10,6 +10,5 @@ export type GetAuthenticatedUserResult = {
   } | null
   preferences: {
     language: string
-    acceptedTutorial: boolean | null
   }
 } | null

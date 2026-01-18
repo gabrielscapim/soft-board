@@ -4,7 +4,6 @@ export type UserPreferencesDatabase = {
   id: UUID
   userId: UUID
   language: VARCHAR_10
-  acceptedTutorial: boolean | null
   createDate: TIMESTAMPTZ
   updateDate: TIMESTAMPTZ
 }

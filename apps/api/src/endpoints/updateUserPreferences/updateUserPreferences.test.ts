@@ -20,16 +20,15 @@ describe('updateUserPreferences', () => {
 
     await request(app)
       .post('/updateUserPreferences')
-      .send({ language: 'fr', acceptedTutorial: true })
+      .send({ language: 'fr' })
       .expect(204)
 
     const check = await pool
-      .SELECT`language, accepted_tutorial`
+      .SELECT`language`
       .FROM`user_preferences`
       .WHERE`user_id = ${user.id}`
       .find()
 
     expect(check.language).toBe('fr')
-    expect(check.acceptedTutorial).toBe(true)
   })
 })
