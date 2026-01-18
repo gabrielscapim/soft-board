@@ -1,4 +1,5 @@
 import i18n from 'i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 import commonEn from './en/common/common.json'
 import commonPtBr from './pt-BR/common/common.json'
@@ -31,9 +32,9 @@ import tutorialPtBr from './pt-BR/tutorial/tutorial.json'
 import { NODE_ENV } from '@/constants'
 
 i18n
+  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    lng: 'pt-BR',
     fallbackLng: 'pt-BR',
     nsSeparator: ':',
     saveMissing: true,
