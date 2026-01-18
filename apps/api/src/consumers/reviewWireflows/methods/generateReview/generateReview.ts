@@ -29,49 +29,57 @@ export type FormattedCompletionResponse = {
 }
 
 export type GenerateReviewResult = {
-  review: ({ title: string, description: string } & ReviewItem)[]
+  review: ({ key: string, title: string, description: string } & ReviewItem)[]
 }
 
 type ReviewKey =
-  | 'nielsen_2'
-  | 'nielsen_4'
-  | 'nielsen_6'
-  | 'nielsen_8'
-  | 'startflow_1'
-  | 'startflow_2'
-  | 'startflow_3'
-  | 'startflow_4'
+  | 'nielsenHeuristic2'
+  | 'nielsenHeuristic4'
+  | 'nielsenHeuristic6'
+  | 'nielsenHeuristic8'
+  | 'startflowCriterion1'
+  | 'startflowCriterion2'
+  | 'startflowCriterion3'
+  | 'startflowCriterion4'
 
-const REVIEWS_MAP: Record<ReviewKey, { title: string, description: string }> = {
-  startflow_1: {
+const REVIEWS_MAP: Record<ReviewKey, { key: string, title: string, description: string }> = {
+  startflowCriterion1: {
+    key: 'startflowCriterion1',
     title: 'StartFlow Criterion 1: Trigger availability',
     description: 'Does every screen contain at least one trigger that allows the user to continue or go back?'
   },
-  startflow_2: {
+  startflowCriterion2: {
+    key: 'startflowCriterion2',
     title: 'StartFlow Criterion 2: Completion feedback',
     description: 'Is there a screen that clearly communicates to the user that the task has been completed?'
   },
-  startflow_3: {
+  startflowCriterion3: {
+    key: 'startflowCriterion3',
     title: 'StartFlow Criterion 3: Text-based triggers',
     description: 'Do text-based triggers clearly describe the action that will be executed?'
   },
-  startflow_4: {
+  startflowCriterion4: {
+    key: 'startflowCriterion4',
     title: 'StartFlow Criterion 4: Icon-based triggers',
     description: 'Are icon-based triggers clear and unambiguous?'
   },
-  nielsen_2: {
+  nielsenHeuristic2: {
+    key: 'nielsenHeuristic2',
     title: 'Nielsen Heuristic 2: Match between system and the real world',
     description: 'The interface should speak the user\'s language, using familiar terms, concepts, and structures. Information should appear in a natural and logical order.'
   },
-  nielsen_4: {
+  nielsenHeuristic4: {
+    key: 'nielsenHeuristic4',
     title: 'Nielsen Heuristic 4: Consistency and standards',
     description: 'The user should not have doubts if different elements mean the same thing. Follow platform conventions and visual patterns.'
   },
-  nielsen_6: {
+  nielsenHeuristic6: {
+    key: 'nielsenHeuristic6',
     title: 'Nielsen Heuristic 6: Recognition rather than recall',
     description: 'Reduce the user\'s memory load by making actions, objects, and instructions visible and easy to retrieve whenever necessary.'
   },
-  nielsen_8: {
+  nielsenHeuristic8: {
+    key: 'nielsenHeuristic8',
     title: 'Nielsen Heuristic 8: Aesthetic and minimalist design',
     description: 'Only relevant information should be displayed. Unnecessary content competes with important information and reduces clarity.'
   }
@@ -128,7 +136,7 @@ export async function generateReview (
   return {
     review: [
       {
-        ...REVIEWS_MAP.startflow_1,
+        ...REVIEWS_MAP.startflowCriterion1,
         ...startFlow1Review
       },
       ...aiReviews
@@ -180,22 +188,22 @@ function buildResponseFormat (): ChatCompletionCreateParamsNonStreaming['respons
             type: 'object',
             additionalProperties: false,
             properties: {
-              startflow_2: reviewItemSchema,
-              startflow_3: reviewItemSchema,
-              startflow_4: reviewItemSchema,
-              nielsen_2: reviewItemSchema,
-              nielsen_4: reviewItemSchema,
-              nielsen_6: reviewItemSchema,
-              nielsen_8: reviewItemSchema
+              startflowCriterion2: reviewItemSchema,
+              startflowCriterion3: reviewItemSchema,
+              startflowCriterion4: reviewItemSchema,
+              nielsenHeuristic2: reviewItemSchema,
+              nielsenHeuristic4: reviewItemSchema,
+              nielsenHeuristic6: reviewItemSchema,
+              nielsenHeuristic8: reviewItemSchema
             },
             required: [
-              'startflow_2',
-              'startflow_3',
-              'startflow_4',
-              'nielsen_2',
-              'nielsen_4',
-              'nielsen_6',
-              'nielsen_8'
+              'startflowCriterion2',
+              'startflowCriterion3',
+              'startflowCriterion4',
+              'nielsenHeuristic2',
+              'nielsenHeuristic4',
+              'nielsenHeuristic6',
+              'nielsenHeuristic8'
             ]
           }
         },
@@ -225,7 +233,7 @@ async function generateStartFlow1Review (
   const { boardId, teamId } = command
 
   const screensWithoutConnections = await pool
-    .SELECT<{ id: string, name: string }>`s.id, s.name`
+    .SELECT<{ id: string, name?: string }>`s.id, s.name`
     .FROM`component s`
     .WHERE`s.board_id = ${boardId}`
     .AND`s.team_id = ${teamId}`
@@ -244,11 +252,11 @@ async function generateStartFlow1Review (
   return {
     applicable: true,
     explanation: hasScreensWithoutConnections
-      ? `Found ${screensWithoutConnections.length} screen(s) without triggers: ${screensWithoutConnections.map(s => s.name).join(', ')}`
+      ? 'Found screens without triggers, please check the suggestions with the names of the screens.'
       : 'All screens have at least one trigger that allows the user to continue or go back.',
     score: hasScreensWithoutConnections ? 1 : 5,
     suggestions: hasScreensWithoutConnections
-      ? screensWithoutConnections.map(s => `Add triggers to screen "${s.name}" to allow navigation`)
+      ? screensWithoutConnections.map(s => s.name ?? 'Untitled')
       : undefined
   }
 }

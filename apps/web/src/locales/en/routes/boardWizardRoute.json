@@ -112,6 +112,44 @@
       }
     }
   },
+  "reviewCard": {
+    "startflowCriterion1": {
+      "title": "StartFlow Criterion 1: Trigger availability",
+      "description": "Does every screen contain at least one trigger that allows the user to continue or go back?",
+      "explanation": {
+        "missingTriggers": "We found screens without triggers, please check the suggestions with the screen names.",
+        "noIssues": "Great job! All screens have appropriate triggers for navigation."
+      }
+    },
+    "startflowCriterion2": {
+      "title": "StartFlow Criterion 2: Completion feedback",
+      "description": "Is there a screen that clearly communicates to the user that the task has been completed?"
+    },
+    "startflowCriterion3": {
+      "title": "StartFlow Criterion 3: Text-based triggers",
+      "description": "Do text-based triggers clearly describe the action that will be executed?"
+    },
+    "startflowCriterion4": {
+      "title": "StartFlow Criterion 4: Icon-based triggers",
+      "description": "Are icon-based triggers clear and unambiguous?"
+    },
+    "nielsenHeuristic2": {
+      "title": "Nielsen Heuristic 2: Match between system and the real world",
+      "description": "The interface should speak the user's language, using familiar terms, concepts, and structures. Information should appear in a natural and logical order."
+    },
+    "nielsenHeuristic4": {
+      "title": "Nielsen Heuristic 4: Consistency and standards",
+      "description": "The user should not have doubts if different elements mean the same thing. Follow platform conventions and visual patterns."
+    },
+    "nielsenHeuristic6": {
+      "title": "Nielsen Heuristic 6: Recognition rather than recall",
+      "description": "Reduce the user's memory load by making actions, objects, and instructions visible and easy to retrieve whenever necessary."
+    },
+    "nielsenHeuristic8": {
+      "title": "Nielsen Heuristic 8: Aesthetic and minimalist design",
+      "description": "Only relevant information should be displayed. Unnecessary content competes with important information and reduces clarity."
+    }
+  },
   "shareBoardDialog": {
     "description": "Anyone with this link will be able to view your board.",
     "status": {

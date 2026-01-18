@@ -112,6 +112,44 @@
       }
     }
   },
+  "reviewCard": {
+    "startflowCriterion1": {
+      "title": "Critério StartFlow 1: Disponibilidade de gatilhos",
+      "description": "Toda tela contém pelo menos um gatilho que permite ao usuário continuar ou voltar?",
+      "explanation": {
+        "missingTriggers": "Encontramos telas sem gatilhos, por favor verifique as sugestões com os nomes das telas.",
+        "noIssues": "Ótimo trabalho! Todas as telas possuem gatilhos adequados para navegação."
+      }
+    },
+    "startflowCriterion2": {
+      "title": "Critério StartFlow 2: Feedback de conclusão",
+      "description": "Existe uma tela que comunica claramente ao usuário que a tarefa foi concluída?"
+    },
+    "startflowCriterion3": {
+      "title": "Critério StartFlow 3: Gatilhos baseados em texto",
+      "description": "Os gatilhos baseados em texto descrevem claramente a ação que será executada?"
+    },
+    "startflowCriterion4": {
+      "title": "Critério StartFlow 4: Gatilhos baseados em ícones",
+      "description": "Os gatilhos baseados em ícones são claros e inequívocos?"
+    },
+    "nielsenHeuristic2": {
+      "title": "Heurística de Nielsen 2: Correspondência entre o sistema e o mundo real",
+      "description": "A interface utiliza a linguagem do usuário, com termos, conceitos e estruturas familiares? As informações aparecem em uma ordem natural e lógica?"
+    },
+    "nielsenHeuristic4": {
+      "title": "Heurística de Nielsen 4: Consistência e padrões",
+      "description": "O usuário consegue entender facilmente se elementos diferentes significam a mesma coisa? A interface segue convenções da plataforma e padrões visuais?"
+    },
+    "nielsenHeuristic6": {
+      "title": "Heurística de Nielsen 6: Reconhecimento em vez de memorização",
+      "description": "A interface reduz a carga de memória do usuário ao tornar ações, objetos e instruções visíveis e fáceis de acessar sempre que necessário?"
+    },
+    "nielsenHeuristic8": {
+      "title": "Heurística de Nielsen 8: Design estético e minimalista",
+      "description": "Apenas informações relevantes são exibidas? Conteúdo desnecessário compete com informações importantes e reduz a clareza?"
+    }
+  },
   "shareBoardDialog": {
     "description": "Qualquer pessoa com este link poderá visualizar o seu board.",
     "status": {

@@ -15,10 +15,22 @@ export type GetMessagesResultBoardGeneration = {
   updateDate: string
 }
 
+export type GetMessagesResultBoardReviewReviewKey =
+  | 'startflowCriterion1'
+  | 'startflowCriterion2'
+  | 'startflowCriterion3'
+  | 'startflowCriterion4'
+  | 'nielsenHeuristic2'
+  | 'nielsenHeuristic4'
+  | 'nielsenHeuristic4'
+  | 'nielsenHeuristic6'
+  | 'nielsenHeuristic8'
+
 export type GetMessagesResultBoardReview = {
   id: string
   status: 'pending' | 'error' | 'completed'
   review: {
+    key: GetMessagesResultBoardReviewReviewKey
     title: string
     description: string
     applicable: boolean

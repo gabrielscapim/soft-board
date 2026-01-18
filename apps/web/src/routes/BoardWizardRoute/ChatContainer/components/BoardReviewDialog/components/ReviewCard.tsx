@@ -13,7 +13,7 @@ export type ReviewCardProps = {
 export function ReviewCard (props: ReviewCardProps) {
   const { review } = props
 
-  const { t } = useTranslation()
+  const { t } = useTranslation('routes.boardWizard')
 
   return (
     <Card>
@@ -21,10 +21,10 @@ export function ReviewCard (props: ReviewCardProps) {
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 space-y-2">
             <h3 className="font-semibold text-lg">
-              {review.title}
+              {t(`reviewCard.${review.key}.title`)}
             </h3>
             <p className="text-sm text-muted-foreground">
-              {review.description}
+              {t(`reviewCard.${review.key}.description`)}
             </p>
           </div>
 
@@ -37,7 +37,8 @@ export function ReviewCard (props: ReviewCardProps) {
           <div className="flex items-start gap-2">
             <Info className="mt-1 shrink-0" size={16} />
             <p className="text-sm text-foreground/90 leading-relaxed">
-              {review.applicable ? review.explanation : review.notApplicableReason}
+              {review.key === 'startflowCriterion1' && t(getStartflowCriterion1Explanation(review.score ?? 0))}
+              {review.key !== 'startflowCriterion1' && (review.applicable ? review.explanation : review.notApplicableReason)}
             </p>
           </div>
         </div>
@@ -109,4 +110,10 @@ function ScoreIndicator ({ score }: { score?: number }) {
       </div>
     </div>
   )
+}
+
+function getStartflowCriterion1Explanation (score: number) {
+  const key = score === 5 ? 'noIssues' : 'missingTriggers'
+
+  return `reviewCard.startflowCriterion1.explanation.${key}`
 }
