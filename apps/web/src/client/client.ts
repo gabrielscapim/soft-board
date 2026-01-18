@@ -44,7 +44,8 @@ import type {
   ShareBoardCommand,
   ShareBoardResult,
   GetSharedBoardByBoardIdCommand,
-  GetSharedBoardByBoardIdResult
+  GetSharedBoardByBoardIdResult,
+  UpdateUserPreferencesCommand
 } from 'types/endpoints'
 
 export type ClientOptions = {
@@ -233,5 +234,9 @@ export class Client {
 
   async updateTeam (data: UpdateTeamCommand): Promise<UpdateTeamResult> {
     return (await this.axios.post<UpdateTeamResult>('/updateTeam', data)).data
+  }
+
+  async updateUserPreferences (data: UpdateUserPreferencesCommand): Promise<void> {
+    await this.axios.post('/updateUserPreferences', data)
   }
 }

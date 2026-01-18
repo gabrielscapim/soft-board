@@ -1,6 +1,6 @@
 import { DatabasePool } from 'pg-script'
 import { getPool } from './get-pool'
-import { MemberDatabase, UserDatabase, TeamDatabase, BoardDatabase, MessageDatabase, RequirementDatabase, ComponentDatabase, BoardGenerationDatabase, BoardReviewDatabase, BoardShareDatabase } from 'types/database'
+import { MemberDatabase, UserDatabase, TeamDatabase, BoardDatabase, MessageDatabase, RequirementDatabase, ComponentDatabase, BoardGenerationDatabase, BoardReviewDatabase, BoardShareDatabase, UserPreferencesDatabase } from 'types/database'
 import { randomUUID } from 'crypto'
 import slugify from 'slugify'
 
@@ -188,6 +188,22 @@ export class DatabaseFactory {
     }
 
     await this.pool.INSERT_INTO`"user"`.VALUES(created)
+
+    return created
+  }
+
+  async createUserPreferences (userPreferences: Partial<UserPreferencesDatabase> = {}): Promise<UserPreferencesDatabase> {
+    const now = new Date()
+    const created: UserPreferencesDatabase = {
+      id: userPreferences.id ?? randomUUID(),
+      userId: userPreferences.userId ?? randomUUID(),
+      language: userPreferences.language ?? 'en',
+      acceptedTutorial: userPreferences.acceptedTutorial ?? false,
+      createDate: userPreferences.createDate ?? now,
+      updateDate: userPreferences.updateDate ?? now
+    }
+
+    await this.pool.INSERT_INTO`user_preferences`.VALUES(created)
 
     return created
   }
