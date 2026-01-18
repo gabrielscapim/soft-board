@@ -47,7 +47,7 @@ export function RootSidebar () {
   const [createTeamDialogOpen, setCreateTeamDialogOpen] = useState(false)
   const [leaveTeamDialogOpen, setLeaveTeamDialogOpen] = useState(false)
   const [logOutDialogOpen, setLogOutDialogOpen] = useState(false)
-  const { authenticatedUser, setAuthenticatedUser } = useAuthentication()
+  const { authenticatedUser, setAuthenticatedUser, refetch: refetchAuthenticatedUser } = useAuthentication()
   const client = useClient()
   const activeTeam = useTeam()
   const role = useMemberRole()
@@ -92,6 +92,17 @@ export function RootSidebar () {
     onError: (error: any) => {
       const code = Client.getErrorCode(error)
       toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.leaveTeamError'))
+    }
+  })
+  const updateUserLanguage = useMutation({
+    mutationFn: (language: string) => client.updateUserPreferences({ language }),
+    onSuccess: () => {
+      toast.success(t('toast.languageChangeSuccess'))
+      refetchAuthenticatedUser?.()
+    },
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.languageChangeError'))
     }
   })
 
@@ -148,7 +159,10 @@ export function RootSidebar () {
             isOwner={role === 'owner'}
             onSignOut={() => setLogOutDialogOpen(true)}
             onLeaveTeam={() => setLeaveTeamDialogOpen(true)}
-            onLanguageChange={(lang) => i18n.changeLanguage(lang)}
+            onLanguageChange={(lang) => {
+              i18n.changeLanguage(lang)
+              updateUserLanguage.mutate(lang)
+            }}
           />
         </SidebarFooter>
       )}

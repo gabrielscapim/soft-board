@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import { GetAuthenticatedUserResult } from 'types/endpoints/getAuthenticatedUser'
-import { UserDatabase } from 'types/database'
+import { UserDatabase, UserPreferencesDatabase } from 'types/database'
 import { getPool } from '../../libs'
 
 export const auth = false
@@ -8,6 +8,8 @@ export const auth = false
 type Handler = RequestHandler<unknown, GetAuthenticatedUserResult>
 
 type UserRow = Pick<UserDatabase, 'id' | 'name' | 'email'>
+
+type UserPreferencesRow = Pick<UserPreferencesDatabase, 'language' | 'acceptedTutorial'>
 
 export function handler (): Handler {
   return async (req, res) => {
@@ -35,11 +37,21 @@ export function handler (): Handler {
       .ORDER_BY`team.create_date ASC`
       .first()
 
+    const preferences = await pool
+      .SELECT<UserPreferencesRow>`language, accepted_tutorial`
+      .FROM`user_preferences`
+      .WHERE`user_id = ${auth.userId}`
+      .first()
+
     const result: GetAuthenticatedUserResult = {
       userId: user.id,
       name: user.name,
       email: user.email,
-      fallbackTeam: fallbackTeam ? { slug: fallbackTeam.slug } : null
+      fallbackTeam: fallbackTeam ? { slug: fallbackTeam.slug } : null,
+      preferences: {
+        language: preferences ? preferences.language : 'en',
+        acceptedTutorial: preferences ? preferences.acceptedTutorial : null
+      }
     }
 
     res.status(200).json(result)

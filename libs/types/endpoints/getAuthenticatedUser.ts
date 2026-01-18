@@ -8,4 +8,8 @@ export type GetAuthenticatedUserResult = {
   fallbackTeam: {
     slug: string
   } | null
+  preferences: {
+    language: string
+    acceptedTutorial: boolean | null
+  }
 } | null
