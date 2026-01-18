@@ -30,6 +30,8 @@
   "toast": {
     "createTeamError": "Failed to create team",
     "createTeamSuccess": "Team created successfully",
+    "languageChangeError": "Failed to change language",
+    "languageChangeSuccess": "Language changed successfully",
     "leaveTeamError": "Failed to leave the team",
     "leaveTeamSuccess": "You have left the team successfully",
     "signOutError": "Failed to log out"
