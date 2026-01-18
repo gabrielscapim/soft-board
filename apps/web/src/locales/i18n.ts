@@ -33,8 +33,8 @@ import { NODE_ENV } from '@/constants'
 i18n
   .use(initReactI18next)
   .init({
-    lng: 'en',
-    fallbackLng: 'en',
+    lng: 'pt-BR',
+    fallbackLng: 'pt-BR',
     nsSeparator: ':',
     saveMissing: true,
     returnNull: false,
