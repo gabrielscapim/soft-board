@@ -67,6 +67,12 @@ async function seed () {
          VALUES ($1, $2, $3, $4, $5)`,
         [user.id, user.name, user.email, user.normalized_email, user.password_hash]
       )
+
+      await client.query(
+        `INSERT INTO user_preferences (user_id, language, accepted_tutorial)
+         VALUES ($1, $2, $3)`,
+        [user.id, 'en', false]
+      )
     }
 
     for (const team of teams) {
