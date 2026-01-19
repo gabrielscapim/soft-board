@@ -1,8 +1,22 @@
 import { DatabasePool } from 'pg-script'
 import { getPool } from './get-pool'
-import { MemberDatabase, UserDatabase, TeamDatabase, BoardDatabase, MessageDatabase, RequirementDatabase, ComponentDatabase, BoardGenerationDatabase, BoardReviewDatabase, BoardShareDatabase, UserPreferencesDatabase } from 'types/database'
 import { randomUUID } from 'crypto'
 import slugify from 'slugify'
+import { addHours } from 'date-fns'
+import {
+  BoardDatabase,
+  BoardGenerationDatabase,
+  BoardReviewDatabase,
+  BoardShareDatabase,
+  ComponentDatabase,
+  MemberDatabase,
+  MessageDatabase,
+  PasswordResetTokenDatabase,
+  RequirementDatabase,
+  TeamDatabase,
+  UserDatabase,
+  UserPreferencesDatabase
+} from 'types/database'
 
 export type DatabaseFactoryOptions = {
   pool?: DatabasePool
@@ -151,6 +165,22 @@ export class DatabaseFactory {
     }
 
     await this.pool.INSERT_INTO`message`.VALUES(created)
+
+    return created
+  }
+
+  async createPasswordResetToken (passwordResetToken: Partial<PasswordResetTokenDatabase> = {}): Promise<PasswordResetTokenDatabase> {
+    const now = new Date()
+    const created: PasswordResetTokenDatabase = {
+      id: passwordResetToken.id ?? randomUUID(),
+      userId: passwordResetToken.userId ?? randomUUID(),
+      tokenHash: passwordResetToken.tokenHash ?? randomUUID(),
+      expireDate: passwordResetToken.expireDate ?? addHours(now, 1),
+      useDate: passwordResetToken.useDate ?? null,
+      createDate: passwordResetToken.createDate ?? now
+    }
+
+    await this.pool.INSERT_INTO`password_reset_token`.VALUES(created)
 
     return created
   }
