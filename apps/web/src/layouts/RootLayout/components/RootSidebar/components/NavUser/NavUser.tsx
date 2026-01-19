@@ -1,4 +1,4 @@
-import { ChevronsUpDown, DoorOpen, LanguagesIcon, LogOut } from 'lucide-react'
+import { CheckIcon, ChevronsUpDown, DoorOpen, LanguagesIcon, LogOut } from 'lucide-react'
 import { getAvatarFallbackName } from '@/helpers'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
 import {
@@ -25,6 +25,7 @@ export type NavUserProps = {
   user: {
     name: string
     email: string
+    language: string
   }
   isOwner?: boolean
   onSignOut?: () => void
@@ -88,10 +89,18 @@ export function NavUser (props: NavUserProps) {
               </DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
-                  <DropdownMenuItem onClick={() => onLanguageChange?.('en')}>
+                  <DropdownMenuItem
+                    disabled={user.language === 'en'}
+                    onClick={() => onLanguageChange?.('en')}
+                  >
+                    {user.language === 'en' && <CheckIcon />}
                     {t('navUser.en')}
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onLanguageChange?.('pt-BR')}>
+                  <DropdownMenuItem
+                    disabled={user.language === 'pt-BR'}
+                    onClick={() => onLanguageChange?.('pt-BR')}
+                  >
+                    {user.language === 'pt-BR' && <CheckIcon />}
                     {t('navUser.pt-BR')}
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>

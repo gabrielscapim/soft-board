@@ -154,7 +154,8 @@ export function RootSidebar () {
           <NavUser
             user={{
               name: authenticatedUser.name,
-              email: authenticatedUser.email
+              email: authenticatedUser.email,
+              language: authenticatedUser.preferences.language
             }}
             isOwner={role === 'owner'}
             onSignOut={() => setLogOutDialogOpen(true)}
