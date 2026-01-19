@@ -2,13 +2,14 @@
   "form": {
     "description": "Faça login na sua conta da SoftBoard",
     "email": {
-      "label": "Email",
-      "placeholder": "Digite seu email"
+      "label": "E-mail",
+      "placeholder": "Digite seu e-mail"
     },
     "password": {
       "label": "Senha",
       "placeholder": "Digite sua senha"
     },
+    "forgot": "Esqueceu sua senha?",
     "submit": "Entrar",
     "title": "Bem-vindo de volta!"
   }
