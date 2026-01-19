@@ -9,7 +9,7 @@ import {
   registerApplicationDependencies
 } from './setup'
 import { CONSUMERS_DIR, CORS_ORIGINS, ENDPOINTS_DIR, PORT } from './constants'
-import { logger } from './libs'
+import { getNodemailerTransport, logger } from './libs'
 import { Server } from 'socket.io'
 import http from 'http'
 import { createContainer } from 'awilix'
@@ -42,7 +42,8 @@ async function main () {
     container,
     {
       publishers: loadPublishers(channel),
-      websocketEmitters: loadWebsocketEmitters(io)
+      websocketEmitters: loadWebsocketEmitters(io),
+      nodemailerTransport: getNodemailerTransport()
     }
   )
 
