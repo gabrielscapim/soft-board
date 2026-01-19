@@ -18,7 +18,7 @@ export const auth = false
 export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const { email } = await schema.validate(req.body, { abortEarly: false })
-    const { nodemailerTransport } = getDeps()
+    const { sendMail } = getDeps()
 
     const pool = getPool()
 
@@ -57,16 +57,15 @@ export function handler (getDeps: GetApplicationDependencies): Handler {
         })
     })
 
-    const url = new URL(`/reset-password/${token}`, FRONTEND_BASE_URL).toString()
+    const url = new URL(`/reset-password/token=${token}`, FRONTEND_BASE_URL).toString()
 
-    nodemailerTransport
-      .sendMail({
-        to: email,
-        subject: 'Soft-Board Password Reset',
-        text: `You have requested to reset your password. Please click the link below to reset your password:\n\n${url}\n\nIf you did not request this, please ignore this email.`,
-        html: `<p>You have requested to reset your password. Please click the link below to reset your password:</p><p><a href="${url}">${url}</a></p><p>If you did not request this, please ignore this email.</p>`
-      })
-      .catch(err => logger.error({ err }, 'Error sending password reset email'))
+    sendMail({
+      to: email,
+      subject: 'Soft-Board Password Reset',
+      text: `You have requested to reset your password. Please click the link below to reset your password:\n\n${url}\n\nIf you did not request this, please ignore this email.`,
+      html: `<p>You have requested to reset your password. Please click the link below to reset your password:</p><p><a href="${url}">${url}</a></p><p>If you did not request this, please ignore this email.</p>`
+    })
+    .catch(err => logger.error({ user, err }, 'Error sending password reset email'))
 
     res.status(204).end()
   }

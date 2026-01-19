@@ -1,11 +1,17 @@
 import OpenAI from 'openai'
-import Nodemailer from 'nodemailer'
 import { loadPublishers, loadWebsocketEmitters } from '../setup'
 
+type SendMailOptions = {
+  to?: string
+  subject?: string
+  text?: string
+  html?: string
+}
+
 export type ApplicationDependencies = {
-  nodemailerTransport: Nodemailer.Transporter
   openai: OpenAI
   publishers: ReturnType<typeof loadPublishers>
+  sendMail: <T>(options: SendMailOptions) => Promise<T>
   websocketEmitters: ReturnType<typeof loadWebsocketEmitters>
 }
 

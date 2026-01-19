@@ -43,7 +43,7 @@ async function main () {
     {
       publishers: loadPublishers(channel),
       websocketEmitters: loadWebsocketEmitters(io),
-      nodemailerTransport: getNodemailerTransport()
+      sendMail: getNodemailerTransport().sendMail.bind(getNodemailerTransport())
     }
   )
 

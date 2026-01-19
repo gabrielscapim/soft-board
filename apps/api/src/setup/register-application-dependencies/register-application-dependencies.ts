@@ -1,5 +1,4 @@
 import { asValue, AwilixContainer } from 'awilix'
-import nodemailer from 'nodemailer'
 import { ApplicationDependencies } from '../../types'
 import OpenAI from 'openai'
 import { loadPublishers } from '../load-publishers'
@@ -11,12 +10,12 @@ export function registerApplicationDependencies (
   container: Container,
   deps: Partial<ApplicationDependencies>
 ): Container {
-  const { nodemailerTransport, openai, publishers, websocketEmitters } = deps
+  const { openai, publishers, sendMail, websocketEmitters } = deps
 
   container.register({
-    nodemailerTransport: asValue(nodemailerTransport ?? nodemailer.createTransport()),
     openai: asValue(openai ?? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })),
     publishers: asValue(publishers ?? loadPublishers()),
+    sendMail: asValue(sendMail ?? (() => Promise.reject())),
     websocketEmitters: asValue(websocketEmitters ?? loadWebsocketEmitters())
   })
 
