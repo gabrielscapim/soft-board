@@ -10,8 +10,7 @@ export class StartFlowAgent extends Agent {
       if (message.role === 'user') {
         const result: ChatCompletionMessageParam = {
           role: 'user',
-          content: message.content ?? '',
-          name: message.userName ?? undefined
+          content: message.content ?? ''
         }
 
         return result
