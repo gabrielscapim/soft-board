@@ -29,13 +29,24 @@ export function handler (): Handler {
       .find({ error: 'User not found' })
 
     const fallbackTeam = await pool
-      .SELECT<{ slug: string }>`slug`
+      .SELECT<{ slug: string; role: 'member' | 'admin' | 'owner' }>`
+        team.slug,
+        member.role
+      `
       .FROM`team`
       .LEFT_JOIN`member ON member."team_id" = team.id`
-      .WHERE`member."user_id" = ${auth.userId}`
-      .AND`member.role = 'owner'`
-      .ORDER_BY`team.create_date ASC`
+      .WHERE`member."user_id" = ${user.id}`
+      .ORDER_BY`
+        CASE member.role
+          WHEN 'owner' THEN 1
+          WHEN 'admin' THEN 2
+          WHEN 'member' THEN 3
+          ELSE 3
+        END
+      `
       .first()
+
+    console.log('fallbackTeam', fallbackTeam)
 
     const preferences = await pool
       .SELECT<UserPreferencesRow>`language`
