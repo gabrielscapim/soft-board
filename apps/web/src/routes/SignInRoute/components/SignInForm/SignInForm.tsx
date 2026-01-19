@@ -5,7 +5,7 @@ import { useAuthentication, useClient } from '@/hooks'
 import { toast } from 'sonner'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
-import { useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { Client } from '@/client'
 import { useTranslation } from 'react-i18next'
 
@@ -42,7 +42,7 @@ export function SignInForm () {
     <form className="px-8 md:px-8 py-14 md:py-14" onSubmit={formik.handleSubmit}>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col items-center text-center">
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-2xl font-bold pb-1">
             {t('form.title')}
           </h1>
           <p className="text-muted-foreground text-balance text-sm">
@@ -60,7 +60,16 @@ export function SignInForm () {
           />
         </div>
         <div className="grid gap-3">
-          <Label htmlFor="email">{t('form.password.label')}</Label>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="email">{t('form.password.label')}</Label>
+            <Link
+              to="/forgot-password"
+              className="inline-block text-xs underline-offset-4 hover:underline"
+            >
+              {t('form.forgot')}
+            </Link>
+          </div>
+
           <Input
             id="password"
             type="password"

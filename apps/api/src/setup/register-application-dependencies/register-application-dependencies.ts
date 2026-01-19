@@ -13,6 +13,7 @@ export function registerApplicationDependencies (
   const { openai, publishers, websocketEmitters } = deps
 
   container.register({
+    nodemailerTransport: asValue(deps.nodemailerTransport!),
     openai: asValue(openai ?? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })),
     publishers: asValue(publishers ?? loadPublishers()),
     websocketEmitters: asValue(websocketEmitters ?? loadWebsocketEmitters())

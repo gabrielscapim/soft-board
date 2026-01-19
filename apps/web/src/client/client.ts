@@ -45,7 +45,9 @@ import type {
   ShareBoardResult,
   GetSharedBoardByBoardIdCommand,
   GetSharedBoardByBoardIdResult,
-  UpdateUserPreferencesCommand
+  UpdateUserPreferencesCommand,
+  ForgotPasswordCommand,
+  ResetPasswordCommand
 } from 'types/endpoints'
 
 export type ClientOptions = {
@@ -148,6 +150,10 @@ export class Client {
     await this.axios.post('/deleteRequirement', data)
   }
 
+  async forgotPassword (data: ForgotPasswordCommand): Promise<void> {
+    await this.axios.post('/forgotPassword', data)
+  }
+
   async getAuthenticatedUser (): Promise<GetAuthenticatedUserResult> {
     return (await this.axios.post<GetAuthenticatedUserResult>('/getAuthenticatedUser')).data
   }
@@ -198,6 +204,10 @@ export class Client {
 
   async leaveTeam (): Promise<void> {
     await this.axios.post('/leaveTeam')
+  }
+
+  async resetPassword (data: ResetPasswordCommand): Promise<void> {
+    await this.axios.post('/resetPassword', data)
   }
 
   async shareBoard (data: ShareBoardCommand): Promise<ShareBoardResult> {

@@ -21,3 +21,13 @@ export const PASSWORD_SALT_ROUNDS = 12
 export const PORT = process.env.PORT || 3000
 
 export const RABBIT_URL = process.env.RABBIT_URL!
+
+export const SMTP_HOST = process.env.SMTP_HOST
+
+export const SMTP_PORT = Number(process.env.SMTP_PORT)
+
+export const SMTP_SECURE = process.env.SMTP_SECURE === 'true'
+
+export const SMTP_USER = process.env.SMTP_USER
+
+export const SMTP_PASSWORD = process.env.SMTP_PASSWORD

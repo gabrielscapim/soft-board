@@ -9,6 +9,7 @@
       "label": "Password",
       "placeholder": "Enter your password"
     },
+    "forgot": "Forgot your password?",
     "submit": "Login",
     "title": "Welcome back!"
   }

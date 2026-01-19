@@ -14,7 +14,9 @@ import {
   BoardWizardRoute,
   EditBoardRoute,
   PreviewModeRoute,
-  SharedBoardRoute
+  SharedBoardRoute,
+  ForgotPasswordRoute,
+  ResetPasswordRoute
 } from './routes'
 import { Toaster } from 'sonner'
 import {
@@ -66,6 +68,8 @@ function App () {
                 <Route path="/" element={<UnauthenticatedGuardLayout />}>
                   <Route index element={<SignInRoute />} />
                   <Route path="sign-in" element={<SignInRoute />} />
+                  <Route path="forgot-password" element={<ForgotPasswordRoute />} />
+                  <Route path="reset-password/:token" element={<ResetPasswordRoute />} />
                 </Route>
                 <Route path="share/:token" element={<SharedBoardRoute />} />
 
