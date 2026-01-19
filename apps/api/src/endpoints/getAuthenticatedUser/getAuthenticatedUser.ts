@@ -46,8 +46,6 @@ export function handler (): Handler {
       `
       .first()
 
-    console.log('fallbackTeam', fallbackTeam)
-
     const preferences = await pool
       .SELECT<UserPreferencesRow>`language`
       .FROM`user_preferences`
