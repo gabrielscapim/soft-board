@@ -5,8 +5,6 @@ import { createApp } from '../../setup'
 import * as forgotPassword from './forgotPassword'
 import request from 'supertest'
 import { asValue, createContainer } from 'awilix'
-import { mockDeep } from 'vitest-mock-extended'
-import Nodemailer from 'nodemailer'
 
 describe('forgotPassword', () => {
   describe('when password reset token already exists', () => {
@@ -18,8 +16,7 @@ describe('forgotPassword', () => {
       await factory.createMember({ userId: user.id, teamId: team.id, role: 'owner' })
       const currentPasswordResetToken = await factory.createPasswordResetToken({ userId: user.id })
 
-      const nodemailerTransport = mockDeep<Nodemailer.Transporter>({ sendMail: async () => Promise.resolve() })
-      const container = createContainer().register({ nodemailerTransport: asValue(nodemailerTransport) })
+      const container = createContainer().register({ sendMail: asValue(async () => Promise.resolve()) })
       const app = createApp({
         endpoints: { forgotPassword },
         container,
@@ -53,8 +50,7 @@ describe('forgotPassword', () => {
       await factory.createMember({ userId: user.id, teamId: team.id, role: 'owner' })
       await factory.createPasswordResetToken({ userId: user.id })
 
-      const nodemailerTransport = mockDeep<Nodemailer.Transporter>({ sendMail: async () => Promise.resolve() })
-      const container = createContainer().register({ nodemailerTransport: asValue(nodemailerTransport) })
+      const container = createContainer().register({ sendMail: asValue(async () => Promise.resolve()) })
       const app = createApp({
         endpoints: { forgotPassword },
         container,
