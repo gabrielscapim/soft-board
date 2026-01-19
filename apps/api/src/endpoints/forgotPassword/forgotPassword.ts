@@ -57,7 +57,7 @@ export function handler (getDeps: GetApplicationDependencies): Handler {
         })
     })
 
-    const url = new URL(`/reset-password/token=${token}`, FRONTEND_BASE_URL).toString()
+    const url = new URL(`/reset-password/${token}`, FRONTEND_BASE_URL).toString()
 
     sendMail({
       to: email,
