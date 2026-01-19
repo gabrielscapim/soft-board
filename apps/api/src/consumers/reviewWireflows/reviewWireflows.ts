@@ -3,6 +3,7 @@ import OpenAI from 'openai'
 import { getPool, logger } from '../../libs'
 import { captureScreens, generateReview } from './methods'
 import { GetApplicationDependencies } from '../../types'
+import { UserPreferencesDatabase } from 'types/database/user-preferences/user-preferences'
 
 export const exchange = 'agent.calledFunction'
 
@@ -18,6 +19,12 @@ export function consumer (getDeps: GetApplicationDependencies) {
     logger.info({ event }, 'Starting review wireflows')
 
     try {
+      const userPreferences = await pool
+        .SELECT<Pick<UserPreferencesDatabase, 'language'>>`language`
+        .FROM`user_preferences`
+        .WHERE`user_id = ${user.id}`
+        .first()
+
       const { screenBuffers } = await captureScreens({
         pool,
         user,
@@ -36,7 +43,7 @@ export function consumer (getDeps: GetApplicationDependencies) {
 
       const { review } = await generateReview(
         { openai, pool },
-        { boardId: board.id, teamId: team.id, screenBuffers }
+        { boardId: board.id, teamId: team.id, screenBuffers, language: userPreferences?.language ?? 'en' }
       )
 
       logger.info({ event, review }, 'Review wireflows completed')

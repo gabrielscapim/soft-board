@@ -40,7 +40,10 @@ export const Example: Story = {
       userId: '1',
       name: 'User',
       email: 'email',
-      fallbackTeam: null
+      fallbackTeam: null,
+      preferences: {
+        language: 'en'
+      }
     },
     messages: [
       {

@@ -5,9 +5,9 @@ import { OpenAIError } from 'openai'
 import * as yup from 'yup'
 import { DatabasePool } from 'pg-script'
 import { ChatCompletionMessageFunctionToolCall, ChatCompletionMessageParam } from 'openai/resources/index'
-import { BoardDatabase, MessageDatabase, RequirementDatabase } from 'types/database'
+import { BoardDatabase, MessageDatabase, RequirementDatabase, UserPreferencesDatabase } from 'types/database'
 import { AgentContext, StartFlowAgent, Tool } from '../../startflow-agent'
-import { REQUIREMENTS_AGENT_PROMPT, WIREFLOWS_AGENT_PROMPT, REVIEW_AGENT_PROMPT } from './prompts'
+import { PROMPT_BY_STEP_AND_LANGUAGE } from './prompts'
 import {
   CreateRequirementTool,
   DeleteRequirementByIdTool,
@@ -57,6 +57,12 @@ export function handler (getDeps: GetApplicationDependencies): Handler {
       .AND`team_id = ${teamId}`
       .find({ error: `Board with id ${boardId} not found` })
 
+    const userPreferences = await pool
+      .SELECT<Pick<UserPreferencesDatabase, 'language'>>`language`
+      .FROM`user_preferences`
+      .WHERE`user_id = ${userId}`
+      .first()
+
     const history = await pool
       .SELECT<MessageRow>`
         message.id,
@@ -73,7 +79,7 @@ export function handler (getDeps: GetApplicationDependencies): Handler {
       .list()
 
     const tools = getTools(board, pool, publishers, websocketEmitters)
-    const prompt = await getPrompt(pool, board)
+    const prompt = await getPrompt(pool, board, userPreferences?.language)
 
     const context: AgentContext = {
       board: {
@@ -217,20 +223,18 @@ function getTools (
 
 async function getPrompt (
   pool: DatabasePool,
-  board: BoardRow
+  board: BoardRow,
+  language: string = 'en'
 ): Promise<string> {
   const requirementsPrompt = await getRequirementsPrompt(pool, board)
   const prompt: string[] = [requirementsPrompt]
+  const basePrompt = PROMPT_BY_STEP_AND_LANGUAGE[board.step][language]
 
-  if (board.step === 'requirements') {
-    prompt.unshift(REQUIREMENTS_AGENT_PROMPT)
-  } else if (board.step === 'wireflows') {
-    prompt.unshift(WIREFLOWS_AGENT_PROMPT)
-  } else if (board.step === 'review') {
-    prompt.unshift(REVIEW_AGENT_PROMPT)
-  } else {
+  if (!basePrompt) {
     throw createAppHttpError(400, 'INVALID_BOARD_STEP', 'Unsupported board step')
   }
+
+  prompt.unshift(basePrompt)
 
   return prompt.join('\n')
 }

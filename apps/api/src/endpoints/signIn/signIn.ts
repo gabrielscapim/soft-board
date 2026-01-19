@@ -1,6 +1,6 @@
 import { CookieOptions, RequestHandler } from 'express'
 import { SignInCommand, SignInResult } from 'types/endpoints'
-import { UserDatabase } from 'types/database'
+import { UserDatabase, UserPreferencesDatabase } from 'types/database'
 import * as yup from 'yup'
 import * as bcrypt from 'bcrypt'
 import { createAppHttpError, getPool } from '../../libs'
@@ -61,10 +61,19 @@ export function handler (getDeps: GetApplicationDependencies): Handler {
       `
       .first()
 
+    const userPreferences = await pool
+      .SELECT<Pick<UserPreferencesDatabase, 'language'>>`language`
+      .FROM`user_preferences`
+      .WHERE`user_id = ${user.id}`
+      .first()
+
     const result: SignInResult = {
       userId: user.id,
       name: user.name,
-      fallbackTeam: fallbackTeam ? { slug: fallbackTeam.slug } : null
+      fallbackTeam: fallbackTeam ? { slug: fallbackTeam.slug } : null,
+      preferences: {
+        language: userPreferences?.language ?? 'en'
+      }
     }
 
     const authenticationData: AuthenticationData = {

@@ -1,7 +1,7 @@
 import { AgentCalledFunctionEvent } from 'event-types'
 import OpenAI from 'openai'
 import { getPool, logger } from '../../libs'
-import { MessageDatabase, RequirementDatabase } from 'types/database'
+import { MessageDatabase, RequirementDatabase, UserPreferencesDatabase } from 'types/database'
 import { AgentContext } from '../../startflow-agent'
 import { runSummaryAgent } from './methods/runSummaryAgent'
 import { runWireflowsAgent } from './methods'
@@ -35,6 +35,14 @@ export function consumer (getDeps: GetApplicationDependencies) {
       .ORDER_BY`"order" ASC`
       .list()
 
+    const userPreferences = await pool
+      .SELECT<Pick<UserPreferencesDatabase, 'language'>>`language`
+      .FROM`user_preferences`
+      .WHERE`user_id = ${user.id}`
+      .first()
+
+    const language = userPreferences?.language ?? 'en'
+
     const context: AgentContext = {
       board,
       team,
@@ -51,7 +59,8 @@ export function consumer (getDeps: GetApplicationDependencies) {
         openai,
         context,
         history,
-        requirements
+        requirements,
+        language
       })
 
       logger.info({ event, summaryAgentResponse }, 'Summary agent completed')
@@ -90,7 +99,8 @@ export function consumer (getDeps: GetApplicationDependencies) {
         openai,
         context,
         boardSummary: summaryAgentResponse.summary,
-        boardGenerationToolCallId: event.toolCall.id
+        boardGenerationToolCallId: event.toolCall.id,
+        language
       })
 
       await pool

@@ -9,4 +9,7 @@ export type SignInResult = {
   fallbackTeam: {
     slug: string
   } | null
+  preferences: {
+    language: string
+  }
 }

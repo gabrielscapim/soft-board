@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import { BoardDatabase } from 'types/database'
+import { BoardDatabase, UserPreferencesDatabase } from 'types/database'
 import { CreateBoardCommand, CreateBoardResult } from 'types/endpoints'
 import * as yup from 'yup'
 import { assertMemberPermission, createAppHttpError, getPool } from '../../libs'
@@ -9,7 +9,6 @@ type Handler = RequestHandler<unknown, CreateBoardResult, CreateBoardCommand>
 type BoardRow = Pick<BoardDatabase, 'id'>
 
 const schema = yup.object({
-  language: yup.string().oneOf(['en', 'pt-BR']).default('en'),
   title: yup.string().nullable().optional().default(null)
 })
 
@@ -27,7 +26,7 @@ export function handler (): Handler {
   return async (req, res) => {
     const teamId = req.team!.teamId
     const userId = req.auth!.userId
-    const { language, title } = schema.validateSync(req.body)
+    const { title } = schema.validateSync(req.body)
 
     assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can create boards')
 
@@ -42,6 +41,14 @@ export function handler (): Handler {
     if (count >= MAX_BOARD_COUNT) {
       throw createAppHttpError(400, 'MAX_BOARDS_REACHED', 'The maximum number of boards for this team has been reached')
     }
+
+    const userPreferences = await pool
+      .SELECT<Pick<UserPreferencesDatabase, 'language'>>`language`
+      .FROM`user_preferences`
+      .WHERE`user_id = ${userId}`
+      .first()
+
+    const language = (userPreferences?.language ?? 'en') as keyof typeof ASSISTANT_MESSAGE
 
     const created = await pool.transaction(async pool => {
       const { rows: [created] } = await pool

@@ -9,6 +9,7 @@ export type GenerateReviewCommand = {
   boardId: string
   teamId: string
   screenBuffers: Buffer<ArrayBufferLike>[]
+  language: string
 }
 
 export type GenerateReviewDeps = {
@@ -103,10 +104,11 @@ export async function generateReview (
   command: GenerateReviewCommand
 ): Promise<GenerateReviewResult> {
   const { openai, pool } = deps
-  const { boardId, teamId, screenBuffers } = command
+  const { boardId, teamId, screenBuffers, language } = command
 
+  const fileName = language === 'en' ? 'prompt.english.md' : 'prompt.portuguese.md'
   const prompt = fs.readFileSync(
-    path.join(__dirname, 'prompt.md'),
+    path.join(__dirname, fileName),
     'utf-8'
   )
 
@@ -121,7 +123,7 @@ export async function generateReview (
     model: 'gpt-5.2',
     messages: [
       { role: 'system', content: prompt },
-      { role: 'user', content: 'Please review the following wireflow screens in English.' },
+      { role: 'user', content: `Please review the following wireflow screens in ${language}.` },
       { role: 'user', content: imageContents }
     ],
     response_format: buildResponseFormat()
