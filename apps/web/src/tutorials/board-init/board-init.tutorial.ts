@@ -1,6 +1,5 @@
 import { getPopoverAnchorSelector } from '../anchors.tutorials'
 import { Tutorial } from '../types'
-import { t } from 'i18next'
 
 export const boardInitTutorial: Tutorial = {
   name: 'board-init',
@@ -8,8 +7,8 @@ export const boardInitTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardHeaderSteps'),
       popover: {
-        title: t('boardInit.headerSteps.title', { ns: 'tutorial' }),
-        description: t('boardInit.headerSteps.description', { ns: 'tutorial' }),
+        title: 'boardInit.headerSteps.title',
+        description: 'boardInit.headerSteps.description',
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -17,8 +16,8 @@ export const boardInitTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('InitWizardStepRequirements'),
       popover: {
-        title: t('boardInit.stepRequirements.title', { ns: 'tutorial' }),
-        description: t('boardInit.stepRequirements.description', { ns: 'tutorial' }),
+        title: 'boardInit.stepRequirements.title',
+        description: 'boardInit.stepRequirements.description',
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -26,8 +25,8 @@ export const boardInitTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('InitWizardStepWireflows'),
       popover: {
-        title: t('boardInit.stepWireflows.title', { ns: 'tutorial' }),
-        description: t('boardInit.stepWireflows.description', { ns: 'tutorial' }),
+        title: 'boardInit.stepWireflows.title',
+        description: 'boardInit.stepWireflows.description',
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -35,8 +34,8 @@ export const boardInitTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('InitWizardStepReview'),
       popover: {
-        title: t('boardInit.stepReview.title', { ns: 'tutorial' }),
-        description: t('boardInit.stepReview.description', { ns: 'tutorial' }),
+        title: 'boardInit.stepReview.title',
+        description: 'boardInit.stepReview.description',
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -44,16 +43,16 @@ export const boardInitTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardFooter'),
       popover: {
-        title: t('boardInit.footer.title', { ns: 'tutorial' }),
-        description: t('boardInit.footer.description', { ns: 'tutorial' }),
+        title: 'boardInit.footer.title',
+        description: 'boardInit.footer.description',
         side: 'left'
       },
       disableActiveInteraction: true
     },
     {
       popover: {
-        title: t('boardInit.getStarted.title', { ns: 'tutorial' }),
-        description: t('boardInit.getStarted.description', { ns: 'tutorial' }),
+        title: 'boardInit.getStarted.title',
+        description: 'boardInit.getStarted.description',
         side: 'left'
       },
       disableActiveInteraction: true

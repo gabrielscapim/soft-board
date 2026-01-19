@@ -1,6 +1,5 @@
 import { getPopoverAnchorSelector } from '../anchors.tutorials'
 import { Tutorial } from '../types'
-import { t } from 'i18next'
 
 export const boardWireflowsTutorial: Tutorial = {
   name: 'board-wireflows',
@@ -8,8 +7,8 @@ export const boardWireflowsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardWireflowsContainer'),
       popover: {
-        title: t('boardWireflows.wireflowCanvas.title', { ns: 'tutorial' }),
-        description: t('boardWireflows.wireflowCanvas.description', { ns: 'tutorial' }),
+        title: 'boardWireflows.wireflowCanvas.title',
+        description: 'boardWireflows.wireflowCanvas.description',
         side: 'left'
       },
       disableActiveInteraction: true
@@ -17,8 +16,8 @@ export const boardWireflowsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardZoomController'),
       popover: {
-        title: t('boardWireflows.zoomControls.title', { ns: 'tutorial' }),
-        description: t('boardWireflows.zoomControls.description', { ns: 'tutorial' }),
+        title: 'boardWireflows.zoomControls.title',
+        description: 'boardWireflows.zoomControls.description',
         side: 'left'
       },
       disableActiveInteraction: true
@@ -26,8 +25,8 @@ export const boardWireflowsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('PreviewModeLink'),
       popover: {
-        title: t('boardWireflows.previewMode.title', { ns: 'tutorial' }),
-        description: t('boardWireflows.previewMode.description', { ns: 'tutorial' }),
+        title: 'boardWireflows.previewMode.title',
+        description: 'boardWireflows.previewMode.description',
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -35,8 +34,8 @@ export const boardWireflowsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('EditBoardLink'),
       popover: {
-        title: t('boardWireflows.editMode.title', { ns: 'tutorial' }),
-        description: t('boardWireflows.editMode.description', { ns: 'tutorial' }),
+        title: 'boardWireflows.editMode.title',
+        description: 'boardWireflows.editMode.description',
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -44,8 +43,8 @@ export const boardWireflowsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardChatContainer'),
       popover: {
-        title: t('boardWireflows.chatContainer.title', { ns: 'tutorial' }),
-        description: t('boardWireflows.chatContainer.description', { ns: 'tutorial' }),
+        title: 'boardWireflows.chatContainer.title',
+        description: 'boardWireflows.chatContainer.description',
         side: 'top'
       },
       disableActiveInteraction: true

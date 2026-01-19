@@ -1,6 +1,5 @@
 import { getPopoverAnchorSelector } from '../anchors.tutorials'
 import { Tutorial } from '../types'
-import { t } from 'i18next'
 
 export const boardRequirementsTutorial: Tutorial = {
   name: 'board-requirements',
@@ -8,8 +7,8 @@ export const boardRequirementsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardRequirementsContainer'),
       popover: {
-        title: t('boardRequirements.requirementsList.title', { ns: 'tutorial' }),
-        description: t('boardRequirements.requirementsList.description', { ns: 'tutorial' })  ,
+        title: 'boardRequirements.requirementsList.title',
+        description: 'boardRequirements.requirementsList.description',
         side: 'left'
       },
       disableActiveInteraction: true
@@ -17,8 +16,8 @@ export const boardRequirementsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardRequirementsContainerCreateButton'),
       popover: {
-        title: t('boardRequirements.addRequirementButton.title', { ns: 'tutorial' }),
-        description: t('boardRequirements.addRequirementButton.description', { ns: 'tutorial' }),
+        title: 'boardRequirements.addRequirementButton.title',
+        description: 'boardRequirements.addRequirementButton.description',
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -26,8 +25,8 @@ export const boardRequirementsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardChatContainer'),
       popover: {
-        title: t('boardRequirements.chatInput.title', { ns: 'tutorial' }),
-        description: t('boardRequirements.chatInput.description', { ns: 'tutorial' }),
+        title: 'boardRequirements.chatInput.title',
+        description: 'boardRequirements.chatInput.description',
         side: 'top'
       },
       disableActiveInteraction: true

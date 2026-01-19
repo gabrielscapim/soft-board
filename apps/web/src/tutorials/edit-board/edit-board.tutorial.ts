@@ -1,6 +1,5 @@
 import { getPopoverAnchorSelector } from '../anchors.tutorials'
 import { Tutorial } from '../types'
-import { t } from 'i18next'
 
 export const editBoardTutorial: Tutorial = {
   name: 'edit-board',
@@ -8,8 +7,8 @@ export const editBoardTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('Board'),
       popover: {
-        title: t('editBoard.boardCanvas.title', { ns: 'tutorial' }),
-        description: t('editBoard.boardCanvas.description', { ns: 'tutorial' }),
+        title: 'editBoard.boardCanvas.title',
+        description: 'editBoard.boardCanvas.description',
         side: 'left'
       },
       disableActiveInteraction: true
@@ -17,8 +16,8 @@ export const editBoardTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('EditBoardHeaderAddScreenButton'),
       popover: {
-        title: t('editBoard.addScreenButton.title', { ns: 'tutorial' }),
-        description: t('editBoard.addScreenButton.description', { ns: 'tutorial' }),
+        title: 'editBoard.addScreenButton.title',
+        description: 'editBoard.addScreenButton.description',
         side: 'bottom',
         onNextClick: async (element, _step, { driver }) => {
           const button = element as HTMLElement
@@ -40,8 +39,8 @@ export const editBoardTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('CollapsibleEditBoardSidebar'),
       popover: {
-        title: t('editBoard.componentLibrary.title', { ns: 'tutorial' }),
-        description: t('editBoard.componentLibrary.description', { ns: 'tutorial' }),
+        title: 'editBoard.componentLibrary.title',
+        description: 'editBoard.componentLibrary.description',
         side: 'right'
       },
       disableActiveInteraction: true
@@ -49,8 +48,8 @@ export const editBoardTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardComponentCardPreview'),
       popover: {
-        title: t('editBoard.addComponentCard.title', { ns: 'tutorial' }),
-        description: t('editBoard.addComponentCard.description', { ns: 'tutorial' }),
+        title: 'editBoard.addComponentCard.title',
+        description: 'editBoard.addComponentCard.description',
         side: 'right',
         onNextClick: async (element, _step, { driver }) => {
           const card = element as HTMLElement
@@ -68,8 +67,8 @@ export const editBoardTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardPropertiesMenu'),
       popover: {
-        title: t('editBoard.componentSettings.title', { ns: 'tutorial' }),
-        description: t('editBoard.componentSettings.description', { ns: 'tutorial' }),
+        title: 'editBoard.componentSettings.title',
+        description: 'editBoard.componentSettings.description',
         side: 'left',
         onNextClick: async (_element, _step, { driver }) => {
           const actionsTabTrigger = document.querySelector(
@@ -89,8 +88,8 @@ export const editBoardTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardPropertiesMenu'),
       popover: {
-        title: t('editBoard.actionsAndNavigation.title', { ns: 'tutorial' }),
-        description: t('editBoard.actionsAndNavigation.description', { ns: 'tutorial' }),
+        title: 'editBoard.actionsAndNavigation.title',
+        description: 'editBoard.actionsAndNavigation.description',
         side: 'bottom',
         onNextClick: async (_element, _step, { driver }) => {
           document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))

@@ -1,6 +1,5 @@
 import { getPopoverAnchorSelector } from '../anchors.tutorials'
 import { Tutorial } from '../types'
-import { t } from 'i18next'
 
 export const onboardingTutorial: Tutorial = {
   name: 'onboarding',
@@ -8,8 +7,8 @@ export const onboardingTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('RootSidebar'),
       popover: {
-        title: t('onboarding.mainNavigation.title', { ns: 'tutorial' }),
-        description: t('onboarding.mainNavigation.description', { ns: 'tutorial' }),
+        title: 'onboarding.mainNavigation.title',
+        description: 'onboarding.mainNavigation.description',
         side: 'right'
       },
       disableActiveInteraction: true
@@ -17,8 +16,8 @@ export const onboardingTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('TeamSwitcher'),
       popover: {
-        title: t('onboarding.teamSwitcher.title', { ns: 'tutorial' }),
-        description: t('onboarding.teamSwitcher.description', { ns: 'tutorial' }),
+        title: 'onboarding.teamSwitcher.title',
+        description: 'onboarding.teamSwitcher.description',
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -26,8 +25,8 @@ export const onboardingTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('RootSidebarBoardsItem'),
       popover: {
-        title: t('onboarding.boards.title', { ns: 'tutorial' }),
-        description: t('onboarding.boards.description', { ns: 'tutorial' }),
+        title: 'onboarding.boards.title',
+        description: 'onboarding.boards.description',
         side: 'right'
       },
       disableActiveInteraction: true
@@ -35,8 +34,8 @@ export const onboardingTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('RootSidebarMembersItem'),
       popover: {
-        title: t('onboarding.teamMembers.title', { ns: 'tutorial' }),
-        description: t('onboarding.teamMembers.description', { ns: 'tutorial' }),
+        title: 'onboarding.teamMembers.title',
+        description: 'onboarding.teamMembers.description',
         side: 'right'
       },
       disableActiveInteraction: true
@@ -44,8 +43,8 @@ export const onboardingTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('RootSidebarSettingsItem'),
       popover: {
-        title: t('onboarding.teamSettings.title', { ns: 'tutorial' }),
-        description: t('onboarding.teamSettings.description', { ns: 'tutorial' }),
+        title: 'onboarding.teamSettings.title',
+        description: 'onboarding.teamSettings.description',
         side: 'right'
       },
       disableActiveInteraction: true
@@ -53,8 +52,8 @@ export const onboardingTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('NavUser'),
       popover: {
-        title: t('onboarding.yourAccount.title', { ns: 'tutorial' }),
-        description: t('onboarding.yourAccount.description', { ns: 'tutorial' }),
+        title: 'onboarding.yourAccount.title',
+        description: 'onboarding.yourAccount.description',
         side: 'top'
       },
       disableActiveInteraction: true
@@ -62,8 +61,8 @@ export const onboardingTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardsRoute'),
       popover: {
-        title: t('onboarding.yourBoards.title', { ns: 'tutorial' }),
-        description: t('onboarding.yourBoards.description', { ns: 'tutorial' }),
+        title: 'onboarding.yourBoards.title',
+        description: 'onboarding.yourBoards.description',
         side: 'top'
       },
       disableActiveInteraction: true
@@ -71,16 +70,16 @@ export const onboardingTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('CreateBoardButton'),
       popover: {
-        title: t('onboarding.createBoard.title', { ns: 'tutorial' }),
-        description: t('onboarding.createBoard.description', { ns: 'tutorial' }),
+        title: 'onboarding.createBoard.title',
+        description: 'onboarding.createBoard.description',
         side: 'left'
       },
       disableActiveInteraction: false
     },
     {
       popover: {
-        title: t('onboarding.ready.title', { ns: 'tutorial' }),
-        description: t('onboarding.ready.description', { ns: 'tutorial' }),
+        title: 'onboarding.ready.title',
+        description: 'onboarding.ready.description',
         side: 'bottom'
       }
     }

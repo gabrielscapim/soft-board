@@ -1,5 +1,5 @@
 import { TUTORIALS } from '@/tutorials'
-import { driver as driverjs, Driver, Config } from 'driver.js'
+import { driver as driverjs, Driver, Config, DriveStep } from 'driver.js'
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import useLocalStorage from 'use-local-storage'
@@ -42,6 +42,7 @@ export function useTutorial (name?: TutorialName | null) {
 
     const isCompleted = tutorialState.tutorials[name].completed
     const tutorial = TUTORIALS[name]
+    const steps = resolveSteps(tutorial.steps, t)
 
     const onDestroyStarted: Config['onDestroyStarted'] = (_element, _step, { driver }) => {
       driverRef.current = null
@@ -66,7 +67,7 @@ export function useTutorial (name?: TutorialName | null) {
       nextBtnText: t('next'),
       prevBtnText: t('back'),
       doneBtnText: t('done'),
-      steps: tutorial.steps,
+      steps,
       onDestroyStarted
     })
 
@@ -78,7 +79,8 @@ export function useTutorial (name?: TutorialName | null) {
   }, [name, tutorialState, setTutorialState, t])
 
   function runTutorialOnce (name: TutorialName) {
-    const steps = TUTORIALS[name].steps
+    const tutorial = TUTORIALS[name]
+    const steps = resolveSteps(tutorial.steps, t)
 
     const driver = driverjs({
       ...BASE_DRIVER_CONFIG,
@@ -112,4 +114,26 @@ export function useTutorial (name?: TutorialName | null) {
     onChange: onChangeTutorialState,
     runTutorialOnce
   }
+}
+
+function resolveSteps (
+  steps: DriveStep[],
+  t: (key: string, opts?: any) => string
+): DriveStep[] {
+  return steps.map(step => {
+    if (!step.popover) return step
+
+    return {
+      ...step,
+      popover: {
+        ...step.popover,
+        title: step.popover.title
+          ? t(step.popover.title, { ns: 'tutorial' })
+          : undefined,
+        description: step.popover.description
+          ? t(step.popover.description, { ns: 'tutorial' })
+          : undefined
+      }
+    }
+  })
 }
