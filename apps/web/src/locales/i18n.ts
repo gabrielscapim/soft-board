@@ -15,6 +15,8 @@ import forgotPasswordRouteEn from './en/routes/forgotPasswordRoute.json'
 import forgotPasswordRoutePtBr from './pt-BR/routes/forgotPasswordRoute.json'
 import membersRouteEn from './en/routes/membersRoute.json'
 import membersRoutePtBr from './pt-BR/routes/membersRoute.json'
+import resetPasswordRouteEn from './en/routes/resetPasswordRoute.json'
+import resetPasswordRoutePtBr from './pt-BR/routes/resetPasswordRoute.json'
 import settingsRouteEn from './en/routes/settingsRoute.json'
 import settingsRoutePtBr from './pt-BR/routes/settingsRoute.json'
 import sharedBoardRouteEn from './en/routes/sharedBoardRoute.json'
@@ -59,6 +61,7 @@ i18n
         'routes.editBoard': editBoardRoutePtBr,
         'routes.forgotPassword': forgotPasswordRoutePtBr,
         'routes.members': membersRoutePtBr,
+        'routes.resetPassword': resetPasswordRoutePtBr,
         'routes.settings': settingsRoutePtBr,
         'routes.sharedBoard': sharedBoardRoutePtBr,
         'routes.signIn': signInRoutePtBr,
@@ -76,6 +79,7 @@ i18n
         'routes.editBoard': editBoardRouteEn,
         'routes.forgotPassword': forgotPasswordRouteEn,
         'routes.members': membersRouteEn,
+        'routes.resetPassword': resetPasswordRouteEn,
         'routes.settings': settingsRouteEn,
         'routes.sharedBoard': sharedBoardRouteEn,
         'routes.signIn': signInRouteEn,
