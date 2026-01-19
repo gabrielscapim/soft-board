@@ -1,8 +1,7 @@
 import { RequestHandler } from 'express'
 import { CreateTeamCommand, CreateTeamResult } from 'types/endpoints'
 import * as yup from 'yup'
-import { getPool } from '../../libs'
-import { Conflict, Forbidden } from 'http-errors'
+import { createAppHttpError, getPool } from '../../libs'
 import slugify from 'slugify'
 
 type Handler = RequestHandler<unknown, CreateTeamResult, CreateTeamCommand>
@@ -29,7 +28,7 @@ export function handler (): Handler {
       .first()
 
     if (existingTeam) {
-      throw new Conflict(`A team with the slug "${slug}" already exists`)
+      throw createAppHttpError(409, 'TEAM_ALREADY_EXISTS', `A team with the slug "${slug}" already exists`)
     }
 
     const count = await pool
@@ -39,8 +38,8 @@ export function handler (): Handler {
       .WHERE`member.user_id = ${userId}`
       .count()
 
-    if (count > MAX_TEAMS_PER_USER) {
-      throw new Forbidden(`You can only create up to ${MAX_TEAMS_PER_USER} teams`)
+    if (count >= MAX_TEAMS_PER_USER) {
+      throw createAppHttpError(403, 'MAX_TEAMS_REACHED', 'The maximum number of teams for this user has been reached')
     }
 
     const created = await pool.transaction(async pool => {

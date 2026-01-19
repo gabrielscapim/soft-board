@@ -1,0 +1,16 @@
+{
+  "description": "Gerencie as configurações da sua equipe.",
+  "form": {
+    "name": {
+      "label": "Nome",
+      "placeholder": "Este é o nome da sua equipe. Ele será exibido para todos os membros."
+    },
+    "submit": "Salvar alterações"
+  },
+  "title": "Configurações da equipe",
+  "toast": {
+    "nameConflict": "O nome da equipe já existe",
+    "updateError": "Falha ao atualizar a equipe",
+    "updateSuccess": "Equipe atualizada com sucesso"
+  }
+}

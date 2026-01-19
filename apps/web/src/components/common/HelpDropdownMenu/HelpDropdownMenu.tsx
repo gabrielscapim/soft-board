@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger
 } from '@/components'
 import { CircleQuestionMark, BookOpen, Play } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export type HelpDropdownMenuProps = {
   onStartTutorial?: () => void
@@ -15,6 +16,8 @@ export type HelpDropdownMenuProps = {
 
 export function HelpDropdownMenu (props: HelpDropdownMenuProps) {
   const { onStartTutorial } = props
+
+  const { t } = useTranslation('components')
 
   return (
     <DropdownMenu>
@@ -25,13 +28,13 @@ export function HelpDropdownMenu (props: HelpDropdownMenuProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>
-          Help
+          {t('common:help')}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild disabled={true}>
           <a href="https://docs.site.com" target="_blank" rel="noopener noreferrer">
             <BookOpen />
-            Open documentation
+            {t('common.helpDropdownMenu.openDocumentation')}
           </a>
         </DropdownMenuItem>
 
@@ -40,7 +43,7 @@ export function HelpDropdownMenu (props: HelpDropdownMenuProps) {
             onClick={onStartTutorial}
           >
             <Play />
-            Start tutorial
+            {t('common.helpDropdownMenu.startTutorial')}
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>

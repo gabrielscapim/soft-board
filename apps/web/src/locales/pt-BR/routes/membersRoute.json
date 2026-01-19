@@ -1,0 +1,65 @@
+{
+  "actions": {
+    "addMember": "Adicionar membro",
+    "search": "Buscar membros por nome ou email"
+  },
+  "createMemberDialog": {
+    "cancel": "Cancelar",
+    "confirm": "Criar membro",
+    "description": "Adicione um novo membro à sua equipe. Informe o email e o cargo.",
+    "form": {
+      "email": {
+        "label": "Email"
+      },
+      "role": {
+        "label": "Cargo",
+        "placeholder": "Selecione um cargo"
+      },
+      "validation": {
+        "invalidEmail": "Endereço de email inválido",
+        "invalidRole": "Cargo inválido",
+        "requiredEmail": "O email é obrigatório",
+        "requiredRole": "O cargo é obrigatório"
+      }
+    },
+    "title": "Criar membro"
+  },
+  "deleteMemberDialog": {
+    "cancel": "Cancelar",
+    "confirm": "Excluir",
+    "description": "Esta ação não pode ser desfeita. Isso removerá permanentemente o membro da equipe.",
+    "title": "Tem certeza de que deseja excluir este membro?"
+  },
+  "description": "Gerencie os membros da sua equipe, seus cargos e permissões.",
+  "errors": {
+    "loadDescription": "Ocorreu um erro ao buscar os membros",
+    "loadTitle": "Falha ao carregar os membros"
+  },
+  "table": {
+    "columns": {
+      "actions": "Ações",
+      "addedAt": "Adicionado em",
+      "email": "Email",
+      "name": "Nome",
+      "role": "Cargo",
+      "updatedAt": "Atualizado em",
+      "you": "Você"
+    },
+    "roles": {
+      "admin": "Administrador",
+      "member": "Membro",
+      "owner": "Proprietário"
+    }
+  },
+  "title": "Membros da equipe",
+  "toast": {
+    "createMemberError": "Falha ao criar o membro.",
+    "createMemberSuccess": "Membro criado com sucesso.",
+    "deleteMemberError": "Falha ao excluir o membro.",
+    "deleteMemberSuccess": "Membro excluído com sucesso.",
+    "memberAlreadyExistsError": "O membro já existe na equipe.",
+    "updateMemberRoleError": "Falha ao atualizar o cargo do membro.",
+    "updateMemberRoleSuccess": "Cargo do membro atualizado com sucesso.",
+    "userNotFoundError": "Usuário não encontrado."
+  }
+}

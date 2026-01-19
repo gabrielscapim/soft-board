@@ -8,6 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
+import { useTranslation } from 'react-i18next'
 
 export type DeleteMemberDialogProps = {
   open?: boolean
@@ -19,6 +20,8 @@ export type DeleteMemberDialogProps = {
 export function DeleteMemberDialog (props: DeleteMemberDialogProps) {
   const { open, isMutating, onConfirm, onCancel } = props
 
+  const { t } = useTranslation('routes.members')
+
   return (
     <AlertDialog
       open={open}
@@ -26,10 +29,10 @@ export function DeleteMemberDialog (props: DeleteMemberDialogProps) {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure you want to delete this member?
+            {t('deleteMemberDialog.title')}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently remove the member from the team.
+            {t('deleteMemberDialog.description')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -37,13 +40,13 @@ export function DeleteMemberDialog (props: DeleteMemberDialogProps) {
             disabled={isMutating}
             onClick={onCancel}
           >
-            Cancel
+            {t('deleteMemberDialog.cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             disabled={isMutating}
             onClick={onConfirm}
           >
-            Delete
+            {t('deleteMemberDialog.confirm')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

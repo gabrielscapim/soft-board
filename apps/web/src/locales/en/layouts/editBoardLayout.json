@@ -1,0 +1,13 @@
+{
+  "actions": {
+    "addScreen": "Add Screen"
+  },
+  "boardComponentsPreview": {
+    "noComponents": "No components found"
+  },
+  "invalidBoardStepState": {
+    "description": "Please switch the board to wireflows step to edit wireflows.",
+    "return": "Go back",
+    "title": "The board is not in wireflows step"
+  }
+}

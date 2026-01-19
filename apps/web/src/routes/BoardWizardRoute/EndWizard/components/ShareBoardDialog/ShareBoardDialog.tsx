@@ -12,6 +12,7 @@ import { CheckCheck, Copy } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { useState } from 'react'
 import { Spinner } from '@/components/ui/spinner'
+import { useTranslation } from 'react-i18next'
 
 export type ShareBoardDialogProps = {
   open?: boolean
@@ -35,6 +36,7 @@ function DialogContentWrapper (props: ShareBoardDialogProps) {
   const { sharedLink, isMutating, onShare, onClose } = props
 
   const [copied, setCopied] = useState(false)
+  const { t } = useTranslation('routes.boardWizard')
 
   function handleCopy () {
     if (!sharedLink) return
@@ -46,22 +48,22 @@ function DialogContentWrapper (props: ShareBoardDialogProps) {
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Share Board</DialogTitle>
+        <DialogTitle>{t('shareBoardDialog.title')}</DialogTitle>
         <DialogDescription className="hidden">
-          Anyone with this link will be able to view your board.
+          {t('shareBoardDialog.description')}
         </DialogDescription>
       </DialogHeader>
 
       <Card className="border-dashed shadow-none">
         <CardContent className="flex flex-col items-center justify-center gap-3 text-center w-full">
           <div className="text-sm font-medium">
-            {!sharedLink && 'This Board is not shared yet'}
-            {sharedLink && 'This Board is publicly shared!'}
+            {!sharedLink && t('shareBoardDialog.status.unshared.title')}
+            {sharedLink && t('shareBoardDialog.status.shared.title')}
           </div>
 
           <p className="text-sm text-muted-foreground">
-            {!sharedLink && 'Generate a public link to allow others to view your board.'}
-            {sharedLink && 'Anyone with the link can view this board.'}
+            {!sharedLink && t('shareBoardDialog.status.unshared.description')}
+            {sharedLink && t('shareBoardDialog.status.shared.description')}
           </p>
 
           {sharedLink && (
@@ -92,7 +94,7 @@ function DialogContentWrapper (props: ShareBoardDialogProps) {
               onClick={onShare}
             >
               {isMutating && <Spinner variant="circle" />}
-              Generate share link
+              {t('actions.generateShareLink')}
             </Button>
           )}
         </CardContent>
@@ -104,7 +106,7 @@ function DialogContentWrapper (props: ShareBoardDialogProps) {
           disabled={isMutating}
           onClick={onClose}
         >
-          Close
+          {t('common:close')}
         </Button>
       </DialogFooter>
     </DialogContent>

@@ -1,4 +1,4 @@
-import { ChevronsUpDown, DoorOpen, LogOut } from 'lucide-react'
+import { ChevronsUpDown, DoorOpen, LanguagesIcon, LogOut } from 'lucide-react'
 import { getAvatarFallbackName } from '@/helpers'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
 import {
@@ -8,13 +8,18 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar
 } from '@/components'
+import { useTranslation } from 'react-i18next'
 
 export type NavUserProps = {
   user: {
@@ -22,14 +27,16 @@ export type NavUserProps = {
     email: string
   }
   isOwner?: boolean
-  handleSignOut?: () => void
-  handleLeaveTeam?: () => void
+  onSignOut?: () => void
+  onLeaveTeam?: () => void
+  onLanguageChange?: (lang: 'en' | 'pt-BR') => void
 }
 
 export function NavUser (props: NavUserProps) {
-  const { user, isOwner, handleSignOut, handleLeaveTeam } = props
-  const { isMobile } = useSidebar()
+  const { user, isOwner, onSignOut, onLeaveTeam, onLanguageChange } = props
 
+  const { isMobile } = useSidebar()
+  const { t } = useTranslation('layouts.rootLayout')
   const avatar = getAvatarFallbackName(user.name)
 
   return (
@@ -74,13 +81,29 @@ export function NavUser (props: NavUserProps) {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLeaveTeam} disabled={isOwner}>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                <LanguagesIcon size={16} className="mr-2" />
+                {t('navUser.language')}
+              </DropdownMenuSubTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem onClick={() => onLanguageChange?.('en')}>
+                    {t('navUser.en')}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onLanguageChange?.('pt-BR')}>
+                    {t('navUser.pt-BR')}
+                  </DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuPortal>
+            </DropdownMenuSub>
+            <DropdownMenuItem onClick={onLeaveTeam} disabled={isOwner}>
               <DoorOpen />
-              Leave team
+              {t('navUser.leaveTeam')}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleSignOut}>
+            <DropdownMenuItem onClick={onSignOut}>
               <LogOut />
-              Log out
+              {t('navUser.logOut')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

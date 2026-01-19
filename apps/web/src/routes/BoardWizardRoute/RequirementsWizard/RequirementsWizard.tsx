@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { GetMessagesResultData, GetRequirementsResultData, UpdateRequirementCommand } from 'types/endpoints'
 import { RequirementsContainer, DeleteRequirementDialog, EditRequirementDialog } from './components'
 import { ChatContainer } from '../ChatContainer'
+import { useTranslation } from 'react-i18next'
+import { Client } from '@/client/client'
 
 export function RequirementsWizard () {
   const { board } = useBoard()
@@ -14,6 +16,7 @@ export function RequirementsWizard () {
   const getMessages = useMessages(boardId)
   const getRequirements = useRequirements(boardId)
   const memberRole = useMemberRole()
+  const { t } = useTranslation('routes.boardWizard')
 
   const [sendingMessage, setSendingMessage] = useState<string | null>(null)
   const [requirementToDelete, setRequiredToDelete] = useState<GetRequirementsResultData | null>(null)
@@ -24,33 +27,45 @@ export function RequirementsWizard () {
       setSendingMessage(content)
       return await client.sendMessage({ boardId: boardId!, content })
     },
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to send message'),
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.sendMessageError'))
+    },
     onSuccess: () => getMessages.refetch(),
     onSettled: () => setSendingMessage(null)
   })
   const createRequirement = useMutation({
     mutationFn: () => client.createRequirement({ boardId: boardId! }),
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to create requirement'),
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.createRequirementError'))
+    },
     onSuccess: () => {
-      toast.success('Requirement created successfully')
+      toast.success(t('toast.createRequirementSuccess'))
       getRequirements.refetch()
     }
   })
   const updateRequirement = useMutation({
     mutationFn: (data: UpdateRequirementCommand) => client.updateRequirement(data),
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to update requirement'),
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.editRequirementError'))
+    },
     onSuccess: () => {
-      toast.success('Requirement updated successfully')
+      toast.success(t('toast.editRequirementSuccess'))
       getRequirements.refetch()
       setRequirementToEdit(null)
     }
   })
   const deleteRequirement = useMutation({
     mutationFn: (requirementId: string) => client.deleteRequirement({ id: requirementId, boardId: boardId! }),
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to delete requirement'),
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.deleteRequirementError'))
+    },
     onSuccess: () => {
       getRequirements.refetch()
-      toast.success('Requirement deleted successfully')
+      toast.success(t('toast.deleteRequirementSuccess'))
       setRequiredToDelete(null)
     }
   })

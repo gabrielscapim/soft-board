@@ -2,6 +2,7 @@ import { BoardZoomController } from '@/components'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { getRootImage, MAX_SCALE, MIN_SCALE } from '@/helpers'
 import clsx from 'clsx'
+import { useTranslation } from 'react-i18next'
 import { GetSharedBoardByTokenResult } from 'types/endpoints'
 
 export type SharedBoardHeaderProps = {
@@ -15,15 +16,15 @@ export type SharedBoardHeaderProps = {
 const TABS = [
   {
     value: 'board',
-    label: 'Board'
+    label: 'board'
   },
   {
     value: 'preview',
-    label: 'Preview'
+    label: 'preview'
   },
   {
     value: 'requirements',
-    label: 'Requirements'
+    label: 'requirements'
   }
 ] as const
 
@@ -36,6 +37,8 @@ export function SharedBoardHeader (props: SharedBoardHeaderProps) {
     onChangeMode
   } = props
 
+  const { t } = useTranslation('routes.sharedBoard')
+
   return (
     <header className="bg-background sticky top-0 shrink-0 p-3 h-15 flex justify-between items-center w-full border-b-1">
       <div className="flex items-center gap-3">
@@ -44,7 +47,7 @@ export function SharedBoardHeader (props: SharedBoardHeaderProps) {
         </Avatar>
 
         <span className="text-sm font-normal">
-          {board.title ?? <span className="opacity-30">Untitled Board</span>}
+          {board.title ?? <span className="opacity-30">{t('common:untitled')}</span>}
         </span>
       </div>
 
@@ -56,7 +59,7 @@ export function SharedBoardHeader (props: SharedBoardHeaderProps) {
             data-state={currentMode === tab.value ? 'active' : 'inactive'}
             className="data-[state=active]:bg-background dark:data-[state=active]:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 text-foreground dark:text-muted-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-xs font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:shadow-sm [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=\'size-\'])]:size-4"
           >
-            <span className="select-none">{tab.label}</span>
+            <span className="select-none">{t(`common:${tab.label}`)}</span>
           </button>
         ))}
       </div>

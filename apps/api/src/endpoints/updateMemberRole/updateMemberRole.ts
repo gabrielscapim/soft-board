@@ -1,8 +1,7 @@
 import { RequestHandler } from 'express'
 import { UpdateMemberRoleCommand } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, getPool } from '../../libs'
-import { BadRequest } from 'http-errors'
+import { assertMemberPermission, createAppHttpError, getPool } from '../../libs'
 import { MemberDatabase } from 'types/database'
 
 type Handler = RequestHandler<unknown, unknown, UpdateMemberRoleCommand>
@@ -31,11 +30,11 @@ export function handler (): Handler {
       .find({ error: `Member with id ${memberId} not found` })
 
     if (member.userId === req.auth!.userId) {
-      throw new BadRequest('You cannot change your own role')
+      throw createAppHttpError(400, 'CANNOT_CHANGE_OWN_ROLE', 'You cannot change your own role')
     }
 
     if (member.role === 'owner') {
-      throw new BadRequest('You cannot change the role of an owner')
+      throw createAppHttpError(400, 'CANNOT_CHANGE_OWNER_ROLE', 'You cannot change the role of an owner')
     }
 
     await pool

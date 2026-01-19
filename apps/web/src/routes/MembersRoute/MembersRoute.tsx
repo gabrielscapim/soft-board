@@ -10,6 +10,7 @@ import { PlusIcon } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { useSearchParams } from 'react-router'
 import { useDebounce } from 'use-debounce'
+import { useTranslation } from 'react-i18next'
 
 export function MembersRoute () {
   const [createMemberDialogOpen, setCreateMemberDialogOpen] = useState(false)
@@ -19,6 +20,7 @@ export function MembersRoute () {
   const [debouncedQuery] = useDebounce(query, 400)
   const client = useClient()
   const memberRole = useMemberRole()
+  const { t } = useTranslation('routes.members')
   const getMembers = useQuery({
     queryKey: ['members', debouncedQuery],
     queryFn: () => client.getMembers({ query: debouncedQuery })
@@ -28,19 +30,11 @@ export function MembersRoute () {
     onSuccess: () => {
       getMembers.refetch()
       setCreateMemberDialogOpen(false)
-      toast.success('Member created successfully')
+      toast.success(t('toast.createMemberSuccess'))
     },
     onError: (error) => {
-      const isConflict = Client.isConflict(error)
-      const isNotFound = Client.isNotFound(error)
-
-      if (isConflict) {
-        toast.error('Member already exists in the team')
-      } else if (isNotFound) {
-        toast.error('User not found')
-      } else {
-        toast.error('Failed to create member')
-      }
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.createMemberError'))
     }
   })
   const deleteMember = useMutation({
@@ -48,17 +42,23 @@ export function MembersRoute () {
     onSuccess: () => {
       getMembers.refetch()
       setMemberToDelete(null)
-      toast.success('Member deleted successfully')
+      toast.success(t('toast.deleteMemberSuccess'))
     },
-    onError: () => toast.error('Failed to delete member')
+    onError: (error) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.deleteMemberError'))
+    }
   })
   const updateMemberRole = useMutation({
     mutationFn: (data: UpdateMemberRoleCommand) => client.updateMemberRole(data),
     onSuccess: () => {
       getMembers.refetch()
-      toast.success('Member role updated successfully')
+      toast.success(t('toast.updateMemberRoleSuccess'))
     },
-    onError: () => toast.error('Failed to update member role')
+    onError: (error) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.updateMemberRoleError'))
+    }
   })
   const members = getMembers.data?.data ?? []
 
@@ -66,9 +66,11 @@ export function MembersRoute () {
     <div className="py-4 w-full px-8">
       <div className="mb-6 flex flex-row justify-between items-center">
         <div className="space-y-0.5">
-          <h1 className="text-2xl font-semibold">Team members</h1>
+          <h1 className="text-2xl font-semibold">
+            {t('title')}
+          </h1>
           <p className="text-sm text-muted-foreground">
-            Manage your team members, their roles, and permissions.
+            {t('description')}
           </p>
         </div>
         <Button
@@ -79,12 +81,12 @@ export function MembersRoute () {
           onClick={() => setCreateMemberDialogOpen(true)}
         >
           <PlusIcon />
-          Add member
+          {t('actions.addMember')}
         </Button>
       </div>
 
       <Input
-        placeholder="Search members by name or email"
+        placeholder={t('actions.search')}
         className="max-w-sm mb-4"
         value={query}
         onChange={event => {
@@ -96,10 +98,10 @@ export function MembersRoute () {
       {getMembers.error && (
         <div className="flex flex-col items-center justify-center mt-4">
           <h2 className="text-lg font-semibold mb-1">
-            Failed to load members
+            {t('errors.loadTitle')}
           </h2>
           <p className="text-xs text-muted-foreground">
-            There was an error fetching the members
+            {t('errors.loadDescription')}
           </p>
           <Button
             variant="outline"
@@ -108,7 +110,7 @@ export function MembersRoute () {
             disabled={getMembers.isPending}
             onClick={() => getMembers.refetch()}
           >
-            Retry
+            {t('common:retry')}
           </Button>
         </div>
       )}

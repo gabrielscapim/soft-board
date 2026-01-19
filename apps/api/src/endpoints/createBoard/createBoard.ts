@@ -1,9 +1,8 @@
 import { RequestHandler } from 'express'
-import { BoardDatabase } from 'types/database'
+import { BoardDatabase, UserPreferencesDatabase } from 'types/database'
 import { CreateBoardCommand, CreateBoardResult } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, getPool } from '../../libs'
-import { BadRequest } from 'http-errors'
+import { assertMemberPermission, createAppHttpError, getPool } from '../../libs'
 
 type Handler = RequestHandler<unknown, CreateBoardResult, CreateBoardCommand>
 
@@ -18,7 +17,10 @@ const IMAGE_IDS = [1, 2, 3, 4, 5, 6, 7, 8]
 
 const MAX_BOARD_COUNT = 20
 
-const ASSISTANT_MESSAGE = 'Hello! I’m your assistant specialized in the StartFlow method, here to help software startups design MVPs quickly, visually, and with a strong focus on user experience.'
+const ASSISTANT_MESSAGE = {
+  en: 'Hello! I’m your assistant specialized in the StartFlow method, here to help you design MVPs quickly, visually, and with a strong focus on user experience.',
+  'pt-BR': 'Olá! Sou seu assistente especializado no método StartFlow, aqui para ajudar você a projetar MVPs de forma rápida, visual e com foco na experiência do usuário.'
+}
 
 export function handler (): Handler {
   return async (req, res) => {
@@ -37,8 +39,16 @@ export function handler (): Handler {
       .count()
 
     if (count >= MAX_BOARD_COUNT) {
-      throw new BadRequest(`Maximum of ${MAX_BOARD_COUNT} boards per team reached`)
+      throw createAppHttpError(400, 'MAX_BOARDS_REACHED', 'The maximum number of boards for this team has been reached')
     }
+
+    const userPreferences = await pool
+      .SELECT<Pick<UserPreferencesDatabase, 'language'>>`language`
+      .FROM`user_preferences`
+      .WHERE`user_id = ${userId}`
+      .first()
+
+    const language = (userPreferences?.language ?? 'en') as keyof typeof ASSISTANT_MESSAGE
 
     const created = await pool.transaction(async pool => {
       const { rows: [created] } = await pool
@@ -56,7 +66,7 @@ export function handler (): Handler {
         .VALUES({
           teamId,
           boardId: created.id,
-          content: ASSISTANT_MESSAGE,
+          content: ASSISTANT_MESSAGE[language],
           role: 'assistant'
         })
 

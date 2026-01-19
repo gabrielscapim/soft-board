@@ -9,55 +9,58 @@ import {
 } from '@/components/ui/select'
 import { SoftComponentPropertiesMenuProps } from '@/soft-components/types'
 import { InputSoftComponentProperties } from '@/types'
+import { useTranslation } from 'react-i18next'
 
 const VARIANTS = [
   {
     value: 'primary',
-    label: 'Primary'
+    label: 'primary'
   },
   {
     value: 'secondary',
-    label: 'Secondary'
+    label: 'secondary'
   },
   {
     value: 'tertiary',
-    label: 'Tertiary'
+    label: 'tertiary'
   }
 ]
 
 const TEXT_ALIGNMENTS = [
   {
     value: 'left',
-    label: 'Left'
+    label: 'left'
   },
   {
     value: 'center',
-    label: 'Center'
+    label: 'center'
   },
   {
     value: 'right',
-    label: 'Right'
+    label: 'right'
   }
 ]
 
 export function InputPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
   const properties = props.properties as InputSoftComponentProperties
 
+  const { t } = useTranslation('soft-components')
+
   return (
     <>
       <Label className="grid gap-2">
-        Variants
+        {t('variants', { count: 2 })}
         <Select
           value={properties.variant ?? 'primary'}
           onValueChange={value => props.onUpdateProperties('variant', value)}
         >
           <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select color" />
+            <SelectValue placeholder={t('variants', { count: 1 })} />
           </SelectTrigger>
           <SelectContent className="max-h-72">
             {VARIANTS.map(variant => (
               <SelectItem key={variant.value} value={variant.value}>
-                {variant.label}
+                {t(variant.label)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -65,7 +68,7 @@ export function InputPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
       </Label>
 
       <Label className="flex flex-col items-start">
-        Border radius
+        {t('borderRadius')}
         <Input
           type="number"
           value={properties.borderRadius ?? 0}
@@ -74,7 +77,7 @@ export function InputPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
       </Label>
 
       <Label className="flex flex-col items-start">
-        Font size
+        {t('fontSize')}
         <Input
           type="number"
           value={properties.fontSize ?? 0}
@@ -83,7 +86,7 @@ export function InputPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
       </Label>
 
       <Label className="flex flex-col items-start">
-        Placeholder
+        {t('placeholder')}
         <Input
           type="text"
           value={properties.placeholder ?? ''}
@@ -92,18 +95,18 @@ export function InputPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
       </Label>
 
       <Label className="grid gap-2">
-        Text alignment
+        {t('textAlign')}
         <Select
           value={properties.textAlign ?? 'left'}
           onValueChange={value => props.onUpdateProperties('textAlign', value)}
         >
           <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select text alignment" />
+            <SelectValue placeholder={t('textAlign')} />
           </SelectTrigger>
           <SelectContent className="max-h-72">
             {TEXT_ALIGNMENTS.map(alignment => (
               <SelectItem key={alignment.value} value={alignment.value}>
-                {alignment.label}
+                {t(alignment.label)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -112,11 +115,11 @@ export function InputPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
 
       <div>
         <p className="text-sm leading-none font-medium select-none pb-3">
-          Padding
+          {t('padding')}
         </p>
         <div className="grid grid-cols-2 gap-2">
           <Label className="text-xs flex flex-col gap-1 items-start">
-            Left
+            {t('left')}
             <Input
               type="number"
               className="w-full"
@@ -125,7 +128,7 @@ export function InputPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
             />
           </Label>
           <Label className="text-xs flex flex-col gap-1 items-start">
-            Right
+            {t('right')}
             <Input
               type="number"
               className="w-full"
@@ -134,7 +137,7 @@ export function InputPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
             />
           </Label>
           <Label className="text-xs flex flex-col gap-1 items-start">
-            Top
+            {t('top')}
             <Input
               type="number"
               className="w-full"
@@ -143,7 +146,7 @@ export function InputPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
             />
           </Label>
           <Label className="text-xs flex flex-col gap-1 items-start">
-            Bottom
+            {t('bottom')}
             <Input
               type="number"
               className="w-full"

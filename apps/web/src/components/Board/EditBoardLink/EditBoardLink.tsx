@@ -1,6 +1,7 @@
 import { Button } from '@/components'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
 import { PencilIcon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
 export type EditBoardLinkProps = {
@@ -9,6 +10,8 @@ export type EditBoardLinkProps = {
 
 export function EditBoardLink (props: EditBoardLinkProps) {
   const { to } = props
+
+  const { t } = useTranslation()
 
   return (
     <Link
@@ -21,7 +24,7 @@ export function EditBoardLink (props: EditBoardLinkProps) {
         variant="outline"
       >
         <PencilIcon />
-        Edit
+        {t('edit')}
       </Button>
     </Link>
   )

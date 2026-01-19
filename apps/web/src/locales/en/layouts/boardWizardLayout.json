@@ -1,0 +1,17 @@
+{
+  "confirmLeaveBoardDialog": {
+    "cancel": "Cancel",
+    "confirm": "Leave",
+    "description": "You can rejoin the board later if you change your mind.",
+    "title": "Are you sure you want to leave this board?"
+  },
+  "footer": {
+    "back": "Back",
+    "complete": "Complete",
+    "next": "Next",
+    "start": "Start"
+  },
+  "toast": {
+    "updateBoardError": "Failed to update board step."
+  }
+}

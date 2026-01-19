@@ -1,0 +1,39 @@
+{
+  "confirmLogOutDialog": {
+    "cancel": "Cancel",
+    "confirm": "Log Out",
+    "description": "You will be logged out of your account and redirected to the login page.",
+    "title": "Are you sure you want to log out?"
+  },
+  "createTeamDialog": {
+    "cancel": "Cancel",
+    "create": "Create",
+    "description": "Create a new team to collaborate with others.",
+    "title": "Create team"
+  },
+  "leaveTeamDialog": {
+    "cancel": "Cancel",
+    "confirm": "Leave Team",
+    "description": "This action cannot be undone. You will no longer have access to the team's boards and members.",
+    "title": "Are you sure you want to leave the team \"{{teamName}}\"?"
+  },
+  "navUser": {
+    "en": "English",
+    "language": "Language",
+    "leaveTeam": "Leave Team",
+    "logOut": "Log Out",
+    "pt-BR": "Português (Brasil)"
+  },
+  "teamSwitcher": {
+    "addTeam": "Add Team"
+  },
+  "toast": {
+    "createTeamError": "Failed to create team",
+    "createTeamSuccess": "Team created successfully",
+    "languageChangeError": "Failed to change language",
+    "languageChangeSuccess": "Language changed successfully",
+    "leaveTeamError": "Failed to leave the team",
+    "leaveTeamSuccess": "You have left the team successfully",
+    "signOutError": "Failed to log out"
+  }
+}

@@ -1,11 +1,12 @@
 import { ReactNode } from 'react'
 import { Button } from '@/components'
 import { BoardController } from '@/lib'
+import { useTranslation } from 'react-i18next'
 
 const ORDER_OPTIONS: { name: string; label: string; icon: ReactNode }[] = [
   {
     name: 'front',
-    label: 'Front',
+    label: 'front',
     icon: (
       <>
         <rect x="4" y="4" width="10" height="7" rx="1" fill="#444444"/>
@@ -16,7 +17,7 @@ const ORDER_OPTIONS: { name: string; label: string; icon: ReactNode }[] = [
   },
   {
     name: 'forward',
-    label: 'Forward',
+    label: 'forward',
     icon: (
       <>
         <rect x="4" y="6" width="12" height="9" rx="1" fill="#444444"/>
@@ -26,7 +27,7 @@ const ORDER_OPTIONS: { name: string; label: string; icon: ReactNode }[] = [
   },
   {
     name: 'back',
-    label: 'Back',
+    label: 'back',
     icon: (
       <>
         <rect x="4" y="4" width="10" height="7" rx="1" fill="#888888"/>
@@ -37,7 +38,7 @@ const ORDER_OPTIONS: { name: string; label: string; icon: ReactNode }[] = [
   },
   {
     name: 'backward',
-    label: 'Backward',
+    label: 'backward',
     icon: (
       <>
         <rect x="4" y="6" width="12" height="9" rx="1" fill="#888888"/>
@@ -50,7 +51,7 @@ const ORDER_OPTIONS: { name: string; label: string; icon: ReactNode }[] = [
 const ALIGNMENT_OPTIONS: { name: string, label: string, icon: ReactNode }[] = [
   {
     name: 'left',
-    label: 'Left',
+    label: 'left',
     icon: <>
       <rect x="3" y="3" width="3" height="18" fill="#808080"/>
       <rect x="8" y="6" width="10" height="12" fill="#808080"/>
@@ -58,7 +59,7 @@ const ALIGNMENT_OPTIONS: { name: string, label: string, icon: ReactNode }[] = [
   },
   {
     name: 'center',
-    label: 'Center',
+    label: 'center',
     icon: <>
       <rect x="10" y="3" width="4" height="18" fill="#808080"/>
       <rect x="5" y="6" width="14" height="12" fill="#808080"/>
@@ -66,7 +67,7 @@ const ALIGNMENT_OPTIONS: { name: string, label: string, icon: ReactNode }[] = [
   },
   {
     name: 'right',
-    label: 'Right',
+    label: 'right',
     icon: <>
       <rect x="18" y="3" width="3" height="18" fill="#808080"/>
       <rect x="6" y="6" width="10" height="12" fill="#808080"/>
@@ -74,7 +75,7 @@ const ALIGNMENT_OPTIONS: { name: string, label: string, icon: ReactNode }[] = [
   },
   {
     name: 'top',
-    label: 'Top',
+    label: 'top',
     icon: <>
       <rect x="3" y="3" width="18" height="3" fill="#808080"/>
       <rect x="6" y="8" width="12" height="10" fill="#808080"/>
@@ -82,7 +83,7 @@ const ALIGNMENT_OPTIONS: { name: string, label: string, icon: ReactNode }[] = [
   },
   {
     name: 'middle',
-    label: 'Middle',
+    label: 'middle',
     icon: <>
       <rect x="3" y="10" width="18" height="4" fill="#808080"/>
       <rect x="6" y="5" width="12" height="14" fill="#808080"/>
@@ -90,7 +91,7 @@ const ALIGNMENT_OPTIONS: { name: string, label: string, icon: ReactNode }[] = [
   },
   {
     name: 'bottom',
-    label: 'Bottom',
+    label: 'bottom',
     icon: <>
       <rect x="3" y="18" width="18" height="3" fill="#808080"/>
       <rect x="6" y="6" width="12" height="10" fill="#808080"/>
@@ -98,14 +99,14 @@ const ALIGNMENT_OPTIONS: { name: string, label: string, icon: ReactNode }[] = [
   },
   {
     name: 'full-width',
-    label: 'Full width',
+    label: 'fullWidth',
     icon: <>
       <rect x="3" y="8" width="18" height="10" fill="#808080"/>
     </>
   },
   {
     name: 'full-height',
-    label: 'Full height',
+    label: 'fullHeight',
     icon: <>
       <rect x="8" y="3" width="10" height="18" fill="#808080"/>
     </>
@@ -119,14 +120,16 @@ export type LayoutTabContentProps = {
 export function LayoutTabContent (props: LayoutTabContentProps) {
   const { boardController } = props
 
+  const { t } = useTranslation('routes.editBoard')
+
   return (
     <>
       <div>
         <p className="text-sm leading-none font-medium select-none">
-          Order
+          {t('layoutTab.order.title')}
         </p>
         <p className="text-xs text-muted-foreground pb-3 pt-2">
-          Change the order of selected components in the board.
+          {t('layoutTab.order.description')}
         </p>
         <div className="grid grid-cols-4 gap-3">
           {ORDER_OPTIONS.map(option => (
@@ -145,7 +148,7 @@ export function LayoutTabContent (props: LayoutTabContentProps) {
                 </svg>
               </Button>
               <p className="text-xs text-center text-muted-foreground">
-                {option.label}
+                {t(`layoutTab.${option.label}`)}
               </p>
             </div>
           ))}
@@ -153,10 +156,10 @@ export function LayoutTabContent (props: LayoutTabContentProps) {
       </div>
       <div>
         <p className="text-sm leading-none font-medium select-none">
-          Alignment
+          {t('layoutTab.alignment.title')}
         </p>
         <p className="text-xs text-muted-foreground pb-3 pt-2">
-          Align selected components in the board.
+          {t('layoutTab.alignment.description')}
         </p>
         <div className="grid grid-cols-4 gap-3">
           {ALIGNMENT_OPTIONS.map(option => (
@@ -175,7 +178,7 @@ export function LayoutTabContent (props: LayoutTabContentProps) {
                 </svg>
               </Button>
               <p className="text-xs text-center text-muted-foreground">
-                {option.label}
+                {t(`layoutTab.${option.label}`)}
               </p>
             </div>
           ))}

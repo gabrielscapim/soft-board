@@ -1,0 +1,90 @@
+{
+  "actions": {
+    "newBoard": "Novo board",
+    "retry": "Tentar novamente"
+  },
+  "deleteDialog": {
+    "cancel": "Cancelar",
+    "confirm": "Excluir",
+    "description": "Esta ação não pode ser desfeita. Isso excluirá permanentemente o board e todos os seus dados.",
+    "title": "Tem certeza de que deseja excluir este board?"
+  },
+  "description": "Crie e gerencie boards para sua equipe.",
+  "editDialog": {
+    "cancel": "Cancelar",
+    "confirm": "Salvar alterações",
+    "description": "Faça alterações no seu board aqui. Clique em salvar quando terminar.",
+    "form": {
+      "name": {
+        "label": "Nome"
+      },
+      "validation": {
+        "nameMax": "O nome deve ter no máximo 50 caracteres",
+        "nameMin": "O nome deve ter pelo menos 3 caracteres",
+        "nameRequired": "O nome é obrigatório"
+      }
+    },
+    "title": "Editar board"
+  },
+  "emptyState": {
+    "description": "Crie um novo board para começar",
+    "title": "Nenhum board encontrado"
+  },
+  "errors": {
+    "loadDescription": "Ocorreu um erro ao buscar os boards",
+    "loadTitle": "Falha ao carregar os boards"
+  },
+  "title": "Boards da equipe",
+  "toast": {
+    "createError": "Falha ao criar o board",
+    "createSuccess": "Board criado com sucesso",
+    "deleteError": "Falha ao excluir o board",
+    "deleteSuccess": "Board excluído com sucesso",
+    "updateError": "Falha ao atualizar o board",
+    "updateSuccess": "Board atualizado com sucesso"
+  },
+  "tutorial": {
+    "boards": {
+      "description": "Acesse e gerencie todos os seus boards e projetos aqui.",
+      "title": "🗂️ Boards"
+    },
+    "createBoard": {
+      "description": "Comece algo novo criando seu primeiro board.",
+      "title": "➕ Criar um board"
+    },
+    "mainNavigation": {
+      "description": "Use esta barra lateral para acessar todas as áreas principais.",
+      "title": "🧭 Navegação principal"
+    },
+    "ready": {
+      "description": "Abra seu board e comece a construir seu produto.",
+      "title": "🎉 Você está pronto"
+    },
+    "teamMembers": {
+      "description": "Convide pessoas e gerencie o acesso da equipe.",
+      "title": "👤 Membros da equipe"
+    },
+    "teamSettings": {
+      "description": "Configure preferências e opções em nível de equipe.",
+      "title": "⚙️ Configurações da equipe"
+    },
+    "teamSwitcher": {
+      "description": "Alterne entre equipes ou crie uma nova a qualquer momento.",
+      "title": "👥 Alternador de equipe"
+    },
+    "yourAccount": {
+      "description": "Veja seu perfil, saia da equipe ou faça logout.",
+      "title": "🙋 Sua conta"
+    },
+    "yourBoards": {
+      "description": "É aqui que todos os seus boards vivem.",
+      "title": "📌 Seus boards"
+    }
+  },
+  "tutorialDialog": {
+    "cancel": "Não, obrigado",
+    "confirm": "Sim, ativar tutoriais",
+    "description": "Deseja ativar tutoriais guiados para ajudar você a começar?",
+    "title": "Bem-vindo a SoftBoard! 👋"
+  }
+}

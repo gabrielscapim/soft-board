@@ -1,0 +1,45 @@
+{
+  "actionsTab": {
+    "description": "Isso permitirá navegar entre telas no modo de visualização.",
+    "emptyScreens": "Nenhuma tela encontrada",
+    "helperText": {
+      "onlyButtonsAndText": "Apenas componentes de botão ou texto podem ser conectados a uma tela.",
+      "onlyInsideScreen": "Apenas componentes dentro de uma tela podem ser conectados a outra tela."
+    },
+    "searchScreen": "Buscar tela",
+    "title": "Conectar a uma tela"
+  },
+  "layoutTab": {
+    "alignment": {
+      "description": "Alinhe os componentes selecionados no board.",
+      "title": "Alinhamento"
+    },
+    "back": "Atrás",
+    "backward": "Recuar",
+    "bottom": "Inferior",
+    "center": "Centro",
+    "forward": "Avançar",
+    "front": "Frente",
+    "fullHeight": "Altura total",
+    "fullWidth": "Largura total",
+    "left": "Esquerda",
+    "middle": "Meio",
+    "order": {
+      "description": "Altere a ordem dos componentes selecionados no board.",
+      "title": "Ordem"
+    },
+    "right": "Direita",
+    "top": "Superior"
+  },
+  "propertiesTab": {
+    "bottom": "Inferior",
+    "heightChar": "A",
+    "left": "Esquerda",
+    "right": "Direita",
+    "rotation": "Rotação",
+    "top": "Superior",
+    "widthChar": "L",
+    "xChar": "X",
+    "yChar": "Y"
+  }
+}

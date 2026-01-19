@@ -13,6 +13,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { useTranslation } from 'react-i18next'
 
 export type CreateMemberDialogProps = {
   open?: boolean
@@ -34,6 +35,7 @@ const ROLES = [
 export function CreateMemberDialog (props: CreateMemberDialogProps) {
   const { open, isMutating, onCancel, onConfirm } = props
 
+  const { t } = useTranslation('routes.members')
   const formik = useFormik({
     validationSchema: schema,
     initialValues: {
@@ -56,14 +58,14 @@ export function CreateMemberDialog (props: CreateMemberDialogProps) {
       <div>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create member</DialogTitle>
+            <DialogTitle>{t('createMemberDialog.title')}</DialogTitle>
             <DialogDescription>
-              Add a new member to your team. Specify their email and role.
+              {t('createMemberDialog.description')}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={formik.handleSubmit}>
             <div className="grid gap-3 mb-4">
-              <Label htmlFor="name">Email</Label>
+              <Label htmlFor="name">{t('createMemberDialog.form.email.label')}</Label>
               <Input
                 id="email"
                 type="email"
@@ -74,18 +76,18 @@ export function CreateMemberDialog (props: CreateMemberDialogProps) {
               />
             </div>
             <Label className="grid gap-2 mb-4">
-              Role
+              {t('createMemberDialog.form.role.label')}
               <Select
                 value={formik.values.role}
                 onValueChange={value => formik.setFieldValue('role', value)}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select color" />
+                  <SelectValue placeholder={t('createMemberDialog.form.role.placeholder')} />
                 </SelectTrigger>
                 <SelectContent className="max-h-72">
                   {ROLES.map(role => (
                     <SelectItem key={role.value} value={role.value}>
-                      {role.label}
+                      {t(`common:${role.value}`)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -99,14 +101,14 @@ export function CreateMemberDialog (props: CreateMemberDialogProps) {
                   disabled={isMutating}
                   onClick={onCancel}
                 >
-                  Cancel
+                  {t('createMemberDialog.cancel')}
                 </Button>
               </DialogClose>
               <Button
                 type="submit"
                 disabled={isMutating}
               >
-                Create member
+                {t('createMemberDialog.confirm')}
               </Button>
             </DialogFooter>
           </form>

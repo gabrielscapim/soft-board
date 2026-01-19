@@ -8,6 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
+import { useTranslation } from 'react-i18next'
 
 export type AddGenerationToBoardDialogProps = {
   open?: boolean
@@ -19,6 +20,8 @@ export type AddGenerationToBoardDialogProps = {
 export function AddGenerationToBoardDialog (props: AddGenerationToBoardDialogProps) {
   const { open, isMutating, onCancel, onConfirm } = props
 
+  const { t } = useTranslation('routes.boardWizard')
+
   return (
     <AlertDialog
       open={open}
@@ -26,10 +29,10 @@ export function AddGenerationToBoardDialog (props: AddGenerationToBoardDialogPro
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Add generated wireflow to board
+            {t('addGenerationDialog.title')}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Add the genereated components to your board. This will not overwrite the current wireflow on the board and you will be able to edit it.
+            {t('addGenerationDialog.description')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -37,13 +40,13 @@ export function AddGenerationToBoardDialog (props: AddGenerationToBoardDialogPro
             disabled={isMutating}
             onClick={onCancel}
           >
-            Cancel
+            {t('addGenerationDialog.cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             disabled={isMutating}
             onClick={onConfirm}
           >
-            Confirm
+            {t('addGenerationDialog.confirm')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

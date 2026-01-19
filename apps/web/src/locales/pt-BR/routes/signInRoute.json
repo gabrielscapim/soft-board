@@ -1,0 +1,15 @@
+{
+  "form": {
+    "description": "Faça login na sua conta da SoftBoard",
+    "email": {
+      "label": "Email",
+      "placeholder": "Digite seu email"
+    },
+    "password": {
+      "label": "Senha",
+      "placeholder": "Digite sua senha"
+    },
+    "submit": "Entrar",
+    "title": "Bem-vindo de volta!"
+  }
+}

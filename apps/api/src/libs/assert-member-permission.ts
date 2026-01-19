@@ -1,5 +1,5 @@
-import { Forbidden } from 'http-errors'
 import { MemberDatabase } from 'types/database'
+import { createAppHttpError } from './create-app-http-error'
 
 type Role = Pick<MemberDatabase, 'role'>['role']
 
@@ -12,9 +12,9 @@ export function assertMemberPermission (
 ): void {
   if (Array.isArray(required)) {
     if (!required.includes(memberRole)) {
-      throw new Forbidden(errorMessage)
+      throw createAppHttpError(403, 'FORBIDDEN', errorMessage)
     }
   } else if (memberRole !== required) {
-    throw new Forbidden(errorMessage)
+    throw createAppHttpError(403, 'FORBIDDEN', errorMessage)
   }
 }

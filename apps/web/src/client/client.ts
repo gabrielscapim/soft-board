@@ -44,7 +44,8 @@ import type {
   ShareBoardCommand,
   ShareBoardResult,
   GetSharedBoardByBoardIdCommand,
-  GetSharedBoardByBoardIdResult
+  GetSharedBoardByBoardIdResult,
+  UpdateUserPreferencesCommand
 } from 'types/endpoints'
 
 export type ClientOptions = {
@@ -87,6 +88,14 @@ export class Client {
 
   static isNotFound (error: unknown): boolean {
     return axios.isAxiosError(error) && error.response?.status === 404
+  }
+
+  static getErrorCode (error: unknown): string | undefined {
+    if (axios.isAxiosError(error)) {
+      return error.response?.data?.code
+    }
+
+    return undefined
   }
 
   static getError (error: any): AxiosError | null {
@@ -225,5 +234,9 @@ export class Client {
 
   async updateTeam (data: UpdateTeamCommand): Promise<UpdateTeamResult> {
     return (await this.axios.post<UpdateTeamResult>('/updateTeam', data)).data
+  }
+
+  async updateUserPreferences (data: UpdateUserPreferencesCommand): Promise<void> {
+    await this.axios.post('/updateUserPreferences', data)
   }
 }

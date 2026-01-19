@@ -1,6 +1,7 @@
 import { TUTORIALS } from '@/tutorials'
 import { driver as driverjs, Driver, Config } from 'driver.js'
 import { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import useLocalStorage from 'use-local-storage'
 
 type TutorialName = keyof typeof TUTORIALS
@@ -13,12 +14,11 @@ type TutorialState = {
 const BASE_DRIVER_CONFIG: Config = {
   popoverClass: 'driver-popover',
   showProgress: true,
-  allowClose: true,
-  nextBtnText: 'Next',
-  prevBtnText: 'Back'
+  allowClose: true
 }
 
 export function useTutorial (name?: TutorialName | null) {
+  const { t } = useTranslation()
   const driverRef = useRef<Driver | null>(null)
 
   const [tutorialState, setTutorialState] = useLocalStorage<TutorialState>(
@@ -63,6 +63,9 @@ export function useTutorial (name?: TutorialName | null) {
 
     const driver = driverjs({
       ...BASE_DRIVER_CONFIG,
+      nextBtnText: t('next'),
+      prevBtnText: t('back'),
+      doneBtnText: t('done'),
       steps: tutorial.steps,
       onDestroyStarted
     })
@@ -72,13 +75,15 @@ export function useTutorial (name?: TutorialName | null) {
       driverRef.current.drive()
     }
 
-  }, [name, tutorialState, setTutorialState])
+  }, [name, tutorialState, setTutorialState, t])
 
   function runTutorialOnce (name: TutorialName) {
     const steps = TUTORIALS[name].steps
 
     const driver = driverjs({
       ...BASE_DRIVER_CONFIG,
+      nextBtnText: t('next'),
+      prevBtnText: t('back'),
       steps,
       onDestroyStarted: (_el, _step, { driver }) => {
         driverRef.current = null

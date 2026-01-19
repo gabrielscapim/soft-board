@@ -9,6 +9,8 @@ import { useState } from 'react'
 import { GetBoardResult } from 'types/endpoints'
 import { AddGenerationToBoardDialog } from './AddGenerationToBoardDialog'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
+import { Client } from '@/client/client'
 
 export type BoardContainerProps = BoardCanvasProps & {
   hasPermission?: boolean
@@ -33,6 +35,7 @@ export function BoardContainer (props: BoardContainerProps) {
   const [addGenerationDialogOpen, setAddGenerationDialogOpen] = useState(false)
   const client = useClient()
   const scale = useBoardStore(boardState, 'scaleChanged', state => state.scale)
+  const { t } = useTranslation('routes.boardWizard')
 
   const addGenerationToBoard = useMutation({
     mutationFn: async () => {
@@ -46,9 +49,12 @@ export function BoardContainer (props: BoardContainerProps) {
     onSuccess: () => {
       setAddGenerationDialogOpen(false)
       onReturnToBoard?.()
-      toast.success('Generation added to board successfully')
+      toast.success(t('toast.addGenerationSuccess'))
     },
-    onError: (error: any) => toast.error(error?.response?.data?.detail || 'Failed to add generation to board')
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.addGenerationError'))
+    }
   })
 
   const generation = board?.generation
@@ -79,11 +85,11 @@ export function BoardContainer (props: BoardContainerProps) {
               onClick={onReturnToBoard}
             >
               <ChevronLeftIcon />
-              Return
+              {t('common:return')}
             </Button>
             <Badge variant="outline" className="border-none opacity-60">
               <SparklesIcon />
-              Wireflow generation
+              {t('generation.label')}
             </Badge>
             <Button
               variant="outline"
@@ -92,7 +98,7 @@ export function BoardContainer (props: BoardContainerProps) {
               onClick={() => setAddGenerationDialogOpen(true)}
             >
               <PlusIcon />
-              Add to board
+              {t('actions.addGeneration')}
             </Button>
           </>
         )}

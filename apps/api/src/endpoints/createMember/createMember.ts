@@ -2,8 +2,7 @@ import { RequestHandler } from 'express'
 import { MemberDatabase } from 'types/database'
 import { CreateMemberCommand, CreateMemberResult } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, getPool } from '../../libs'
-import { Conflict } from 'http-errors'
+import { assertMemberPermission, createAppHttpError, getPool } from '../../libs'
 
 type Handler = RequestHandler<unknown, CreateMemberResult, CreateMemberCommand>
 
@@ -39,7 +38,7 @@ export function handler (): Handler {
       .first()
 
     if (member) {
-      throw new Conflict(`User with id ${user.id} is already a member of the team`)
+      throw createAppHttpError(409, 'MEMBER_ALREADY_EXISTS', `User with id ${user.id} is already a member of the team`)
     }
 
     const { rows: [created] } = await pool

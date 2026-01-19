@@ -6,6 +6,8 @@ import { toast } from 'sonner'
 import { GetMessagesResultData } from 'types/endpoints'
 import { BoardContainer } from '../BoardContainer'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
+import { useTranslation } from 'react-i18next'
+import { Client } from '@/client/client'
 
 export function WireflowsWizard () {
   const { board, refetchWithQuery } = useBoard()
@@ -16,6 +18,7 @@ export function WireflowsWizard () {
   const client = useClient()
   const { boardController, boardState, boardManager } = useBoard()
   const memberRole = useMemberRole()
+  const { t } = useTranslation('routes.boardWizard')
   const hasPermission = memberRole !== 'member'
 
   const sendMessage = useMutation({
@@ -23,7 +26,10 @@ export function WireflowsWizard () {
       setSendingMessage(content)
       return await client.sendMessage({ boardId: boardId!, content })
     },
-    onError: (error: any) => toast.error(error?.response?.data?.detail ?? 'Failed to send message'),
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : t('toast.sendMessageError'))
+    },
     onSuccess: () => getMessages.refetch(),
     onSettled: () => setSendingMessage(null)
   })

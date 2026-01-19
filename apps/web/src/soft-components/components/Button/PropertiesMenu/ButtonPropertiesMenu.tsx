@@ -9,25 +9,28 @@ import {
 } from '@/components/ui/select'
 import { SoftComponentPropertiesMenuProps } from '@/soft-components/types'
 import { ButtonSoftComponentProperties } from '@/types'
+import { useTranslation } from 'react-i18next'
 
 const COLORS = [
   {
     value: 'primary',
-    label: 'Primary'
+    label: 'primary'
   },
   {
     value: 'secondary',
-    label: 'Secondary'
+    label: 'secondary'
   }
 ]
 
 export function ButtonPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
   const properties = props.properties as ButtonSoftComponentProperties
 
+  const { t } = useTranslation('soft-components')
+
   return (
     <>
       <Label className="flex flex-col items-start">
-        Border radius
+        {t('borderRadius')}
         <Input
           type="number"
           value={properties.borderRadius ?? 0}
@@ -36,18 +39,18 @@ export function ButtonPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
       </Label>
 
       <Label className="grid gap-2">
-        Color
+        {t('color')}
         <Select
           value={properties.color ?? 'primary'}
           onValueChange={value => props.onUpdateProperties('color', value)}
         >
           <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select color" />
+            <SelectValue placeholder={t('color')} />
           </SelectTrigger>
           <SelectContent className="max-h-72">
             {COLORS.map(color => (
               <SelectItem key={color.value} value={color.value}>
-                {color.label}
+                {t(color.label)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -55,7 +58,7 @@ export function ButtonPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
       </Label>
 
       <Label className="flex flex-col items-start">
-        Font size
+        {t('fontSize')}
         <Input
           type="number"
           value={properties.fontSize ?? 0}
@@ -64,7 +67,7 @@ export function ButtonPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
       </Label>
 
       <Label className="flex flex-col items-start">
-        Icon
+        {t('icon')}
         <Input
           type="text"
           value={properties.icon ?? ''}
@@ -74,11 +77,11 @@ export function ButtonPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
 
       <div>
         <p className="text-sm leading-none font-medium select-none pb-3">
-          Padding
+          {t('padding')}
         </p>
         <div className="grid grid-cols-2 gap-2">
           <Label className="text-xs flex flex-col gap-1 items-start">
-            Left
+            {t('left')}
             <Input
               type="number"
               className="w-full"
@@ -87,7 +90,7 @@ export function ButtonPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
             />
           </Label>
           <Label className="text-xs flex flex-col gap-1 items-start">
-            Right
+            {t('right')}
             <Input
               type="number"
               className="w-full"
@@ -96,7 +99,7 @@ export function ButtonPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
             />
           </Label>
           <Label className="text-xs flex flex-col gap-1 items-start">
-            Top
+            {t('top')}
             <Input
               type="number"
               className="w-full"
@@ -105,7 +108,7 @@ export function ButtonPropertiesMenu (props: SoftComponentPropertiesMenuProps) {
             />
           </Label>
           <Label className="text-xs flex flex-col gap-1 items-start">
-            Bottom
+            {t('bottom')}
             <Input
               type="number"
               className="w-full"

@@ -1,9 +1,8 @@
 import { RequestHandler } from 'express'
 import { GetSharedBoardByTokenCommand, GetSharedBoardByTokenResult } from 'types/endpoints'
 import * as yup from 'yup'
-import { getPool } from '../../libs'
+import { createAppHttpError, getPool } from '../../libs'
 import { BoardDatabase, BoardShareDatabase, ComponentDatabase, RequirementDatabase } from 'types/database'
-import { BadRequest, Gone } from 'http-errors'
 
 type Handler = RequestHandler<unknown, GetSharedBoardByTokenResult, GetSharedBoardByTokenCommand>
 
@@ -46,7 +45,7 @@ export function handler (): Handler {
     const now = new Date()
 
     if (sharedBoard.expireDate && sharedBoard.expireDate < now) {
-      throw new Gone('This shared board link has expired')
+      throw createAppHttpError(410, 'SHARED_BOARD_EXPIRED', 'The shared board link has expired')
     }
 
     const board = await pool
@@ -56,7 +55,7 @@ export function handler (): Handler {
       .find<BoardRow>({ error: 'Board not found' })
 
     if (board.step === 'init') {
-      throw new BadRequest('This board cannot be shared because it is not yet in a shareable state')
+      throw createAppHttpError(400, 'SHARED_BOARD_EXPIRED', 'This board cannot be shared because it is not yet in a shareable state')
     }
 
     const components = await pool

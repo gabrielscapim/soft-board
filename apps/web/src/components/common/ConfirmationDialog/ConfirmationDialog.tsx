@@ -8,6 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@/components'
+import { useTranslation } from 'react-i18next'
 
 export type ConfirmationDialogProps = {
   open?: boolean
@@ -23,21 +24,23 @@ export type ConfirmationDialogProps = {
 export function ConfirmationDialog (props: ConfirmationDialogProps) {
   const {
     open,
-    title = 'Are you sure?',
-    description = 'This action cannot be undone.',
-    confirmLabel = 'Confirm',
-    cancelLabel = 'Cancel',
+    title,
+    description,
+    confirmLabel,
+    cancelLabel,
     isMutating = false,
     onCancel,
     onConfirm
   } = props
 
+  const { t } = useTranslation('components')
+
   return (
     <AlertDialog open={open}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
+          <AlertDialogTitle>{title ?? t('common.confirmationDialog.title')}</AlertDialogTitle>
+          <AlertDialogDescription>{description ?? t('common.confirmationDialog.description')}</AlertDialogDescription>
         </AlertDialogHeader>
 
         <AlertDialogFooter>
@@ -47,13 +50,13 @@ export function ConfirmationDialog (props: ConfirmationDialogProps) {
               if (!isMutating) onCancel?.()
             }}
           >
-            {cancelLabel}
+            {cancelLabel ?? t('common.confirmationDialog.cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             disabled={isMutating}
             onClick={onConfirm}
           >
-            {confirmLabel}
+            {confirmLabel ?? t('common.confirmationDialog.confirm')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

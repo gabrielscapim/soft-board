@@ -10,25 +10,27 @@ import {
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
+import { useTranslation } from 'react-i18next'
 
 const COLORS = [
   {
     value: 'primary',
-    label: 'Primary'
+    label: 'primary'
   },
   {
     value: 'secondary',
-    label: 'Secondary'
+    label: 'secondary'
   }
 ]
 
 export function ShapePropertiesMenu (props: SoftComponentPropertiesMenuProps) {
+  const { t } = useTranslation('soft-components')
   const properties = props.properties as ShapeSoftComponentProperties
 
   return (
     <>
       <Label className="grid gap-2">
-        Color
+        {t('color')}
         <Select
           value={properties.color ?? 'primary'}
           onValueChange={value => props.onUpdateProperties('color', value)}
@@ -39,7 +41,7 @@ export function ShapePropertiesMenu (props: SoftComponentPropertiesMenuProps) {
           <SelectContent className="max-h-72">
             {COLORS.map(color => (
               <SelectItem key={color.value} value={color.value}>
-                {color.label}
+                {t(color.label)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -47,7 +49,7 @@ export function ShapePropertiesMenu (props: SoftComponentPropertiesMenuProps) {
       </Label>
 
       <Label className="flex flex-col items-start">
-        Border radius
+        {t('borderRadius')}
         <Input
           type="number"
           value={properties.borderRadius ?? 0}
@@ -56,7 +58,7 @@ export function ShapePropertiesMenu (props: SoftComponentPropertiesMenuProps) {
       </Label>
 
       <Label className="flex flex-col items-start">
-        Border width
+        {t('borderWidth')}
         <Input
           type="number"
           value={properties.borderWidth ?? 0}
@@ -66,9 +68,9 @@ export function ShapePropertiesMenu (props: SoftComponentPropertiesMenuProps) {
 
       <Label className="flex flex-row items-center justify-between border-input p-3 border rounded-md">
         <div className="flex flex-col gap-1">
-          Fill
+          {t('fill')}
           <p className="text-xs text-muted-foreground">
-            Fill shape with color.
+            {t('shapePropertiesMenu.fillDescription')}
           </p>
         </div>
         <Switch

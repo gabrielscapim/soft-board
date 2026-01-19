@@ -10,6 +10,7 @@ type RunSummaryAgentCommand = {
   context: AgentContext
   history: Pick<MessageDatabase, 'role' | 'content'>[]
   requirements: Pick<RequirementDatabase, 'title' | 'description'>[]
+  language: string
 }
 
 type RunSummaryAgentResult = {
@@ -25,11 +26,14 @@ export async function runSummaryAgent (
     openai,
     context,
     history,
-    requirements
+    requirements,
+    language
   } = command
 
+  const fileName = language === 'en' ? 'prompt.english.md' : 'prompt.portuguese.md'
+
   const basePrompt = fs.readFileSync(
-    path.join(__dirname, 'prompt.md'),
+    path.join(__dirname, fileName),
     'utf-8'
   )
   const historyPrompt = `

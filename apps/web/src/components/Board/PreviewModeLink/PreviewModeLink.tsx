@@ -1,6 +1,7 @@
 import { Button } from '@/components'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
 import { PlayIcon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 
 export type PreviewModeLinkProps = {
@@ -9,6 +10,8 @@ export type PreviewModeLinkProps = {
 
 export function PreviewModeLink (props: PreviewModeLinkProps) {
   const { to } = props
+
+  const { t } = useTranslation()
 
   return (
     <Link
@@ -21,7 +24,7 @@ export function PreviewModeLink (props: PreviewModeLinkProps) {
         variant="outline"
       >
         <PlayIcon />
-        Preview
+        {t('preview')}
       </Button>
     </Link>
   )

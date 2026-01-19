@@ -8,6 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@/components'
+import { useTranslation } from 'react-i18next'
 
 export type ConfirmLogOutDialogProps = {
   open?: boolean
@@ -19,6 +20,8 @@ export type ConfirmLogOutDialogProps = {
 export function ConfirmLogOutDialog (props: ConfirmLogOutDialogProps) {
   const { open, isMutating, onCancel, onConfirm } = props
 
+  const { t }  = useTranslation('layouts.rootLayout')
+
   return (
     <AlertDialog
       open={open}
@@ -26,10 +29,10 @@ export function ConfirmLogOutDialog (props: ConfirmLogOutDialogProps) {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure you want to log out?
+            {t('confirmLogOutDialog.title')}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            You will be logged out of your account and redirected to the login page.
+            {t('confirmLogOutDialog.description')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -42,13 +45,13 @@ export function ConfirmLogOutDialog (props: ConfirmLogOutDialogProps) {
                 }
               }}
             >
-              Cancel
+              {t('confirmLogOutDialog.cancel')}
             </AlertDialogCancel>
             <AlertDialogAction
               disabled={isMutating}
               onClick={onConfirm}
             >
-              Log Out
+              {t('confirmLogOutDialog.confirm')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogFooter>

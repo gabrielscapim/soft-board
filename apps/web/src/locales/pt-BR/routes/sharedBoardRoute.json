@@ -1,0 +1,11 @@
+{
+  "loadError": {
+    "description": "Ocorreu um erro ao buscar o board",
+    "title": "Falha ao carregar o board"
+  },
+  "noDescription": "Nenhuma descrição fornecida",
+  "notFound": {
+    "description": "O board que você está tentando acessar não existe ou foi removido.",
+    "title": "Board não encontrado"
+  }
+}

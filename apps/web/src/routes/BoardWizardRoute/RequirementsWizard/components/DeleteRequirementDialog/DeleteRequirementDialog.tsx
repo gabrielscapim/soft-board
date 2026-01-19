@@ -8,6 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
+import { useTranslation } from 'react-i18next'
 
 export type DeleteRequirementDialogProps = {
   open?: boolean
@@ -19,6 +20,8 @@ export type DeleteRequirementDialogProps = {
 export function DeleteRequirementDialog (props: DeleteRequirementDialogProps) {
   const { open, isMutating, onConfirm, onCancel } = props
 
+  const { t } = useTranslation('routes.boardWizard')
+
   return (
     <AlertDialog
       open={open}
@@ -26,10 +29,10 @@ export function DeleteRequirementDialog (props: DeleteRequirementDialogProps) {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure you want to delete this requirement?
+            {t('deleteRequirementDialog.title')}
           </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the requirement and all its data.
+            {t('deleteRequirementDialog.description')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -37,13 +40,13 @@ export function DeleteRequirementDialog (props: DeleteRequirementDialogProps) {
             disabled={isMutating}
             onClick={onCancel}
           >
-            Cancel
+            {t('deleteRequirementDialog.cancel')}
           </AlertDialogCancel>
           <AlertDialogAction
             disabled={isMutating}
             onClick={onConfirm}
           >
-            Delete
+            {t('deleteRequirementDialog.confirm')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

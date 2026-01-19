@@ -3,6 +3,7 @@ import { GetAuthenticatedUserResult } from 'types/endpoints'
 
 type AuthenticationContextValue = {
   setAuthenticatedUser: (user: GetAuthenticatedUserResult) => void
+  refetch?: () => void
   authenticatedUser?: GetAuthenticatedUserResult
   error?: unknown
   loading?: boolean

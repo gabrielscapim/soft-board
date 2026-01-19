@@ -1,0 +1,28 @@
+{
+  "board": {
+    "previewModeContainer": {
+      "addScreenTitle": "Please add a screen to the board to enter preview mode.",
+      "noScreensFound": "No screens found",
+      "returnToBoard": "Return to Board"
+    },
+    "zoomController": {
+      "zoomIn": "Zoom In",
+      "zoomOut": "Zoom Out"
+    }
+  },
+  "common": {
+    "confirmationDialog": {
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "description": "This action cannot be undone.",
+      "title": "Are you sure?"
+    },
+    "dataTable": {
+      "noResults": "No results found"
+    },
+    "helpDropdownMenu": {
+      "openDocumentation": "Open Documentation",
+      "startTutorial": "Start Tutorial"
+    }
+  }
+}

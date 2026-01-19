@@ -11,6 +11,7 @@ type RunWireflowsAgentCommand = {
   boardSummary: string
   pool: DatabasePool
   boardGenerationToolCallId: string
+  language: string
 }
 
 export async function runWireflowsAgent (
@@ -21,11 +22,14 @@ export async function runWireflowsAgent (
     context,
     boardSummary,
     pool,
-    boardGenerationToolCallId
+    boardGenerationToolCallId,
+    language
   } = command
 
+  const fileName = language === 'en' ? 'prompt.english.md' : 'prompt.portuguese.md'
+
   const prompt = fs.readFileSync(
-    path.join(__dirname, 'prompt.md'),
+    path.join(__dirname, fileName),
     'utf-8'
   )
 

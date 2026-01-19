@@ -8,6 +8,7 @@ import {
   Dialog,
   DialogClose
 } from '@/components'
+import { useTranslation } from 'react-i18next'
 
 export type ConfirmLeaveBoardDialogProps = {
   open?: boolean
@@ -18,6 +19,8 @@ export type ConfirmLeaveBoardDialogProps = {
 export function ConfirmLeaveBoardDialog (props: ConfirmLeaveBoardDialogProps) {
   const { open, onCancel, onConfirm } = props
 
+  const { t } = useTranslation('layouts.boardWizard')
+
   return (
     <Dialog
       open={open}
@@ -26,10 +29,10 @@ export function ConfirmLeaveBoardDialog (props: ConfirmLeaveBoardDialogProps) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            Are you sure you want to leave this board?
+            {t('confirmLeaveBoardDialog.title')}
           </DialogTitle>
           <DialogDescription>
-            You can rejoin the board later if you change your mind.
+            {t('confirmLeaveBoardDialog.description')}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
@@ -39,13 +42,13 @@ export function ConfirmLeaveBoardDialog (props: ConfirmLeaveBoardDialogProps) {
                 variant="outline"
                 onClick={onCancel}
               >
-                Cancel
+                {t('confirmLeaveBoardDialog.cancel')}
               </Button>
             </DialogClose>
             <Button
               onClick={onConfirm}
             >
-              Leave
+              {t('confirmLeaveBoardDialog.confirm')}
             </Button>
           </DialogFooter>
         </DialogFooter>

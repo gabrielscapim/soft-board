@@ -1,6 +1,7 @@
 import { Item, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item'
 import { Spinner } from '@/components/ui/spinner'
 import { AlertTriangleIcon, SparklesIcon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { GetMessagesResultBoardGeneration } from 'types/endpoints'
 
 export type BoardGenerationItemProps = {
@@ -8,9 +9,9 @@ export type BoardGenerationItemProps = {
 }
 
 const TITLE_BY_STATUS: Record<GetMessagesResultBoardGeneration['status'], string> = {
-  completed: 'Wireflow created',
-  error: 'Error when creating wireflow',
-  pending: 'Creating wireflow...'
+  completed: 'generation.status.title.completed',
+  error: 'generation.status.title.error',
+  pending: 'generation.status.title.pending'
 }
 
 const MEDIA_BY_STATUS: Record<GetMessagesResultBoardGeneration['status'], React.ReactNode> = {
@@ -20,23 +21,25 @@ const MEDIA_BY_STATUS: Record<GetMessagesResultBoardGeneration['status'], React.
 }
 
 const DESCRIPTION_BY_STATUS: Record<GetMessagesResultBoardGeneration['status'], string> = {
-  completed: 'You can click to view your new wireflow.',
-  error: 'There was an error while creating the wireflow.',
-  pending: 'Your wireflow is being created.'
+  completed: 'generation.status.description.completed',
+  error: 'generation.status.description.error',
+  pending: 'generation.status.description.pending'
 }
 
 export function BoardGenerationItem (props: BoardGenerationItemProps) {
   const { boardGeneration } = props
+
+  const { t } = useTranslation('routes.boardWizard')
 
   return (
     <Item className="p-0 gap-3">
       {MEDIA_BY_STATUS[boardGeneration.status]}
       <ItemContent>
         <ItemTitle className="line-clamp-1 text-xs">
-          {TITLE_BY_STATUS[boardGeneration.status]}
+          {t(TITLE_BY_STATUS[boardGeneration.status])}
         </ItemTitle>
         <ItemDescription className="text-xs">
-          {DESCRIPTION_BY_STATUS[boardGeneration.status]}
+          {t(DESCRIPTION_BY_STATUS[boardGeneration.status])}
         </ItemDescription>
       </ItemContent>
     </Item>

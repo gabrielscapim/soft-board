@@ -1,0 +1,52 @@
+{
+  "actions": {
+    "newBoard": "New board",
+    "retry": "Retry"
+  },
+  "deleteDialog": {
+    "cancel": "Cancel",
+    "confirm": "Delete",
+    "description": "This action cannot be undone. This will permanently delete the board and all its data.",
+    "title": "Are you sure you want to delete this board?"
+  },
+  "description": "Create and manage boards for your team.",
+  "editDialog": {
+    "cancel": "Cancel",
+    "confirm": "Save changes",
+    "description": "Make changes to your board here. Click save when you're done.",
+    "form": {
+      "name": {
+        "label": "Name"
+      },
+      "validation": {
+        "nameMax": "Name must be at most 50 characters",
+        "nameMin": "Name must be at least 3 characters",
+        "nameRequired": "Name is required"
+      }
+    },
+    "title": "Edit board"
+  },
+  "emptyState": {
+    "description": "Create a new board to get started",
+    "title": "No boards found"
+  },
+  "errors": {
+    "loadDescription": "There was an error fetching the boards",
+    "loadTitle": "Failed to load boards"
+  },
+  "title": "Team boards",
+  "toast": {
+    "createError": "Failed to create board",
+    "createSuccess": "Board created successfully",
+    "deleteError": "Failed to delete board",
+    "deleteSuccess": "Board deleted successfully",
+    "updateError": "Failed to update board",
+    "updateSuccess": "Board updated successfully"
+  },
+  "tutorialDialog": {
+    "cancel": "No, thanks",
+    "confirm": "Yes, enable tutorials",
+    "description": "Would you like to enable guided tutorials to help you get started?",
+    "title": "Welcome to SoftBoard! 👋"
+  }
+}

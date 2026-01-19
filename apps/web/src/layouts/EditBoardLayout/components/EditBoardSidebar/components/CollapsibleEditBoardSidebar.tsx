@@ -4,6 +4,7 @@ import { EditBoardSidebarSection } from '../EditBoardSidebar'
 import { BoardController } from '@/lib'
 import { XIcon } from 'lucide-react'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
+import { useTranslation } from 'react-i18next'
 
 export type CollapsibleEditBoardSidebarProps = {
   boardController: BoardController
@@ -16,6 +17,7 @@ export type CollapsibleEditBoardSidebarProps = {
 export function CollapsibleEditBoardSidebar (props: CollapsibleEditBoardSidebarProps) {
   const { boardController, selectedSection, search, hasPermission, onSearchChange } = props
 
+  const { t } = useTranslation()
   const { toggleSidebar } = useSidebar()
 
   return (
@@ -27,7 +29,7 @@ export function CollapsibleEditBoardSidebar (props: CollapsibleEditBoardSidebarP
       <SidebarHeader className="gap-3.5 border-b p-4">
         <div className="flex justify-between items-center w-full">
           <div className="text-foreground text-base font-medium">
-            {selectedSection}
+            {t(`common:${selectedSection}`)}
           </div>
           <Button
             size="icon"
@@ -47,14 +49,13 @@ export function CollapsibleEditBoardSidebar (props: CollapsibleEditBoardSidebarP
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
             <div className="grid grid-cols-1 gap-2 p-4">
-              {selectedSection === 'Components' && (
+              {selectedSection === 'components' && (
                 <BoardComponentsPreview
                   disabled={hasPermission === false}
                   search={search}
                   boardController={boardController}
                 />
               )}
-              {selectedSection === 'Templates' && <span className="opacity-40">No templates found</span>}
             </div>
           </SidebarGroupContent>
         </SidebarGroup>

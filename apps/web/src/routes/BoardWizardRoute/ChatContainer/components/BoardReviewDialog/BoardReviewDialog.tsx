@@ -15,6 +15,7 @@ import { OverallScore, ReviewCard } from './components'
 import { Button } from '@/components/ui/button'
 import { Spinner } from '@/components/ui/spinner'
 import { SparklesIcon, AlertTriangleIcon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export type BoardReviewDialogProps = {
   boardReview: GetMessagesResultBoardReview
@@ -23,19 +24,19 @@ export type BoardReviewDialogProps = {
 
 const DATA_BY_STATUS: Record<GetMessagesResultBoardReview['status'], { title: string, media: React.ReactNode, description: string }> = {
   completed: {
-    title: 'Review completed',
+    title: 'review.status.completed.title',
     media: <SparklesIcon size={16} />,
-    description: 'You can click to view the detailed board review.'
+    description: 'review.status.completed.description'
   },
   error: {
-    title: 'Error during review',
+    title: 'review.status.error.title',
     media: <AlertTriangleIcon size={16} className="text-destructive" />,
-    description: 'There was an error while processing the review.'
+    description: 'review.status.error.description'
   },
   pending: {
-    title: 'Review in progress...',
+    title: 'review.status.pending.title',
     media: <Spinner className="size-4" variant="circle" />,
-    description: 'The board review is being generated.'
+    description: 'review.status.pending.description'
   }
 }
 
@@ -44,6 +45,8 @@ export function BoardReviewDialog (props: BoardReviewDialogProps) {
 
   const data = DATA_BY_STATUS[boardReview.status]
 
+  const { t } = useTranslation('routes.boardWizard')
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -51,10 +54,10 @@ export function BoardReviewDialog (props: BoardReviewDialogProps) {
           {data.media}
           <ItemContent>
             <ItemTitle className="line-clamp-1 text-xs">
-              {data.title}
+              {t(data.title)}
             </ItemTitle>
             <ItemDescription className="text-xs">
-              {data.description}
+              {t(data.description)}
             </ItemDescription>
           </ItemContent>
         </Item>
@@ -73,12 +76,14 @@ function DialogContentWrapper (props: BoardReviewDialogProps) {
     onClose
   } = props
 
+  const { t } = useTranslation('routes.boardWizard')
+
   return (
     <DialogContent className="max-w-[95vw] w-full sm:max-w-[90vw] md:max-w-[85vw] lg:max-w-[1200px] max-h-[90vh] h-auto">
       <DialogHeader>
-        <DialogTitle>Board Review</DialogTitle>
+        <DialogTitle>{t('boardReview.title')}</DialogTitle>
         <DialogDescription>
-          Detailed feedback across {boardReview.review?.length ?? 0} evaluation criteria.
+          {t('boardReview.description', { count: boardReview.review?.length ?? 0 })}
         </DialogDescription>
       </DialogHeader>
 
@@ -97,7 +102,7 @@ function DialogContentWrapper (props: BoardReviewDialogProps) {
       <DialogFooter>
         <DialogClose asChild>
           <Button variant="outline" onClick={onClose}>
-            Close
+            {t('common:close')}
           </Button>
         </DialogClose>
       </DialogFooter>

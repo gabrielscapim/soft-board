@@ -1,5 +1,6 @@
 import { getPopoverAnchorSelector } from '../anchors.tutorials'
 import { Tutorial } from '../types'
+import { t } from 'i18next'
 
 export const boardWireflowsTutorial: Tutorial = {
   name: 'board-wireflows',
@@ -7,9 +8,8 @@ export const boardWireflowsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardWireflowsContainer'),
       popover: {
-        title: '🧩 Wireflow canvas',
-        description:
-          'This is where screens and components connect to form user flows.',
+        title: t('boardWireflows.wireflowCanvas.title', { ns: 'tutorial' }),
+        description: t('boardWireflows.wireflowCanvas.description', { ns: 'tutorial' }),
         side: 'left'
       },
       disableActiveInteraction: true
@@ -17,9 +17,8 @@ export const boardWireflowsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardZoomController'),
       popover: {
-        title: '🔍 Zoom controls',
-        description:
-          'Zoom in to focus on details or zoom out to see the full journey.',
+        title: t('boardWireflows.zoomControls.title', { ns: 'tutorial' }),
+        description: t('boardWireflows.zoomControls.description', { ns: 'tutorial' }),
         side: 'left'
       },
       disableActiveInteraction: true
@@ -27,9 +26,8 @@ export const boardWireflowsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('PreviewModeLink'),
       popover: {
-        title: '👀 Preview experience',
-        description:
-          'Enter preview mode to experience the flow as a real user.',
+        title: t('boardWireflows.previewMode.title', { ns: 'tutorial' }),
+        description: t('boardWireflows.previewMode.description', { ns: 'tutorial' }),
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -37,9 +35,8 @@ export const boardWireflowsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('EditBoardLink'),
       popover: {
-        title: '✏️ Edit mode',
-        description:
-          'Switch back to editing to add or adjust screens and components.',
+        title: t('boardWireflows.editMode.title', { ns: 'tutorial' }),
+        description: t('boardWireflows.editMode.description', { ns: 'tutorial' }),
         side: 'bottom'
       },
       disableActiveInteraction: true
@@ -47,11 +44,9 @@ export const boardWireflowsTutorial: Tutorial = {
     {
       element: getPopoverAnchorSelector('BoardWizardChatContainer'),
       popover: {
-        title: '💬 Build with chat',
-        description:
-          'Create screens and components using simple natural language.',
-        side: 'top',
-        nextBtnText: 'Got it'
+        title: t('boardWireflows.chatContainer.title', { ns: 'tutorial' }),
+        description: t('boardWireflows.chatContainer.description', { ns: 'tutorial' }),
+        side: 'top'
       },
       disableActiveInteraction: true
     }
