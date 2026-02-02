@@ -6,16 +6,16 @@ const { randomUUID } = require('crypto')
 const users = [
   {
     id: randomUUID(),
-    name: 'Batman',
-    email: 'batman@email.com',
-    normalized_email: 'BATMAN@EMAIL.COM',
+    name: 'Jane Doe',
+    email: 'jane.doe@email.com',
+    normalized_email: 'JANE.DOE@EMAIL.COM',
     password_hash: '$2a$12$6qXo0IuAfOYxcRBP3gkUwuks2R.skxh5ktaRlo2py9OoBx3kz/ere'
   },
   {
     id: randomUUID(),
-    name: 'Robin',
-    email: 'robin@email.com',
-    normalized_email: 'ROBIN@EMAIL.COM',
+    name: 'John Doe',
+    email: 'john.doe@email.com',
+    normalized_email: 'JOHN.DOE@EMAIL.COM',
     password_hash: '$2a$12$6qXo0IuAfOYxcRBP3gkUwuks2R.skxh5ktaRlo2py9OoBx3kz/ere'
   }
 ]
@@ -23,13 +23,13 @@ const users = [
 const teams = [
   {
     id: randomUUID(),
-    name: 'Batcave',
-    slug: 'batcave'
+    name: 'Awesome Team',
+    slug: 'awesome-team'
   },
   {
     id: randomUUID(),
-    name: 'Gotham City',
-    slug: 'gotham-city'
+    name: 'Designers Team',
+    slug: 'designers-team'
   }
 ]
 
@@ -70,8 +70,8 @@ async function seed () {
 
       await client.query(
         `INSERT INTO user_preferences (user_id, language)
-         VALUES ($1, $2, $3)`,
-        [user.id, 'en', false]
+         VALUES ($1, $2)`,
+        [user.id, 'en']
       )
     }
 
