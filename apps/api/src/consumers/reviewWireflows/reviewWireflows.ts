@@ -79,7 +79,7 @@ export function consumer (getDeps: GetApplicationDependencies) {
         .WHERE`board_id = ${board.id}`
         .AND`tool_call_id = ${toolCall.id}`
     } catch (error) {
-      logger.error({ error, event }, 'Error reviewing wireflows')
+      logger.error({ error: parseError(error), event }, 'Error reviewing wireflows')
 
       await pool
         .UPDATE`board_review`
