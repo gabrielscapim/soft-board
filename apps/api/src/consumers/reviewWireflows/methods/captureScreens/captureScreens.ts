@@ -51,20 +51,20 @@ export async function captureScreens (
   }
 
   const signedCookie = 's:' + signature.sign(JSON.stringify(authData), COOKIE_PARSER_SECRET!)
+  const url = new URL(`/${team.slug}/boards/${board.id}/review`, FRONTEND_BASE_URL)
 
   await browserContext.addCookies([{
     name: AUTHENTICATION_COOKIE_NAME,
     value: signedCookie,
-    domain: 'localhost',
+    domain: url.hostname,
     path: '/',
     httpOnly: true,
     secure: NODE_ENV === 'production'
   }])
 
   const page = await browserContext.newPage()
-  const url = `${FRONTEND_BASE_URL}/${team.slug}/boards/${board.id}/review`
 
-  await page.goto(url, { waitUntil: 'networkidle' })
+  await page.goto(url.toString(), { waitUntil: 'networkidle' })
   await page.waitForFunction(
     () => typeof (window as any).__setCurrentScreen === 'function'
   )
