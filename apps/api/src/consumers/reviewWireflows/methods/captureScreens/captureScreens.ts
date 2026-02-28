@@ -4,6 +4,7 @@ import { DatabasePool } from 'pg-script'
 import { ComponentDatabase } from 'types/database'
 import { AuthenticationData } from '../../../../types'
 import {
+  API_BASE_URL,
   AUTHENTICATION_COOKIE_NAME,
   COOKIE_PARSER_SECRET,
   FRONTEND_BASE_URL,
@@ -52,26 +53,27 @@ export async function captureScreens (
   }
 
   const signedCookie = 's:' + signature.sign(JSON.stringify(authData), COOKIE_PARSER_SECRET!)
-  const url = new URL(`/${team.slug}/boards/${board.id}/review`, FRONTEND_BASE_URL)
+  const apiUrl = new URL(API_BASE_URL)
+  const frontendUrl = new URL(`/${team.slug}/boards/${board.id}/review`, FRONTEND_BASE_URL)
 
+  const domain = apiUrl.hostname
   const cookie: Parameters<typeof browserContext.addCookies>[0][0] = {
     name: AUTHENTICATION_COOKIE_NAME,
     value: signedCookie,
-    domain: url.hostname,
+    domain: apiUrl.hostname,
     path: '/',
     httpOnly: true,
     secure: NODE_ENV === 'production',
     sameSite: NODE_ENV === 'production' ? 'None' : 'Lax'
   }
 
-  logger.info({ command, cookie }, 'Adding authentication cookie to browser context for screen capture') // LOGGING SENSITIVE DATA, IGNORE
+  logger.info({ domain }, 'Setting authentication cookie for review wireflow capture')
 
   await browserContext.addCookies([cookie])
 
   const page = await browserContext.newPage()
 
-  await page.goto(url.toString(), { waitUntil: 'networkidle' })
-logger.info({ currentUrl: page.url() }, 'URL after navigation')
+  await page.goto(frontendUrl.toString(), { waitUntil: 'networkidle' })
   await page.waitForFunction(
     () => typeof (window as any).__setCurrentScreen === 'function'
   )

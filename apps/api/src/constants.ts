@@ -1,5 +1,7 @@
 import path from 'path'
 
+export const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:3000'
+
 export const AUTHENTICATION_COOKIE_NAME = 'soft-board-auth'
 
 export const CONSUMERS_DIR = path.join(__dirname, 'consumers')
