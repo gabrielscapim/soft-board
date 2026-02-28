@@ -4,6 +4,7 @@
   "scripts": {
     "create:test": "dotenv -e .env.test -- node _scripts/create-database.js",
     "migrate:dev": "dotenv -e .env.development -- node _scripts/migrate.js",
+    "migrate:prod": "dotenv -e .env.production.local -- node _scripts/migrate.js",
     "migrate:test": "dotenv -e .env.test -- node _scripts/migrate.js",
     "new": "node _scripts/new-migration.js",
     "seed:dev": "dotenv -e .env.development -- node _scripts/seed.js"

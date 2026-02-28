@@ -15,7 +15,10 @@ async function migrateDatabase (
   const connectionString = process.env[envName]
   const migrationFiles = await fs.promises.readdir(pathname)
 
-  const client = new Client({ connectionString })
+  const client = new Client({
+    connectionString,
+    ...(process.env.DISABLE_REJECT_UNAUTHORIZED === 'true' ? { ssl: { rejectUnauthorized: false } } : {})
+  })
   await client.connect()
 
   await client.query(`
