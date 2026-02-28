@@ -74,7 +74,7 @@ export function RootSidebar () {
     mutationFn: () => client.signOut(),
     onSuccess: () => {
       setAuthenticatedUser(null)
-      navigate('/')
+      window.location.reload()
     },
     onError: (error: any) => {
       const code = Client.getErrorCode(error)
@@ -87,7 +87,7 @@ export function RootSidebar () {
       setLeaveTeamDialogOpen(false)
       toast.success(t('toast.leaveTeamSuccess'))
       getTeams.refetch()
-      navigate('/')
+      window.location.reload()
     },
     onError: (error: any) => {
       const code = Client.getErrorCode(error)
@@ -189,6 +189,7 @@ export function RootSidebar () {
 
       {logOutDialogOpen && (
         <ConfirmLogOutDialog
+          isMutating={signOut.isPending}
           open={logOutDialogOpen}
           onCancel={() => setLogOutDialogOpen(false)}
           onConfirm={() => signOut.mutate()}
