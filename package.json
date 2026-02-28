@@ -6,6 +6,7 @@
     "build": "./scripts/build.sh",
     "build:api": "npm run build --workspace=apps/api",
     "dev:web": "npm run dev --workspace=apps/web",
+    "postinstall": "npx playwright install chromium --with-deps",
     "start": "./scripts/start.sh",
     "typecheck:web": "npm run typecheck --workspace=apps/web"
   },
