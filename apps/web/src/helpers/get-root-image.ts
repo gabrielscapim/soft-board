@@ -3,5 +3,5 @@ export function getRootImage (id?: string | null): string {
     ? id
     : (Math.floor(Math.random() * 8) + 1).toString()
 
-  return `/paint_image_${imageId}.png`
+  return `/paint_image_${imageId}.avif`
 }
