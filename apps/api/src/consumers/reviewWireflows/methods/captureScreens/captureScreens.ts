@@ -9,6 +9,7 @@ import {
   FRONTEND_BASE_URL,
   NODE_ENV
 } from '../../../../constants'
+import { logger } from '../../../../libs'
 
 type CaptureScreensCommand = {
   pool: DatabasePool
@@ -65,6 +66,12 @@ export async function captureScreens (
   const page = await browserContext.newPage()
 
   await page.goto(url.toString(), { waitUntil: 'networkidle' })
+
+  const content = await page.content()
+
+  logger.info({ event: 'captureScreens', content }, 'Page content before navigation') // Log page content for debugging
+
+
   await page.waitForFunction(
     () => typeof (window as any).__setCurrentScreen === 'function'
   )
