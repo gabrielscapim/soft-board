@@ -10,6 +10,8 @@ export const COOKIE_PARSER_SECRET = process.env.COOKIE_PARSER_SECRET
 
 export const DATABASE_URL = process.env.DATABASE_URL ?? ''
 
+export const DISABLE_REJECT_UNAUTHORIZED = process.env.DISABLE_REJECT_UNAUTHORIZED === 'true'
+
 export const ENDPOINTS_DIR = path.join(__dirname, 'endpoints')
 
 export const FRONTEND_BASE_URL = process.env.FRONTEND_BASE_URL!
