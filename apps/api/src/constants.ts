@@ -8,13 +8,15 @@ export const CORS_ORIGINS = process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.
 
 export const COOKIE_PARSER_SECRET = process.env.COOKIE_PARSER_SECRET
 
+export const DATABASE_URL = process.env.DATABASE_URL ?? ''
+
 export const ENDPOINTS_DIR = path.join(__dirname, 'endpoints')
 
 export const FRONTEND_BASE_URL = process.env.FRONTEND_BASE_URL!
 
 export const NODE_ENV = process.env.NODE_ENV || 'development'
 
-export const OPENAI_API_KEY = process.env.OPENAI_API_KEY
+export const OPENAI_API_KEY = process.env.OPENAI_API_KEY || ''
 
 export const PASSWORD_SALT_ROUNDS = 12
 
