@@ -54,24 +54,23 @@ export async function captureScreens (
   const signedCookie = 's:' + signature.sign(JSON.stringify(authData), COOKIE_PARSER_SECRET!)
   const url = new URL(`/${team.slug}/boards/${board.id}/review`, FRONTEND_BASE_URL)
 
-  await browserContext.addCookies([{
+  const cookie: Parameters<typeof browserContext.addCookies>[0][0] = {
     name: AUTHENTICATION_COOKIE_NAME,
     value: signedCookie,
     domain: url.hostname,
     path: '/',
     httpOnly: true,
-    secure: NODE_ENV === 'production'
-  }])
+    secure: NODE_ENV === 'production',
+    sameSite: NODE_ENV === 'production' ? 'None' : 'Lax'
+  }
+
+  logger.info({ command, cookie }, 'Adding authentication cookie to browser context for screen capture') // LOGGING SENSITIVE DATA, IGNORE
+
+  await browserContext.addCookies([cookie])
 
   const page = await browserContext.newPage()
 
   await page.goto(url.toString(), { waitUntil: 'networkidle' })
-
-  const content = await page.content()
-
-  logger.info({ event: 'captureScreens', content }, 'Page content before navigation') // Log page content for debugging
-
-
   await page.waitForFunction(
     () => typeof (window as any).__setCurrentScreen === 'function'
   )
