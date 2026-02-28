@@ -13,13 +13,14 @@ describe('addGenerationToBoard', () => {
     await factory.createMember({ userId: user.id, teamId: team.id })
     const board = await factory.createBoard({ teamId: team.id })
     const generation = await factory.createBoardGeneration({ boardId: board.id, teamId: team.id })
-    new Array(3).fill(0).forEach(async () => {
+    const promises = new Array(3).fill(0).map(async () => {
       await factory.createComponent({
         boardId: board.id,
         teamId: team.id,
         boardGenerationId: generation.id
       })
     })
+    await Promise.all(promises)
 
     const app = createApp({
       endpoints: { addGenerationToBoard },
