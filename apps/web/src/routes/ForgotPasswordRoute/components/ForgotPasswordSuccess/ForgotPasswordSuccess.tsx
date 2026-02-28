@@ -16,7 +16,6 @@ export function ForgotPasswordSuccess () {
 
       <p className="text-sm text-muted-foreground">
         {t('success.description')}
-        Please check your inbox and spam folder.
       </p>
 
       <Link to="/sign-in" className="w-full">
