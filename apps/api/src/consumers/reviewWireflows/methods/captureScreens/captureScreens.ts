@@ -71,6 +71,7 @@ export async function captureScreens (
   const page = await browserContext.newPage()
 
   await page.goto(url.toString(), { waitUntil: 'networkidle' })
+logger.info({ currentUrl: page.url() }, 'URL after navigation')
   await page.waitForFunction(
     () => typeof (window as any).__setCurrentScreen === 'function'
   )
