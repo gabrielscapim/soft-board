@@ -10,6 +10,7 @@ const question = (prompt) => new Promise((resolve) => rl.question(prompt, resolv
 async function createUser () {
   const name = await question('Name: ')
   const email = await question('Email: ')
+  const language = await question('Language (en or pt-BR): ')
   const password = await question('Password: ')
   const teamName = await question('Team name: ')
   rl.close()
@@ -37,7 +38,7 @@ async function createUser () {
 
     await client.query(
       `INSERT INTO user_preferences (user_id, language) VALUES ($1, $2)`,
-      [userId, 'en']
+      [userId, language]
     )
 
     await client.query(
