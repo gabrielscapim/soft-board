@@ -9,6 +9,9 @@
     "start": "./scripts/start.sh",
     "typecheck:web": "npm run typecheck --workspace=apps/web"
   },
+  "overrides": {
+    "vite": "^7.3.1"
+  },
   "workspaces": [
     "apps/*",
     "libs/*"
