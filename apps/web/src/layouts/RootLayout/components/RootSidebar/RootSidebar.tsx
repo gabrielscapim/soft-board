@@ -74,7 +74,7 @@ export function RootSidebar () {
     mutationFn: () => client.signOut(),
     onSuccess: () => {
       setAuthenticatedUser(null)
-      window.location.reload()
+      navigate('/')
     },
     onError: (error: any) => {
       const code = Client.getErrorCode(error)
@@ -87,7 +87,7 @@ export function RootSidebar () {
       setLeaveTeamDialogOpen(false)
       toast.success(t('toast.leaveTeamSuccess'))
       getTeams.refetch()
-      window.location.reload()
+      navigate('/')
     },
     onError: (error: any) => {
       const code = Client.getErrorCode(error)
