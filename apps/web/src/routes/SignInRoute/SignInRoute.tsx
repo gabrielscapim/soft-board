@@ -1,10 +1,10 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { SignInForm } from './components'
 import { getRootImage } from '@/helpers'
-import { useState } from 'react'
+import { useMemo } from 'react'
 
 export function SignInRoute () {
-  const [rootImage] = useState(getRootImage())
+  const [rootImage] = useMemo(() => [getRootImage()], [])
 
   return (
     <div className="flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
