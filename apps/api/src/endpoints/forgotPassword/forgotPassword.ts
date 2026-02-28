@@ -61,7 +61,7 @@ export function handler (getDeps: GetApplicationDependencies): Handler {
 
     sendMail({
       to: email,
-      subject: 'Soft-Board Password Reset',
+      subject: 'SoftBoard Password Reset',
       text: `You have requested to reset your password. Please click the link below to reset your password:\n\n${url}\n\nIf you did not request this, please ignore this email.`,
       html: `<p>You have requested to reset your password. Please click the link below to reset your password:</p><p><a href="${url}">${url}</a></p><p>If you did not request this, please ignore this email.</p>`
     })
