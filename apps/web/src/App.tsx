@@ -38,8 +38,13 @@ import {
 } from './layouts'
 
 const client = new Client()
-const queryClient = new QueryClient()
-
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false
+    }
+  }
+})
 function App () {
   const PrivateRoutesProviders = ({ children }: { children: React.ReactNode }) => (
     <TeamProvider>
