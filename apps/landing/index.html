@@ -11,16 +11,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <script>
-    (function () {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('lang') === 'pt') return;
-      const userLang = navigator.language || navigator.userLanguage;
-      if (!userLang.startsWith('pt')) {
-        window.location.href = '/en.html';
-      }
-    })();
-  </script>
 </head>
 
 <body>
