@@ -23,6 +23,7 @@ type Code =
   | 'SHARED_BOARD_EXPIRED'
   | 'TEAM_ALREADY_EXISTS'
   | 'TEAM_CONFLICT'
+  | 'USER_NOT_FOUND'
 
 export interface AppHttpError extends HttpError {
   code?: string

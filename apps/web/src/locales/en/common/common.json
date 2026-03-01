@@ -33,7 +33,8 @@
     "SCREENS_REQUIRED": "Cannot move to review step without at least 1 screen.",
     "SHARED_BOARD_EXPIRED": "The shared board link has expired.",
     "TEAM_ALREADY_EXISTS": "A team with this name already exists.",
-    "TEAM_CONFLICT": "There is a conflict with the team data."
+    "TEAM_CONFLICT": "There is a conflict with the team data.",
+    "USER_NOT_FOUND": "No user found with the provided email."
   },
   "help": "Help",
   "init": "Init",

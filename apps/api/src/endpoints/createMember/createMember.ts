@@ -25,13 +25,17 @@ export function handler (): Handler {
     const normalizedEmail = email.toUpperCase().trim()
 
     const user = await pool
-      .SELECT`id`
+      .SELECT<{ id: string }>`id`
       .FROM`"user"`
       .WHERE`normalized_email = ${normalizedEmail}`
-      .find({ error: `User with email ${email} not found` })
+      .first()
+
+    if (!user) {
+      throw createAppHttpError(404, 'USER_NOT_FOUND', `No user found with email ${email}`)
+    }
 
     const member = await pool
-      .SELECT`id`
+      .SELECT<MemberRow>`id, role`
       .FROM`member`
       .WHERE`user_id = ${user.id}`
       .AND`team_id = ${teamId}`
