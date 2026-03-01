@@ -12,11 +12,9 @@
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script>
-    // Language detection
     (function () {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('lang') === 'pt') return;
-
       const userLang = navigator.language || navigator.userLanguage;
       if (!userLang.startsWith('pt')) {
         window.location.href = '/en.html';
@@ -34,9 +32,7 @@
       </div>
       <nav class="flex items-center gap-4">
         <a href="/en.html" class="btn btn-ghost" style="font-size: 0.75rem;">EN</a>
-        <a href="https://app.softboard.com.br" class="btn btn-primary">
-          Entrar
-        </a>
+        <a href="https://app.softboard.com.br" class="btn btn-primary">Entrar</a>
       </nav>
     </div>
   </header>
@@ -44,42 +40,70 @@
   <!-- Hero Section -->
   <main>
     <section class="container hero-section">
-      <div class="badge">
-        <span>Crie, valide e compartilhe</span>
+
+      <div class="badge hero-badge-anim">
+        <span class="badge-dot"></span>
+        Crie, valide e compartilhe
       </div>
 
-      <h1 class="hero-title">
+      <h1 class="hero-title hero-title-anim">
         MVPs rápidos e inteligentes.
       </h1>
 
-      <p class="hero-description">
+      <p class="hero-description hero-desc-anim">
         Transforme sua ideia em um protótipo funcional em apenas 3 passos. Valide o seu MVP em minutos com o apoio do
         nosso assistente de IA.
       </p>
 
-      <div class="flex items-center justify-center gap-4">
+      <div class="flex items-center justify-center gap-4 hero-cta-anim">
         <a href="https://app.softboard.com.br" class="btn btn-primary btn-lg">
           Começar a criar
         </a>
       </div>
 
-      <!-- App Preview Mockup / GIF Placeholder -->
-      <div class="mockup-container flex items-center justify-center bg-slate-100">
-        <img src="/softboard.gif" alt="SoftBoard MVP Preview"
-          style="display: block; width: 100%; height: auto; border-radius: var(--radius);">
+      <!-- Browser Mockup -->
+      <div class="browser-wrapper">
+        <div class="browser-glow"></div>
+
+        <div class="browser-float">
+          <div class="browser-chrome">
+
+            <div class="browser-topbar">
+              <div class="browser-dots">
+                <div class="browser-dot dot-red"></div>
+                <div class="browser-dot dot-yellow"></div>
+                <div class="browser-dot dot-green"></div>
+              </div>
+
+              <div class="browser-addressbar">
+                <span class="address-lock">🔒</span>
+                <span class="address-shimmer">app.softboard.com.br</span>
+              </div>
+
+              <div class="browser-controls">
+                <div class="ctrl-btn">←</div>
+                <div class="ctrl-btn">→</div>
+                <div class="ctrl-btn">↺</div>
+              </div>
+            </div>
+
+            <div class="browser-viewport">
+              <img src="/softboard.gif" alt="SoftBoard MVP Preview">
+            </div>
+
+          </div>
+        </div>
       </div>
+
     </section>
   </main>
 
   <!-- Footer -->
   <footer class="footer">
     <div class="container flex items-center justify-center">
-      <p>
-        © 2026 SoftBoard
-      </p>
+      <p>© 2026 SoftBoard</p>
     </div>
   </footer>
-
 </body>
 
 </html>
