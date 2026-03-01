@@ -1,6 +1,8 @@
 {
   "rewrites": [
-    { "source": "/en.html", "destination": "/en.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/((?!en\\.html|assets/|style\\.css|softboard\\.gif|vite\\.svg).*)",
+      "destination": "/index.html"
+    }
   ]
 }
