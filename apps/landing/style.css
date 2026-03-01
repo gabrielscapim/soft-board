@@ -269,6 +269,7 @@ main { flex: 1; }
   margin-top: 4rem;
   width: 100%;
   max-width: 64rem;
+  animation: browserSlideIn 0.75s 0.55s ease both;
 }
 
 /* Soft glow behind the browser */
