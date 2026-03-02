@@ -1,5 +1,5 @@
 import { MessageDatabase, RequirementDatabase } from 'types/database'
-import { AgentContext, StartFlowAgent } from '../../../../startflow-agent'
+import { AgentContext, SoftBoardAgent } from '../../../../soft-board-agent'
 import OpenAI from 'openai'
 import fs from 'fs'
 import path from 'path'
@@ -45,7 +45,7 @@ export async function runSummaryAgent (
     ${requirements.map(req => `- ${req.title}: ${req.description}`).join('\n')}
   `
 
-  const agent = new StartFlowAgent({
+  const agent = new SoftBoardAgent({
     context,
     openai,
     model: 'gpt-4o',

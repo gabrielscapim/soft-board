@@ -1,5 +1,5 @@
 import { AgentCalledFunctionEvent } from 'event-types'
-import { AgentContext, RunToolResult, Tool } from '../../../startflow-agent'
+import { AgentContext, RunToolResult, Tool } from '../../../soft-board-agent'
 import { IPublisher } from '../../../types'
 import { DatabasePool } from 'pg-script'
 

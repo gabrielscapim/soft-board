@@ -1,5 +1,5 @@
 import { schema } from './schema'
-import { AgentContext, RunToolResult, Tool } from '../../../../startflow-agent'
+import { AgentContext, RunToolResult, Tool } from '../../../../soft-board-agent'
 import { randomUUID } from 'crypto'
 import { DatabasePool } from 'pg-script'
 

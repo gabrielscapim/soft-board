@@ -4,7 +4,7 @@ import { logger } from '../libs'
 
 const MAX_COMPLETION_CALLS = 5
 
-export class StartFlowAgent extends Agent {
+export class SoftBoardAgent extends Agent {
   protected parseHistory () {
     const history = this.history.map<ChatCompletionMessageParam>(message => {
       if (message.role === 'user') {

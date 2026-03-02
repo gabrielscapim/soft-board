@@ -1,5 +1,5 @@
 import { RequirementDatabase } from 'types/database'
-import { AgentContext, RunToolResult, Tool } from '../../../startflow-agent'
+import { AgentContext, RunToolResult, Tool } from '../../../soft-board-agent'
 import { DatabasePool } from 'pg-script'
 import { ApplicationDependencies } from '../../../types'
 
