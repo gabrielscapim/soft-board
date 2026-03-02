@@ -1,5 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage, Button, Label } from '@/components'
-import { getAvatarFallbackName } from '@/helpers'
+import { Button, Label } from '@/components'
+import { TeamLogo } from '@/components/team'
 import { XIcon } from 'lucide-react'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -67,17 +67,13 @@ export function TeamLogoInput (props: TeamLogoInputProps) {
       </div>
 
       <div className="flex items-center gap-4">
-        <div className="relative h-20 w-20 group">
-          <Avatar
-            className="h-20 w-20"
-            key={logoUrl}
-          >
-            <AvatarImage src={logoUrl || undefined} />
-            <AvatarFallback>
-              {getAvatarFallbackName(team?.name)}
-            </AvatarFallback>
-          </Avatar>
-        </div>
+        <TeamLogo
+          team={{
+            name: team?.name ?? '',
+            logoUrl
+          }}
+          className="w-20 h-20"
+        />
 
         <div className="flex flex-col gap-2">
           <input

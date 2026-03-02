@@ -14,8 +14,8 @@ import {
 } from '@/components'
 import { ConfirmLogOutDialog, CreateTeamDialog, LeaveTeamDialog, NavUser, TeamSwitcher } from './components'
 import { Link, useNavigate } from 'react-router'
-import { useAuthentication, useClient, useMemberRole, useTeam } from '@/hooks'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useAuthentication, useClient, useMemberRole, useTeam, useTeams } from '@/hooks'
+import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
@@ -54,10 +54,7 @@ export function RootSidebar () {
   const navigate = useNavigate()
   const { t, i18n } = useTranslation('layouts.rootLayout')
 
-  const getTeams = useQuery({
-    queryKey: ['getTeams', authenticatedUser?.userId],
-    queryFn: () => client.getTeams()
-  })
+  const getTeams = useTeams()
   const createTeam = useMutation({
     mutationFn: (name: string) => client.createTeam({ name }),
     onSuccess: (data) => {

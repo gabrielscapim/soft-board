@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { SettingsForm } from './components'
-import { useClient, useMemberRole, useTeam } from '@/hooks'
+import { useClient, useMemberRole, useTeam, useTeams } from '@/hooks'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { UpdateTeamCommand } from 'types/endpoints'
@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next'
 
 export function SettingsRoute () {
   const getTeam = useTeam()
+  const getTeams = useTeams()
   const client = useClient()
   const navigate = useNavigate()
   const memberRole = useMemberRole()
@@ -17,9 +18,11 @@ export function SettingsRoute () {
   const hasPermission = ['owner', 'admin'].includes(memberRole ?? '')
 
   const updateTeam = useMutation({
-    mutationFn: (data: UpdateTeamCommand) => client.updateTeam(data),
+    mutationFn: async (data: UpdateTeamCommand) => await client.updateTeam(data),
     onSuccess: (result) => {
       toast.success(t('toast.updateSuccess'))
+      getTeams.refetch()
+      getTeam.refetch?.()
 
       if (result.newSlug) {
         navigate(`/${result.newSlug}/settings`)
