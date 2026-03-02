@@ -74,7 +74,6 @@ export function handler (getDeps: GetApplicationDependencies): Handler {
       return signUpForm
     })
 
-
     const token = jwt.sign({ signUpFormId: signUpForm.id }, JWT_SECRET)
 
     const signUpUrl = new URL(`/verify-email?token=${token}&code=${code}`, FRONTEND_BASE_URL).toString()
