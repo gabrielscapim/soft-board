@@ -1,7 +1,11 @@
 export type UpdateTeamCommand = {
-  name: string
+  name?: string
+  logo?: {
+    base64: string
+    mimeType: string
+  } | null
 }
 
 export type UpdateTeamResult = {
-  slug: string
+  newSlug?: string
 }
