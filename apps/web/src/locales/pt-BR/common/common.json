@@ -32,7 +32,6 @@
     "REQUIREMENTS_TITLE_REQUIRED": "Todos os requisitos devem ter um título antes de avançar para a etapa de wireflows.",
     "SCREENS_REQUIRED": "Não é possível avançar para a etapa de revisão sem pelo menos 1 tela.",
     "SHARED_BOARD_EXPIRED": "O link do board compartilhado expirou.",
-    "TEAM_ALREADY_EXISTS": "Uma equipe com este nome já existe.",
     "TEAM_CONFLICT": "Há um conflito com os dados da equipe.",
     "USER_NOT_FOUND": "Nenhum usuário encontrado com o email fornecido."
   },

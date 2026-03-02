@@ -3,6 +3,7 @@ import { CreateTeamCommand, CreateTeamResult } from 'types/endpoints'
 import * as yup from 'yup'
 import { createAppHttpError, getPool } from '../../libs'
 import slugify from 'slugify'
+import { nanoid } from 'nanoid'
 
 type Handler = RequestHandler<unknown, CreateTeamResult, CreateTeamCommand>
 
@@ -19,16 +20,21 @@ export function handler (): Handler {
 
     const pool = getPool()
 
-    const slug = slugify(name, { lower: true, strict: true })
+    const baseSlug = slugify(name, { lower: true, strict: true })
+    let slug = `${baseSlug}-${nanoid(8)}`
 
-    const existingTeam = await pool
-      .SELECT`id`
-      .FROM`team`
-      .WHERE`slug = ${slug}`
-      .first()
+    while (true) {
+      const existing = await pool
+        .SELECT`id`
+        .FROM`team`
+        .WHERE`slug = ${slug}`
+        .first()
 
-    if (existingTeam) {
-      throw createAppHttpError(409, 'TEAM_ALREADY_EXISTS', `A team with the slug "${slug}" already exists`)
+      if (!existing) {
+        break
+      }
+
+      slug = `${baseSlug}-${nanoid(8)}`
     }
 
     const count = await pool
