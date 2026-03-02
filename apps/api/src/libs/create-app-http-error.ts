@@ -23,6 +23,7 @@ type Code =
   | 'SCREENS_REQUIRED'
   | 'SHARED_BOARD_EXPIRED'
   | 'TEAM_CONFLICT'
+  | 'USER_ALREADY_EXISTS'
   | 'USER_NOT_FOUND'
 
 export interface AppHttpError extends HttpError {
