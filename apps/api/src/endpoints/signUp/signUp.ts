@@ -1,4 +1,3 @@
-
 import * as bcrypt from 'bcrypt'
 import { RequestHandler } from 'express'
 import * as yup from 'yup'
@@ -53,23 +52,28 @@ export function handler (getDeps: GetApplicationDependencies): Handler {
     const expireDate = addMinutes(now, 30)
 
     // Invalidate any previous sign-up forms for this email
-    await pool
-      .UPDATE`sign_up_form`
-      .SET`expire_date = ${now}`
-      .WHERE`normalized_email = ${normalizedEmail}`
-      .AND`expire_date > ${now}`
+    const signUpForm = await pool.transaction(async pool => {
+      await pool
+        .UPDATE`sign_up_form`
+        .SET`expire_date = ${now}`
+        .WHERE`normalized_email = ${normalizedEmail}`
+        .AND`expire_date > ${now}`
 
-    const { rows: [signUpForm] } = await pool
-      .INSERT_INTO<Pick<SignUpFormDatabase, 'id'>>`sign_up_form`
-      .VALUES({
-        name,
-        email,
-        normalizedEmail,
-        passwordHash,
-        codeHash,
-        expireDate
-      })
-      .RETURNING`id`
+      const { rows: [signUpForm] } = await pool
+        .INSERT_INTO<Pick<SignUpFormDatabase, 'id'>>`sign_up_form`
+        .VALUES({
+          name,
+          email,
+          normalizedEmail,
+          passwordHash,
+          codeHash,
+          expireDate
+        })
+        .RETURNING`id`
+
+      return signUpForm
+    })
+
 
     const token = jwt.sign({ signUpFormId: signUpForm.id }, JWT_SECRET)
 
