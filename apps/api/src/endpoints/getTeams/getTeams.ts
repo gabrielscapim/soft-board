@@ -48,8 +48,6 @@ export function handler (): Handler {
       })
     }
 
-    console.log(JSON.stringify(result, null, 2))
-
     res.status(200).json(result)
   }
 }
