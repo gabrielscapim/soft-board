@@ -65,7 +65,7 @@ export function TeamSwitcher (props: TeamSwitcherProps) {
             {!loading && teams.map(team => (
               <DropdownMenuItem
                 key={team.name}
-                onClick={() => handleTeamChange?.(team)}
+                onClick={() => activeTeam.id !== team.id && handleTeamChange?.(team)}
                 className="gap-2 p-2"
               >
                 {team.name}
