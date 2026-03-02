@@ -5,6 +5,7 @@ export type VerifySignUpCommand = {
 export type VerifySignUpResult = {
   userId: string
   name: string
+  email: string
   fallbackTeam: {
     slug: string
   } | null

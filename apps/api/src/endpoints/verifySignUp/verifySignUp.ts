@@ -107,6 +107,7 @@ export function handler (): Handler {
       const result: VerifySignUpResult = {
         userId: user.id,
         name: signUpForm.name,
+        email: signUpForm.email,
         fallbackTeam: {
           slug
         },
