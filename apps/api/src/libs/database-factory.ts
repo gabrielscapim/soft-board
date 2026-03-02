@@ -243,6 +243,7 @@ export class DatabaseFactory {
     const created: TeamDatabase = {
       id: team.id ?? randomUUID(),
       logo: team.logo ?? null,
+      logoMimeType: team.logoMimeType ?? null,
       name,
       slug: team.slug ?? slugify(name, { lower: true, strict: true }),
       createDate: team.createDate ?? now,
