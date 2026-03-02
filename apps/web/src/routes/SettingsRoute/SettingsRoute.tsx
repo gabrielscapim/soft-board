@@ -20,7 +20,10 @@ export function SettingsRoute () {
     mutationFn: (data: UpdateTeamCommand) => client.updateTeam(data),
     onSuccess: (result) => {
       toast.success(t('toast.updateSuccess'))
-      navigate(`/${result.slug}/settings`)
+
+      if (result.newSlug) {
+        navigate(`/${result.newSlug}/settings`)
+      }
     },
     onError: error => {
       const code = Client.getErrorCode(error)
@@ -37,12 +40,12 @@ export function SettingsRoute () {
         </p>
       </div>
 
-      <Card className="max-w-lg">
+      <Card className="max-w-2xl">
         <CardContent>
           <SettingsForm
             team={getTeam.team}
             hasPermission={hasPermission}
-            handleSubmit={name => updateTeam.mutate({ name })}
+            handleSubmit={data => updateTeam.mutate(data)}
           />
         </CardContent>
       </Card>
