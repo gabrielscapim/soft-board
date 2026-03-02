@@ -3,6 +3,8 @@ const { Client } = require('pg')
 const { randomUUID } = require('crypto')
 const bcrypt = require('bcrypt')
 const readline = require('readline')
+const slugify = require('slugify')
+const { nanoid } = require('nanoid')
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
 const question = (prompt) => new Promise((resolve) => rl.question(prompt, resolve))
@@ -16,12 +18,17 @@ async function createUser () {
   rl.close()
 
   const passwordHash = await bcrypt.hash(password, 12)
-  const teamSlug = teamName.toLowerCase().replace(/\s+/g, '-')
+
+  const baseSlug = slugify(teamName, { lower: true, strict: true })
+  const teamSlug = `${baseSlug}-${nanoid(8)}`
 
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
-    ...(process.env.DISABLE_REJECT_UNAUTHORIZED === 'true' ? { ssl: { rejectUnauthorized: false } } : {})
+    ...(process.env.DISABLE_REJECT_UNAUTHORIZED === 'true'
+      ? { ssl: { rejectUnauthorized: false } }
+      : {})
   })
+
   await client.connect()
 
   try {
@@ -56,6 +63,7 @@ async function createUser () {
     console.log(`\nUser created successfully!`)
     console.log(`User id: ${userId}`)
     console.log(`Team id: ${teamId}`)
+    console.log(`Team slug: ${teamSlug}`)
   } catch (error) {
     await client.query('ROLLBACK')
     throw error
