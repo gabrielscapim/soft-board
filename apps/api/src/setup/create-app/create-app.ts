@@ -48,7 +48,7 @@ export function createApp (options: CreateAppOptions = {}): Express {
   app.use(setAuth)
   app.use(setTeam)
 
-  app.use(express.json())
+  app.use(express.json({ limit: '10mb' }))
 
   // Register endpoints
   for (const endpoint of getEndpoints(options.endpoints)) {
