@@ -10,6 +10,8 @@
       "placeholder": "Digite sua senha"
     },
     "forgot": "Esqueceu sua senha?",
+    "noAccount": "Não tem uma conta?",
+    "signUp": "Cadastre-se",
     "submit": "Entrar",
     "title": "Bem-vindo de volta!"
   }

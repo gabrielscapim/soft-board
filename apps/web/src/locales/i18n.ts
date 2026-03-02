@@ -23,6 +23,8 @@ import sharedBoardRouteEn from './en/routes/sharedBoardRoute.json'
 import sharedBoardRoutePtBr from './pt-BR/routes/sharedBoardRoute.json'
 import signInRouteEn from './en/routes/signInRoute.json'
 import signInRoutePtBr from './pt-BR/routes/signInRoute.json'
+import signUpRouteEn from './en/routes/signUpRoute.json'
+import signUpRoutePtBr from './pt-BR/routes/signUpRoute.json'
 import boardWizardLayoutEn from './en/layouts/boardWizardLayout.json'
 import boardWizardLayoutPtBr from './pt-BR/layouts/boardWizardLayout.json'
 import editBoardLayoutEn from './en/layouts/editBoardLayout.json'
@@ -65,6 +67,7 @@ i18n
         'routes.settings': settingsRoutePtBr,
         'routes.sharedBoard': sharedBoardRoutePtBr,
         'routes.signIn': signInRoutePtBr,
+        'routes.signUp': signUpRoutePtBr,
         'layouts.boardWizard': boardWizardLayoutPtBr,
         'layouts.editBoardLayout': editBoardLayoutPtBr,
         'layouts.rootLayout': rootLayoutPtBr,
@@ -83,6 +86,7 @@ i18n
         'routes.settings': settingsRouteEn,
         'routes.sharedBoard': sharedBoardRouteEn,
         'routes.signIn': signInRouteEn,
+        'routes.signUp': signUpRouteEn,
         'layouts.boardWizard': boardWizardLayoutEn,
         'layouts.editBoardLayout': editBoardLayoutEn,
         'layouts.rootLayout': rootLayoutEn,

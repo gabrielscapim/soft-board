@@ -55,7 +55,7 @@ export function handler (): Handler {
     }
 
     if (signUpForm.useDate) {
-      throw createAppHttpError(409, 'SIGN_UP_ALREADY_USED', 'This code has already been used')
+      throw createAppHttpError(409, 'SIGN_UP_CODE_ALREADY_USED', 'This code has already been used')
     }
 
     if (signUpForm.expireDate.getTime() < now.getTime()) {
