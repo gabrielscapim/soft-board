@@ -9,7 +9,7 @@
       "label": "Logo",
       "description": "Faça upload do logo da sua equipe..",
       "restriction": "PNG, JPG ou SVG. Máx 2MB.",
-      "upload": "Enviar imagem",
+      "upload": "Adicionar imagem",
       "remove": "Remover imagem"
     },
     "submit": "Salvar alterações"
