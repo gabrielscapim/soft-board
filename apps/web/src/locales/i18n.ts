@@ -35,6 +35,8 @@ import softComponentsEn from './en/softComponents/softComponents.json'
 import softComponentsPtBr from './pt-BR/softComponents/softComponents.json'
 import tutorialEn from './en/tutorial/tutorial.json'
 import tutorialPtBr from './pt-BR/tutorial/tutorial.json'
+import verifySignUpRouteEn from './en/routes/verifySignUpRoute.json'
+import verifySignUpRoutePtBr from './pt-BR/routes/verifySignUpRoute.json'
 import { NODE_ENV } from '@/constants'
 
 i18n
@@ -68,6 +70,7 @@ i18n
         'routes.sharedBoard': sharedBoardRoutePtBr,
         'routes.signIn': signInRoutePtBr,
         'routes.signUp': signUpRoutePtBr,
+        'routes.verifySignUp': verifySignUpRoutePtBr,
         'layouts.boardWizard': boardWizardLayoutPtBr,
         'layouts.editBoardLayout': editBoardLayoutPtBr,
         'layouts.rootLayout': rootLayoutPtBr,
@@ -87,6 +90,7 @@ i18n
         'routes.sharedBoard': sharedBoardRouteEn,
         'routes.signIn': signInRouteEn,
         'routes.signUp': signUpRouteEn,
+        'routes.verifySignUp': verifySignUpRouteEn,
         'layouts.boardWizard': boardWizardLayoutEn,
         'layouts.editBoardLayout': editBoardLayoutEn,
         'layouts.rootLayout': rootLayoutEn,

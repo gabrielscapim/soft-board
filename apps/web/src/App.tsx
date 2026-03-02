@@ -17,7 +17,8 @@ import {
   SharedBoardRoute,
   ForgotPasswordRoute,
   ResetPasswordRoute,
-  SignUpRoute
+  SignUpRoute,
+  VerifySignUpRoute
 } from './routes'
 import { Toaster } from 'sonner'
 import {
@@ -77,6 +78,8 @@ function App () {
                   <Route path="sign-up" element={<SignUpRoute />} />
                   <Route path="forgot-password" element={<ForgotPasswordRoute />} />
                   <Route path="reset-password/:token" element={<ResetPasswordRoute />} />
+                  <Route path="share/:token" element={<SharedBoardRoute />} />
+                  <Route path="verify-sign-up" element={<VerifySignUpRoute />} />
                 </Route>
                 <Route path="share/:token" element={<SharedBoardRoute />} />
 

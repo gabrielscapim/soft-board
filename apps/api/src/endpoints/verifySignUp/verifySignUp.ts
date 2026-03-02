@@ -9,8 +9,11 @@ import { AUTHENTICATION_COOKIE_NAME, JWT_SECRET, NODE_ENV } from '../../constant
 import slugify from 'slugify'
 import { nanoid } from 'nanoid'
 import { AuthenticationData } from '../../types'
+import { SignUpFormDatabase } from 'types/database'
 
 type Handler = RequestHandler<any, VerifySignUpResult, VerifySignUpCommand>
+
+type SignUpFormRow = Pick<SignUpFormDatabase, 'name' | 'email' | 'normalizedEmail' | 'passwordHash' | 'expireDate' | 'useDate'>
 
 const schema = yup.object({
   code: yup.string().length(6).required()
@@ -44,7 +47,7 @@ export function handler (): Handler {
     const codeHash = createHash('sha256').update(code).digest('hex')
 
     const signUpForm = await pool
-      .SELECT`name, email, normalized_email, password_hash, expire_date, use_date`
+      .SELECT<SignUpFormRow>`name, email, normalized_email, password_hash, expire_date, use_date`
       .FROM`sign_up_form`
       .WHERE`id = ${signUpFormId}`
       .AND`code_hash = ${codeHash}`
@@ -62,6 +65,16 @@ export function handler (): Handler {
       throw createAppHttpError(409, 'SIGN_UP_CODE_EXPIRED', 'This code has expired')
     }
 
+    const existingUser = await pool
+      .SELECT`id`
+      .FROM`"user"`
+      .WHERE`normalized_email = ${signUpForm.normalizedEmail}`
+      .first()
+
+    if (existingUser) {
+      throw createAppHttpError(409, 'USER_ALREADY_EXISTS', 'A user with this email already exists')
+    }
+
     const result = await pool.transaction(async pool => {
       await pool
         .UPDATE`sign_up_form`
@@ -73,8 +86,8 @@ export function handler (): Handler {
         .VALUES({
           name: signUpForm.name,
           email: signUpForm.email,
-          normalizedEmail: signUpForm.normalized_email,
-          passwordHash: signUpForm.password_hash
+          normalizedEmail: signUpForm.normalizedEmail,
+          passwordHash: signUpForm.passwordHash
         })
         .RETURNING`id`
 

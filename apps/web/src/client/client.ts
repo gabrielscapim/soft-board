@@ -1,4 +1,4 @@
-import axios, { AxiosError, type AxiosInstance } from 'axios'
+import axios, { AxiosError, AxiosRequestConfig, type AxiosInstance } from 'axios'
 import type {
   AddGenerationToBoardCommand,
   CreateBoardCommand,
@@ -258,7 +258,7 @@ export class Client {
     await this.axios.post('/updateUserPreferences', data)
   }
 
-  async verifySignUp (data: VerifySignUpCommand): Promise<VerifySignUpResult> {
-    return (await this.axios.post<VerifySignUpResult>('/verifySignUp', data)).data
+  async verifySignUp (data: VerifySignUpCommand, options?: AxiosRequestConfig): Promise<VerifySignUpResult> {
+    return (await this.axios.post<VerifySignUpResult>('/verifySignUp', data, options)).data
   }
 }
