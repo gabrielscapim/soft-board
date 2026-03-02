@@ -1,3 +1,4 @@
+import { Client } from '@/client/client'
 import { Button, Input, Label } from '@/components'
 import { useClient } from '@/hooks/use-client'
 import { useMutation } from '@tanstack/react-query'
@@ -30,7 +31,10 @@ export function SignUpForm (props: SignUpFormProps) {
     onSuccess: (result) => {
       navigate('/verify-email', { state: { token: result.token } })
     },
-    onError: () => toast.error(t('toast.error'))
+    onError: (error: any) => {
+      const code = Client.getErrorCode(error)
+      toast.error(code ? t(`errors.${code}`, { ns: 'common' }) : 'Unexpected error occurred')
+    }
   })
   const formik = useFormik({
     validationSchema: formSchema,
