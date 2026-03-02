@@ -27,6 +27,7 @@ describe('getTeam', () => {
       id: team.id,
       name: team.name,
       slug: team.slug,
+      logoUrl: null,
       createDate: team.createDate.toISOString(),
       updateDate: team.updateDate.toISOString()
     })
