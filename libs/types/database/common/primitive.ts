@@ -1,4 +1,5 @@
 export type BOOLEAN = boolean
+export type BYTEA = Uint8Array
 export type INTEGER = number
 export type JSONB = Record<string, any>
 export type NUMERIC = number

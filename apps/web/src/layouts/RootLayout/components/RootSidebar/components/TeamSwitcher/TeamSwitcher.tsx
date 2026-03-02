@@ -1,10 +1,7 @@
-import { getAvatarFallbackName } from '@/helpers'
 import { TUTORIALS_ANCHORS } from '@/tutorials'
 import { ChevronsUpDown, Plus } from 'lucide-react'
 import { GetTeamsResultData } from 'types/endpoints'
 import {
-  Avatar,
-  AvatarFallback,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -18,6 +15,7 @@ import {
   useSidebar
 } from '@/components'
 import { useTranslation } from 'react-i18next'
+import { TeamLogo } from '@/components/team'
 
 export type TeamSwitcherProps = {
   teams: GetTeamsResultData[]
@@ -46,11 +44,7 @@ export function TeamSwitcher (props: TeamSwitcherProps) {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar>
-                <AvatarFallback>
-                  {getAvatarFallbackName(activeTeam.name)}
-                </AvatarFallback>
-              </Avatar>
+              <TeamLogo team={activeTeam} />
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{activeTeam.name}</span>
               </div>

@@ -36,7 +36,8 @@ export function TeamProvider ({ children }: TeamProviderProps) {
       value={{
         team: getTeam.data,
         error: getTeam.error,
-        loading: getTeam.isLoading
+        loading: getTeam.isLoading,
+        refetch: getTeam.refetch
       }}
     >
       {getTeam.error && (

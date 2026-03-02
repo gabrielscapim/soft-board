@@ -1,0 +1,1 @@
+ALTER TABLE team ADD COLUMN logo_mime_type VARCHAR(50) NULL;

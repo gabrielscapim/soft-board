@@ -5,6 +5,13 @@
       "label": "Nome",
       "placeholder": "Este é o nome da sua equipe. Ele será exibido para todos os membros."
     },
+    "logo": {
+      "label": "Logo",
+      "description": "Faça upload do logo da sua equipe..",
+      "restriction": "PNG, JPG ou SVG. Máx 2MB.",
+      "upload": "Adicionar imagem",
+      "remove": "Remover imagem"
+    },
     "submit": "Salvar alterações"
   },
   "title": "Configurações da equipe",

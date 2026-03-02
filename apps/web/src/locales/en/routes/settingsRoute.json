@@ -5,6 +5,13 @@
       "label": "Name",
       "placeholder": "This is the name of your team. It will be displayed for all members."
     },
+    "logo": {
+      "label": "Logo",
+      "description": "Upload your team logo to make it easily recognizable.",
+      "restriction": "PNG, JPG or SVG. Max 2MB.",
+      "upload": "Upload image",
+      "remove": "Remove image"
+    },
     "submit": "Save changes"
   },
   "title": "Team settings",
