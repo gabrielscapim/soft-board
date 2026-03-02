@@ -29,7 +29,7 @@ export function SignUpForm (props: SignUpFormProps) {
   const signUp = useMutation({
     mutationFn: async (data: SignUpCommand) => await client.signUp(data),
     onSuccess: (result) => {
-      navigate('/verify-email', { state: { token: result.token } })
+      navigate('/verify-sign-up', { state: { token: result.token } })
     },
     onError: (error: any) => {
       const code = Client.getErrorCode(error)
