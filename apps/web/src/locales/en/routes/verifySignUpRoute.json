@@ -1,0 +1,10 @@
+{
+  "form": {
+    "title": "Verify your email",
+    "description": "Please enter the 6-digit code sent to your email to complete your sign-up.",
+    "confirm": "Verify Email"
+  },
+  "toast": {
+    "success": "Account created successfully!"
+  }
+}

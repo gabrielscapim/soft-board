@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 
 const formSchema = yup.object({
   email: yup.string().email('Invalid email').required('Email is required'),
-  password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required')
+  password: yup.string().min(6, 'Password must be at least 8 characters').required('Password is required')
 })
 
 export function SignInForm () {
@@ -86,6 +86,16 @@ export function SignInForm () {
         >
           {t('form.submit')}
         </Button>
+
+        <p className="text-center text-sm text-muted-foreground">
+          {t('form.noAccount')}{' '}
+          <Link
+            to="/sign-up"
+            className="underline-offset-4 hover:underline"
+          >
+            {t('form.signUp')}
+          </Link>
+        </p>
       </div>
     </form>
   )

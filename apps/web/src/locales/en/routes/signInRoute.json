@@ -10,6 +10,8 @@
       "placeholder": "Enter your password"
     },
     "forgot": "Forgot your password?",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
     "submit": "Login",
     "title": "Welcome back!"
   }

@@ -1,4 +1,4 @@
-import axios, { AxiosError, type AxiosInstance } from 'axios'
+import axios, { AxiosError, AxiosRequestConfig, type AxiosInstance } from 'axios'
 import type {
   AddGenerationToBoardCommand,
   CreateBoardCommand,
@@ -47,7 +47,11 @@ import type {
   GetSharedBoardByBoardIdResult,
   UpdateUserPreferencesCommand,
   ForgotPasswordCommand,
-  ResetPasswordCommand
+  ResetPasswordCommand,
+  SignUpCommand,
+  VerifySignUpCommand,
+  VerifySignUpResult,
+  SignUpResult
 } from 'types/endpoints'
 
 export type ClientOptions = {
@@ -222,6 +226,10 @@ export class Client {
     await this.axios.post('/signOut')
   }
 
+  async signUp (data: SignUpCommand): Promise<SignUpResult> {
+    return (await this.axios.post<SignUpResult>('/signUp', data)).data
+  }
+
   async updateBoard (data: UpdateBoardCommand): Promise<void> {
     await this.axios.post('/updateBoard', data)
   }
@@ -248,5 +256,9 @@ export class Client {
 
   async updateUserPreferences (data: UpdateUserPreferencesCommand): Promise<void> {
     await this.axios.post('/updateUserPreferences', data)
+  }
+
+  async verifySignUp (data: VerifySignUpCommand, options?: AxiosRequestConfig): Promise<VerifySignUpResult> {
+    return (await this.axios.post<VerifySignUpResult>('/verifySignUp', data, options)).data
   }
 }

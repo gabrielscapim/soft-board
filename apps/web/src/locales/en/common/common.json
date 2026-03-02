@@ -32,7 +32,11 @@
     "REQUIREMENTS_TITLE_REQUIRED": "All requirements must have a title before moving to wireflows step.",
     "SCREENS_REQUIRED": "Cannot move to review step without at least 1 screen.",
     "SHARED_BOARD_EXPIRED": "The shared board link has expired.",
+    "SIGN_UP_CODE_ALREADY_USED": "This code has already been used.",
+    "SIGN_UP_CODE_EXPIRED": "This code has expired.",
+    "SIGN_UP_CODE_INVALID": "This code is invalid.",
     "TEAM_CONFLICT": "There is a conflict with the team data.",
+    "USER_ALREADY_EXISTS": "A user with the provided email already exists.",
     "USER_NOT_FOUND": "No user found with the provided email."
   },
   "help": "Help",

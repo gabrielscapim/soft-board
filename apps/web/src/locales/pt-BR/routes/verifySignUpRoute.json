@@ -1,0 +1,10 @@
+{
+  "form": {
+    "title": "Verifique seu email",
+    "description": "Por favor, insira o código de 6 dígitos enviado para seu email para completar seu cadastro.",
+    "confirm": "Confirmar"
+  },
+  "toast": {
+    "success": "Conta criada com sucesso!"
+  }
+}

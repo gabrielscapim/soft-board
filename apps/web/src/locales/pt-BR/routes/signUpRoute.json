@@ -1,0 +1,20 @@
+{
+  "form": {
+    "back": "Voltar para o login",
+    "confirm": "Criar conta",
+    "description": "Crie sua conta no SoftBoard",
+    "email": {
+      "label": "Email",
+      "placeholder": "Digite seu email"
+    },
+    "name": {
+      "label": "Nome",
+      "placeholder": "Digite seu nome"
+    },
+    "password": {
+      "label": "Senha",
+      "placeholder": "Digite sua senha"
+    },
+    "title": "Vamos começar!"
+  }
+}

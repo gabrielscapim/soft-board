@@ -13,6 +13,7 @@ import {
   MessageDatabase,
   PasswordResetTokenDatabase,
   RequirementDatabase,
+  SignUpFormDatabase,
   TeamDatabase,
   UserDatabase,
   UserPreferencesDatabase
@@ -200,6 +201,26 @@ export class DatabaseFactory {
     }
 
     await this.pool.INSERT_INTO`requirement`.VALUES(created)
+
+    return created
+  }
+
+  async createSignUpForm (signUpForm: Partial<SignUpFormDatabase> = {}): Promise<SignUpFormDatabase> {
+    const now = new Date()
+    const email = signUpForm.email ?? `${randomUUID()}@example.com`
+    const created: SignUpFormDatabase = {
+      id: signUpForm.id ?? randomUUID(),
+      name: signUpForm.name ?? randomUUID(),
+      email,
+      normalizedEmail: signUpForm.normalizedEmail ?? email.toUpperCase(),
+      passwordHash: signUpForm.passwordHash ?? randomUUID(),
+      codeHash: signUpForm.codeHash ?? randomUUID(),
+      createDate: signUpForm.createDate ?? now,
+      expireDate: signUpForm.expireDate ?? addHours(now, 1),
+      useDate: signUpForm.useDate ?? null
+    }
+
+    await this.pool.INSERT_INTO`sign_up_form`.VALUES(created)
 
     return created
   }
