@@ -2,10 +2,12 @@ import { RequestHandler } from 'express'
 import { GetTeamsResult } from 'types/endpoints'
 import { getPool } from '../../libs'
 import { TeamDatabase } from 'types/database'
+import { createHash } from 'crypto'
+import { API_BASE_URL } from '../../constants'
 
 type Handler = RequestHandler<unknown, GetTeamsResult>
 
-type TeamRow = Pick<TeamDatabase, 'id' | 'name' | 'slug' | 'createDate' | 'updateDate'>
+type TeamRow = Pick<TeamDatabase, 'id' | 'name' | 'slug' | 'createDate' | 'updateDate' | 'logo'>
 
 export function handler (): Handler {
   return async (req, res) => {
@@ -27,14 +29,26 @@ export function handler (): Handler {
       .list()
 
     const result: GetTeamsResult = {
-      data: teams.map(team => ({
-        id: team.id,
-        name: team.name,
-        slug: team.slug,
-        createDate: team.createDate.toISOString(),
-        updateDate: team.updateDate.toISOString()
-      }))
+      data: teams.map(team => {
+        const logoUrl = team.logo
+          ? new URL(
+            `/getTeamLogo?teamId=${team.id}&hash=${createHash('md5').update(team.logo).digest('hex')}`,
+            API_BASE_URL
+          ).toString()
+          : null
+
+        return {
+          id: team.id,
+          name: team.name,
+          slug: team.slug,
+          logoUrl,
+          createDate: team.createDate.toISOString(),
+          updateDate: team.updateDate.toISOString()
+        }
+      })
     }
+
+    console.log(JSON.stringify(result, null, 2))
 
     res.status(200).json(result)
   }
