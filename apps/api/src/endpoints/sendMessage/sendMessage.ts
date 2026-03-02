@@ -6,7 +6,7 @@ import * as yup from 'yup'
 import { DatabasePool } from 'pg-script'
 import { ChatCompletionMessageFunctionToolCall, ChatCompletionMessageParam } from 'openai/resources/index'
 import { BoardDatabase, MessageDatabase, RequirementDatabase, UserPreferencesDatabase } from 'types/database'
-import { AgentContext, StartFlowAgent, Tool } from '../../startflow-agent'
+import { AgentContext, SoftBoardAgent, Tool } from '../../soft-board-agent'
 import { PROMPT_BY_STEP_AND_LANGUAGE } from './prompts'
 import {
   CreateRequirementTool,
@@ -95,7 +95,7 @@ export function handler (getDeps: GetApplicationDependencies): Handler {
       }
     }
 
-    const agent = new StartFlowAgent({
+    const agent = new SoftBoardAgent({
       context,
       openai,
       history,
@@ -119,7 +119,7 @@ export function handler (getDeps: GetApplicationDependencies): Handler {
         }
       }
 
-      logger.error({ error }, 'Error while running StartFlowAgent')
+      logger.error({ error }, 'Error while running SoftBoardAgent')
 
       responseMessages.push({
         role: 'assistant',

@@ -1,7 +1,7 @@
 import OpenAI from 'openai'
 import fs from 'fs'
 import path from 'path'
-import { AgentContext, StartFlowAgent } from '../../../../startflow-agent'
+import { AgentContext, SoftBoardAgent } from '../../../../soft-board-agent'
 import { CreateWireflowTool } from './tool'
 import { DatabasePool } from 'pg-script'
 
@@ -33,7 +33,7 @@ export async function runWireflowsAgent (
     'utf-8'
   )
 
-  const agent = new StartFlowAgent({
+  const agent = new SoftBoardAgent({
     context,
     openai,
     tools: [

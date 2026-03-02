@@ -1,5 +1,5 @@
 import { DatabasePool } from 'pg-script'
-import { AgentContext, RunToolResult, Tool } from '../../../startflow-agent'
+import { AgentContext, RunToolResult, Tool } from '../../../soft-board-agent'
 import { ApplicationDependencies } from '../../../types'
 
 type Arguments = {
