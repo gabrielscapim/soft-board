@@ -1,8 +1,9 @@
 import { RequestHandler } from 'express'
 import { CreateTeamCommand, CreateTeamResult } from 'types/endpoints'
 import * as yup from 'yup'
-import { createAppHttpError, getPool } from '../../libs'
+import { createAppHttpError } from '../../libs'
 import slugify from 'slugify'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, CreateTeamResult, CreateTeamCommand>
 
@@ -12,12 +13,11 @@ const schema = yup.object({
 
 const MAX_TEAMS_PER_USER = 5
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const userId = req.auth?.userId
     const { name } = schema.validateSync(req.body, { abortEarly: false })
-
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const slug = slugify(name, { lower: true, strict: true })
 

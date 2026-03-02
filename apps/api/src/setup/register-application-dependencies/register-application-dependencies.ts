@@ -1,23 +1,20 @@
 import { asValue, AwilixContainer } from 'awilix'
 import { ApplicationDependencies } from '../../types'
-import OpenAI from 'openai'
-import { loadPublishers } from '../load-publishers'
-import { loadWebsocketEmitters } from '../load-websocket-emitters'
-import { OPENAI_API_KEY } from '../../constants'
 
 type Container = AwilixContainer<ApplicationDependencies>
 
 export function registerApplicationDependencies (
   container: Container,
-  deps: Partial<ApplicationDependencies>
+  deps: ApplicationDependencies
 ): Container {
-  const { openai, publishers, sendMail, websocketEmitters } = deps
+  const { openai, pool, publishers, sendMail, websocketEmitters } = deps
 
   container.register({
-    openai: asValue(openai ?? new OpenAI({ apiKey: OPENAI_API_KEY })),
-    publishers: asValue(publishers ?? loadPublishers()),
-    sendMail: asValue(sendMail ?? (() => Promise.reject())),
-    websocketEmitters: asValue(websocketEmitters ?? loadWebsocketEmitters())
+    openai: asValue(openai),
+    pool: asValue(pool),
+    publishers: asValue(publishers),
+    sendMail: asValue(sendMail),
+    websocketEmitters: asValue(websocketEmitters)
   })
 
   return container

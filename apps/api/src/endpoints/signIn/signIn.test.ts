@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest'
-import { DatabaseFactory, getPool } from '../../libs'
+import { DatabaseFactory } from '../../libs'
 import { createApp } from '../../setup'
 import * as signIn from './signIn'
 import request from 'supertest'
@@ -49,8 +49,7 @@ describe('signIn', () => {
         container,
         endpoints: { signIn }
       })
-      const pool = getPool()
-      const factory = new DatabaseFactory({ pool })
+      const factory = new DatabaseFactory()
       const password = 'password123'
       const passwordHash = await bcrypt.hash(password, PASSWORD_SALT_ROUNDS)
       const user = await factory.createUser({ passwordHash })

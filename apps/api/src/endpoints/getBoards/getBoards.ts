@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { BoardDatabase } from 'types/database'
 import { GetBoardsQuery, GetBoardsResult, GetBoardsResultData } from 'types/endpoints'
 import * as yup from 'yup'
-import { getPool } from '../../libs'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, GetBoardsResult, GetBoardsQuery>
 
@@ -14,12 +14,12 @@ const schema = yup.object({
   q: yup.string().optional().nullable().default(null)
 })
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const { q } = schema.validateSync(req.body, { abortEarly: false })
     const teamId = req.team!.teamId
 
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const boards = await pool
       .SELECT<BoardRow>`

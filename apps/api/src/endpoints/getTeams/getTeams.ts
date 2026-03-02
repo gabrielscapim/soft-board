@@ -1,19 +1,19 @@
 import { RequestHandler } from 'express'
 import { GetTeamsResult } from 'types/endpoints'
-import { getPool } from '../../libs'
 import { TeamDatabase } from 'types/database'
 import { createHash } from 'crypto'
 import { API_BASE_URL } from '../../constants'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, GetTeamsResult>
 
 type TeamRow = Pick<TeamDatabase, 'id' | 'name' | 'slug' | 'createDate' | 'updateDate' | 'logo'>
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const userId = req.auth?.userId
 
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const teams = await pool
       .SELECT<TeamRow>`

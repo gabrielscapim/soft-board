@@ -1,9 +1,10 @@
 import { RequestHandler } from 'express'
 import * as yup from 'yup'
 import { ShareBoardCommand, ShareBoardResult } from 'types/endpoints'
-import { assertMemberPermission, getPool } from '../../libs'
+import { assertMemberPermission } from '../../libs'
 import { FRONTEND_BASE_URL } from '../../constants'
 import { nanoid } from 'nanoid'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, ShareBoardResult, ShareBoardCommand>
 
@@ -12,14 +13,14 @@ const schema = yup.object({
   expireDate: yup.string().nullable().optional().default(null)
 })
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const { boardId, expireDate } = await schema.validate(req.body, { abortEarly: false })
     const team = req.team!
 
     assertMemberPermission(team.memberRole, ['admin', 'owner'], 'Only team admins and owners can share boards')
 
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const board = await pool
       .SELECT`id`

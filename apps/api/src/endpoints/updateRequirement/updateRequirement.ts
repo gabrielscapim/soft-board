@@ -1,7 +1,8 @@
 import { RequestHandler } from 'express'
 import { UpdateRequirementCommand } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, getPool } from '../../libs'
+import { assertMemberPermission } from '../../libs'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, unknown, UpdateRequirementCommand>
 
@@ -12,14 +13,14 @@ const schema = yup.object({
   description: yup.string().trim().nullable().max(500, 'Description must be at most 500 characters long')
 })
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const teamId = req.team!.teamId
     const { boardId, id, title, description } = schema.validateSync(req.body, { abortEarly: false })
 
     assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can create requirements')
 
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const board = await pool
       .SELECT`id`

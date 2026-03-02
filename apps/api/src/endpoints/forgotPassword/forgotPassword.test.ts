@@ -1,5 +1,4 @@
 import { describe, expect, test } from 'vitest'
-import { getPool } from '../../libs'
 import { DatabaseFactory } from '../../libs'
 import { createApp } from '../../setup'
 import * as forgotPassword from './forgotPassword'
@@ -9,8 +8,7 @@ import { asValue, createContainer } from 'awilix'
 describe('forgotPassword', () => {
   describe('when password reset token already exists', () => {
     test('invalidates previous tokens before creating a new one', async () => {
-      const pool = getPool()
-      const factory = new DatabaseFactory({ pool })
+      const factory = new DatabaseFactory()
       const user = await factory.createUser()
       const team = await factory.createTeam()
       await factory.createMember({ userId: user.id, teamId: team.id, role: 'owner' })
@@ -30,7 +28,7 @@ describe('forgotPassword', () => {
         .post('/forgotPassword')
         .send({ email: user.email })
 
-      const check = await pool
+      const check = await factory.pool
         .SELECT`id, expire_date`
         .FROM`password_reset_token`
         .WHERE`user_id = ${user.id}`
@@ -43,8 +41,7 @@ describe('forgotPassword', () => {
     })
 
     test('creates a new password reset token', async () => {
-      const pool = getPool()
-      const factory = new DatabaseFactory({ pool })
+      const factory = new DatabaseFactory()
       const user = await factory.createUser()
       const team = await factory.createTeam()
       await factory.createMember({ userId: user.id, teamId: team.id, role: 'owner' })
@@ -64,7 +61,7 @@ describe('forgotPassword', () => {
         .post('/forgotPassword')
         .send({ email: user.email })
 
-      const check = await pool
+      const check = await factory.pool
         .SELECT`id`
         .FROM`password_reset_token`
         .WHERE`user_id = ${user.id}`

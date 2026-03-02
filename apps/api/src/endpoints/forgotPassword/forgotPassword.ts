@@ -1,7 +1,7 @@
 import * as yup from 'yup'
 import { RequestHandler } from 'express'
 import { ForgotPasswordCommand } from 'types/endpoints'
-import { getPool, logger } from '../../libs'
+import { logger } from '../../libs'
 import crypto from 'crypto'
 import { addHours } from 'date-fns'
 import { GetApplicationDependencies } from '../../types'
@@ -18,9 +18,7 @@ export const auth = false
 export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const { email } = await schema.validate(req.body, { abortEarly: false })
-    const { sendMail } = getDeps()
-
-    const pool = getPool()
+    const { pool, sendMail } = getDeps()
 
     const normalizedEmail = email.toUpperCase().trim()
 

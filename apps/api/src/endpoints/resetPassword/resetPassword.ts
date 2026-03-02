@@ -3,9 +3,10 @@ import bcrypt from 'bcrypt'
 import { ResetPasswordCommand } from 'types/endpoints'
 import * as yup from 'yup'
 import crypto from 'crypto'
-import { createAppHttpError, getPool } from '../../libs'
+import { createAppHttpError } from '../../libs'
 import { PasswordResetTokenDatabase } from 'types/database'
 import { PASSWORD_SALT_ROUNDS } from '../../constants'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, unknown, ResetPasswordCommand>
 
@@ -18,11 +19,11 @@ export const auth = false
 
 type PasswordResetTokenRow = Pick<PasswordResetTokenDatabase, 'id' | 'userId' | 'expireDate' | 'useDate'>
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const { token, newPassword } = await schema.validate(req.body, { abortEarly: false })
 
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const now = new Date()
     const tokenHash = crypto.createHash('sha256').update(token).digest('hex')

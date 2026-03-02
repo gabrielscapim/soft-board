@@ -1,7 +1,8 @@
 import { RequestHandler } from 'express'
 import { DeleteBoardCommand } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, getPool } from '../../libs'
+import { assertMemberPermission } from '../../libs'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, unknown, DeleteBoardCommand>
 
@@ -9,14 +10,13 @@ const schema = yup.object({
   id: yup.string().required()
 })
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can delete boards')
 
     const teamId = req.team!.teamId
     const { id } = schema.validateSync(req.body, { abortEarly: false })
-
-    const pool = getPool()
+    const { pool } = getDeps()
 
     await pool
       .DELETE_FROM`board`

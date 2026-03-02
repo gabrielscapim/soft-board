@@ -1,6 +1,6 @@
 import { AgentCalledFunctionEvent } from 'event-types'
 import OpenAI from 'openai'
-import { getPool, logger } from '../../libs'
+import { logger } from '../../libs'
 import { captureScreens, generateReview } from './methods'
 import { GetApplicationDependencies } from '../../types'
 import { UserPreferencesDatabase } from 'types/database/user-preferences/user-preferences'
@@ -12,9 +12,7 @@ export const key = 'reviewWireflows'
 export function consumer (getDeps: GetApplicationDependencies) {
   return async (event: AgentCalledFunctionEvent) => {
     const { board, team, user, toolCall } = event
-    const { openai, websocketEmitters } = getDeps()
-
-    const pool = getPool()
+    const { pool, openai, websocketEmitters } = getDeps()
 
     logger.info({ event }, 'Starting review wireflows')
 

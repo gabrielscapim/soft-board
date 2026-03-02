@@ -8,11 +8,12 @@ import {
   loadWebsocketEmitters,
   registerApplicationDependencies
 } from './setup'
-import { CONSUMERS_DIR, CORS_ORIGINS, ENDPOINTS_DIR, PORT } from './constants'
-import { getNodemailerTransport, logger } from './libs'
+import { CONSUMERS_DIR, CORS_ORIGINS, ENDPOINTS_DIR, OPENAI_API_KEY, PORT } from './constants'
+import { getNodemailerTransport, getPool, logger } from './libs'
 import { Server } from 'socket.io'
 import http from 'http'
 import { createContainer } from 'awilix'
+import OpenAI from 'openai'
 
 /**
  * Application entrypoint.
@@ -41,6 +42,8 @@ async function main () {
   registerApplicationDependencies(
     container,
     {
+      openai: new OpenAI({ apiKey: OPENAI_API_KEY }),
+      pool: getPool(),
       publishers: loadPublishers(channel),
       websocketEmitters: loadWebsocketEmitters(io),
       sendMail: getNodemailerTransport().sendMail.bind(getNodemailerTransport())

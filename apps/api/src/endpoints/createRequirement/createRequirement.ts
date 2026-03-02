@@ -1,7 +1,8 @@
 import { RequestHandler } from 'express'
 import { CreateRequirementCommand, CreateRequirementResult } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, createAppHttpError, getPool } from '../../libs'
+import { assertMemberPermission, createAppHttpError } from '../../libs'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, CreateRequirementResult, CreateRequirementCommand>
 
@@ -13,15 +14,14 @@ const schema = yup.object({
 
 const MAX_REQUIREMENTS_PER_BOARD = 15
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const userId = req.auth?.userId
     const teamId = req.team!.teamId
     const { boardId, title, description } = schema.validateSync(req.body, { abortEarly: false })
+    const { pool } = getDeps()
 
     assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can create requirements')
-
-    const pool = getPool()
 
     const board = await pool
       .SELECT`id`

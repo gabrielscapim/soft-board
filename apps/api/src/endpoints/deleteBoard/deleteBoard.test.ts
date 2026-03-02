@@ -1,13 +1,12 @@
 import { describe, expect, test } from 'vitest'
 import request from 'supertest'
-import { getPool, DatabaseFactory } from '../../libs'
+import { DatabaseFactory } from '../../libs'
 import { createApp } from '../../setup'
 import * as deleteBoard from './deleteBoard'
 
 describe('deleteBoard', () => {
   test('delete board', async () => {
-    const pool = getPool()
-    const factory = new DatabaseFactory({ pool })
+    const factory = new DatabaseFactory()
     const user = await factory.createUser()
     const team = await factory.createTeam()
     await factory.createMember({ userId: user.id, teamId: team.id })
@@ -26,7 +25,7 @@ describe('deleteBoard', () => {
       .send({ id: board.id })
       .expect(204)
 
-    const check = await pool
+    const check = await factory.pool
       .SELECT`id`
       .FROM`board`
       .WHERE`id = ${board.id}`

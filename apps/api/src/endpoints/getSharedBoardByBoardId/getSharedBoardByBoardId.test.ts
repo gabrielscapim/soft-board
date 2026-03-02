@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { DatabaseFactory, getPool } from '../../libs'
+import { DatabaseFactory } from '../../libs'
 import * as getSharedBoardByBoardId from './getSharedBoardByBoardId'
 import request from 'supertest'
 import { createApp } from '../../setup'
@@ -8,8 +8,7 @@ import { FRONTEND_BASE_URL } from '../../constants'
 describe('getSharedBoardByBoardId', () => {
   describe('when board share does not exist', () => {
     test('return link as null', async () => {
-      const pool = getPool()
-      const factory = new DatabaseFactory({ pool })
+      const factory = new DatabaseFactory()
       const user = await factory.createUser()
       const team = await factory.createTeam()
       const member = await factory.createMember({ userId: user.id, teamId: team.id, role: 'admin' })
@@ -34,8 +33,7 @@ describe('getSharedBoardByBoardId', () => {
 
   describe('when board share exists', () => {
     test('return link', async () => {
-      const pool = getPool()
-      const factory = new DatabaseFactory({ pool })
+      const factory = new DatabaseFactory()
       const user = await factory.createUser()
       const team = await factory.createTeam()
       const member = await factory.createMember({ userId: user.id, teamId: team.id, role: 'admin' })

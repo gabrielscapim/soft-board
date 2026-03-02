@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express'
 import { GetRequirementsQuery, GetRequirementsResult, GetRequirementsResultData } from 'types/endpoints'
 import * as yup from 'yup'
-import { getPool } from '../../libs'
 import { RequirementDatabase } from 'types/database'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, GetRequirementsResult, GetRequirementsQuery>
 
@@ -13,12 +13,12 @@ const schema = yup.object({
 type RequirementRow = Pick<RequirementDatabase, 'id' | 'teamId' | 'boardId' | 'authorId' | 'title' | 'description' | 'order' | 'createDate' | 'updateDate'>
   & { author: { userId: string, name: string } | null }
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const teamId = req.team!.teamId
     const { boardId } = schema.validateSync(req.body, { abortEarly: false })
 
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const board = await pool
       .SELECT`id`

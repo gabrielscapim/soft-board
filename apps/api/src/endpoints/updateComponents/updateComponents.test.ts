@@ -1,13 +1,12 @@
 import { describe, expect, test } from 'vitest'
-import { DatabaseFactory, getPool } from '../../libs'
+import { DatabaseFactory } from '../../libs'
 import { createApp } from '../../setup'
 import * as updateComponents from './updateComponents'
 import request from 'supertest'
 
 describe('updateComponent', () => {
   test('update component', async () => {
-    const pool = getPool()
-    const factory = new DatabaseFactory({ pool })
+    const factory = new DatabaseFactory()
     const user = await factory.createUser()
     const team = await factory.createTeam()
     await factory.createMember({ userId: user.id, teamId: team.id })
@@ -36,7 +35,7 @@ describe('updateComponent', () => {
         }]
       })
 
-    const check = await pool
+    const check = await factory.pool
       .SELECT`name, connection_id`
       .FROM`component`
       .WHERE`id = ${component.id}`

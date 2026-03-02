@@ -2,7 +2,8 @@ import { RequestHandler } from 'express'
 import { BoardDatabase, UserPreferencesDatabase } from 'types/database'
 import { CreateBoardCommand, CreateBoardResult } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, createAppHttpError, getPool } from '../../libs'
+import { assertMemberPermission, createAppHttpError } from '../../libs'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, CreateBoardResult, CreateBoardCommand>
 
@@ -22,15 +23,14 @@ const ASSISTANT_MESSAGE = {
   'pt-BR': 'Olá! Sou seu assistente especializado no método StartFlow, aqui para ajudar você a projetar MVPs de forma rápida, visual e com foco na experiência do usuário.'
 }
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const teamId = req.team!.teamId
     const userId = req.auth!.userId
     const { title } = schema.validateSync(req.body)
+    const { pool } = getDeps()
 
     assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can create boards')
-
-    const pool = getPool()
 
     const count = await pool
       .SELECT`id`

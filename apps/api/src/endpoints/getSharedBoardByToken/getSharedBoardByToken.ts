@@ -1,8 +1,9 @@
 import { RequestHandler } from 'express'
 import { GetSharedBoardByTokenCommand, GetSharedBoardByTokenResult } from 'types/endpoints'
 import * as yup from 'yup'
-import { createAppHttpError, getPool } from '../../libs'
+import { createAppHttpError } from '../../libs'
 import { BoardDatabase, BoardShareDatabase, ComponentDatabase, RequirementDatabase } from 'types/database'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, GetSharedBoardByTokenResult, GetSharedBoardByTokenCommand>
 
@@ -30,11 +31,10 @@ type ComponentRow = Pick<
 
 type RequirementRow = Pick<RequirementDatabase, 'id' | 'title' | 'description' | 'order'>
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const { token } = schema.validateSync(req.body, { abortEarly: false })
-
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const sharedBoard = await pool
       .SELECT`board_id, expire_date`

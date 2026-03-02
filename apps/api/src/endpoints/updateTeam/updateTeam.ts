@@ -1,9 +1,10 @@
 import { RequestHandler } from 'express'
 import { UpdateTeamCommand, UpdateTeamResult } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, createAppHttpError, getPool } from '../../libs'
+import { assertMemberPermission, createAppHttpError } from '../../libs'
 import slugify from 'slugify'
 import { TeamDatabase } from 'types/database'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, UpdateTeamResult, UpdateTeamCommand>
 
@@ -27,14 +28,13 @@ const schema = yup.object({
 const ACCEPTED_MIME_TYPES = ['image/png', 'image/jpeg', 'image/svg+xml']
 const MAX_FILE_SIZE = 2 * 1024 * 1024 // 2MB
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can update team details')
 
     const teamId = req.team!.teamId
     const { name: newName, logo } = schema.validateSync(req.body, { abortEarly: false })
-
-    const pool = getPool()
+    const { pool } = getDeps()
 
     let newSlug: string | undefined
 

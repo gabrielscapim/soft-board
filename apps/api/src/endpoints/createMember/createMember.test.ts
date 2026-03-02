@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { DatabaseFactory, getPool } from '../../libs'
+import { DatabaseFactory } from '../../libs'
 import * as createMember from './createMember'
 import { createApp } from '../../setup'
 import request from 'supertest'
@@ -7,8 +7,7 @@ import request from 'supertest'
 describe('createMember', () => {
   describe('when member already exists', () => {
     test('throws Conflict error', async () => {
-      const pool = getPool()
-      const factory = new DatabaseFactory({ pool })
+      const factory = new DatabaseFactory()
       const clientUser = await factory.createUser()
       const newMemberUser = await factory.createUser()
       const team = await factory.createTeam()
@@ -33,8 +32,7 @@ describe('createMember', () => {
 
   describe('when member does not exist', () => {
     test('create member', async () => {
-      const pool = getPool()
-      const factory = new DatabaseFactory({ pool })
+      const factory = new DatabaseFactory()
       const clientUser = await factory.createUser()
       const newMemberUser = await factory.createUser()
       const team = await factory.createTeam()
@@ -52,7 +50,7 @@ describe('createMember', () => {
         .post('/createMember')
         .send({ email: newMemberUser.email, role: 'member' })
 
-      const check = await pool
+      const check = await factory.pool
         .SELECT`id`
         .FROM`member`
         .WHERE`user_id = ${newMemberUser.id}`

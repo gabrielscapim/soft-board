@@ -1,7 +1,8 @@
 import { RequestHandler } from 'express'
 import { UpdateComponentsCommand } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, getPool } from '../../libs'
+import { assertMemberPermission } from '../../libs'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, unknown, UpdateComponentsCommand>
 
@@ -16,14 +17,14 @@ const schema = yup.object({
   })).required()
 })
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const teamId = req.team!.teamId
     const { boardId, components } = schema.validateSync(req.body, { abortEarly: false })
 
     assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can update components')
 
-    const pool = getPool()
+    const { pool } = getDeps()
     const now = new Date()
 
     await pool.transaction(async pool => {

@@ -3,7 +3,7 @@ import { SignInCommand, SignInResult } from 'types/endpoints'
 import { UserDatabase, UserPreferencesDatabase } from 'types/database'
 import * as yup from 'yup'
 import * as bcrypt from 'bcrypt'
-import { createAppHttpError, getPool } from '../../libs'
+import { createAppHttpError } from '../../libs'
 import { AuthenticationData, GetApplicationDependencies } from '../../types'
 import { AUTHENTICATION_COOKIE_NAME, NODE_ENV } from '../../constants'
 
@@ -23,9 +23,7 @@ type UserRow = Pick<UserDatabase, 'id' | 'name' | 'passwordHash'>
 export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const { email, password } = schema.validateSync(req.body, { abortEarly: false })
-    const { publishers } = getDeps()
-
-    const pool = getPool()
+    const { pool, publishers } = getDeps()
 
     const normalizedEmail = email.toUpperCase().trim()
 

@@ -1,15 +1,16 @@
 import { RequestHandler } from 'express'
-import { createAppHttpError, getPool } from '../../libs'
+import { createAppHttpError } from '../../libs'
 import { MemberDatabase } from 'types/database'
+import { GetApplicationDependencies } from '../../types'
 
 type MemberRow = Pick<MemberDatabase, 'id' | 'role'>
 
-export function handler (): RequestHandler {
+export function handler (getDeps: GetApplicationDependencies): RequestHandler {
   return async (req, res) => {
     const teamId = req.team!.teamId
     const userId = req.auth!.userId
 
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const member = await pool
       .SELECT<MemberRow>`id, role`

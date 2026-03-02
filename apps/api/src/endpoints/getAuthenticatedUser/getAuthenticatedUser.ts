@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import { GetAuthenticatedUserResult } from 'types/endpoints/getAuthenticatedUser'
 import { UserDatabase, UserPreferencesDatabase } from 'types/database'
-import { getPool } from '../../libs'
+import { GetApplicationDependencies } from '../../types'
 
 export const auth = false
 
@@ -11,16 +11,15 @@ type UserRow = Pick<UserDatabase, 'id' | 'name' | 'email'>
 
 type UserPreferencesRow = Pick<UserPreferencesDatabase, 'language'>
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const { auth } = req
+    const { pool } = getDeps()
 
     if (!auth) {
       res.status(200).json(null)
       return
     }
-
-    const pool = getPool()
 
     const user = await pool
       .SELECT<UserRow>`id, name, email`

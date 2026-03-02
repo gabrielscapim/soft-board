@@ -1,8 +1,9 @@
 import { RequestHandler } from 'express'
 import { UpdateMemberRoleCommand } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, createAppHttpError, getPool } from '../../libs'
+import { assertMemberPermission, createAppHttpError } from '../../libs'
 import { MemberDatabase } from 'types/database'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, unknown, UpdateMemberRoleCommand>
 
@@ -13,14 +14,13 @@ const schema = yup.object({
 
 type MemberRow = Pick<MemberDatabase, 'userId' | 'role'>
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     assertMemberPermission(req.team!.memberRole, ['owner'], 'Only team owners can update member roles')
 
     const teamId = req.team!.teamId
     const { memberId, role } = schema.validateSync(req.body, { abortEarly: false })
-
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const member = await pool
       .SELECT<MemberRow>`user_id, role`

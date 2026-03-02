@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { BoardGenerationDatabase, BoardReviewDatabase, MessageDatabase } from 'types/database'
 import { GetMessagesQuery, GetMessagesResult, GetMessagesResultBoardReview, GetMessagesResultData } from 'types/endpoints'
 import * as yup from 'yup'
-import { getPool } from '../../libs'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, GetMessagesResult, GetMessagesQuery>
 
@@ -47,12 +47,12 @@ const schema = yup.object({
   boardId: yup.string().trim().required()
 })
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const { boardId } = schema.validateSync(req.body, { abortEarly: false })
     const teamId = req.team!.teamId
 
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const messages = await pool
       .SELECT<MessageRow>`

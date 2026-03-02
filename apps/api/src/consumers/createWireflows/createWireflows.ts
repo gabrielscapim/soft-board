@@ -1,6 +1,6 @@
 import { AgentCalledFunctionEvent } from 'event-types'
 import OpenAI from 'openai'
-import { getPool, logger } from '../../libs'
+import { logger } from '../../libs'
 import { MessageDatabase, RequirementDatabase, UserPreferencesDatabase } from 'types/database'
 import { AgentContext } from '../../soft-board-agent'
 import { runSummaryAgent } from './methods/runSummaryAgent'
@@ -13,10 +13,8 @@ export const key = 'createWireflows'
 
 export function consumer (getDeps: GetApplicationDependencies) {
   return async (event: AgentCalledFunctionEvent) => {
-    const { openai, websocketEmitters } = getDeps()
+    const { pool, openai, websocketEmitters } = getDeps()
     const { board, team, user, toolCall } = event
-
-    const pool = getPool()
 
     const history = await pool
       .SELECT<Pick<MessageDatabase, 'role' | 'content'>>`role, content`

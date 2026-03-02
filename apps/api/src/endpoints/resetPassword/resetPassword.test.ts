@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { DatabaseFactory, getPool } from '../../libs'
+import { DatabaseFactory } from '../../libs'
 import { createApp } from '../../setup'
 import * as resetPassword from './resetPassword'
 import request from 'supertest'
@@ -8,8 +8,7 @@ import crypto from 'crypto'
 describe('resetPassword', () => {
   describe('when password reset token is valid', async () => {
     test('resets the user password', async () => {
-      const pool = getPool()
-      const factory = new DatabaseFactory({ pool })
+      const factory = new DatabaseFactory()
       const user = await factory.createUser({ passwordHash: 'oldHash' })
       const team = await factory.createTeam()
       await factory.createMember({ userId: user.id, teamId: team.id, role: 'owner' })
@@ -30,7 +29,7 @@ describe('resetPassword', () => {
         .post('/resetPassword')
         .send({ token: plainTextToken, newPassword })
 
-      const check = await pool
+      const check = await factory.pool
         .SELECT`password_hash`
         .FROM`"user"`
         .WHERE`id = ${user.id}`

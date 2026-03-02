@@ -1,6 +1,6 @@
 import { SendMessageResultMessage, SendMessageCommand, SendMessageResult } from 'types/endpoints'
 import { RequestHandler } from 'express'
-import { assertMemberPermission, createAppHttpError, getPool, logger } from '../../libs'
+import { assertMemberPermission, createAppHttpError, logger } from '../../libs'
 import { OpenAIError } from 'openai'
 import * as yup from 'yup'
 import { DatabasePool } from 'pg-script'
@@ -36,13 +36,11 @@ const DEFAULT_ERROR_MESSAGE = 'An error occurred while processing your message.'
 export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const { content, boardId } = await schema.validate(req.body, { abortEarly: false })
-    const { openai, publishers, websocketEmitters } = getDeps()
+    const { openai, pool, publishers, websocketEmitters } = getDeps()
     const teamId = req.team!.teamId
     const userId = req.auth!.userId
 
     assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can send messages')
-
-    const pool = getPool()
 
     const team = await pool
       .SELECT<{ slug: string }>`slug`

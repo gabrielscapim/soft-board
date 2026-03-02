@@ -1,8 +1,9 @@
 import { RequestHandler } from 'express'
 import { CreateComponentsCommand } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, getPool } from '../../libs'
+import { assertMemberPermission } from '../../libs'
 import { randomUUID } from 'crypto'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, unknown, CreateComponentsCommand>
 
@@ -18,14 +19,13 @@ const schema = yup.object({
   })).required()
 })
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const teamId = req.team!.teamId
     const { boardId, components } = schema.validateSync(req.body)
+    const { pool } = getDeps()
 
     assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can create components')
-
-    const pool = getPool()
 
     await pool
       .SELECT`id`

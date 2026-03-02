@@ -1,5 +1,6 @@
 import OpenAI from 'openai'
 import { loadPublishers, loadWebsocketEmitters } from '../setup'
+import { DatabasePool } from 'pg-script'
 
 type SendMailOptions = {
   to?: string
@@ -10,6 +11,7 @@ type SendMailOptions = {
 
 export type ApplicationDependencies = {
   openai: OpenAI
+  pool: DatabasePool
   publishers: ReturnType<typeof loadPublishers>
   sendMail: <T>(options: SendMailOptions) => Promise<T>
   websocketEmitters: ReturnType<typeof loadWebsocketEmitters>

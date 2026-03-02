@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest'
-import { DatabaseFactory, getPool } from '../../libs'
+import { DatabaseFactory } from '../../libs'
 import * as createRequirement from './createRequirement'
 import { createApp } from '../../setup'
 import request from 'supertest'
@@ -7,8 +7,7 @@ import { randomUUID } from 'crypto'
 
 describe('createRequirement', () => {
   test('create a requirement', async () => {
-    const pool = getPool()
-    const factory = new DatabaseFactory({ pool })
+    const factory = new DatabaseFactory()
     const user = await factory.createUser()
     const team = await factory.createTeam()
     await factory.createMember({ userId: user.id, teamId: team.id, role: 'owner' })
@@ -27,7 +26,7 @@ describe('createRequirement', () => {
       .post('/createRequirement')
       .send({ boardId: board.id, title: newRequirementTitle, description: null })
 
-    const check = await pool
+    const check = await factory.pool
       .SELECT`id`
       .FROM`requirement`
       .WHERE`id = ${response.body.id}`

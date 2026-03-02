@@ -1,13 +1,12 @@
 import { describe, expect, test } from 'vitest'
-import { getPool, DatabaseFactory } from '../../libs'
+import { DatabaseFactory } from '../../libs'
 import * as getTeam from './getTeam'
 import { createApp } from '../../setup'
 import request from 'supertest'
 
 describe('getTeam', () => {
   test('return team', async () => {
-    const pool = getPool()
-    const factory = new DatabaseFactory({ pool })
+    const factory = new DatabaseFactory()
     const user = await factory.createUser()
     const team = await factory.createTeam()
 

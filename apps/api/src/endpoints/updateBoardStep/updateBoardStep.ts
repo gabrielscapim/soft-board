@@ -1,9 +1,10 @@
 import { RequestHandler } from 'express'
 import { UpdateBoardStepCommand } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, createAppHttpError, getPool } from '../../libs'
+import { assertMemberPermission, createAppHttpError } from '../../libs'
 import { DatabasePool } from 'pg-script'
 import { RequirementDatabase } from 'types/database'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, unknown, UpdateBoardStepCommand>
 
@@ -14,14 +15,13 @@ const schema = yup.object({
 
 const STEPS_ORDER = ['init', 'requirements', 'wireflows', 'review', 'end']
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can update board steps')
 
     const teamId = req.team!.teamId
     const { id, step } = schema.validateSync(req.body, { abortEarly: false })
-
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const board = await pool
       .SELECT<{ step: string }>`step`

@@ -7,7 +7,7 @@ import request from 'supertest'
 describe('createComponent', () => {
   test('create a component', async () => {
     const pool = getPool()
-    const factory = new DatabaseFactory({ pool })
+    const factory = new DatabaseFactory()
     const user = await factory.createUser()
     const team = await factory.createTeam()
     await factory.createMember({ userId: user.id, teamId: team.id })

@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { MemberDatabase } from 'types/database'
 import { GetMembersQuery, GetMembersResult, GetMembersResultData } from 'types/endpoints'
 import * as yup from 'yup'
-import { getPool } from '../../libs'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<GetMembersQuery, GetMembersResult>
 
@@ -18,12 +18,11 @@ const schema = yup.object({
   pageSize: yup.number().optional().default(DEFAULT_PAGE_SIZE)
 })
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const teamId = req.team!.teamId
     const { query, pageNumber, pageSize } = schema.validateSync(req.body, { abortEarly: false })
-
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const members = await pool
       .SELECT<MemberRow>`

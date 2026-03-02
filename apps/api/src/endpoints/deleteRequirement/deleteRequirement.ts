@@ -1,7 +1,8 @@
 import { RequestHandler } from 'express'
 import { DeleteRequirementCommand } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, getPool } from '../../libs'
+import { assertMemberPermission } from '../../libs'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, unknown, DeleteRequirementCommand>
 
@@ -10,14 +11,13 @@ const schema = yup.object({
   boardId: yup.string().trim().required('Board ID is required')
 })
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     assertMemberPermission(req.team!.memberRole, ['admin', 'owner'], 'Only team admins and owners can delete requirements')
 
     const teamId = req.team!.teamId
     const { id, boardId } = schema.validateSync(req.body, { abortEarly: false })
-
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const board = await pool
       .SELECT`id`

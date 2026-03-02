@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { DatabaseFactory, getPool } from '../../libs'
+import { DatabaseFactory } from '../../libs'
 import { createApp } from '../../setup'
 import * as shareBoard from './shareBoard'
 import request from 'supertest'
@@ -8,8 +8,7 @@ import { FRONTEND_BASE_URL } from '../../constants'
 describe('shareBoard', () => {
   describe('when board shared link already exists', () => {
     test('creates a new share link', async () => {
-      const pool = getPool()
-      const factory = new DatabaseFactory({ pool })
+      const factory = new DatabaseFactory()
       const user = await factory.createUser()
       const team = await factory.createTeam()
       const member = await factory.createMember({ userId: user.id, teamId: team.id, role: 'admin' })
@@ -36,8 +35,7 @@ describe('shareBoard', () => {
 
   describe('when board shared link does not exist', () => {
     test('creates a new share link', async () => {
-      const pool = getPool()
-      const factory = new DatabaseFactory({ pool })
+      const factory = new DatabaseFactory()
       const user = await factory.createUser()
       const team = await factory.createTeam()
       const member = await factory.createMember({ userId: user.id, teamId: team.id, role: 'admin' })
@@ -55,7 +53,7 @@ describe('shareBoard', () => {
         .post('/shareBoard')
         .send({ boardId: board.id })
 
-      const check = await pool
+      const check = await factory.pool
         .SELECT`token`
         .FROM`board_share`
         .WHERE`board_id = ${board.id}`

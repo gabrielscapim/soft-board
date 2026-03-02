@@ -1,15 +1,15 @@
 import { RequestHandler } from 'express'
 import { GetCurrentUserRoleResult } from 'types/endpoints/getCurrentUserRole'
-import { getPool } from '../../libs'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, GetCurrentUserRoleResult>
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const teamId = req.team?.teamId
     const userId = req.auth?.userId
 
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const member = await pool
       .SELECT<{ role: 'owner' | 'admin' | 'member' }>`role`

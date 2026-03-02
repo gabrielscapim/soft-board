@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import { UpdateUserPreferencesCommand } from 'types/endpoints'
 import * as yup from 'yup'
-import { getPool } from '../../libs'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, unknown, UpdateUserPreferencesCommand>
 
@@ -9,13 +9,13 @@ const schema = yup.object({
   language: yup.string().optional()
 })
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const { language } = schema.validateSync(req.body, { abortEarly: false })
 
     const userId = req.auth!.userId
 
-    const pool = getPool()
+    const { pool } = getDeps()
 
     await pool.transaction(async pool => {
       const updated = await pool

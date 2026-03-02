@@ -1,8 +1,9 @@
 import { RequestHandler } from 'express'
 import { DeleteMemberCommand } from 'types/endpoints'
 import * as yup from 'yup'
-import { assertMemberPermission, createAppHttpError, getPool } from '../../libs'
+import { assertMemberPermission, createAppHttpError } from '../../libs'
 import { MemberDatabase } from 'types/database'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, unknown, DeleteMemberCommand>
 
@@ -12,15 +13,14 @@ const schema = yup.object({
   memberId: yup.string().trim().required('Member ID is required')
 })
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     assertMemberPermission(req.team!.memberRole, ['owner'], 'Only team owners can delete members')
 
     const teamId = req.team!.teamId
     const userId = req.auth?.userId
     const { memberId } = schema.validateSync(req.body, { abortEarly: false })
-
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const clientMember = await pool
       .SELECT<MemberRow>`id, role`

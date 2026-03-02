@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { getPool, DatabaseFactory } from '../../libs'
+import { DatabaseFactory } from '../../libs'
 import * as leaveTeam from './leaveTeam'
 import { createApp } from '../../setup'
 import request from 'supertest'
@@ -7,8 +7,7 @@ import request from 'supertest'
 describe('leaveTeam', () => {
   describe('when you are not the owner', () => {
     test('leave team', async () => {
-      const pool = getPool()
-      const factory = new DatabaseFactory({ pool })
+      const factory = new DatabaseFactory()
       const user = await factory.createUser()
       const team = await factory.createTeam()
       const member = await factory.createMember({ userId: user.id, teamId: team.id, role: 'member' })
@@ -23,7 +22,7 @@ describe('leaveTeam', () => {
 
       await request(app).post('/leaveTeam')
 
-      const check = await pool
+      const check = await factory.pool
         .SELECT`id`
         .FROM`member`
         .WHERE`team_id = ${team.id}`
@@ -36,8 +35,7 @@ describe('leaveTeam', () => {
 
   describe('when you are the owner', () => {
     test('cannot leave team', async () => {
-      const pool = getPool()
-      const factory = new DatabaseFactory({ pool })
+      const factory = new DatabaseFactory()
       const user = await factory.createUser()
       const team = await factory.createTeam()
       await factory.createMember({ userId: user.id, teamId: team.id, role: 'owner' })

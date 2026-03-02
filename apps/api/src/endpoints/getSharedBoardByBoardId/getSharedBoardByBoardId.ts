@@ -1,9 +1,9 @@
 import { RequestHandler } from 'express'
 import * as yup from 'yup'
-import { getPool } from '../../libs'
 import { GetSharedBoardByBoardIdResult, GetSharedBoardByBoardIdCommand } from 'types/endpoints'
 import { FRONTEND_BASE_URL } from '../../constants'
 import { BoardShareDatabase } from 'types/database'
+import { GetApplicationDependencies } from '../../types'
 
 type Handler = RequestHandler<unknown, GetSharedBoardByBoardIdResult, GetSharedBoardByBoardIdCommand>
 
@@ -11,11 +11,10 @@ const schema = yup.object().shape({
   boardId: yup.string().required()
 })
 
-export function handler (): Handler {
+export function handler (getDeps: GetApplicationDependencies): Handler {
   return async (req, res) => {
     const { boardId } = schema.validateSync(req.body, { abortEarly: false })
-
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const now = new Date()
 

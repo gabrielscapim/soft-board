@@ -1,18 +1,18 @@
 import { RequestHandler } from 'express'
-import { getPool } from '../../libs'
 import { TeamDatabase } from 'types/database'
 import stream from 'stream'
+import { GetApplicationDependencies } from '../../types'
 
 export const method = 'get'
 
 export const auth = false
 
-export function handler (): RequestHandler {
+export function handler (getDeps: GetApplicationDependencies): RequestHandler {
   return async (req, res) => {
     const teamId = req.query.teamId as string
     const userId = req.auth?.userId
 
-    const pool = getPool()
+    const { pool } = getDeps()
 
     const team = await pool
       .SELECT<Pick<TeamDatabase, 'logo' | 'logoMimeType'>>`logo, logo_mime_type as "logoMimeType"`
