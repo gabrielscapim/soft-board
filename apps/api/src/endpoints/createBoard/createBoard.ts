@@ -19,7 +19,7 @@ const MAX_BOARD_COUNT = 20
 
 const ASSISTANT_MESSAGE = {
   en: 'Hello! I’m your assistant specialized in the StartFlow method, here to help you design MVPs quickly, visually, and with a strong focus on user experience.',
-  'pt-BR': 'Olá! Sou seu assistente especializado no método StartFlow, aqui para ajudar você a projetar MVPs de forma rápida, visual e com foco na experiência do usuário.'
+  'pt-BR': 'Olá! Sou seu assistente especializado no método StartFlow, estou aqui para ajudar você a projetar MVPs de forma rápida, visual e com foco na experiência do usuário.'
 }
 
 export function handler (): Handler {
