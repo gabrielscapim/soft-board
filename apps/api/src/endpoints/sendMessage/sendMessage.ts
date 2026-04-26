@@ -119,7 +119,7 @@ export function handler (getDeps: GetApplicationDependencies): Handler {
         }
       }
 
-      logger.error({ error }, 'Error while running SoftBoardAgent')
+      logger.error({ error, history }, 'Error while running SoftBoardAgent')
 
       responseMessages.push({
         role: 'assistant',
