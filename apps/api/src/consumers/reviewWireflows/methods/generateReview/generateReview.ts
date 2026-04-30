@@ -120,7 +120,7 @@ export async function generateReview (
   }))
 
   const completion = await openai.chat.completions.create({
-    model: 'gpt-5.2',
+    model: 'gpt-5.5',
     messages: [
       { role: 'system', content: prompt },
       { role: 'user', content: `Please review the following wireflow screens in ${language}.` },

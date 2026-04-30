@@ -69,7 +69,6 @@ export class SoftBoardAgent extends Agent {
       const now = performance.now()
 
       const completion = await this.openai.chat.completions.create({
-        ...(this.model === 'gpt-5' ? { reasoning_effort: 'minimal' } : {}),
         model: this.model,
         messages: [
           ...messages,
@@ -79,7 +78,8 @@ export class SoftBoardAgent extends Agent {
         tool_choice: this.toolChoice,
         tools: this.tools.map(tool => tool.toChatCompletion()),
         parallel_tool_calls: true,
-        response_format: this.responseFormat
+        response_format: this.responseFormat,
+        verbosity: 'medium'
       })
 
       const executionTimeMs = performance.now() - now
