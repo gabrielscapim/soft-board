@@ -98,6 +98,7 @@ export function RequirementsWizard () {
                 : messages
               }
               onSendMessage={content => sendMessage.mutate(content)}
+              onSelectBoardGeneration={() => toast.error(t('toast.selectGenerationNotAvailable'))}
             />
           )
         }

@@ -94,6 +94,7 @@ async function validateScreens (
     .FROM`component`
     .WHERE`board_id = ${boardId}`
     .AND`type = 'mobileScreen'`
+    .AND`board_generation_id IS NULL`
     .first()
 
   const component = await pool
@@ -101,6 +102,7 @@ async function validateScreens (
     .FROM`component`
     .WHERE`board_id = ${boardId}`
     .AND`type != 'mobileScreen'`
+    .AND`board_generation_id IS NULL`
     .first()
 
   if (!screen) {

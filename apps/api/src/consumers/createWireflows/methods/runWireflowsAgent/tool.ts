@@ -9,8 +9,9 @@ type Arguments = {
     components: Array<{
       name: string
       type: string
-      screenNameConnection: string | null
-      properties: Record<string, any>
+      // Sometimes the AI might include the screenNameConnection inside properties, sometimes outside. This is to handle both cases without breaking.
+      screenNameConnection?: string | null
+      properties: Record<string, any> & { screenNameConnection?: string | null }
     }>
   }>
 }
@@ -57,17 +58,22 @@ export class CreateWireflowTool extends Tool {
     }))
 
     const components = screensWithId.flatMap<SoftComponent>((screen, index) =>
-      screen.components.map(component => ({
-        id: randomUUID(),
-        screenId: screen.id,
-        name: component.name,
-        type: component.type,
-        connectionId: screensWithId.find(s => s.name === component.screenNameConnection)?.id ?? null,
-        properties: {
-          ...component.properties,
-          x: index * 375 + index * 60 + (component.properties.x ?? 0)
+      screen.components.map(component => {
+        const screenNameConnection =
+          component.screenNameConnection ?? component.properties.screenNameConnection ?? null
+
+        return {
+          id: randomUUID(),
+          screenId: screen.id,
+          name: component.name,
+          type: component.type,
+          connectionId: screensWithId.find(s => s.name === screenNameConnection)?.id ?? null,
+          properties: {
+            ...component.properties,
+            x: index * 375 + index * 60 + (component.properties.x ?? 0)
+          }
         }
-      }))
+      })
     )
 
     const softComponents = [...screens, ...components]

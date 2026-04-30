@@ -52,7 +52,7 @@ export function ChatMessagesList (props: ChatMessagesListProps) {
                 <ChatBubbleMessage
                   variant={message.author?.userId === authenticatedUser?.userId ? 'sent' : 'received'}
                   className={clsx(
-                    !isGenerationSelected && isGenerationCompleted && board.step === 'wireflows' && 'cursor-pointer hover:bg-accent/50',
+                    !isGenerationSelected && isGenerationCompleted && 'cursor-pointer hover:bg-accent/50',
                     isGenerationSelected && 'border-1',
                     isReviewCompleted && 'cursor-pointer hover:bg-accent/50'
                   )}
