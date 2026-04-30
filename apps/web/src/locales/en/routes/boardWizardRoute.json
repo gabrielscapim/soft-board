@@ -173,6 +173,7 @@
     "deleteRequirementSuccess": "Requirement deleted successfully",
     "editRequirementError": "Failed to update requirement",
     "editRequirementSuccess": "Requirement updated successfully",
+    "selectGenerationNotAvailable": "Selecting board generations is only available on the wireflows step",
     "sendMessageError": "Failed to send message"
   }
 }

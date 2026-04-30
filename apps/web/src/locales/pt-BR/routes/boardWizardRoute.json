@@ -173,6 +173,7 @@
     "deleteRequirementSuccess": "Requisito excluído com sucesso",
     "editRequirementError": "Falha ao atualizar o requisito",
     "editRequirementSuccess": "Requisito atualizado com sucesso",
+    "selectGenerationNotAvailable": "Selecionar gerações do board está disponível apenas na etapa de wireflows",
     "sendMessageError": "Falha ao enviar a mensagem"
   }
 }
